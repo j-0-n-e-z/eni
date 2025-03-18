@@ -7,10 +7,11 @@ import { Subtitle } from './types'
 
 function App() {
 	const [movieTitle, setMovieTitle] = useState('')
-	const [subtitles, setSubtitles] = useState<Subtitle[]>([])
+	const [subtitles, setSubtitles] = useState<Subtitle[] | null>(null)
 	const [isRequestPending, setIsRequestPending] = useState(false)
+	const [error, setError] = useState('')
 
-	const debouncedMovieTitle = useDebounce(movieTitle, 1000)
+	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 1000)
 
 	async function searchSubtitles(query: string) {
 		if (isRequestPending) return
@@ -19,31 +20,31 @@ function App() {
 
 		try {
 			const subtitles = await fetchSubtitles(query)
-			console.log(subtitles)
 
 			if (subtitles) {
+				console.log(subtitles)
 				setSubtitles(subtitles)
 			}
 		} catch (e) {
-			console.log(e)
+			setError((e as Error).message)
 		} finally {
 			setIsRequestPending(false)
 		}
 	}
 
-	function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+	function onSearchInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
 		if (movieTitle && e.key === 'Enter') {
+			cancelDebounce()
 			searchSubtitles(movieTitle)
-			setIsRequestPending(true)
 		}
 	}
 
 	useEffect(() => {
 		if (!debouncedMovieTitle) {
-			setSubtitles([])
+			setSubtitles(null)
 			return
 		}
-		if (!isRequestPending) {
+		if (debouncedMovieTitle && !isRequestPending) {
 			searchSubtitles(debouncedMovieTitle)
 		}
 	}, [debouncedMovieTitle])
@@ -56,16 +57,21 @@ function App() {
 				type='search'
 				value={movieTitle}
 				onChange={(e) => setMovieTitle(e.target.value)}
-				onKeyDown={onKeyDown}
+				onKeyDown={onSearchInputKeyDown}
 				placeholder='Enter Movie Title...'
 			/>
-			{subtitles.length !== 0 && (
-				<ul className='search-results'>
-					{subtitles.map((subtitle) => (
-						<SearchResult key={subtitle.id} subtitle={subtitle} />
-					))}
-				</ul>
-			)}
+			{error && <div className='search-error'>{error}</div>}
+			{subtitles ? (
+				subtitles.length === 0 ? (
+					<div className='nothing-found'>Nothing found</div>
+				) : (
+					<ul className='search-results'>
+						{subtitles.map((subtitle) => (
+							<SearchResult key={subtitle.id} subtitle={subtitle} />
+						))}
+					</ul>
+				)
+			) : null}
 		</div>
 	)
 }

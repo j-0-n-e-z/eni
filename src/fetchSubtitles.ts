@@ -1,44 +1,54 @@
+import { SUBTITLES_URL } from './constants'
 import { Subtitle } from './types'
 
 export const fetchSubtitles = async (
 	query: string,
 	languages: string[] = ['en'],
-	type: string = 'movie'
-): Promise<Subtitle[] | null> => {
-	const apiKey = import.meta.env.VITE_OPENSUBTITLES_API_KEY
-	const url = `https://api.opensubtitles.com/api/v1/subtitles?type=${type}&query=${query}&languages=${languages.join(
-		','
-	)}&order_by=download_count`
+	type: string = 'movie',
+	order_by: string = 'download_count'
+): Promise<Subtitle[]> => {
+	const apiKey = import.meta.env.VITE_API_KEY
+
+	// params should be in that specific order to avoid redirection 301
+	const params = {
+		languages: languages.join(','),
+		order_by,
+		query,
+		type
+	}
+
+	const opensubtitleUrl = new URL(SUBTITLES_URL)
+
+	Object.entries(params).forEach(([key, value]) =>
+		opensubtitleUrl.searchParams.append(key, value)
+	)
 
 	try {
-		const response = await fetch(url, {
+		const response = await fetch(opensubtitleUrl, {
 			headers: {
 				'Api-Key': apiKey,
-				'User-Agent': 'eni v1',
+				'User-Agent': 'eni/1.0.0',
 				'Content-Type': 'application/json'
 			}
 		})
 
 		if (!response.ok) {
-			throw new Error('Error due request to OpenSubtitles')
+			throw new Error(`Error during request to OpenSubtitles, ${response}`)
 		}
 
-		const data = await response.json()
-		const allSubtitles = data.data as Subtitle[]
+		const { data } = await response.json()
+		const subtitles = data as Subtitle[]
 		const uniqueSubtitles = new Map()
 
-		for (const subtitle of allSubtitles) {
+		for (const subtitle of subtitles) {
 			const { title } = subtitle.attributes.feature_details
 			if (!uniqueSubtitles.has(title)) {
 				uniqueSubtitles.set(title, subtitle)
 			}
 		}
 
-		console.log(uniqueSubtitles)
-
 		return [...uniqueSubtitles.values()]
-	} catch (error) {
-		console.error('Ошибка:', error)
-		return null
+	} catch (e) {
+		throw e
 	}
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 /**
  * Хук useDebounce.
@@ -6,20 +6,29 @@ import { useEffect, useState } from 'react'
  * @param delay - Задержка в миллисекундах.
  * @returns Отложенное значение.
  */
-function useDebounce<T>(value: T, delay: number): T {
+function useDebounce<T>(value: T, delay: number) {
 	const [debouncedValue, setDebouncedValue] = useState<T>(value)
+	const debounceTimer = useRef<NodeJS.Timeout>(undefined)
+
+	function cancelDebounce() {
+		if (debounceTimer.current) {
+			clearTimeout(debounceTimer.current)
+		}
+	}
 
 	useEffect(() => {
-		const timer = setTimeout(() => {
+		cancelDebounce()
+
+		debounceTimer.current = setTimeout(() => {
 			setDebouncedValue(value)
 		}, delay)
 
 		return () => {
-			clearTimeout(timer)
+			cancelDebounce()
 		}
 	}, [value])
 
-	return debouncedValue
+	return [debouncedValue, cancelDebounce] as const
 }
 
 export default useDebounce
