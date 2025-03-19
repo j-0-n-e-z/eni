@@ -68,3 +68,9 @@ export interface SearchResult {
 	page: number
 	data: Movie[]
 }
+
+export interface Subtitle {
+	index: number
+	timecode: string
+	text: string
+}
