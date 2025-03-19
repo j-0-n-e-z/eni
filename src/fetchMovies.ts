@@ -1,12 +1,12 @@
 import { SUBTITLES_URL } from './constants'
-import { Subtitle } from './types'
+import { Movie } from './types'
 
-export const fetchSubtitles = async (
+export const fetchMovies = async (
 	query: string,
 	languages: string[] = ['en'],
 	type: string = 'movie',
 	order_by: string = 'download_count'
-): Promise<Subtitle[]> => {
+): Promise<Movie[]> => {
 	const apiKey = import.meta.env.VITE_API_KEY
 
 	// params should be in that specific order to avoid redirection 301
@@ -37,17 +37,17 @@ export const fetchSubtitles = async (
 		}
 
 		const { data } = await response.json()
-		const subtitles = data as Subtitle[]
-		const uniqueSubtitles = new Map()
+		const movies = data as Movie[]
+		const uniqueMovies = new Map()
 
-		for (const subtitle of subtitles) {
+		for (const subtitle of movies) {
 			const { title } = subtitle.attributes.feature_details
-			if (!uniqueSubtitles.has(title)) {
-				uniqueSubtitles.set(title, subtitle)
+			if (!uniqueMovies.has(title)) {
+				uniqueMovies.set(title, subtitle)
 			}
 		}
 
-		return [...uniqueSubtitles.values()]
+		return [...uniqueMovies.values()]
 	} catch (e) {
 		throw e
 	}

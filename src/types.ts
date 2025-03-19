@@ -55,7 +55,7 @@ export interface Attribute {
 	files: File[]
 }
 
-export interface Subtitle {
+export interface Movie {
 	id: string
 	type: string
 	attributes: Attribute
@@ -66,5 +66,5 @@ export interface SearchResult {
 	total_count: number
 	per_page: number
 	page: number
-	data: Subtitle[]
+	data: Movie[]
 }

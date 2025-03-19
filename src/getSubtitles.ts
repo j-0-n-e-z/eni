@@ -1,4 +1,4 @@
-export async function getSubtitleLink(fileId: number) {
+export async function getSubtitles(fileId: number) {
 	const response = await fetch('http://localhost:8080', {
 		method: 'POST',
 		headers: {

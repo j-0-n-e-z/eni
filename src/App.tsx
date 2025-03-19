@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import './App.scss'
 import { SearchResult } from './components/SearchResult'
-import { fetchSubtitles } from './fetchSubtitles'
+import { fetchMovies } from './fetchMovies'
 import useDebounce from './hooks/useDebounce'
-import { Subtitle } from './types'
+import { Movie } from './types'
 
 function App() {
 	const [movieTitle, setMovieTitle] = useState('')
-	const [subtitles, setSubtitles] = useState<Subtitle[] | null>(null)
+	const [movies, setMovies] = useState<Movie[] | null>(null)
 	const [isRequestPending, setIsRequestPending] = useState(false)
 	const [error, setError] = useState('')
 
@@ -19,11 +19,11 @@ function App() {
 		setIsRequestPending(true)
 
 		try {
-			const subtitles = await fetchSubtitles(query)
+			const movies = await fetchMovies(query)
 
-			if (subtitles) {
-				console.log(subtitles)
-				setSubtitles(subtitles)
+			if (movies) {
+				console.log(movies)
+				setMovies(movies)
 			}
 		} catch (e) {
 			setError((e as Error).message)
@@ -41,7 +41,7 @@ function App() {
 
 	useEffect(() => {
 		if (!debouncedMovieTitle) {
-			setSubtitles(null)
+			setMovies(null)
 			return
 		}
 		if (debouncedMovieTitle && !isRequestPending) {
@@ -61,13 +61,13 @@ function App() {
 				placeholder='Enter Movie Title...'
 			/>
 			{error && <div className='search-error'>{error}</div>}
-			{subtitles ? (
-				subtitles.length === 0 ? (
+			{movies ? (
+				movies.length === 0 ? (
 					<div className='nothing-found'>Nothing found</div>
 				) : (
 					<ul className='search-results'>
-						{subtitles.map((subtitle) => (
-							<SearchResult key={subtitle.id} subtitle={subtitle} />
+						{movies.map((movie) => (
+							<SearchResult key={movie.id} movie={movie} />
 						))}
 					</ul>
 				)
