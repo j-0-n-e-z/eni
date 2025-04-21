@@ -1,0 +1,54 @@
+.searchResults {
+	width: 100%;
+	margin-top: 20px;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	gap: 15px;
+	padding: 0 15px;
+	font-size: 1.4rem;
+	color: #fff;
+
+	.movieCard {
+		display: flex;
+		flex-direction: column;
+		column-gap: 10px;
+		background: rgba(30, 30, 30, 0.6);
+		color: #fff;
+		text-decoration: none;
+		border-radius: 10px;
+		overflow: hidden;
+		transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+
+		&:hover {
+			transform: translateY(-5px);
+		}
+
+		.cover {
+			width: 100%;
+			aspect-ratio: 2/3;
+			object-fit: cover;
+		}
+
+		.details {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			padding: 15px;
+		}
+
+		.title {
+			font-size: 1.3rem;
+			margin: 0;
+			font-weight: 700;
+		}
+
+		.year {
+			font-size: 1.1rem;
+			color: #ccc;
+		}
+
+		.rating {
+			font-size: 1.2rem;
+		}
+	}
+}

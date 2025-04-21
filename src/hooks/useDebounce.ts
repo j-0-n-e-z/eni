@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react'
  */
 function useDebounce<T>(value: T, delay: number) {
 	const [debouncedValue, setDebouncedValue] = useState<T>(value)
-	const debounceTimer = useRef<NodeJS.Timeout>(undefined)
+	const debounceTimer = useRef<NodeJS.Timeout>(null)
 
 	function cancelDebounce() {
 		if (debounceTimer.current) {

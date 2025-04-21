@@ -1,0 +1,52 @@
+import { createSlice } from '@reduxjs/toolkit'
+import { RootState } from '../../app/store'
+import { Movie } from '../../types'
+import { fetchMovies } from '../thunks/moviesThunk'
+
+export interface MoviesState {
+	movies: Movie[] | null
+	status: 'idle' | 'pending' | 'rejected'
+	error: string | null
+}
+
+export const initialState: MoviesState = {
+	movies: null,
+	status: 'idle',
+	error: null
+}
+
+export const moviesSlice = createSlice({
+	name: 'movies',
+	initialState,
+	reducers: {
+		clearMovies: () => initialState
+	},
+	extraReducers: (builder) => {
+		builder.addCase(fetchMovies.pending, (state) => {
+			state.status = 'pending'
+		})
+		builder.addCase(fetchMovies.rejected, (state, action) => {
+			state.status = 'rejected'
+			state.movies = null
+			console.log(action.payload)
+			if (action.payload?.status === 404) {
+				state.error = 'No movies found'
+			} else if (action.payload?.status === 400) {
+				state.error = 'Bad request'
+			} else {
+				state.error = action.payload?.message || 'Failed to load movies'
+			}
+		})
+		builder.addCase(fetchMovies.fulfilled, (state, action) => {
+			state.status = 'idle'
+			state.movies = action.payload
+			state.error = null
+		})
+	}
+})
+
+export const selectMovies = (state: RootState) => state.moviesReducer
+
+export const { clearMovies } = moviesSlice.actions
+
+export default moviesSlice.reducer

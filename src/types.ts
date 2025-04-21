@@ -26,7 +26,7 @@ export interface File {
 	file_name: string
 }
 
-export interface Attribute {
+export interface Attributes {
 	subtitle_id: string
 	language: string
 	download_count: number
@@ -58,19 +58,39 @@ export interface Attribute {
 export interface Movie {
 	id: string
 	type: string
-	attributes: Attribute
+	attributes: Attributes
 }
 
-export interface SearchResult {
-	total_pages: number
-	total_count: number
-	per_page: number
-	page: number
-	data: Movie[]
+export interface TMDBMovie extends Movie {
+	genres: string[]
+	production_companies: string[]
+	production_countries: string[]
+	homepage: string
+	budget: number
+	original_title: string
+	origin_countries: string[]
+	overview: string
+	runtime: number
+	tagline: string
+	title: string
+	release_date: string
 }
 
 export interface Subtitle {
 	index: number
 	timecode: string
 	text: string
+}
+
+export interface DisplayMovieProps {
+	title: string
+	year: number
+	rating: number
+	coverImg: string
+}
+
+export interface SerializedError {
+	message: string
+	code?: string
+	status?: number
 }

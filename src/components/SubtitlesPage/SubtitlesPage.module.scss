@@ -1,0 +1,31 @@
+.container {
+	margin-bottom: 20px;
+
+	.header {
+		display: flex;
+		border: 1px solid #fff;
+		border-top: 0;
+		border-radius: 0 0 2rem 2rem;
+		gap: 20px;
+		overflow: hidden;
+
+		.cover {
+			width: 230px;
+		}
+
+		.title {
+			margin: 25px 0 18px;
+		}
+
+		.details {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+
+			.allSubs {
+				margin-top: auto;
+				margin-bottom: 20px;
+			}
+		}
+	}
+}

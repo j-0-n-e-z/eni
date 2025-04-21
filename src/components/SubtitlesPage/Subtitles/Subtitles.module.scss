@@ -1,0 +1,13 @@
+.header {
+	display: flex;
+	font-size: 1.4rem;
+	justify-content: center;
+	align-items: center;
+	margin: 20px 0;
+}
+
+.subtitles {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
