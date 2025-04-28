@@ -1,8 +1,11 @@
-import React, { FC, useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../../../app/hooks'
-import { selectSubtitles } from '../../../store/slices/subtitlesSlice'
-import { fetchSubtitles } from '../../../store/thunks/subtitlesThunk'
-import { Subtitle } from './Subtitle/Subtitle'
+import type { FC } from 'react'
+import React, { useEffect } from 'react'
+
+import { useAppDispatch, useAppSelector } from '@/app/index'
+import { Subtitle } from '@/components'
+import { selectSubtitles } from '@/slices'
+import { fetchSubtitles } from '@/thunks'
+
 import styles from './Subtitles.module.scss'
 
 interface SubtitlesProps {
@@ -28,7 +31,7 @@ export const Subtitles: FC<SubtitlesProps> = React.memo(({ fileId }) => {
 			<h2 className={styles.header}>Subtitles</h2>
 			<ul className={styles.subtitles}>
 				{subtitles.map((subtitle) => (
-					<Subtitle subtitle={subtitle} key={subtitle.index} />
+					<Subtitle key={subtitle.index} subtitle={subtitle} />
 				))}
 			</ul>
 		</>

@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react'
  * @param delay - Задержка в миллисекундах.
  * @returns Отложенное значение.
  */
-function useDebounce<T>(value: T, delay: number) {
+export function useDebounce<T>(value: T, delay: number) {
 	const [debouncedValue, setDebouncedValue] = useState<T>(value)
 	const debounceTimer = useRef<NodeJS.Timeout>(null)
 
@@ -30,5 +30,3 @@ function useDebounce<T>(value: T, delay: number) {
 
 	return [debouncedValue, cancelDebounce] as const
 }
-
-export default useDebounce

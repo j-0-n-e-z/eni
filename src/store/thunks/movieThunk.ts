@@ -1,33 +1,33 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import axios, { AxiosError } from 'axios'
-import { RootState } from '../../app/store'
-import { SUBTITLES_URL } from '../../constants'
-import { Movie, SerializedError } from '../../types'
-import { headers } from './share'
+
+import type { ApiError } from '@/api'
+import { movies, tmdb } from '@/api'
+import type { RootState } from '@/app/store'
+import type { Movie, TMDBMovie } from '@/types'
 
 export const fetchMovie = createAsyncThunk<
-	Movie,
-	string,
-	{ state: RootState; rejectValue: SerializedError }
->('movie/fetch', async (movieId, thunkApi) => {
+	{ movie: Movie; tmdbMovie: TMDBMovie | null },
+	number,
+	{ state: RootState; rejectValue: ApiError }
+>('movie/fetch', async (id, thunkApi) => {
 	try {
-		const opensubtitlesUrl = new URL(SUBTITLES_URL)
-		opensubtitlesUrl.searchParams.append('id', movieId)
-		opensubtitlesUrl.searchParams.append('order_by', 'download_count')
-		const response = await axios.get<{ data: Movie[] }>(opensubtitlesUrl.href, {
-			headers
-		})
-		const movie = response.data.data[0]
-		return movie
-	} catch (e) {
-		
-		if (e instanceof AxiosError) {
-			return thunkApi.rejectWithValue({
-				message: e.message,
-				code: e.code,
-				status: e.status
-			})
+		let movie = thunkApi
+			.getState()
+			.moviesReducer.movies?.find((m) => m.id === id)
+		if (!movie) {
+			movie = await movies.fetchMovieById(id)
 		}
-		return thunkApi.rejectWithValue({ message: (e as Error).message })
+
+		let tmdbMovie: TMDBMovie | null = null
+		try {
+			tmdbMovie = await tmdb.fetchTMDBMovieById(movie.tmdb_id)
+		} catch (e) {
+			// tmdb movie is not important, ignore
+			console.log(e)
+		}
+
+		return { movie, tmdbMovie }
+	} catch (e) {
+		return thunkApi.rejectWithValue(e as ApiError)
 	}
 })

@@ -1,13 +1,10 @@
-import React from 'react'
+import type { FC } from 'react'
+
 import './App.scss'
-import { Search } from './components/Search/Search'
+import { Search } from '@/components'
 
-function App() {
-	return (
-		<main className='mainpage'>
-			<Search />
-		</main>
-	)
-}
-
-export default App
+export const App: FC = () => (
+	<main className='mainpage'>
+		<Search />
+	</main>
+)

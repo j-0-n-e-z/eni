@@ -1,25 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import axios from 'axios'
-import { SerializedError, Subtitle } from '../../types'
+
+import type { ApiError } from '@/api'
+import { movies } from '@/api'
+import type { Subtitle } from '@/types'
 
 export const fetchSubtitles = createAsyncThunk<
 	Subtitle[],
 	number,
-	{ rejectValue: SerializedError }
+	{ rejectValue: ApiError }
 >('subtitles/fetch', async (fileId, thunkApi) => {
 	try {
-		const response = await axios.post<{ data: Subtitle[] }>(
-			'http://localhost:8080',
-			{ file_id: fileId },
-			{
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			}
-		)
-
-		return response.data.data
+		return await movies.fetchSubtitles(fileId)
 	} catch (e) {
-		return thunkApi.rejectWithValue(e)
+		return thunkApi.rejectWithValue(e as ApiError)
 	}
 })

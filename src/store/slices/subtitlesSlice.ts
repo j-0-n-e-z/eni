@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { RootState } from '../../app/store'
-import { Subtitle } from '../../types'
-import { fetchSubtitles } from '../thunks/subtitlesThunk'
+
+import type { RootState } from '@/app'
+import { fetchSubtitles } from '@/thunks'
+import type { Subtitle } from '@/types'
 
 interface SubtitlesState {
 	subtitles: Subtitle[] | null
@@ -48,4 +49,4 @@ export const selectSubtitles = (state: RootState) => state.subtitlesReducer
 
 export const { clearSubtitles } = subtltlesSlice.actions
 
-export default subtltlesSlice.reducer
+export const subtitlesReducer = subtltlesSlice.reducer

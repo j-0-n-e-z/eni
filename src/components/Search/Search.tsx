@@ -1,12 +1,15 @@
+import type { FC } from 'react'
 import React, { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import useDebounce from '../../hooks/useDebounce'
-import { clearMovies, selectMovies } from '../../store/slices/moviesSlice'
-import { fetchMovies } from '../../store/thunks/moviesThunk'
-import styles from './Search.module.scss'
-import SearchResults from './SearchResults/SearchResults'
 
-export const Search = () => {
+import { useAppDispatch, useAppSelector } from '@/app/index'
+import { SearchResults } from '@/components'
+import { useDebounce } from '@/hooks'
+import { clearMovies, selectMovies } from '@/slices'
+import { fetchMovies } from '@/thunks'
+
+import styles from './Search.module.scss'
+
+export const Search: FC = () => {
 	const [movieTitle, setMovieTitle] = useState('')
 	const { movies, status, error } = useAppSelector(selectMovies)
 	const dispatch = useAppDispatch()
@@ -37,11 +40,11 @@ export const Search = () => {
 				<input
 					className={styles.searchInput}
 					id='search-input'
+					placeholder='Enter movie title'
 					type='search'
 					value={movieTitle}
 					onChange={(e) => setMovieTitle(e.target.value)}
 					onKeyDown={onSearchInputKeyDown}
-					placeholder='Enter movie title'
 				/>
 			</div>
 			{status === 'pending' && <div>Загрузка...</div>}
@@ -49,9 +52,7 @@ export const Search = () => {
 			{movies && movies.length === 0 && <div>Ничего не найдено</div>}
 			{movies && movies.length !== 0 && (
 				<div className={styles.searchResults}>
-					<h2 className={styles.header}>
-						Результаты поиска
-					</h2>
+					<h2 className={styles.header}>Результаты поиска</h2>
 					<SearchResults movies={movies} />
 				</div>
 			)}

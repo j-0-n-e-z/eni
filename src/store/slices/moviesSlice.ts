@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { RootState } from '../../app/store'
-import { Movie } from '../../types'
-import { fetchMovies } from '../thunks/moviesThunk'
+
+import type { RootState } from '@/app'
+import { fetchMovies } from '@/thunks'
+import type { Movie } from '@/types'
 
 export interface MoviesState {
 	movies: Movie[] | null
@@ -49,4 +50,4 @@ export const selectMovies = (state: RootState) => state.moviesReducer
 
 export const { clearMovies } = moviesSlice.actions
 
-export default moviesSlice.reducer
+export const moviesReducer = moviesSlice.reducer

@@ -1,0 +1,5 @@
+export { Search } from './Search/Search'
+export { SearchResults } from './Search/SearchResults/SearchResults'
+export { Subtitle } from './SubtitlesPage/Subtitles/Subtitle/Subtitle'
+export { Subtitles } from './SubtitlesPage/Subtitles/Subtitles'
+export { SubtitlesPage } from './SubtitlesPage/SubtitlesPage'

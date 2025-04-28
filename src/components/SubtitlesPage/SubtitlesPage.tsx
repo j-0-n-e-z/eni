@@ -1,27 +1,28 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import cn from 'classnames'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { getCompactMovieInfo } from '../../utils/helpers/getDisplayMovieInfo'
-import { selectMovie } from '../../store/slices/movieSlice'
-import { fetchMovie } from '../../store/thunks/movieThunk'
-import { Subtitles } from './Subtitles/Subtitles'
-import styles from './SubtitlesPage.module.scss'
+
+import { useAppDispatch, useAppSelector } from '@/app/index'
+import { Subtitles } from '@/components'
+import { selectMovie } from '@/slices'
+import { fetchMovie } from '@/thunks'
+import { USDFormatter } from '@/utils'
+
 import '../../App.scss'
+import styles from './SubtitlesPage.module.scss'
 
 export const SubtitlesPage = () => {
 	const { id } = useParams<{ id: string }>()
 	const dispatch = useAppDispatch()
 
-	const { movie, error, status } = useAppSelector(selectMovie)
+	const { movie, tmdbMovie, error, status } = useAppSelector(selectMovie)
 
-	console.log(movie);
-
-	console.log('🍿 SubtitlesPage render')
+	console.log('SubtitlesPage render')
 
 	useEffect(() => {
 		if (!id) return
-		dispatch(fetchMovie(id))
+		dispatch(fetchMovie(+id))
 	}, [id])
 
 	if (!id) return <div>Не найден id фильма</div>
@@ -32,49 +33,54 @@ export const SubtitlesPage = () => {
 
 	const {
 		title,
-		coverImg,
+		img_url,
+		opensubtitles: { current_url, all_url },
+		subtitles_file_id,
 		rating,
-		year,
-		subtitleUrl,
-		allSubs,
-		language,
-		uploadDate
-	} = getCompactMovieInfo(movie)
+		release_year,
+		upload_date
+	} = movie
+
+	console.log('@tmdbMovie', tmdbMovie)
 
 	return (
 		<div className={styles.container}>
 			<div className={styles.header}>
-				<div className={styles.coverWrapper}>
-					<img className={styles.cover} src={coverImg} alt={title + ' Cover'} />
-				</div>
+				<img alt={`${title} Cover`} className={styles.cover} src={img_url} />
 				<div className={styles.details}>
-					<a href={subtitleUrl} target='_blank'>
+					<a href={current_url} rel='noreferrer' target='_blank'>
 						<h3 className={styles.title}>{title}</h3>
 					</a>
 					<span className={styles.year}>
-						<b>Release: </b> {year}
+						<b>Release: </b> {tmdbMovie?.release_date ?? release_year}
 					</span>
 					<span>
 						<b>Rating: </b>⭐{rating}
 					</span>
 					<span>
-						<b>Language: </b>
-						{language}
-					</span>
-					<span>
 						<b>Uploaded: </b>
-						{new Date(uploadDate).toLocaleDateString('ru-ru')}
+						{new Date(upload_date).toLocaleDateString('ru-ru')}
 					</span>
+					{tmdbMovie && (
+						<>
+							<span>
+								<b>Budget: </b>
+								{USDFormatter.format(tmdbMovie.budget)}
+							</span>
+							<span>{tmdbMovie.overview}</span>
+						</>
+					)}
 					<a
 						className={cn(styles.allSubs, 'button')}
-						href={allSubs.url}
+						href={all_url}
+						rel='noreferrer'
 						target='_blank'
 					>
-						All subtitles
+						All subtitles for this movie
 					</a>
 				</div>
 			</div>
-			<Subtitles fileId={movie.attributes.files[0].file_id} />
+			<Subtitles fileId={subtitles_file_id} />
 		</div>
 	)
 }

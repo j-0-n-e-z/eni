@@ -1,16 +1,19 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit'
-import { RootState } from '../../app/store'
-import { Movie, TMDBMovie } from '../../types'
-import { fetchMovie } from '../thunks/movieThunk'
+import { createSlice } from '@reduxjs/toolkit'
+
+import type { RootState } from '@/app'
+import { fetchMovie } from '@/thunks'
+import type { Movie, TMDBMovie } from '@/types'
 
 interface MovieState {
-	movie: TMDBMovie | null
+	movie: Movie | null
+	tmdbMovie: TMDBMovie | null
 	status: 'idle' | 'pending' | 'rejected'
 	error: string | null
 }
 
 const initialState: MovieState = {
 	movie: null,
+	tmdbMovie: null,
 	status: 'idle',
 	error: null
 }
@@ -22,13 +25,14 @@ const movieSlice = createSlice({
 		clearMovie: () => initialState
 	},
 	extraReducers: (builder) => {
-		builder.addCase(fetchMovie.pending, (state, action) => {
+		builder.addCase(fetchMovie.pending, (state) => {
 			state.status = 'pending'
 		})
 		builder.addCase(fetchMovie.rejected, (state, action) => {
 			state.status = 'rejected'
 			state.movie = null
-			console.log(action.payload)
+			state.tmdbMovie = null
+
 			if (action.payload?.status === 404) {
 				state.error = 'No movie found'
 			} else if (action.payload?.status === 400) {
@@ -39,7 +43,8 @@ const movieSlice = createSlice({
 		})
 		builder.addCase(fetchMovie.fulfilled, (state, action) => {
 			state.status = 'idle'
-			state.movie = action.payload
+			state.movie = action.payload.movie
+			state.tmdbMovie = action.payload.tmdbMovie
 			state.error = null
 		})
 	}
@@ -49,4 +54,4 @@ export const selectMovie = (state: RootState) => state.movieReducer
 
 export const { clearMovie } = movieSlice.actions
 
-export default movieSlice.reducer
+export const movieReducer = movieSlice.reducer
