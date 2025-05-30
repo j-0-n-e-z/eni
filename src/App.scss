@@ -1,3 +1,17 @@
+@use './_colors.scss' as *;
+@use './_variables.scss' as *;
+@use 'sass:meta';
+
+:root {
+	@include generate-color-vars($colors);
+}
+
+// scroll disappear makes everything move right
+body {
+	width: 100vw;
+	overflow-x: hidden;
+}
+
 #root {
 	max-width: 1280px;
 	margin: 0 auto;
@@ -12,32 +26,35 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+p {
 	margin: 0;
 }
 
 a {
+	all: unset;
 	text-decoration: none;
-	color: white;
-	transition: color 0.1s linear;
-
-	&:hover {
-		color: #ccc;
-	}
+	cursor: pointer;
 }
 
 body {
 	margin: 0;
 	min-width: 320px;
 	min-height: 100vh;
-	background-color: black;
-	color: #fff;
-	font-family: 'Roboto', Arial, sans-serif;
+	background-color: var(--color-background);
+	color: var(--color-black);
+	font-family: 'Noto Sans', Arial, sans-serif;
 }
 
 ul {
+	all: unset;
 	padding-inline-start: 0;
 	list-style: none;
+	margin: 0;
+}
+
+input {
+	font-family: 'Noto Sans', Arial, sans-serif;
 }
 
 input::-webkit-search-cancel-button,
@@ -55,21 +72,4 @@ input::-webkit-clear-button {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
-}
-
-.button {
-	display: block;
-	width: fit-content;
-	padding: 10px;
-	border: 2px dashed #fff;
-	border-radius: 20px;
-	text-decoration: none;
-	color: #fff;
-	background-color: black;
-	transition: color 0.2s linear, background-color 0.2s linear;
-
-	&:hover {
-		color: black;
-		background-color: white;
-	}
 }

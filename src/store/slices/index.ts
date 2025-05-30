@@ -1,3 +1,8 @@
-export { movieReducer, selectMovie } from './movieSlice'
-export { moviesReducer, selectMovies, clearMovies } from './moviesSlice'
+export { clearMovie, movieReducer, selectMovie } from './movieSlice'
+export { clearMovies, moviesReducer, selectMovies } from './moviesSlice'
 export { selectSubtitles, subtitlesReducer } from './subtitlesSlice'
+export {
+	clearTMDBMovie,
+	selectTMDBMovie,
+	tmdbMovieReducer
+} from './tmdbMovieSlice'

@@ -23,26 +23,26 @@ export const moviesSlice = createSlice({
 		clearMovies: () => initialState
 	},
 	extraReducers: (builder) => {
-		builder.addCase(fetchMovies.pending, (state) => {
-			state.status = 'pending'
-		})
-		builder.addCase(fetchMovies.rejected, (state, action) => {
-			state.status = 'rejected'
-			state.movies = null
-			console.log(action.payload)
-			if (action.payload?.status === 404) {
-				state.error = 'No movies found'
-			} else if (action.payload?.status === 400) {
-				state.error = 'Bad request'
-			} else {
-				state.error = action.payload?.message || 'Failed to load movies'
-			}
-		})
-		builder.addCase(fetchMovies.fulfilled, (state, action) => {
-			state.status = 'idle'
-			state.movies = action.payload
-			state.error = null
-		})
+		builder
+			.addCase(fetchMovies.pending, (state) => {
+				state.status = 'pending'
+			})
+			.addCase(fetchMovies.rejected, (state, action) => {
+				state.status = 'rejected'
+				state.movies = null
+				if (action.payload?.status === 404) {
+					state.error = 'No movies found'
+				} else if (action.payload?.status === 400) {
+					state.error = 'Bad request'
+				} else {
+					state.error = action.payload?.message || 'Failed to load movies'
+				}
+			})
+			.addCase(fetchMovies.fulfilled, (state, action) => {
+				state.status = 'idle'
+				state.movies = action.payload
+				state.error = null
+			})
 	}
 })
 

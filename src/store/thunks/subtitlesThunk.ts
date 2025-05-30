@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 import type { ApiError } from '@/api'
-import { movies } from '@/api'
+import { subtitles } from '@/api'
 import type { Subtitle } from '@/types'
 
 export const fetchSubtitles = createAsyncThunk<
@@ -10,7 +10,7 @@ export const fetchSubtitles = createAsyncThunk<
 	{ rejectValue: ApiError }
 >('subtitles/fetch', async (fileId, thunkApi) => {
 	try {
-		return await movies.fetchSubtitles(fileId)
+		return await subtitles.fetchSubtitles(fileId)
 	} catch (e) {
 		return thunkApi.rejectWithValue(e as ApiError)
 	}

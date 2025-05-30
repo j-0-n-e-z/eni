@@ -1,13 +1,21 @@
 import type { Action, ThunkAction } from '@reduxjs/toolkit'
 import { configureStore } from '@reduxjs/toolkit'
 
-import { movieReducer, moviesReducer, subtitlesReducer } from '@/slices'
+import {
+	movieReducer,
+	moviesReducer,
+	subtitlesReducer,
+	tmdbMovieReducer
+} from '@/slices'
+import { wordsReducer } from '@/store/slices/wordsSlice'
 
 export const store = configureStore({
 	reducer: {
 		moviesReducer,
 		subtitlesReducer,
-		movieReducer
+		movieReducer,
+		tmdbMovieReducer,
+		wordsReducer
 	}
 })
 

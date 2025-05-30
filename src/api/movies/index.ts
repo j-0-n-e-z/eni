@@ -1,30 +1,20 @@
-import type { Movie, Subtitle } from '@/types'
+import type { Movie, TMDBMovie } from '@/types'
 
-import { moviesApi } from '../axios/instances'
+import { api } from '../axios/instances'
 
 export const searchMovies = async (query: string) => {
-	const response = await moviesApi.get<Movie[]>('/movies', {
-		params: {
-			query,
-			type: 'movie'
-		}
+	const response = await api.get<Movie[]>('/movies', {
+		params: { query }
 	})
 	return response.data
 }
 
-export const fetchMovieById = async (movieId: number) => {
-	const response = await moviesApi.get<Movie[]>('/movies', {
-		params: {
-			id: movieId,
-			type: 'movie'
-		}
-	})
-	return response.data[0]
+export const fetchMovieById = async (id: number) => {
+	const response = await api.get<Movie[]>(`/movie/${id}`)
+	return response.data
 }
 
-export const fetchSubtitles = async (fileId: number) => {
-	const response = await moviesApi.post<Subtitle[]>('/subtitles', {
-		file_id: fileId
-	})
+export const fetchTMDBMovieById = async (tmdbId: number) => {
+	const response = await api.get<TMDBMovie>(`/tmdbmovie/${tmdbId}`)
 	return response.data
 }

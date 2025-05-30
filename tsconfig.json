@@ -27,6 +27,6 @@
 			"@/types": ["./types"],
 		}
 	},
-	"include": ["**/*.ts", "**/*.tsx"],
+	"include": ["**/*.ts", "**/*.tsx", "src/components/SubtitlesPage/Paginator/Paginator.tsx"],
 	"exclude": ["node_modules"]
 }

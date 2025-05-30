@@ -23,25 +23,28 @@ const subtltlesSlice = createSlice({
 		clearSubtitles: () => initialState
 	},
 	extraReducers: (builder) => {
-		builder.addCase(fetchSubtitles.pending, (state) => {
-			state.status = 'pending'
-		})
-		builder.addCase(fetchSubtitles.rejected, (state, action) => {
-			state.status = 'rejected'
-			state.subtitles = null
-			if (action.payload?.status === 404) {
-				state.error = 'No subtitles found'
-			} else if (action.payload?.status === 400) {
-				state.error = 'Bad request'
-			} else {
-				state.error = action.payload?.message || 'Failed to load subtitles'
-			}
-		})
-		builder.addCase(fetchSubtitles.fulfilled, (state, action) => {
-			state.status = 'idle'
-			state.subtitles = action.payload
-			state.error = null
-		})
+		builder
+			.addCase(fetchSubtitles.pending, (state) => {
+				state.status = 'pending'
+			})
+			.addCase(fetchSubtitles.rejected, (state, action) => {
+				state.status = 'rejected'
+				state.subtitles = null
+				if (action.payload?.status === 503) {
+					state.error = action.payload.data as string
+				} else if (action.payload?.status === 404) {
+					state.error = 'No subtitles found'
+				} else if (action.payload?.status === 400) {
+					state.error = 'Bad request'
+				} else {
+					state.error = action.payload?.message || 'Failed to load subtitles'
+				}
+			})
+			.addCase(fetchSubtitles.fulfilled, (state, action) => {
+				state.status = 'idle'
+				state.subtitles = action.payload
+				state.error = null
+			})
 	}
 })
 

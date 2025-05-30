@@ -1,0 +1,248 @@
+@use 'sass:map';
+@use 'sass:meta';
+
+$colors: (
+	'text': (
+		danger: (
+			base: #d8182c,
+			active: #9c1825,
+			hover: #b91829,
+			inverted: #fef7f8,
+			pressed: #9c1825
+		),
+		neutrals: (
+			base: #222428,
+			active: #1a1b1e,
+			disabled: #aeb2c0,
+			hover: #1a1b1e,
+			inverted: (
+				base: #ffffff,
+				hover: #fafafc,
+				subtle: (
+					base: #e9eaef,
+					hover: #e0e2e8
+				)
+			),
+			'placeholder': #7d8297,
+			pressed: #1a1b1e,
+			subtle: (
+				base: #656b81,
+				active: #454854,
+				hover: #5d6376,
+				pressed: #555a6a
+			)
+		),
+		primary: (
+			base: #3859ff,
+			active: #2a41b6,
+			hover: #314cd9,
+			inverted: (
+				base: #f7f8fc,
+				subtle: #f2f4fc
+			),
+			pressed: #2a41b6,
+			selected: #314cd9
+		),
+		success: (
+			base: #186904,
+			active: #154b08,
+			hover: #175906,
+			inverted: #eff9ec,
+			pressed: #154b08
+		),
+		warning: (
+			base: #453911,
+			subtle: #b39223
+		)
+	),
+	'background': (
+		primary: (
+			prominent: (
+				base: #3859ff,
+				active: #2a41b6,
+				hover: #314cd9,
+				pressed: #2a41b6,
+				selected: #3859ff
+			),
+			subtle: (
+				base: #f2f4fc,
+				active: #d9dffc,
+				hover: #e8ecfc,
+				pressed: #d9dffc,
+				selected: #e8ecfc
+			)
+		),
+		success: (
+			base: #1c8f00,
+			active: #186904
+		),
+		danger: (
+			prominent: (
+				base: #d8182c,
+				active: #9c1825,
+				hover: #b91829,
+				pressed: #9c1825
+			),
+			subtle: (
+				base: #fef7f8,
+				active: #fbe6e8,
+				hover: #fdf2f3,
+				pressed: #fbe6e8
+			)
+		),
+		neutrals: (
+			base: #fff,
+			active: #e9eaef,
+			container: #fff,
+			control: (
+				base: #c7cad5,
+				hover: #aeb2c0,
+				pressed: #959aac
+			),
+			disabled: #e9eaef,
+			hover: #f1f2f5,
+			inactive: (
+				base: #7d8297,
+				hover: #656b81
+			),
+			inverted: (
+				base: #1a1b1e,
+				subtle: #34363e
+			),
+			layout: #fff,
+			page: (
+				base: #f1f2f5,
+				subtle: #e9eaef
+			),
+			pressed: #e9eaef,
+			subtle: (
+				base: #f1f2f5,
+				active: #e0e2e8,
+				hover: #e9eaef,
+				pressed: #e0e2e8,
+				transparent: #ffffff00
+			)
+		)
+	),
+	'button': (
+		'background': (
+			primary: (
+				base: #3859ff,
+				hover: #314cd9,
+				pressed: #2a41b6
+			),
+			secondary: (
+				base: #e9eaef,
+				hover: #e0e2e8,
+				pressed: #d8dae2
+			),
+			neutrals: (
+				base: #ffffff,
+				active: #e9eaef,
+				container: #ffffff,
+				control: (
+					base: #c7cad5,
+					hover: #aeb2c0,
+					pressed: #959aac
+				),
+				disabled: #e9eaef,
+				hover: #f1f2f5,
+				inactive: (
+					base: #7d8297,
+					hover: #656b81,
+					inverted: (
+						base: #1a1b1e,
+						subtle: #34363e
+					)
+				)
+			)
+		)
+	),
+	'border': (
+		danger: (
+			base: #d8182c,
+			active: #9c1825,
+			hover: #b91829,
+			pressed: #9c1825,
+			subtle: #f8d5d8
+		),
+		focus: (
+			error: (
+				inner: #ffffff,
+				middle: #7a90fe,
+				outer: #d9dffc
+			),
+			inner: #ffffff,
+			middle: #7a90fe,
+			outer: #d9dffc,
+			success: (
+				inner: #ffffff,
+				middle: #7a90fe,
+				outer: #d9dffc
+			)
+		),
+		neutrals: (
+			base: #e0e2e8,
+			active: #aeb2c0,
+			controls: (
+				base: #7d8297,
+				disabled: #e9eaef
+			),
+			disabled: #e9eaef,
+			hover: #c7cad5,
+			inverted: #ffffff,
+			pressed: #aeb2c0,
+			subtle: (
+				base: #e9eaef,
+				hover: #e0e2e8,
+				pressed: #d8dae2
+			),
+			text: (
+				base: #222428,
+				active: #1a1b1e,
+				hover: #1a1b1e,
+				subtle: (
+					base: #656b81,
+					active: #555a6a,
+					hover: #5d6376
+				)
+			),
+			transparent: #ffffff00
+		),
+		primary: (
+			base: #3859ff,
+			active: #2a41b6,
+			hover: #314cd9,
+			inverted: #f7f8fc,
+			pressed: #2a41b6,
+			selected: #3859ff,
+			subtle: #c7d0fd
+		),
+		success: (
+			base: #1c8f00,
+			active: #186904,
+			hover: #1a7b02,
+			pressed: #186904,
+			subtle: #badeb1
+		),
+		warning: (
+			base: #ffd02f,
+			subtle: #ffeba3
+		)
+	),
+	focus: (
+		keyboard: #2b4df8
+	)
+);
+
+@mixin generate-color-vars($map, $prefix: '--colors') {
+	@each $name, $value in $map {
+		$new-prefix: if($name == 'base', $prefix, #{$prefix}-#{$name});
+
+		@if meta.type-of($value) == 'map' {
+			@include generate-color-vars($value, $new-prefix);
+		} @else {
+			#{$new-prefix}: #{$value};
+		}
+	}
+}

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type { AxiosError, AxiosInstance } from "axios"
 
 export interface ApiError {

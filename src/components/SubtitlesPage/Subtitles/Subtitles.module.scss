@@ -1,13 +1,20 @@
+@use '../../../_variables.scss' as *;
+
 .header {
 	display: flex;
-	font-size: 1.4rem;
+	font-size: $font-xl;
 	justify-content: center;
 	align-items: center;
 	margin: 20px 0;
 }
 
+.controlPanel {
+	display: flex;
+	justify-content: space-between;
+}
+
 .subtitles {
 	display: flex;
 	flex-direction: column;
-	gap: 15px;
+	gap: $space-lg;
 }

@@ -1,0 +1,39 @@
+@use './_variables.scss' as *;
+
+.secondaryButton {
+	display: block;
+	width: fit-content;
+	padding: $space-md;
+	border-radius: $space-sm;
+	text-decoration: none;
+	color: var(--colors-text-neutrals);
+	background-color: var(--colors-background-neutrals);
+	border: 1px solid var(--colors-border-neutrals);
+	cursor: pointer;
+	transition:
+		color 0.1s linear,
+		background-color 0.1s linear;
+
+	&:hover {
+		color: var(--colors-text-neutrals);
+		background-color: var(--colors-background-neutrals-subtle-hover);
+	}
+}
+
+.roundBtn {
+	all: unset;
+	border-radius: 50%;
+	width: 75px;
+	height: 75px;
+	top: -15px;
+	opacity: 0.5;
+	padding: $space-sm;
+	box-sizing: border-box;
+	transition:
+		translate 0.1s linear,
+		opacity 0.15s ease;
+
+	&:hover {
+		opacity: 0.8;
+	}
+}

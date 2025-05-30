@@ -11,14 +11,16 @@ interface SearchResultsProps {
 
 export const SearchResults: FC<SearchResultsProps> = ({ movies }) => (
 	<ul className={styles.searchResults}>
-		{movies.map(({ id, img_url, title, release_year, rating }) => (
+		{movies.map(({ id, img_url, title, release_year, subtitles_rating }) => (
 			<li key={id}>
 				<Link className={styles.movieCard} to={`/subtitles/${id}`}>
 					<img alt={`${title} Cover`} className={styles.cover} src={img_url} />
 					<div className={styles.details}>
 						<h3 className={styles.title}>{title}</h3>
 						<span className={styles.year}>{release_year}</span>
-						<span className={styles.rating}>⭐{rating}</span>
+						<span className={styles.rating}>
+							Subtitles rating: ⭐ {subtitles_rating}
+						</span>
 					</div>
 				</Link>
 			</li>

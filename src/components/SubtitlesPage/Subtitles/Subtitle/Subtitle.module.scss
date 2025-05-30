@@ -1,15 +1,26 @@
-.container {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  border: 1px dotted white;
+@use '../../../../_variables.scss' as *;
 
-  .timecode {
+.subtitleBox {
+	padding: $space-lg;
+	display: flex;
+	flex-direction: column;
+	gap: $space-lg;
+	border-radius: $space-sm;
+	color: var(--colors-text-neutrals);
+	background-color: var(--colors-background-neutrals-subtle);
+	border: 1px solid var(--colors-border-neutrals);
+	cursor: pointer;
 
-  }
+	&:hover {
+		background-color: var(--colors-background-neutrals-subtle-hover)
+	}
 
-  .text {
+	.words {
+		display: flex;
+		flex-wrap: wrap;
+		gap: $space-md;
+	}
 
-  }
+	.timecode {
+	}
 }

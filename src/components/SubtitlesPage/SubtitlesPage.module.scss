@@ -1,30 +1,66 @@
-.container {
-	margin-bottom: 20px;
+@use '../../_variables.scss' as *;
+@use '../../_sharedStyles.scss' as *;
 
-	.header {
+.subtitlesPageContainer {
+	margin-bottom: $space-xxl;
+	padding: 0 $space-lg $space-lg $space-lg;
+
+	.info {
 		display: flex;
-		border: 1px solid #fff;
 		border-top: 0;
-		border-radius: 0 0 2rem 2rem;
-		gap: 20px;
+		border-radius: 0 0 $space-xl $space-xl;
+		background-color: var(--colors-background-neutrals-subtle);
+		gap: $space-xl;
 		overflow: hidden;
+		color: var(--colors-text-neutrals);
 
 		.cover {
-			width: 230px;
-		}
-
-		.title {
-			margin: 25px 0 18px;
+			width: 100%;
+			max-width: 230px;
+			height: auto;
+			aspect-ratio: 2/3;
+			object-fit: cover;
 		}
 
 		.details {
 			display: flex;
 			flex-direction: column;
-			gap: 10px;
+			gap: $space-md;
 
-			.allSubs {
+			.title {
+				color: var(--colors-text-neutrals);
+				font-size: $font-xl;
+				margin: $space-lg 0 $space-md;
+				transition: color 0.1s linear;
+
+				&:hover {
+					color: var(--colors-text-neutrals-subtle);
+				}
+			}
+
+			.rating {
+				display: flex;
+				gap: $space-md;
+				align-items: center;
+
+				.imdb {
+					display: flex;
+					gap: $space-sm;
+					align-items: center;
+					width: fit-content;
+
+					.imdbLogo {
+						width: $space-lg;
+						height: $space-lg;
+					}
+				}
+			}
+
+			.allSubsButton {
 				margin-top: auto;
-				margin-bottom: 20px;
+				margin-bottom: $space-lg;
+
+				@extend .secondaryButton;
 			}
 		}
 	}

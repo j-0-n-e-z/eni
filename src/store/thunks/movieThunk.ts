@@ -1,32 +1,29 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 import type { ApiError } from '@/api'
-import { movies, tmdb } from '@/api'
-import type { RootState } from '@/app/store'
-import type { Movie, TMDBMovie } from '@/types'
+import { movies } from '@/api'
+import type { RootState } from '@/app'
+import type { Movie } from '@/types'
 
 export const fetchMovie = createAsyncThunk<
-	{ movie: Movie; tmdbMovie: TMDBMovie | null },
+	Movie,
 	number,
 	{ state: RootState; rejectValue: ApiError }
 >('movie/fetch', async (id, thunkApi) => {
 	try {
-		let movie = thunkApi
+		let movie: Movie
+
+		const movieFromStore = thunkApi
 			.getState()
-			.moviesReducer.movies?.find((m) => m.id === id)
-		if (!movie) {
+			.moviesReducer.movies?.find((movie) => movie.id === id)
+
+		if (movieFromStore) {
+			movie = movieFromStore
+		} else {
 			movie = await movies.fetchMovieById(id)
 		}
 
-		let tmdbMovie: TMDBMovie | null = null
-		try {
-			tmdbMovie = await tmdb.fetchTMDBMovieById(movie.tmdb_id)
-		} catch (e) {
-			// tmdb movie is not important, ignore
-			console.log(e)
-		}
-
-		return { movie, tmdbMovie }
+		return movie
 	} catch (e) {
 		return thunkApi.rejectWithValue(e as ApiError)
 	}
