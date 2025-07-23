@@ -10,11 +10,11 @@ export const searchMovies = async (query: string) => {
 }
 
 export const fetchMovieById = async (id: number) => {
-	const response = await api.get<Movie[]>(`/movie/${id}`)
+	const response = await api.get<Movie>(`/movies/${id}`)
 	return response.data
 }
 
 export const fetchTMDBMovieById = async (tmdbId: number) => {
-	const response = await api.get<TMDBMovie>(`/tmdbmovie/${tmdbId}`)
+	const response = await api.get<TMDBMovie>(`/movies/tmdb/${tmdbId}`)
 	return response.data
 }
