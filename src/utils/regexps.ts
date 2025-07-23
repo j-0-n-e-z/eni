@@ -1,0 +1,1 @@
+export const BEFORE_TEXT_AFTER = /([^\w]*)(\w+'?\w+)([^\w]*)/
