@@ -2,7 +2,7 @@ import { type FC } from 'react'
 
 import { Word } from '@/components'
 import type { Subtitle as ISubtitle } from '@/types'
-import { BEFORE_TEXT_AFTER } from '@/utils'
+import { PUNCTUATION } from '@/utils'
 
 import styles from './Subtitle.module.scss'
 
@@ -17,20 +17,20 @@ export const Subtitle: FC<SubtitleProps> = ({ subtitle }) => (
 			{subtitle.text.split(' ').map((word, i) => {
 				const id = `${subtitle.timecode}#${i}`
 
-				const match = word.match(BEFORE_TEXT_AFTER)
+				const punctuationMatch = word.match(PUNCTUATION)
 
-				if (!match) {
+				if (!punctuationMatch) {
 					return <Word key={id} id={id} subtitleId={subtitle.id} text={word} />
 				}
 
 				return (
 					<Word
 						key={id}
-						after={match[3]}
-						before={match[1]}
+						after={punctuationMatch[3]}
+						before={punctuationMatch[1]}
 						id={id}
 						subtitleId={subtitle.id}
-						text={match[2]}
+						text={punctuationMatch[2]}
 					/>
 				)
 			})}

@@ -1,1 +1,1 @@
-export const BEFORE_TEXT_AFTER = /([^\w]*)(\w+'?\w+)([^\w]*)/
+export const PUNCTUATION = /([^\w]*)(\w+'?\w+)([^\w]*)/
