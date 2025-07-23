@@ -1,12 +1,12 @@
 import type { FC } from 'react'
 import { Link } from 'react-router-dom'
 
-import type { Movie as IMovie } from '@/types'
+import type { Movie } from '@/types'
 
 import styles from './SearchResults.module.scss'
 
 interface SearchResultsProps {
-	movies: IMovie[]
+	movies: Movie[]
 }
 
 export const SearchResults: FC<SearchResultsProps> = ({ movies }) => (
