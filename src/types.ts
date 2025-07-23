@@ -1,5 +1,4 @@
 export interface Movie {
-	subtitles_rating: number
 	upload_date: string
 	id: number
 	tmdb_id: number
@@ -10,7 +9,10 @@ export interface Movie {
 		all_url: string
 	}
 	img_url: string
-	subtitles_file_id: number
+	subtitles: {
+		rating: number
+		file_id: number
+	}
 }
 
 export interface TMDBMovie {
@@ -32,13 +34,18 @@ export interface TMDBMovie {
 }
 
 export interface Subtitle {
-	index: number
+	id: number
 	timecode: string
 	text: string
 }
 
 export interface Word {
-	value: string
+	id: string
+	text: string
+	from: {
+		movieId: number
+		subtitleId: number
+	}
 	isLearned: boolean
 	isRepeating: boolean
 	isFavorite: boolean
