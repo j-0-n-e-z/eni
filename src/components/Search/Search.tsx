@@ -44,7 +44,6 @@ export const Search: FC = () => {
 		}
 	}, [debouncedMovieTitle])
 
-	// TODO: move svgs to assets
 	return (
 		<>
 			<div className={styles.searchContainer}>

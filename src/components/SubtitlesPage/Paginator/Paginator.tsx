@@ -122,6 +122,7 @@ export const Paginator: FC<PaginatorProps> = ({
 						</button>
 					</>
 				)}
+				
 				<button disabled={currentPage === pageCount} onClick={goToNextPage}>
 					<img
 						alt='<'

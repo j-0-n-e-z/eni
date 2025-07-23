@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/app/index'
 import { Subtitle } from '@/components'
 import { selectSubtitles } from '@/slices'
+import { clearSubtitles } from '@/store/slices/subtitlesSlice'
 import { selectWords } from '@/store/slices/wordsSlice'
 import { fetchSubtitles } from '@/thunks'
 import { SUBTITLES_PER_PAGE } from '@/utils'
@@ -26,6 +27,10 @@ export const Subtitles: FC<SubtitlesProps> = React.memo(({ fileId }) => {
 
 	useEffect(() => {
 		dispatch(fetchSubtitles(fileId))
+
+		return () => {
+			dispatch(clearSubtitles())
+		}
 	}, [fileId])
 
 	if (status === 'pending') return 'Загрузка...'
@@ -36,14 +41,14 @@ export const Subtitles: FC<SubtitlesProps> = React.memo(({ fileId }) => {
 		<>
 			<h2 className={styles.header}>Subtitles</h2>
 			<div className={styles.controlPanel}>
-				<div>{words?.length}</div>
+				<div>{words.map((x) => x.text).join(', ')}</div>
 				<Paginator currentPage={currentPage} setCurrentPage={setCurrentPage} />
 			</div>
 			<ul className={styles.subtitles}>
 				{subtitles
 					.slice(subtitlesStart, subtitlesStart + SUBTITLES_PER_PAGE)
 					.map((subtitle) => (
-						<Subtitle key={subtitle.index} subtitle={subtitle} />
+						<Subtitle key={subtitle.id} subtitle={subtitle} />
 					))}
 			</ul>
 		</>

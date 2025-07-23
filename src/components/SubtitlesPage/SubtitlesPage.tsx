@@ -89,7 +89,7 @@ export const SubtitlesPage: FC = () => {
 					</span>
 
 					<span>
-						<b>Subtitles rating: </b>⭐ {movie.subtitles_rating}
+						<b>Subtitles rating: </b>⭐ {movie.subtitles.rating}
 					</span>
 					<span>
 						<b>Uploaded: </b>
@@ -159,7 +159,7 @@ export const SubtitlesPage: FC = () => {
 				</div>
 			</div>
 
-			<Subtitles fileId={movie.subtitles_file_id} />
+			<Subtitles fileId={movie.subtitles.file_id} />
 		</div>
 	)
 }
