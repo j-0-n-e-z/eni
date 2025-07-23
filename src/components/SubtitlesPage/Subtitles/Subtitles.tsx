@@ -3,9 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 import { useAppDispatch, useAppSelector } from '@/app/index'
 import { Paginator, Subtitle } from '@/components'
-import { selectSubtitles } from '@/slices'
-import { clearSubtitles } from '@/store/slices/subtitlesSlice'
-import { selectWords } from '@/store/slices/wordsSlice'
+import { selectSubtitles, clearSubtitles, selectWords } from '@/slices'
 import { fetchSubtitles } from '@/thunks'
 import { SUBTITLES_PER_PAGE } from '@/utils'
 

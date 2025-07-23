@@ -2,7 +2,7 @@ import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 
 import { useAppSelector } from '@/app/index'
-import { selectSubtitles } from '@/store/slices'
+import { selectSubtitles } from '@/slices'
 import { SUBTITLES_PER_PAGE } from '@/utils'
 
 import styles from './Paginator.module.scss'
