@@ -1,9 +1,9 @@
 export { clearMovie, movieReducer, selectMovie } from './movieSlice'
 export { clearMovies, moviesReducer, selectMovies } from './moviesSlice'
 export {
+	clearSubtitles,
 	selectSubtitles,
-	subtitlesReducer,
-	clearSubtitles
+	subtitlesReducer
 } from './subtitlesSlice'
 export {
 	clearTMDBMovie,
@@ -12,7 +12,7 @@ export {
 } from './tmdbMovieSlice'
 export {
 	addWord,
-	checkIfSelected,
+	isWordSelected,
 	clearWords,
 	removeWord,
 	selectWords,

@@ -1,8 +1,8 @@
 import cn from 'classnames'
-import React, { useState } from 'react'
+import React, { memo } from 'react'
 
-import { store, useAppDispatch, useAppSelector } from '@/app/index'
-import { addWord, removeWord, selectWords } from '@/store/slices/wordsSlice'
+import { useAppDispatch, useAppSelector } from '@/app/index'
+import { addWord, isWordSelected, removeWord, selectMovie } from '@/slices'
 
 import styles from './Word.module.scss'
 
@@ -14,24 +14,19 @@ interface WordProps {
 	subtitleId: number
 }
 
-export const Word = React.memo(
+export const Word = memo(
 	({ text, before, after, id, subtitleId }: WordProps) => {
 		const dispatch = useAppDispatch()
-		const { words } = useAppSelector(selectWords)
-		const [isSelected, setIsSelected] = useState(
-			Boolean(words.find((w) => w.text === text))
-		)
+		const isSelected = useAppSelector(isWordSelected(text))
+		const { movie } = useAppSelector(selectMovie)
 
 		function selectWord() {
-			const movieId = store.getState().movieReducer.movie?.id
-			
-			if (movieId) {
-				setIsSelected(true)
+			if (movie) {
 				dispatch(
 					addWord({
 						id,
 						text,
-						from: { subtitleId, movieId },
+						from: { subtitleId, movieId: movie.id },
 						isFavorite: false,
 						isLearned: false,
 						isRepeating: false
@@ -41,8 +36,7 @@ export const Word = React.memo(
 		}
 
 		function unselectWord() {
-			setIsSelected(false)
-			dispatch(removeWord(id))
+			dispatch(removeWord(text))
 		}
 
 		return (
