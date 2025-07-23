@@ -1,5 +1,8 @@
 export { Search } from './Search/Search'
 export { SearchResults } from './Search/SearchResults/SearchResults'
+export { SidePanel } from './SidePanel/SidePanel'
+export { Paginator } from './SubtitlesPage/Paginator/Paginator'
 export { Subtitle } from './SubtitlesPage/Subtitles/Subtitle/Subtitle'
+export { Word } from './SubtitlesPage/Subtitles/Subtitle/Word/Word'
 export { Subtitles } from './SubtitlesPage/Subtitles/Subtitles'
 export { SubtitlesPage } from './SubtitlesPage/SubtitlesPage'

@@ -1,10 +1,10 @@
 import { type FC } from 'react'
 
+import { Word } from '@/components'
 import type { Subtitle as ISubtitle } from '@/types'
 import { BEFORE_TEXT_AFTER } from '@/utils'
 
 import styles from './Subtitle.module.scss'
-import { Word } from './Word/Word'
 
 interface SubtitleProps {
 	subtitle: ISubtitle

@@ -2,14 +2,12 @@ import type { FC } from 'react'
 import React, { useEffect, useState } from 'react'
 
 import { useAppDispatch, useAppSelector } from '@/app/index'
-import { Subtitle } from '@/components'
+import { Paginator, Subtitle } from '@/components'
 import { selectSubtitles } from '@/slices'
 import { clearSubtitles } from '@/store/slices/subtitlesSlice'
 import { selectWords } from '@/store/slices/wordsSlice'
 import { fetchSubtitles } from '@/thunks'
 import { SUBTITLES_PER_PAGE } from '@/utils'
-
-import { Paginator } from '../Paginator/Paginator'
 
 import styles from './Subtitles.module.scss'
 
