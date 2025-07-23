@@ -33,7 +33,7 @@
 		translate 0.1s linear,
 		opacity 0.15s ease;
 
-	&:hover {
+	&:hover:not(:disabled) {
 		opacity: 0.8;
 	}
 }

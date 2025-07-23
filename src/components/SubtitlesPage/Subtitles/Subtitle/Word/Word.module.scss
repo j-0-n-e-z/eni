@@ -1,5 +1,5 @@
-@use '../../../../../_sharedStyles.scss' as *;
-@use '../../../../../_variables.scss' as *;
+@use '../../../../../styles/_sharedStyles.scss' as *;
+@use '../../../../../styles/_variables.scss' as *;
 
 .wordContainer {
 	display: flex;
@@ -8,58 +8,48 @@
 	min-width: 100px;
 	height: 50px;
 	border: 2px solid var(--colors-border-primary);
+	background-color: var(--colors-background-primary-subtle);
 	border-radius: $space-md;
-	padding: $space-lg;
-	overflow: hidden;
-	position: relative;
+	padding: $space-lg $space-xl;
+	cursor: pointer;
+	transition:
+		background-color 0.15s linear,
+		scale 0.2s linear;
 
-	&:hover .addBtn {
-		translate: -20px 0;
+	&:hover {
+		background-color: var(--);
 	}
 
-	&:hover .removeBtn {
-		translate: 20px 0;
+	&:hover .text {
+		translate: 0 -3px;
+	}
+
+	&:active {
+		scale: 1.1;
+	}
+
+	&.added {
+		background-color: var(--colors-border-success-subtle);
 	}
 
 	.text {
-		z-index: 1;
 		font-size: $font-lg;
-		font-weight: 800;
+		font-weight: 700;
+		transition: translate 0.1s linear;
 	}
 
 	.controls {
 		display: flex;
 		gap: $space-sm;
-
-		.addBtn {
-			@extend .roundBtn;
-			position: absolute;
-			right: -70px;
-			background-color: var(--colors-background-success);
-
-			.addIcon {
-				rotate: 45deg;
-        width: 15px;
-				height: 15px;
-        filter: invert(100%);
-			}
-		}
-
-		.removeBtn {
-			@extend .roundBtn;
-			position: absolute;
-			left: -70px;
-			display: flex;
-			justify-content: end;
-			align-items: center;
-			background-color: var(--colors-background-danger-prominent);
-
-			.removeIcon {
-				filter: invert(100%);
-        stroke-width: 20px;
-				width: 15px;
-				height: 15px;
-			}
-		}
 	}
+}
+
+.punctuation {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: $space-md;
+	border-bottom: 2px dashed var(--colors-border-primary);
+	font-size: $font-lg;
+	font-weight: 800;
 }

@@ -1,5 +1,5 @@
-@use '../../../_variables.scss' as *;
-@use '../../../_sharedStyles.scss' as *;
+@use '../../../styles/_variables.scss' as *;
+@use '../../../styles/_sharedStyles.scss' as *;
 
 .paginator {
 	margin: $space-lg 0;
