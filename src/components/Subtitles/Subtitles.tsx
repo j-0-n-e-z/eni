@@ -2,9 +2,7 @@ import type { FC } from 'react'
 import React, { useState } from 'react'
 
 import { useGetSubtitlesByIdQuery } from '@/api'
-import { useAppSelector } from '@/app/index'
 import { Paginator, Subtitle } from '@/components'
-import { selectWords } from '@/slices'
 import { SUBTITLES_PER_PAGE } from '@/utils'
 
 import styles from './Subtitles.module.scss'
@@ -19,7 +17,6 @@ export const Subtitles: FC<SubtitlesProps> = React.memo(({ fileId }) => {
 		isLoading,
 		error
 	} = useGetSubtitlesByIdQuery(fileId, { skip: !fileId })
-	const { words } = useAppSelector(selectWords)
 
 	const [currentPage, setCurrentPage] = useState(1)
 	const subtitlesStart = (currentPage - 1) * SUBTITLES_PER_PAGE
@@ -38,8 +35,12 @@ export const Subtitles: FC<SubtitlesProps> = React.memo(({ fileId }) => {
 		<>
 			<h2 className={styles.header}>Subtitles</h2>
 			<div className={styles.controlPanel}>
-				<div>{words.map((x) => x.text).join(', ')}</div>
-				<Paginator currentPage={currentPage} setCurrentPage={setCurrentPage} subtitles={subtitles} />
+				<Paginator
+					currentPage={currentPage}
+					items={subtitles}
+					itemsPerPage={SUBTITLES_PER_PAGE}
+					setCurrentPage={setCurrentPage}
+				/>
 			</div>
 			<ul className={styles.subtitles}>
 				{subtitles

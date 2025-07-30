@@ -1,33 +1,31 @@
-import type { FC } from 'react'
 import { useEffect, useState } from 'react'
-
-import type { Subtitle } from '@/types'
-import { SUBTITLES_PER_PAGE } from '@/utils'
 
 import styles from './Paginator.module.scss'
 
-interface PaginatorProps {
+interface PaginatorProps<T> {
 	currentPage: number
 	setCurrentPage: React.Dispatch<React.SetStateAction<number>>
-	subtitles: Subtitle[]
+	items: T[]
+	itemsPerPage: number
 }
 
-export const Paginator: FC<PaginatorProps> = ({
+export const Paginator = <T,>({
 	currentPage,
 	setCurrentPage,
-	subtitles
-}) => {
+	items,
+	itemsPerPage
+}: PaginatorProps<T>) => {
 	const [pageCount, setPageCount] = useState(0)
 
 	useEffect(() => {
-		if (!subtitles) return
+		if (!items) return
 
 		setPageCount(() => {
-			const pageCount = subtitles.length / SUBTITLES_PER_PAGE
+			const pageCount = items.length / itemsPerPage
 			if (pageCount % 1 !== 0) return Math.floor(pageCount) + 1
 			return pageCount
 		})
-	}, [subtitles])
+	}, [items])
 
 	function goToPreviousPage() {
 		if (currentPage > 1) setCurrentPage((p) => p - 1)
@@ -41,7 +39,7 @@ export const Paginator: FC<PaginatorProps> = ({
 		setCurrentPage(Math.floor((start + end) / 2) + rightOffset)
 	}
 
-	if (!subtitles || subtitles.length === 0) return null
+	if (!items || items.length === 0) return null
 
 	return (
 		<div className={styles.paginator}>
