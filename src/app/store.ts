@@ -1,22 +1,16 @@
 import type { Action, ThunkAction } from '@reduxjs/toolkit'
 import { configureStore } from '@reduxjs/toolkit'
 
-import {
-	movieReducer,
-	moviesReducer,
-	subtitlesReducer,
-	tmdbMovieReducer
-} from '@/slices'
-import { wordsReducer } from '@/store/slices/wordsSlice'
+import { baseApi } from '@/api/baseApi'
+import { wordsReducer } from '@/store/slices'
 
 export const store = configureStore({
 	reducer: {
-		moviesReducer,
-		subtitlesReducer,
-		movieReducer,
-		tmdbMovieReducer,
-		wordsReducer
-	}
+		[baseApi.reducerPath]: baseApi.reducer,
+		'wordsReducer': wordsReducer
+	},
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware().concat(baseApi.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>

@@ -20,7 +20,15 @@ export const Subtitle: FC<SubtitleProps> = ({ subtitle }) => (
 				const punctuationMatch = word.match(PUNCTUATION)
 
 				if (!punctuationMatch) {
-					return <Word key={id} id={id} subtitleId={subtitle.id} text={word} />
+					return (
+						<Word
+							key={id}
+							id={id}
+							movieId={subtitle.movieId}
+							subtitleId={subtitle.id}
+							text={word}
+						/>
+					)
 				}
 
 				return (
@@ -29,6 +37,7 @@ export const Subtitle: FC<SubtitleProps> = ({ subtitle }) => (
 						after={punctuationMatch[3]}
 						before={punctuationMatch[1]}
 						id={id}
+						movieId={subtitle.movieId}
 						subtitleId={subtitle.id}
 						text={punctuationMatch[2]}
 					/>

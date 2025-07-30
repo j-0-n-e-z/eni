@@ -1,8 +1,8 @@
 import cn from 'classnames'
-import React, { memo } from 'react'
+import { memo } from 'react'
 
 import { useAppDispatch, useAppSelector } from '@/app/index'
-import { addWord, isWordSelected, removeWord, selectMovie } from '@/slices'
+import { addWord, isWordSelected, removeWord } from '@/slices'
 
 import styles from './Word.module.scss'
 
@@ -12,27 +12,25 @@ interface WordProps {
 	text: string
 	id: string
 	subtitleId: number
+	movieId: number
 }
 
 export const Word = memo(
-	({ text, before, after, id, subtitleId }: WordProps) => {
+	({ text, before, after, id, subtitleId, movieId }: WordProps) => {
 		const dispatch = useAppDispatch()
 		const isSelected = useAppSelector(isWordSelected(text))
-		const { movie } = useAppSelector(selectMovie)
 
 		function selectWord() {
-			if (movie) {
-				dispatch(
-					addWord({
-						id,
-						text,
-						from: { subtitleId, movieId: movie.id },
-						isFavorite: false,
-						isLearned: false,
-						isRepeating: false
-					})
-				)
-			}
+			dispatch(
+				addWord({
+					id,
+					text,
+					from: { subtitleId, movieId },
+					isFavorite: false,
+					isLearned: false,
+					isRepeating: false
+				})
+			)
 		}
 
 		function unselectWord() {
@@ -41,7 +39,7 @@ export const Word = memo(
 
 		return (
 			<>
-				{before && <div className={styles.punctuation}>{before}</div>}
+				<li>{before && <div className={styles.punctuation}>{before}</div>}</li>
 				<li>
 					<button
 						className={cn(styles.wordContainer, {
@@ -52,7 +50,7 @@ export const Word = memo(
 						<span className={styles.text}>{text}</span>
 					</button>
 				</li>
-				{after && <div className={styles.punctuation}>{after}</div>}
+				<li>{after && <div className={styles.punctuation}>{after}</div>}</li>
 			</>
 		)
 	}

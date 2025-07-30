@@ -37,6 +37,7 @@ export interface Subtitle {
 	id: number
 	timecode: string
 	text: string
+	movieId: number
 }
 
 export interface Word {

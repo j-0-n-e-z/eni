@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import { store } from '@/app/index'
-import { Search, SubtitlesPage } from '@/components'
+import { Search, MovieSubtitlesPage } from '@/components'
 
 import { App } from './App'
 
@@ -15,8 +15,8 @@ const router = createBrowserRouter([
 		children: [
 			{ index: true, element: <Search /> },
 			{
-				path: 'subtitles/:id',
-				element: <SubtitlesPage />
+				path: 'movie/:id',
+				element: <MovieSubtitlesPage />
 			}
 		],
 		errorElement: <div>ЖОПА APP</div>

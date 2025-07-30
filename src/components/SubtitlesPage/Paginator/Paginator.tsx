@@ -1,8 +1,7 @@
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 
-import { useAppSelector } from '@/app/index'
-import { selectSubtitles } from '@/slices'
+import type { Subtitle } from '@/types'
 import { SUBTITLES_PER_PAGE } from '@/utils'
 
 import styles from './Paginator.module.scss'
@@ -10,14 +9,15 @@ import styles from './Paginator.module.scss'
 interface PaginatorProps {
 	currentPage: number
 	setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+	subtitles: Subtitle[]
 }
 
 export const Paginator: FC<PaginatorProps> = ({
 	currentPage,
-	setCurrentPage
+	setCurrentPage,
+	subtitles
 }) => {
 	const [pageCount, setPageCount] = useState(0)
-	const { subtitles, status } = useAppSelector(selectSubtitles)
 
 	useEffect(() => {
 		if (!subtitles) return
@@ -41,8 +41,7 @@ export const Paginator: FC<PaginatorProps> = ({
 		setCurrentPage(Math.floor((start + end) / 2) + rightOffset)
 	}
 
-	if (!subtitles) return <div>No subs</div>
-	if (status === 'pending') return <div>Loading...</div>
+	if (!subtitles || subtitles.length === 0) return null
 
 	return (
 		<div className={styles.paginator}>
@@ -122,7 +121,7 @@ export const Paginator: FC<PaginatorProps> = ({
 						</button>
 					</>
 				)}
-				
+
 				<button disabled={currentPage === pageCount} onClick={goToNextPage}>
 					<img
 						alt='<'

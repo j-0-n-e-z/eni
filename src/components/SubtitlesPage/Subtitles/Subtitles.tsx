@@ -1,10 +1,10 @@
 import type { FC } from 'react'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
-import { useAppDispatch, useAppSelector } from '@/app/index'
+import { useGetSubtitlesByIdQuery } from '@/api'
+import { useAppSelector } from '@/app/index'
 import { Paginator, Subtitle } from '@/components'
-import { selectSubtitles, clearSubtitles, selectWords } from '@/slices'
-import { fetchSubtitles } from '@/thunks'
+import { selectWords } from '@/slices'
 import { SUBTITLES_PER_PAGE } from '@/utils'
 
 import styles from './Subtitles.module.scss'
@@ -14,23 +14,24 @@ interface SubtitlesProps {
 }
 
 export const Subtitles: FC<SubtitlesProps> = React.memo(({ fileId }) => {
-	const { subtitles, status, error } = useAppSelector(selectSubtitles)
+	const {
+		data: subtitles,
+		isLoading,
+		error
+	} = useGetSubtitlesByIdQuery(fileId, { skip: !fileId })
 	const { words } = useAppSelector(selectWords)
-	const dispatch = useAppDispatch()
 
 	const [currentPage, setCurrentPage] = useState(1)
 	const subtitlesStart = (currentPage - 1) * SUBTITLES_PER_PAGE
 
-	useEffect(() => {
-		dispatch(fetchSubtitles(fileId))
-
-		return () => {
-			dispatch(clearSubtitles())
-		}
-	}, [fileId])
-
-	if (status === 'pending') return 'Загрузка...'
-	if (error) return <div>Ошибка: {error}</div>
+	if (isLoading) return 'Загрузка...'
+	if (error)
+		return (
+			<div>
+				Ошибка:{' '}
+				{'message' in error ? error.message : 'Ошибка загрузки субтитров'}
+			</div>
+		)
 	if (!subtitles) return <div>Субтитров почему-то нет :(</div>
 
 	return (
@@ -38,7 +39,7 @@ export const Subtitles: FC<SubtitlesProps> = React.memo(({ fileId }) => {
 			<h2 className={styles.header}>Subtitles</h2>
 			<div className={styles.controlPanel}>
 				<div>{words.map((x) => x.text).join(', ')}</div>
-				<Paginator currentPage={currentPage} setCurrentPage={setCurrentPage} />
+				<Paginator currentPage={currentPage} setCurrentPage={setCurrentPage} subtitles={subtitles} />
 			</div>
 			<ul className={styles.subtitles}>
 				{subtitles

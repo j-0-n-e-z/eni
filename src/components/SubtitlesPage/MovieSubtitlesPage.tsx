@@ -2,18 +2,10 @@
 /* eslint-disable consistent-return */
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { FC } from 'react'
-import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from '@/app/index'
+import { useGetMovieByIdQuery, useGetTMDBMovieByIdQuery } from '@/api'
 import { Subtitles } from '@/components'
-import {
-	clearMovie,
-	clearTMDBMovie,
-	selectMovie,
-	selectTMDBMovie
-} from '@/slices'
-import { fetchMovie, fetchTMDBMovie } from '@/thunks'
 import {
 	formatMinutesToHours,
 	formatToOneDecimal,
@@ -23,42 +15,35 @@ import {
 
 import '../../App.scss'
 
-import styles from './SubtitlesPage.module.scss'
+import styles from './MovieSubtitlesPage.module.scss'
 
-export const SubtitlesPage: FC = () => {
+export const MovieSubtitlesPage: FC = () => {
 	const { id } = useParams<{ id: string }>()
-	const dispatch = useAppDispatch()
-	const { movie, error, status } = useAppSelector(selectMovie)
+	const movieId = Number(id)
 	const {
-		tmdbMovie,
+		data: movie,
+		error: movieError,
+		isLoading: isMovieLoading
+	} = useGetMovieByIdQuery(movieId, {
+		skip: !movieId
+	})
+	const {
+		data: tmdbMovie,
 		error: tmdbError,
-		status: tmdbStatus
-	} = useAppSelector(selectTMDBMovie)
-
-	useEffect(() => {
-		if (!id) return
-
-		dispatch(fetchMovie(+id))
-
-		return () => {
-			dispatch(clearMovie())
-		}
-	}, [id])
-
-	useEffect(() => {
-		if (!movie) return
-
-		dispatch(fetchTMDBMovie(movie.tmdb_id))
-
-		return () => {
-			dispatch(clearTMDBMovie())
-		}
-	}, [movie])
+		isLoading: isTMDBLoading
+	} = useGetTMDBMovieByIdQuery(movie?.tmdb_id ?? 0, { skip: !movie?.tmdb_id })
 
 	if (!id) return <div>Не найден id фильма</div>
-	if (status === 'pending') return <div>...Загрузка</div>
-	// TODO: why have rejected when have error (just 'idle' and 'pending')
-	if (error) return <div>Ошибка: {error}</div>
+	if (isMovieLoading) return <div>...Загрузка</div>
+	if (movieError)
+		return (
+			<div>
+				Ошибка:{' '}
+				{'message' in movieError
+					? movieError.message
+					: 'Ошибка загрузки фильма'}
+			</div>
+		)
 
 	if (!movie) return <div>Фильм не найден</div>
 
@@ -95,8 +80,15 @@ export const SubtitlesPage: FC = () => {
 						<b>Uploaded: </b>
 						{USDateFormatter.format(new Date(movie.upload_date))}
 					</span>
-					{tmdbStatus === 'pending' && <p>...Loading</p>}
-					{tmdbStatus !== 'pending' && tmdbError && <p>{tmdbError}</p>}
+					{isTMDBLoading && <p>...Loading</p>}
+					{!isTMDBLoading && tmdbError && (
+						<p>
+							Ошибка:{' '}
+							{'message' in tmdbError
+								? tmdbError.message
+								: 'Ошибка загрузки фильма'}
+						</p>
+					)}
 
 					{tmdbMovie && (
 						<>
