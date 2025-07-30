@@ -13,6 +13,5 @@ interface ImportMeta {
 }
 
 interface ImportMetaEnv {
-	readonly VITE_OPENSUBTITLES_API_KEY: string
-	readonly VITE_TMDB_AUTH_TOKEN: string
+	readonly VITE_API_URL: string
 }

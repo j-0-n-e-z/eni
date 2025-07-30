@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import type { AxiosError, AxiosInstance } from "axios"
+import type { AxiosError, AxiosInstance } from 'axios'
 
 export interface ApiError {
 	message: string
@@ -10,6 +10,7 @@ export interface ApiError {
 
 export function setupInterceptors(instance: AxiosInstance) {
 	instance.interceptors.request.use((config) => {
+		config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`
 		console.log(`[API] Request: ${config.method?.toUpperCase()} ${config.url}`)
 		return config
 	})
