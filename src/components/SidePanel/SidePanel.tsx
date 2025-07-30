@@ -1,9 +1,13 @@
 import cn from 'classnames'
 
+import { useAppSelector } from '@/app/index'
+import { selectWords } from '@/slices'
+
 import styles from './SidePanel.module.scss'
 
 export const SidePanel = () => {
-	console.log('SIDEPANEL')
+	const { words } = useAppSelector(selectWords)
+
 	return (
 		<aside className={styles.sidepanel}>
 			<a className={styles.topLogo} href='/' target='_self'>
@@ -20,8 +24,13 @@ export const SidePanel = () => {
 				<a className={styles.navItem} href='/popular' target='_self'>
 					popular
 				</a>
-				<a className={styles.navItem} href='/words'>
-					words
+				<a className={cn(styles.navItem, styles.words)} href='/words'>
+					<span>W</span>
+					{!!words.length && (
+						<div className={styles.wordsCountWrapper}>
+							<div className={styles.wordsCount}>{words.length}</div>
+						</div>
+					)}
 				</a>
 				{/* settings should be shown only if logged in */}
 				<a className={styles.navItem} href='/settings'>
