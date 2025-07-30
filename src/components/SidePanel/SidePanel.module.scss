@@ -1,15 +1,15 @@
 @use '../../styles/_variables.scss' as *;
 
 .sidepanel {
-  display: flex;
-  flex-direction: column;
-  gap: $space-xl;
+	display: flex;
+	flex-direction: column;
+	gap: $space-xl;
 	position: fixed;
 	top: 0;
 	left: 0;
 	height: 100%;
 	width: 80px;
-	background-color: black;
+	background-color: var(--colors-background-neutrals-inverted);
 
 	.topLogo {
 		display: block;
@@ -23,7 +23,7 @@
 	}
 
 	.navigation {
-    height: 100%;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		gap: $space-lg;
@@ -37,10 +37,39 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			transition: background-color 0.1s ease-in;
+
+			&:hover {
+				background-color: var(--colors-background-neutrals-inverted-subtle);
+			}
 		}
 
-    .logout {
-      margin-top: auto;
-    }
+		.words {
+			position: relative;
+
+			.wordsCountWrapper {
+				position: absolute;
+				bottom: 0;
+				translate: -50% 50%;
+				left: 50%;
+				border-radius: 20%;
+				min-width: 20px;
+				height: 18px;
+				padding: 6px;
+				background-color: var(--colors-background-primary-prominent);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				.wordsCount {
+					font-size: $font-md;
+					font-weight: 600;
+				}
+			}
+		}
+
+		.logout {
+			margin-top: auto;
+		}
 	}
 }

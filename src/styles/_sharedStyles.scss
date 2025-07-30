@@ -1,6 +1,8 @@
 @use './_variables.scss' as *;
 
 .secondaryButton {
+	font-family: 'Noto Sans', Helvetica, sans-serif;
+	font-size: $font-lg;
 	display: block;
 	width: fit-content;
 	padding: $space-md;
