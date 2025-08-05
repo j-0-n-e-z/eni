@@ -14,7 +14,8 @@
 		column-gap: $space-sm;
 
 		button {
-			@extend .secondaryButton;
+			@extend .button;
+			
 			aspect-ratio: 1;
 
 			.prevIcon {
