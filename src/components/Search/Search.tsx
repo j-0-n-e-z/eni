@@ -43,8 +43,8 @@ export const Search: FC = () => {
 	return (
 		<>
 			<div className={styles.searchContainer}>
-				<label className={styles.searchInputContainer} htmlFor='search'>
-					<button className={styles.serchButton} onClick={searchMovies}>
+				<label className={styles.inputContainer} htmlFor='search'>
+					<button className={styles.searchBtn} onClick={searchMovies}>
 						<img
 							alt='0'
 							className={styles.searchIcon}
@@ -63,7 +63,7 @@ export const Search: FC = () => {
 						onKeyDown={onSearchInputKeyDown}
 					/>
 
-					<button className={styles.inputClearButton} onClick={clearInput}>
+					<button className={styles.clearBtn} onClick={clearInput}>
 						<img
 							alt='x'
 							className={styles.clearIcon}
@@ -72,7 +72,7 @@ export const Search: FC = () => {
 					</button>
 				</label>
 			</div>
-			<div className={styles.content}>
+			<div className={styles.results}>
 				{isFetching && <div>Загрузка...</div>}
 				{isUninitialized && !movies && <div>Пока пусто</div>}
 				{error && (
@@ -84,7 +84,7 @@ export const Search: FC = () => {
 				)}
 				{movies && movies.length === 0 && <div>Ничего не найдено</div>}
 				{movies && movies.length !== 0 && (
-					<div className={styles.searchResultsContainer}>
+					<div className={styles.resultsContainer}>
 						<h2 className={styles.header}>Результаты поиска</h2>
 						<SearchResults movies={movies} />
 					</div>
