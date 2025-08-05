@@ -22,13 +22,29 @@ export const baseQueryWithReauth: BaseQueryFn<
 	unknown,
 	FetchBaseQueryError
 > = async (args, api, extraOptions) => {
+	if (
+		typeof args === 'string' &&
+		args === 'users/me' &&
+		!localStorage.getItem('accessToken')
+	) {
+		return {
+			error: {
+				status: 401,
+				statusText: 'Unauthorized',
+				data: 'Authentication required'
+			}
+		}
+	}
+
 	let result = await baseQuery(args, api, extraOptions)
 
+	const authEndpoints = ['login', 'logout', 'signup', 'refresh', 'users/me']
+
 	const isAuthEndpoint =
-		typeof args === 'object' &&
-		['login', 'logout', 'signup', 'refresh', 'users/me'].some((path) =>
-			args.url?.includes(path)
-		)
+		(typeof args === 'string' && authEndpoints.includes(args)) ||
+		(typeof args === 'object' &&
+			args.url &&
+			authEndpoints.some((path) => args.url?.includes(path)))
 
 	if (result.error?.status === 401 && !isAuthEndpoint) {
 		const refreshResult = await baseQuery(
@@ -44,7 +60,6 @@ export const baseQueryWithReauth: BaseQueryFn<
 			result = await baseQuery(args, api, extraOptions)
 		} else {
 			localStorage.removeItem('accessToken')
-			console.log('remove access token')
 			// window.location.href = '/login'
 		}
 	}

@@ -5,7 +5,7 @@ export const useAuth = () => {
 		data: user,
 		isLoading,
 		isError
-	} = useGetMeQuery(undefined, { skip: !localStorage.getItem('accessToken') })
+	} = useGetMeQuery()
 	const isAuthenticated = Boolean(user) && !isError
 
 	return { user, isLoading, isAuthenticated }
