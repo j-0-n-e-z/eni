@@ -51,3 +51,25 @@ export interface Word {
 	isRepeating: boolean
 	isFavorite: boolean
 }
+
+export interface User {
+	id: string
+	email: string
+	isEmailConfirmed: boolean
+	username: string
+}
+
+export interface LoginRequest {
+	email: string
+	password: string
+}
+
+export interface LoginResponse {
+	accessToken: string
+	user: {
+		id: string
+		email: string
+		username: string
+		isEmailConfirmed: boolean
+	}
+}

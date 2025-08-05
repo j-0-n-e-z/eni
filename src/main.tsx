@@ -3,23 +3,33 @@ import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import { store } from '@/app/index'
-import { Search, MovieSubtitlesPage } from '@/components'
+import { Login, MovieSubtitlesPage, Search } from '@/components'
 
 import { App } from './App'
+import { ProtectedRoute } from './ProtectedRoute'
+import { Profile } from './components/Profile/Profile'
 
 // TODO: add error pages
 const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <App />,
+		errorElement: <div>ЖОПА APP</div>,
 		children: [
 			{ index: true, element: <Search /> },
 			{
 				path: 'movie/:id',
 				element: <MovieSubtitlesPage />
+			},
+			{
+				path: 'login',
+				element: <Login />
+			},
+			{
+				element: <ProtectedRoute />,
+				children: [{ path: 'user/:username', element: <Profile /> }]
 			}
-		],
-		errorElement: <div>ЖОПА APP</div>
+		]
 	},
 	{ path: '*', element: <div>Path not found</div> }
 ])

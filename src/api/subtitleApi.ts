@@ -1,8 +1,8 @@
 import type { Subtitle } from '@/types'
 
-import { baseApi } from './baseApi'
+import { api } from './api'
 
-export const subtitleApi = baseApi.injectEndpoints({
+export const subtitleApi = api.injectEndpoints({
 	endpoints: (build) => ({
 		getSubtitlesById: build.query<Subtitle[], number>({
 			query: (fileId) => ({

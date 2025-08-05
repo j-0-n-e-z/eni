@@ -1,19 +1,16 @@
 import type { RootState } from '@/app'
 import type { Movie, TMDBMovie } from '@/types'
 
-import { baseApi } from './baseApi'
+import { api } from './api'
 
-export const movieApi = baseApi.injectEndpoints({
+export const movieApi = api.injectEndpoints({
 	endpoints: (build) => ({
 		searchMovies: build.query<Movie[], string>({
 			query: (query) => ({
 				url: '/api/movies',
 				params: { query }
-      }),
-			providesTags: (result) =>
-        result
-          ? [...result.map(({ id }) => ({ type: 'Movie' as const, id })), 'Movie']
-          : ['Movie']
+			}),
+			providesTags: () => ['Movie']
 		}),
 		getMovieById: build.query<Movie, number>({
 			query: (id) => `/api/movies/${id}`,

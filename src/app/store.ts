@@ -1,16 +1,17 @@
 import type { Action, ThunkAction } from '@reduxjs/toolkit'
 import { configureStore } from '@reduxjs/toolkit'
 
-import { baseApi } from '@/api/baseApi'
+import { api, authApi } from '@/api'
 import { wordsReducer } from '@/store/slices'
 
 export const store = configureStore({
 	reducer: {
-		[baseApi.reducerPath]: baseApi.reducer,
-		'wordsReducer': wordsReducer
+		[api.reducerPath]: api.reducer,
+		[authApi.reducerPath]: authApi.reducer,
+		wordsReducer
 	},
 	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware().concat(baseApi.middleware)
+		getDefaultMiddleware().concat(api.middleware).concat(authApi.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>
