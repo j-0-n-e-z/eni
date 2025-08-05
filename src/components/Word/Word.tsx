@@ -39,7 +39,7 @@ export const Word = memo(
 
 		return (
 			<>
-				<li>{before && <div className={styles.punctuation}>{before}</div>}</li>
+				{before && <li className={styles.punctuation}>{before}</li>}
 				<li>
 					<button
 						className={cn(styles.wordContainer, {
@@ -50,7 +50,7 @@ export const Word = memo(
 						<span className={styles.text}>{text}</span>
 					</button>
 				</li>
-				<li>{after && <div className={styles.punctuation}>{after}</div>}</li>
+				{after && <li className={styles.punctuation}>{after}</li>}
 			</>
 		)
 	}
