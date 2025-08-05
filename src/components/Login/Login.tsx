@@ -7,6 +7,7 @@ import { useLoginMutation } from '@/api'
 import { useAuth } from '@/hooks'
 import type { LoginValues } from '@/schemas/login.schemas'
 import { loginSchema } from '@/schemas/login.schemas'
+import type { ApiError } from '@/types'
 
 import styles from './Login.module.scss'
 
@@ -14,7 +15,8 @@ export const Login = () => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors }
+		formState: { errors },
+		setError
 	} = useForm<LoginValues>({ resolver: zodResolver(loginSchema) })
 	const [login] = useLoginMutation()
 	const navigate = useNavigate()
@@ -27,8 +29,20 @@ export const Login = () => {
 	}, [isAuthenticated])
 
 	async function onSubmit({ email, password }: LoginValues) {
-		const { user } = await login({ email, password }).unwrap()
-		navigate(`/user/${user.username}`)
+		const { data, error } = await login({ email, password })
+
+		if (data?.user) {
+			navigate(`/user/${data.user.username}`)
+		}
+
+		if (error && 'data' in error) {
+			const apiError = error.data as ApiError
+			if (apiError.field) {
+				setError(apiError.field as 'email' | 'password', {
+					message: apiError.message
+				})
+			}
+		}
 	}
 
 	return (
@@ -47,6 +61,7 @@ export const Login = () => {
 					</div>
 					<input
 						className={styles.input}
+						defaultValue='rigabdullin@yandex.ru'
 						id='email'
 						type='email'
 						{...register('email')}
@@ -65,6 +80,7 @@ export const Login = () => {
 					</div>
 					<input
 						className={styles.input}
+						defaultValue='Parol322'
 						id='password'
 						type='password'
 						{...register('password')}

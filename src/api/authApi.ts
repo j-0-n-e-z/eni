@@ -37,8 +37,8 @@ export const authApi = createApi({
 			async onQueryStarted(_, { dispatch, queryFulfilled }) {
 				try {
 					await queryFulfilled
-					localStorage.removeItem('accessToken')
 					dispatch(authApi.util.resetApiState())
+					localStorage.removeItem('accessToken')
 				} catch (error) {
 					console.log('Logout failed:', error)
 				}
