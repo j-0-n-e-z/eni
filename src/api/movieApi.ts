@@ -7,14 +7,14 @@ export const movieApi = api.injectEndpoints({
 	endpoints: (build) => ({
 		searchMovies: build.query<Movie[], string>({
 			query: (query) => ({
-				url: '/api/movies',
+				url: '/movies',
 				params: { query }
 			}),
-			providesTags: () => ['Movie']
+			providesTags: ['Movie']
 		}),
 		getMovieById: build.query<Movie, number>({
-			query: (id) => `/api/movies/${id}`,
-			providesTags: (result, error, id) => [{ type: 'Movie', id }],
+			query: (id) => `/movies/${id}`,
+			providesTags: ['Movie'],
 			onQueryStarted(id, { getState, dispatch }) {
 				const cachedMovie = movieApi.endpoints.getMovieById.select(id)(
 					getState() as RootState
@@ -32,8 +32,8 @@ export const movieApi = api.injectEndpoints({
 			}
 		}),
 		getTMDBMovieById: build.query<TMDBMovie, number>({
-			query: (tmdbId) => `/api/movies/tmdb/${tmdbId}`,
-			providesTags: (result, error, tmdbId) => [{ type: 'TMDBMovie', tmdbId }]
+			query: (tmdbId) => `/movies/tmdb/${tmdbId}`,
+			providesTags: ['TMDBMovie']
 		})
 	})
 })
