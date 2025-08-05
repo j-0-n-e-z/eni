@@ -6,6 +6,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	background-color: var(--colors-background-primary-subtle);
 
 	.form {
 		width: 400px;
@@ -15,7 +16,7 @@
 		flex-direction: column;
 		gap: $space-md;
 		border-radius: $space-lg;
-		background-color: var(--colors-background-primary-subtle);
+		background-color: var(--colors-background-neutrals-container);
 
 		.inputWrapper {
 			display: flex;
@@ -31,7 +32,7 @@
 
 			.input {
 				@extend .input;
-				background-color: var(--colors-background-neutrals);
+				background-color: var(--colors-background-primary-subtle);
 
 				&::placeholder {
 					font-style: italic;
@@ -41,13 +42,14 @@
 			}
 
 			.inputError {
-				color: red;
+				color: var(--colors-text-danger);
 				font-size: $font-md;
 			}
 		}
 
 		.submitBtn {
 			@extend .button;
+			margin-top: $space-sm;
 
 			width: 100%;
 			background-color: var(--colors-button-background-success);
