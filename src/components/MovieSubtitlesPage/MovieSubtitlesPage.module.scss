@@ -1,0 +1,67 @@
+@use '../../styles/_variables.scss' as *;
+@use '../../styles/_sharedStyles.scss' as *;
+
+.subtitlesPageContainer {
+	margin-bottom: $space-xxl;
+	padding: 0 $space-lg $space-lg $space-lg;
+
+	.info {
+		display: flex;
+		border-top: 0;
+		border-radius: 0 0 $space-xl $space-xl;
+		background-color: var(--colors-background-neutrals-subtle);
+		gap: $space-xl;
+		overflow: hidden;
+		color: var(--colors-text-neutrals);
+
+		.cover {
+			width: 100%;
+			max-width: 230px;
+			height: auto;
+			aspect-ratio: 2/3;
+			object-fit: cover;
+		}
+
+		.details {
+			display: flex;
+			flex-direction: column;
+			gap: $space-md;
+
+			.title {
+				color: var(--colors-text-neutrals);
+				font-size: $font-xl;
+				margin: $space-lg 0 $space-md;
+				transition: color 0.1s linear;
+
+				&:hover {
+					color: var(--colors-text-neutrals-subtle);
+				}
+			}
+
+			.rating {
+				display: flex;
+				gap: $space-md;
+				align-items: center;
+
+				.imdb {
+					display: flex;
+					gap: $space-sm;
+					align-items: center;
+					width: fit-content;
+
+					.imdbLogo {
+						width: $space-lg;
+						height: $space-lg;
+					}
+				}
+			}
+
+			.allSubsButton {
+				margin-top: auto;
+				margin-bottom: $space-lg;
+
+				@extend .button;
+			}
+		}
+	}
+}

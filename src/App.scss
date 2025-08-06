@@ -10,8 +10,11 @@
 body {
 	width: 100vw;
 	overflow-x: hidden;
-	margin: 0 auto;
 	padding: 0 0 0 80px;
+	margin: 0;
+	min-width: 320px;
+	min-height: 100vh;
+	font-family: 'Noto Sans', Arial, sans-serif;
 }
 
 * {
@@ -24,7 +27,8 @@ h3,
 h4,
 h5,
 h6,
-p {
+p,
+ul {
 	margin: 0;
 }
 
@@ -34,24 +38,29 @@ a {
 	cursor: pointer;
 }
 
-body {
-	margin: 0;
-	min-width: 320px;
-	min-height: 100vh;
-	background-color: var(--color-background);
-	color: var(--color-black);
-	font-family: 'Noto Sans', Arial, sans-serif;
-}
-
 ul {
 	all: unset;
 	padding-inline-start: 0;
 	list-style: none;
-	margin: 0;
 }
 
-input {
+input,
+button,
+a {
 	font-family: 'Noto Sans', Arial, sans-serif;
+	outline: none;
+	border: none;
+	background-color: transparent;
+}
+
+button, a {
+	&:focus-visible {
+		outline: 2px dashed var(--colors-border-focus-middle);
+	}
+
+	&:focus:not(:focus-visible) {
+		outline: none;
+	}
 }
 
 input::-webkit-search-cancel-button,

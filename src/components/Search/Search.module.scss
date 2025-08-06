@@ -1,34 +1,35 @@
 @use '../../styles/_variables.scss' as *;
+@use '../../styles/sharedStyles.scss' as *;
 
 .searchContainer {
 	display: flex;
 	justify-content: center;
 	padding: $space-lg;
 
-	.searchInputContainer {
+	.inputContainer {
 		display: flex;
 		align-items: center;
 		gap: $space-sm;
 		width: 100%;
 		max-width: 800px;
-		padding: $space-sm $space-md;
+		padding: $space-sm 0 $space-sm $space-sm;
 		background-color: var(--colors-background-neutrals-subtle);
 		border-radius: $space-md;
 		border: 1px solid transparent;
 		cursor: text;
-		position: relative;
+		transition: border 0.1s linear;
 
-		&:hover {
+		&:has(input:focus) {
 			border: 1px solid var(--colors-border-primary);
 		}
 
-		.serchButton {
-			all: unset;
+		.searchBtn {
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			height: 100%;
 
-			.searchIcon {
+			.icon {
 				min-width: 16px;
 				min-height: 16px;
 				max-width: 16px;
@@ -40,14 +41,10 @@
 		}
 
 		.searchInput {
-			all: unset;
 			width: 93%;
+			padding: $space-xs;
 			font-size: $font-lg;
-			color: var(--colors-text-neutrals);
-
-			&:focus {
-				outline: none;
-			}
+			font-family: 'Noto Sans', Arial, sans-serif;
 
 			&::placeholder {
 				color: var(--colors-text-neutrals-placeholder);
@@ -58,24 +55,16 @@
 			}
 		}
 
-		.inputClearButton {
-			all: unset;
-			position: absolute;
-			right: 0;
+		.clearBtn {
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			min-width: 40px;
-			max-width: 40px;
 			width: 40px;
 			height: 100%;
+			padding: 0;
 			cursor: pointer;
 
 			.clearIcon {
-				min-width: 16px;
-				min-height: 16px;
-				max-width: 16px;
-				max-height: 16px;
 				height: 16px;
 				width: 16px;
 			}
@@ -83,14 +72,14 @@
 	}
 }
 
-.content {
+.results {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex: 1;
 	margin-bottom: $space-lg;
 
-	.searchResultsContainer {
+	.resultsContainer {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;

@@ -37,6 +37,7 @@ export interface Subtitle {
 	id: number
 	timecode: string
 	text: string
+	movieId: number
 }
 
 export interface Word {
@@ -49,4 +50,42 @@ export interface Word {
 	isLearned: boolean
 	isRepeating: boolean
 	isFavorite: boolean
+}
+
+export interface User {
+	id: string
+	email: string
+	isEmailConfirmed: boolean
+	username: string
+}
+
+export interface LoginRequest {
+	email: string
+	password: string
+}
+
+export interface SignupRequest {
+	email: string
+	password: string
+	username: string
+}
+
+export interface SuccessAuthResponse {
+	accessToken: string
+	user: {
+		id: string
+		email: string
+		username: string
+		isEmailConfirmed: boolean
+	}
+}
+
+export class ApiError extends Error {
+	constructor(
+		public readonly statusCode: number,
+		public readonly message: string,
+		public readonly field?: string
+	) {
+		super(message)
+	}
 }

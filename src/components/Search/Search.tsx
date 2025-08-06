@@ -1,29 +1,19 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable jsx-a11y/control-has-associated-label */
 import type { FC } from 'react'
 import React, { useEffect, useRef, useState } from 'react'
 
-import { useAppDispatch, useAppSelector } from '@/app/index'
+import { useLazySearchMoviesQuery } from '@/api'
 import { SearchResults } from '@/components'
 import { useDebounce } from '@/hooks'
-import { selectMovies } from '@/slices'
-import { fetchMovies } from '@/thunks'
 
 import styles from './Search.module.scss'
 
 export const Search: FC = () => {
 	const [movieTitle, setMovieTitle] = useState('')
-	const { movies, status, error } = useAppSelector(selectMovies)
-	const dispatch = useAppDispatch()
 	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 1000)
 	const inputRef = useRef<HTMLInputElement>(null)
 
-	function onSearchInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-		if (movieTitle && e.key === 'Enter') {
-			cancelDebounce()
-			dispatch(fetchMovies(movieTitle))
-		}
-	}
+	const [triggerSearch, { data: movies, isFetching, error, isUninitialized }] =
+		useLazySearchMoviesQuery()
 
 	function clearInput() {
 		cancelDebounce()
@@ -34,21 +24,27 @@ export const Search: FC = () => {
 	function searchMovies() {
 		if (movieTitle) {
 			cancelDebounce()
-			dispatch(fetchMovies(movieTitle))
+			triggerSearch(movieTitle)
+		}
+	}
+
+	function onSearchInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+		if (e.key === 'Enter') {
+			searchMovies()
 		}
 	}
 
 	useEffect(() => {
-		if (debouncedMovieTitle && status !== 'pending') {
-			dispatch(fetchMovies(debouncedMovieTitle))
+		if (debouncedMovieTitle && !isFetching) {
+			triggerSearch(debouncedMovieTitle)
 		}
 	}, [debouncedMovieTitle])
 
 	return (
 		<>
 			<div className={styles.searchContainer}>
-				<label className={styles.searchInputContainer}>
-					<button className={styles.serchButton} onClick={searchMovies}>
+				<label className={styles.inputContainer} htmlFor='search'>
+					<button className={styles.searchBtn} onClick={searchMovies}>
 						<img
 							alt='0'
 							className={styles.searchIcon}
@@ -59,6 +55,7 @@ export const Search: FC = () => {
 					<input
 						ref={inputRef}
 						className={styles.searchInput}
+						id='search'
 						placeholder='Enter movie title'
 						type='search'
 						value={movieTitle}
@@ -66,7 +63,7 @@ export const Search: FC = () => {
 						onKeyDown={onSearchInputKeyDown}
 					/>
 
-					<button className={styles.inputClearButton} onClick={clearInput}>
+					<button className={styles.clearBtn} onClick={clearInput}>
 						<img
 							alt='x'
 							className={styles.clearIcon}
@@ -75,17 +72,19 @@ export const Search: FC = () => {
 					</button>
 				</label>
 			</div>
-			<div className={styles.content}>
-				{status === 'pending' && <div>Загрузка...</div>}
-				{status === 'idle' && !movies && <div>Пока пусто</div>}
-				{status === 'idle' && error && (
-					<div className={styles.searchError}>{error}</div>
+			<div className={styles.results}>
+				{isFetching && <div>Загрузка...</div>}
+				{isUninitialized && !movies && <div>Пока пусто</div>}
+				{error && (
+					<div className={styles.searchError}>
+						{'data' in error
+							? (error.data as { message: string }).message
+							: 'Ошибка поиска'}
+					</div>
 				)}
-				{status === 'idle' && movies && movies.length === 0 && (
-					<div>Ничего не найдено</div>
-				)}
-				{status === 'idle' && movies && movies.length !== 0 && (
-					<div className={styles.searchResultsContainer}>
+				{movies && movies.length === 0 && <div>Ничего не найдено</div>}
+				{movies && movies.length !== 0 && (
+					<div className={styles.resultsContainer}>
 						<h2 className={styles.header}>Результаты поиска</h2>
 						<SearchResults movies={movies} />
 					</div>

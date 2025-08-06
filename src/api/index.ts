@@ -1,3 +1,4 @@
-export type { ApiError } from './axios/interceptors'
-export * as movies from './movies'
-export * as subtitles from './subtitles'
+export * from './api'
+export * from './authApi'
+export * from './movieApi'
+export * from './subtitleApi'

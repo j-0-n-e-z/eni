@@ -1,6 +1,6 @@
 @use './_variables.scss' as *;
 
-.secondaryButton {
+.button {
 	font-family: 'Noto Sans', Helvetica, sans-serif;
 	font-size: $font-lg;
 	display: block;
@@ -20,6 +20,14 @@
 		color: var(--colors-text-neutrals);
 		background-color: var(--colors-background-neutrals-subtle-hover);
 	}
+}
+
+.input {
+	padding: $space-md;
+	border-radius: $space-md;
+	border: 1px solid var(--colors-border-neutrals-controls);
+	width: 100%;
+	font-size: $font-lg;
 }
 
 .roundBtn {

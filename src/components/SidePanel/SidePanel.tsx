@@ -1,12 +1,25 @@
 import cn from 'classnames'
+import { useNavigate } from 'react-router-dom'
 
+import { useLogoutMutation } from '@/api'
 import { useAppSelector } from '@/app/index'
+import { useAuth } from '@/hooks'
 import { selectWords } from '@/slices'
 
 import styles from './SidePanel.module.scss'
 
 export const SidePanel = () => {
 	const { words } = useAppSelector(selectWords)
+	const [logout] = useLogoutMutation()
+	const navigate = useNavigate()
+	const { isLoading, me, isAuthenticated } = useAuth()
+
+	async function handleLogout() {
+		await logout()
+		navigate('/login')
+	}
+
+	if (isLoading) return <div>User is loading</div>
 
 	return (
 		<aside className={styles.sidepanel}>
@@ -21,27 +34,46 @@ export const SidePanel = () => {
 				<a className={styles.navItem} href='/'>
 					search
 				</a>
+
 				<a className={styles.navItem} href='/popular' target='_self'>
 					popular
 				</a>
-				<a className={cn(styles.navItem, styles.words)} href='/words'>
-					<span>W</span>
-					{!!words.length && (
-						<div className={styles.wordsCountWrapper}>
-							<div className={styles.wordsCount}>{words.length}</div>
-						</div>
-					)}
-				</a>
-				{/* settings should be shown only if logged in */}
-				<a className={styles.navItem} href='/settings'>
-					settings
-				</a>
+
+				{isAuthenticated && (
+					<>
+						<a
+							className={cn(styles.navItem, styles.words)}
+							href={`/user/${me!.username}`}
+						>
+							<span>W</span>
+							{words.length > 0 && (
+								<div className={styles.wordsCountWrapper}>
+									<div className={styles.wordsCount}>{words.length}</div>
+								</div>
+							)}
+						</a>
+						<a className={styles.navItem} href='/settings'>
+							settings
+						</a>
+					</>
+				)}
+
 				<a className={styles.navItem} href='/info'>
 					info
 				</a>
-				<a className={cn(styles.navItem, styles.logout)} href='/logout'>
-					logout
-				</a>
+
+				{isAuthenticated ? (
+					<button
+						className={cn(styles.navItem, styles.logout)}
+						onClick={handleLogout}
+					>
+						logout
+					</button>
+				) : (
+					<a className={cn(styles.navItem, styles.logout)} href='/login'>
+						login
+					</a>
+				)}
 			</nav>
 		</aside>
 	)
