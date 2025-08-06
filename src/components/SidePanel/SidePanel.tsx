@@ -10,7 +10,7 @@ import styles from './SidePanel.module.scss'
 export const SidePanel = () => {
 	const { words } = useAppSelector(selectWords)
 	const [logout] = useLogoutMutation()
-	const { isLoading, user, isAuthenticated } = useAuth()
+	const { isLoading, me, isAuthenticated } = useAuth()
 
 	async function handleLogout() {
 		await logout()
@@ -41,7 +41,7 @@ export const SidePanel = () => {
 					<>
 						<a
 							className={cn(styles.navItem, styles.words)}
-							href={`/user/${user!.username}`}
+							href={`/user/${me!.username}`}
 						>
 							<span>W</span>
 							{words.length > 0 && (

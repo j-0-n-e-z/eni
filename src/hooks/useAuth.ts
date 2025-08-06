@@ -2,11 +2,11 @@ import { useGetMeQuery } from '@/api'
 
 export const useAuth = () => {
 	const {
-		data: user,
+		data: me,
 		isLoading,
 		isError
 	} = useGetMeQuery()
-	const isAuthenticated = Boolean(user) && !isError
+	const isAuthenticated = Boolean(me) && !isError
 
-	return { user, isLoading, isAuthenticated }
+	return { me, isLoading, isAuthenticated }
 }

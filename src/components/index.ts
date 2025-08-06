@@ -1,4 +1,5 @@
-export { Login } from './Login/Login'
+export { Auth } from './Auth/Auth'
+export { Login } from './Auth/Login'
 export { MovieSubtitlesPage } from './MovieSubtitlesPage/MovieSubtitlesPage'
 export { Paginator } from './Paginator/Paginator'
 export { Search } from './Search/Search'

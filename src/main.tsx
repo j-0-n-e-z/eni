@@ -3,10 +3,9 @@ import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import { store } from '@/app/index'
-import { Login, MovieSubtitlesPage, Search } from '@/components'
+import { Auth, MovieSubtitlesPage, Search } from '@/components'
 
 import { App } from './App'
-import { ProtectedRoute } from './ProtectedRoute'
 import { Profile } from './components/Profile/Profile'
 
 // TODO: add error pages
@@ -23,11 +22,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: 'login',
-				element: <Login />
+				element: <Auth />
 			},
 			{
-				element: <ProtectedRoute />,
-				children: [{ path: 'user/:username', element: <Profile /> }]
+				path: 'user/:username',
+				element: <Profile />,
 			}
 		]
 	},

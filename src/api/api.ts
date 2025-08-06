@@ -22,11 +22,9 @@ export const baseQueryWithReauth: BaseQueryFn<
 	unknown,
 	FetchBaseQueryError
 > = async (args, api, extraOptions) => {
-	if (
-		typeof args === 'string' &&
-		args === 'users/me' &&
-		!localStorage.getItem('accessToken')
-	) {
+	const url = typeof args === 'string' ? args : args.url
+
+	if (url === 'users/me' && !localStorage.getItem('accessToken')) {
 		return {
 			error: {
 				status: 401,
@@ -41,10 +39,8 @@ export const baseQueryWithReauth: BaseQueryFn<
 	const authEndpoints = ['login', 'logout', 'signup', 'refresh', 'users/me']
 
 	const isAuthEndpoint =
-		(typeof args === 'string' && authEndpoints.includes(args)) ||
-		(typeof args === 'object' &&
-			args.url &&
-			authEndpoints.some((path) => args.url?.includes(path)))
+		authEndpoints.includes(url) ||
+		(url && authEndpoints.some((path) => url.includes(path)))
 
 	if (result.error?.status === 401 && !isAuthEndpoint) {
 		const refreshResult = await baseQuery(
@@ -70,5 +66,5 @@ export const baseQueryWithReauth: BaseQueryFn<
 export const api = createApi({
 	baseQuery: baseQueryWithReauth,
 	endpoints: () => ({}),
-	tagTypes: ['User', 'Movie', 'Subtitle', 'TMDBMovie']
+	tagTypes: ['User', 'Me', 'Movie', 'Subtitle', 'TMDBMovie']
 })

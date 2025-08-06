@@ -1,4 +1,3 @@
-import type { RootState } from '@/app'
 import type { Movie, TMDBMovie } from '@/types'
 
 import { api } from './api'
@@ -14,22 +13,7 @@ export const movieApi = api.injectEndpoints({
 		}),
 		getMovieById: build.query<Movie, number>({
 			query: (id) => `/movies/${id}`,
-			providesTags: ['Movie'],
-			onQueryStarted(id, { getState, dispatch }) {
-				const cachedMovie = movieApi.endpoints.getMovieById.select(id)(
-					getState() as RootState
-				)
-
-				if (cachedMovie.data) {
-					dispatch(
-						movieApi.util.updateQueryData(
-							'getMovieById',
-							id,
-							() => cachedMovie.data
-						)
-					)
-				}
-			}
+			providesTags: ['Movie']
 		}),
 		getTMDBMovieById: build.query<TMDBMovie, number>({
 			query: (tmdbId) => `/movies/tmdb/${tmdbId}`,

@@ -12,7 +12,7 @@ export const loginSchema = z.object({
 		.max(12, 'Password is too long')
 		.regex(/[A-Z]/, 'At least one capital letter required')
 		.regex(/\d/, 'At least one digit required')
-	// .regex(/[!@#$%^&*]/, 'At least one special character required')
+		.regex(/[!@#$%^&*]/, 'At least one special character required')
 })
 
 export type LoginValues = z.infer<typeof loginSchema>

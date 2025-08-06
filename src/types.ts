@@ -64,7 +64,13 @@ export interface LoginRequest {
 	password: string
 }
 
-export interface LoginResponse {
+export interface SignupRequest {
+	email: string
+	password: string
+	username: string
+}
+
+export interface SuccessAuthResponse {
 	accessToken: string
 	user: {
 		id: string
