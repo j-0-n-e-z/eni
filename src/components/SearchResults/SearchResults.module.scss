@@ -7,15 +7,15 @@
 	padding: 0 $space-lg;
 
 	.movieCard {
-		height: 100%;
 		display: flex;
 		flex-direction: column;
-		background-color: var(--colors-background-neutrals-subtle);
-		box-shadow: 2px 2px 5px var(--colors-background-neutrals-control);
-		text-decoration: none;
-		color: var(--colors-text-neutrals);
-		border-radius: $space-xl;
+		height: 100%;
 		overflow: hidden;
+		color: var(--colors-text-neutrals);
+		text-decoration: none;
+		background-color: var(--colors-background-neutrals-subtle);
+		border-radius: $space-xl;
+		box-shadow: 2px 2px 5px var(--colors-background-neutrals-control);
 		transition: transform 0.3s ease;
 
 		&:hover {
@@ -27,15 +27,15 @@
 			width: 100%;
 			max-width: 300px;
 			aspect-ratio: 2/3;
-			object-fit: cover;
 			margin: 0 auto;
+			object-fit: cover;
 		}
 
 		.details {
 			display: flex;
-			height: 100%;
 			flex-direction: column;
 			gap: $space-sm;
+			height: 100%;
 			padding: $space-lg;
 
 			.title {

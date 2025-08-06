@@ -16,7 +16,7 @@ $colors: (
 			disabled: #aeb2c0,
 			hover: #1a1b1e,
 			inverted: (
-				base: #ffffff,
+				base: #fff,
 				hover: #fafafc,
 				subtle: (
 					base: #e9eaef,
@@ -120,7 +120,7 @@ $colors: (
 				active: #e0e2e8,
 				hover: #e9eaef,
 				pressed: #e0e2e8,
-				transparent: #ffffff00
+				transparent: #fff0
 			)
 		)
 	),
@@ -141,9 +141,9 @@ $colors: (
 				hover: #1a7b02
 			),
 			neutrals: (
-				base: #ffffff,
+				base: #fff,
 				active: #e9eaef,
-				container: #ffffff,
+				container: #fff,
 				control: (
 					base: #c7cad5,
 					hover: #aeb2c0,
@@ -172,15 +172,15 @@ $colors: (
 		),
 		focus: (
 			error: (
-				inner: #ffffff,
+				inner: #fff,
 				middle: #7a90fe,
 				outer: #d9dffc
 			),
-			inner: #ffffff,
+			inner: #fff,
 			middle: #7a90fe,
 			outer: #d9dffc,
 			success: (
-				inner: #ffffff,
+				inner: #fff,
 				middle: #7a90fe,
 				outer: #d9dffc
 			)
@@ -194,7 +194,7 @@ $colors: (
 			),
 			disabled: #e9eaef,
 			hover: #c7cad5,
-			inverted: #ffffff,
+			inverted: #fff,
 			pressed: #aeb2c0,
 			subtle: (
 				base: #e9eaef,
@@ -211,7 +211,7 @@ $colors: (
 					hover: #5d6376
 				)
 			),
-			transparent: #ffffff00
+			transparent: #fff0
 		),
 		primary: (
 			base: #3859ff,

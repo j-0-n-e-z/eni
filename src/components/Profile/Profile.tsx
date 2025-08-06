@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom'
 import { useGetUserByUsernameQuery } from '@/api/userApi'
 import { useAuth } from '@/hooks'
 
+import styles from './Profile.module.scss'
+
 export const Profile = () => {
 	const { username } = useParams()
 	const {
@@ -24,7 +26,7 @@ export const Profile = () => {
 
 	if (me && me.username === username) {
 		return (
-			<div>
+			<div className={styles.profilePage}>
 				<h2>My account</h2>
 				<p>{me.username}</p>
 				<p>{me.email}</p>
@@ -34,7 +36,7 @@ export const Profile = () => {
 
 	if (user) {
 		return (
-			<div>
+			<div className={styles.profilePage}>
 				<h2>User account</h2>
 				<p>{user.username}</p>
 				<p>{user.email}</p>

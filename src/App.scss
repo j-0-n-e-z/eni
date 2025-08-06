@@ -9,11 +9,11 @@
 // when scroll disappears, it makes everything move right
 body {
 	width: 100vw;
-	overflow-x: hidden;
-	padding: 0 0 0 80px;
-	margin: 0;
 	min-width: 320px;
 	min-height: 100vh;
+	padding: 0 0 0 80px;
+	margin: 0;
+	overflow-x: hidden;
 	font-family: 'Noto Sans', Arial, sans-serif;
 }
 
@@ -49,8 +49,8 @@ button,
 a {
 	font-family: 'Noto Sans', Arial, sans-serif;
 	outline: none;
-	border: none;
 	background-color: transparent;
+	border: none;
 }
 
 button, a {
@@ -67,7 +67,7 @@ input::-webkit-search-cancel-button,
 input::-webkit-clear-button {
 	display: none;
 	appearance: auto;
-	-moz-appearance: textfield;
+	appearance: textfield;
 }
 
 .main {

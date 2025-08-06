@@ -2,33 +2,33 @@
 @use '../../styles/_sharedStyles.scss' as *;
 
 .authPage {
-	flex: 1;
 	display: flex;
-	justify-content: center;
+	flex: 1;
 	align-items: center;
+	justify-content: center;
 	background-color: var(--colors-background-primary-subtle);
 
 	.formWrapper {
 		width: 400px;
+		background-color: var(--colors-background-neutrals-container);
 		border: 1px solid var(--colors-border-neutrals);
+		border-radius: $space-lg;
 		box-shadow: 0 $space-xs $space-sm var(--colors-background-neutrals-control);
 
-		border-radius: $space-lg;
-		background-color: var(--colors-background-neutrals-container);
-
 		.methodPicker {
-			// margin-top: -50%;
-			translate: 0 -50%;
 			display: flex;
 			justify-content: center;
 
+			// margin-top: -50%;
+			translate: 0 -50%;
+
 			label {
-				color: var(--colors-text-neutrals-inverted);
-				font-weight: 500;
 				padding: $space-md 60px;
+				font-weight: 500;
+				color: var(--colors-text-neutrals-inverted);
+				cursor: pointer;
 				border: 1px solid var(--colors-border-neutrals);
 				transition: background-color 0.1s ease;
-				cursor: pointer;
 
 				&:has(input:checked) {
 					border-bottom: 2px dashed var(--colors-border-neutrals);
@@ -39,9 +39,9 @@
 				}
 
 				&:first-child {
-					border-top-left-radius: $space-lg;
 					background-color: var(--colors-background-success);
 					border-right: none;
+					border-top-left-radius: $space-lg;
 
 					&:hover {
 						background-color: var(--colors-background-success-active);
@@ -49,9 +49,9 @@
 				}
 
 				&:last-child {
-					border-top-right-radius: $space-lg;
 					background-color: var(--colors-background-primary-prominent);
 					border-left: none;
+					border-top-right-radius: $space-lg;
 
 					&:hover {
 						background-color: var(--colors-background-primary-prominent-hover);
@@ -66,9 +66,9 @@
 
 		.form {
 			display: flex;
-			padding: 0 $space-lg $space-lg;
 			flex-direction: column;
 			gap: $space-md;
+			padding: 0 $space-lg $space-lg;
 
 			.inputWrapper {
 				display: flex;
@@ -83,41 +83,42 @@
 				}
 
 				.input {
-					@extend .input;
+					@extend %input-base;
+
 					background-color: var(--colors-background-primary-subtle);
 
 					&::placeholder {
 						font-style: italic;
-						color: var(--colors-text-neutrals-placeholder);
 						font-weight: 500;
+						color: var(--colors-text-neutrals-placeholder);
 					}
 				}
 
 				.inputError {
-					color: var(--colors-text-danger);
 					font-size: $font-md;
+					color: var(--colors-text-danger);
 				}
 			}
 
 			.submitBtn {
-				@extend .button;
-				margin-top: $space-sm;
+				@extend %button-base;
 
 				width: 100%;
-				background-color: var(--colors-button-background-success);
+				margin-top: $space-sm;
 				color: var(--colors-text-neutrals-inverted);
+				background-color: var(--colors-button-background-success);
 
 				&:hover {
-					background-color: var(--colors-button-background-success-hover);
 					color: var(--colors-text-neutrals-inverted);
+					background-color: var(--colors-button-background-success-hover);
 				}
 
 				&Primary {
 					background-color: var(--colors-background-primary-prominent);
 
 					&:hover {
-						background-color: var(--colors-background-primary-prominent-hover);
 						color: var(--colors-text-neutrals-inverted);
+						background-color: var(--colors-background-primary-prominent-hover);
 					}
 				}
 			}

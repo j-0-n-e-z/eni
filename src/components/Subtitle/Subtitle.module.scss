@@ -1,14 +1,14 @@
 @use '../../styles/_variables.scss' as *;
 
 .subtitleBox {
-	padding: $space-lg;
 	display: flex;
 	flex-direction: column;
 	gap: $space-lg;
-	border-radius: $space-sm;
+	padding: $space-lg;
 	color: var(--colors-text-neutrals);
 	background-color: var(--colors-background-neutrals-subtle);
 	border: 1px solid var(--colors-border-neutrals);
+	border-radius: $space-sm;
 
 	&:hover {
 		background-color: var(--colors-background-neutrals-subtle-hover)
@@ -21,5 +21,6 @@
 	}
 
 	.timecode {
+		text-decoration: underline;
 	}
 }
