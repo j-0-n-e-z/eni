@@ -2,17 +2,17 @@
 @use '../../styles/_sharedStyles.scss' as *;
 
 .subtitlesPageContainer {
+	padding: 0 $space-lg $space-lg;
 	margin-bottom: $space-xxl;
-	padding: 0 $space-lg $space-lg $space-lg;
 
 	.info {
 		display: flex;
-		border-top: 0;
-		border-radius: 0 0 $space-xl $space-xl;
-		background-color: var(--colors-background-neutrals-subtle);
 		gap: $space-xl;
 		overflow: hidden;
 		color: var(--colors-text-neutrals);
+		background-color: var(--colors-background-neutrals-subtle);
+		border-top: 0;
+		border-radius: 0 0 $space-xl $space-xl;
 
 		.cover {
 			width: 100%;
@@ -28,9 +28,9 @@
 			gap: $space-md;
 
 			.title {
-				color: var(--colors-text-neutrals);
-				font-size: $font-xl;
 				margin: $space-lg 0 $space-md;
+				font-size: $font-xl;
+				color: var(--colors-text-neutrals);
 				transition: color 0.1s linear;
 
 				&:hover {
@@ -60,7 +60,7 @@
 				margin-top: auto;
 				margin-bottom: $space-lg;
 
-				@extend .button;
+				@extend %button-base;
 			}
 		}
 	}

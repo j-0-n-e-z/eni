@@ -2,10 +2,10 @@
 
 .header {
 	display: flex;
-	font-size: $font-xl;
-	justify-content: center;
 	align-items: center;
+	justify-content: center;
 	margin: 20px 0;
+	font-size: $font-xl;
 }
 
 .controlPanel {

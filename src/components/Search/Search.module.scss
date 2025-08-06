@@ -8,15 +8,15 @@
 
 	.inputContainer {
 		display: flex;
-		align-items: center;
 		gap: $space-sm;
+		align-items: center;
 		width: 100%;
 		max-width: 800px;
 		padding: $space-sm 0 $space-sm $space-sm;
-		background-color: var(--colors-background-neutrals-subtle);
-		border-radius: $space-md;
-		border: 1px solid transparent;
 		cursor: text;
+		background-color: var(--colors-background-neutrals-subtle);
+		border: 1px solid transparent;
+		border-radius: $space-md;
 		transition: border 0.1s linear;
 
 		&:has(input:focus) {
@@ -30,12 +30,12 @@
 			height: 100%;
 
 			.icon {
-				min-width: 16px;
-				min-height: 16px;
-				max-width: 16px;
-				max-height: 16px;
-				height: 16px;
 				width: 16px;
+				min-width: 16px;
+				max-width: 16px;
+				height: 16px;
+				min-height: 16px;
+				max-height: 16px;
 				cursor: pointer;
 			}
 		}
@@ -43,8 +43,8 @@
 		.searchInput {
 			width: 93%;
 			padding: $space-xs;
-			font-size: $font-lg;
 			font-family: 'Noto Sans', Arial, sans-serif;
+			font-size: $font-lg;
 
 			&::placeholder {
 				color: var(--colors-text-neutrals-placeholder);
@@ -65,8 +65,8 @@
 			cursor: pointer;
 
 			.clearIcon {
-				height: 16px;
 				width: 16px;
+				height: 16px;
 			}
 		}
 	}
@@ -74,32 +74,32 @@
 
 .results {
 	display: flex;
-	justify-content: center;
-	align-items: center;
 	flex: 1;
+	align-items: center;
+	justify-content: center;
 	margin-bottom: $space-lg;
 
 	.resultsContainer {
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
-		align-self: flex-start;
-		width: 100%;
 		gap: $space-lg;
+		align-self: flex-start;
+		justify-content: center;
+		width: 100%;
 
 		.header {
 			display: flex;
-			font-size: $font-xxl;
-			justify-content: center;
-			align-items: center;
 			gap: $space-md;
+			align-items: center;
+			justify-content: center;
+			font-size: $font-xxl;
 			color: var(--color-black);
 		}
 	}
 
 	.searchError {
-		text-align: center;
 		font-size: $font-xl;
 		color: var(--color-yellow-dark);
+		text-align: center;
 	}
 }

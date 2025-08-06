@@ -55,7 +55,6 @@ export const Signup: FC<SignupProps> = ({ goToLogin }) => {
 				</div>
 				<input
 					className={styles.input}
-					defaultValue='rigabdullin@yandex.ru'
 					id='email'
 					type='email'
 					{...register('email')}
@@ -88,7 +87,6 @@ export const Signup: FC<SignupProps> = ({ goToLogin }) => {
 				</div>
 				<input
 					className={styles.input}
-					defaultValue='Parol322'
 					id='password'
 					type='password'
 					{...register('password')}
@@ -110,7 +108,7 @@ export const Signup: FC<SignupProps> = ({ goToLogin }) => {
 					id='confirmPassword'
 					type='password'
 					{...register('confirmPassword')}
-					placeholder='Confirm password'
+					placeholder='••••••••••'
 				/>
 			</label>
 

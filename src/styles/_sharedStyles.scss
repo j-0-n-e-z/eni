@@ -1,17 +1,17 @@
 @use './_variables.scss' as *;
 
-.button {
-	font-family: 'Noto Sans', Helvetica, sans-serif;
-	font-size: $font-lg;
+%button-base {
 	display: block;
 	width: fit-content;
 	padding: $space-md;
-	border-radius: $space-sm;
-	text-decoration: none;
+	font-family: 'Noto Sans', Helvetica, sans-serif;
+	font-size: $font-lg;
 	color: var(--colors-text-neutrals);
+	text-decoration: none;
+	cursor: pointer;
 	background-color: var(--colors-background-neutrals);
 	border: 1px solid var(--colors-border-neutrals);
-	cursor: pointer;
+	border-radius: $space-sm;
 	transition:
 		color 0.1s linear,
 		background-color 0.1s linear;
@@ -22,28 +22,28 @@
 	}
 }
 
-.input {
-	padding: $space-md;
-	border-radius: $space-md;
-	border: 1px solid var(--colors-border-neutrals-controls);
+%input-base {
 	width: 100%;
+	padding: $space-md;
 	font-size: $font-lg;
+	border: 1px solid var(--colors-border-neutrals-controls);
+	border-radius: $space-md;
 }
 
-.roundBtn {
+%round-button-base {
 	all: unset;
-	border-radius: 50%;
+	top: -15px;
+	box-sizing: border-box;
 	width: 75px;
 	height: 75px;
-	top: -15px;
-	opacity: 0.5;
 	padding: $space-sm;
-	box-sizing: border-box;
+	border-radius: 50%;
+	opacity: 50%;
 	transition:
 		translate 0.1s linear,
 		opacity 0.15s ease;
 
 	&:hover:not(:disabled) {
-		opacity: 0.8;
+		opacity: 80%;
 	}
 }

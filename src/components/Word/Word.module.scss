@@ -3,15 +3,15 @@
 
 .wordContainer {
 	display: flex;
-	justify-content: center;
 	align-items: center;
+	justify-content: center;
 	min-width: 100px;
 	height: 50px;
-	border: 2px solid var(--colors-border-primary);
-	background-color: var(--colors-background-primary-subtle);
-	border-radius: $space-md;
 	padding: $space-lg $space-xl;
 	cursor: pointer;
+	background-color: var(--colors-background-primary-subtle);
+	border: 2px solid var(--colors-border-primary);
+	border-radius: $space-md;
 	transition:
 		background-color 0.15s linear,
 		scale 0.2s linear;
@@ -50,7 +50,7 @@
 	align-items: center;
 	justify-content: center;
 	width: $space-md;
-	border-bottom: 2px dashed var(--colors-border-primary);
 	font-size: $font-lg;
 	font-weight: 800;
+	border-bottom: 2px dashed var(--colors-border-primary);
 }
