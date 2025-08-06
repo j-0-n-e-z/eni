@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { useNavigate } from 'react-router-dom'
 
 import { useLogoutMutation } from '@/api'
 import { useAppSelector } from '@/app/index'
@@ -10,11 +11,12 @@ import styles from './SidePanel.module.scss'
 export const SidePanel = () => {
 	const { words } = useAppSelector(selectWords)
 	const [logout] = useLogoutMutation()
+	const navigate = useNavigate()
 	const { isLoading, me, isAuthenticated } = useAuth()
 
 	async function handleLogout() {
 		await logout()
-		window.location.href = '/login'
+		navigate('/login')
 	}
 
 	if (isLoading) return <div>User is loading</div>

@@ -30,6 +30,10 @@
 				transition: background-color 0.1s ease;
 				cursor: pointer;
 
+				&:has(input:checked) {
+					border-bottom: 2px dashed var(--colors-border-neutrals);
+				}
+
 				&:hover {
 					background-color: var(--colors-background-primary-subtle-hover);
 				}

@@ -45,7 +45,8 @@ export const Auth = () => {
 						Sign up
 					</label>
 				</form>
-				{method === 'login' ? <Login /> : <Signup />}
+				{method === 'login' && <Login />}
+				{method === 'signup' && <Signup goToLogin={() => setMethod('login')} />}
 			</div>
 			<Toaster />
 		</div>

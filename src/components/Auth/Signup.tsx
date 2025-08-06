@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { zodResolver } from '@hookform/resolvers/zod'
 import cn from 'classnames'
+import type { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
@@ -11,7 +12,11 @@ import type { ApiError } from '@/types'
 
 import styles from './Auth.module.scss'
 
-export const Signup = () => {
+interface SignupProps {
+	goToLogin: () => void
+}
+
+export const Signup: FC<SignupProps> = ({ goToLogin }) => {
 	const {
 		register,
 		handleSubmit,
@@ -24,7 +29,8 @@ export const Signup = () => {
 		const { error } = await signup({ email, password, username })
 
 		if (!error) {
-			toast.success('You successfully signed up!')
+      toast.success('You successfully signed up!')
+      goToLogin()
 		}
 
 		// TODO: validate and send {field: confirmPassword} on error
