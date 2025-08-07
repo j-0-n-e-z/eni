@@ -74,7 +74,7 @@ export const Signup: FC<SignupProps> = ({ goToLogin }) => {
 					id='username'
 					type='text'
 					{...register('username')}
-					placeholder='McLovin'
+					placeholder='Voldemort'
 				/>
 			</label>
 
