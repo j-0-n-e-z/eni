@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useLogoutMutation } from '@/api'
@@ -13,6 +14,7 @@ export const SidePanel = () => {
 	const [logout] = useLogoutMutation()
 	const navigate = useNavigate()
 	const { isLoading, me, isAuthenticated } = useAuth()
+	const [isOpened, setIsOpened] = useState(false)
 
 	async function handleLogout() {
 		await logout()
@@ -22,7 +24,11 @@ export const SidePanel = () => {
 	if (isLoading) return <div>User is loading</div>
 
 	return (
-		<aside className={styles.sidepanel}>
+		<aside
+			className={cn(styles.sidepanel, {
+				[styles.sidepanelCollapsed]: !isOpened
+			})}
+		>
 			<a className={styles.topLogo} href='/' target='_self'>
 				<img
 					alt='logo'
@@ -30,9 +36,15 @@ export const SidePanel = () => {
 					src='/assets/images/eni_huge_logo.webp'
 				/>
 			</a>
+
+			<button className={styles.toggle} onClick={() => setIsOpened((p) => !p)}>
+				{isOpened ? '<' : '>'}
+			</button>
+
 			<nav className={styles.navigation}>
 				<a className={styles.navItem} href='/'>
-					search
+					<img alt='search' className={styles.searchLogo} src='/assets/icons/icon-search.svg' />
+					{isOpened && <span>search</span>}
 				</a>
 
 				<a className={styles.navItem} href='/popular' target='_self'>
