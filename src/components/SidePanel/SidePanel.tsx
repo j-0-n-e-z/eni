@@ -38,29 +38,34 @@ export const SidePanel = () => {
 				[styles.collapsed]: !isOpened
 			})}
 		>
-			<Link className={styles.logoWrapper} to='/'>
+			<Link aria-label='search' className={styles.logoWrapper} to='/'>
 				<div className={styles.topLogo}>
 					<img
-						alt='logo'
+						alt='eni logo'
 						className={styles.logo}
 						src='/assets/images/eni_huge_logo.webp'
 					/>
 				</div>
-				{isOpened && <h1 className={styles.topTitle}>Eni</h1>}
+				{isOpened && <div className={styles.topTitle}>Eni</div>}
 			</Link>
 
-			<button className={styles.toggle} onClick={() => setIsOpened((p) => !p)}>
+			<button
+				aria-label='toggle menu'
+				className={styles.toggle}
+				onClick={() => setIsOpened((p) => !p)}
+			>
 				<ArrowIcon className={styles.toggleIcon} />
 			</button>
 
 			<nav className={cn(styles.navigation)}>
-				<Link className={styles.navItem} to='/'>
+				<Link aria-label='search' className={styles.navItem} to='/'>
 					<SearchIcon className={styles.searchIcon} />
 					{isOpened && <span>Search</span>}
 				</Link>
 
 				{isAuthenticated && (
 					<Link
+						aria-label='profile with words'
 						className={cn(styles.navItem, styles.words)}
 						to={`/user/${me!.username}`}
 					>
@@ -74,25 +79,30 @@ export const SidePanel = () => {
 					</Link>
 				)}
 
-				<Link className={styles.navItem} to='/popular'>
+				<Link
+					aria-label='popular words'
+					className={styles.navItem}
+					to='/popular'
+				>
 					<PopularIcon className={styles.popularIcon} />
 					{isOpened && <span>Popular</span>}
 				</Link>
 
 				{isAuthenticated && (
-					<Link className={styles.navItem} to='/settings'>
+					<Link aria-label='settings' className={styles.navItem} to='/settings'>
 						<SettingsIcon className={styles.settingsIcon} />
 						{isOpened && <span>Settings</span>}
 					</Link>
 				)}
 
-				<Link className={styles.navItem} to='/info'>
+				<Link aria-label='app info' className={styles.navItem} to='/info'>
 					<InfoIcon className={styles.infoIcon} />
 					{isOpened && <span>Info</span>}
 				</Link>
 
 				{isAuthenticated ? (
 					<button
+						aria-label='logout'
 						className={cn(styles.navItem, styles.login)}
 						onClick={handleLogout}
 					>
@@ -100,7 +110,11 @@ export const SidePanel = () => {
 						{isOpened && <span>Logout</span>}
 					</button>
 				) : (
-					<Link className={cn(styles.navItem, styles.login)} to='/login'>
+					<Link
+						aria-label='login'
+						className={cn(styles.navItem, styles.login)}
+						to='/login'
+					>
 						<LoginIcon className={styles.loginIcon} />
 						{isOpened && <span>Login</span>}
 					</Link>

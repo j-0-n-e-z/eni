@@ -64,7 +64,7 @@ export const MovieSubtitlesPage: FC = () => {
 					src={movie.img_url}
 				/>
 				<div className={styles.details}>
-					<h3 className={styles.title}>
+					<h2 className={styles.title}>
 						<a
 							href={movie.opensubtitles.current_url}
 							rel='noopener noreferrer'
@@ -72,7 +72,7 @@ export const MovieSubtitlesPage: FC = () => {
 						>
 							{tmdbMovie?.original_title ?? movie.title}
 						</a>
-					</h3>
+					</h2>
 
 					<span>
 						<b>Released: </b>{' '}
