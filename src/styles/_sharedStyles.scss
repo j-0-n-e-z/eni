@@ -4,7 +4,6 @@
 	display: block;
 	width: fit-content;
 	padding: $space-md;
-	font-family: 'Noto Sans', Helvetica, sans-serif;
 	font-size: $font-lg;
 	color: var(--colors-text-neutrals);
 	text-decoration: none;
@@ -17,7 +16,10 @@
 		background-color 0.1s linear;
 
 	&:hover {
-		color: var(--colors-text-neutrals);
+		background-color: var(--colors-background-neutrals-subtle-hover);
+	}
+
+	&:focus-visible {
 		background-color: var(--colors-background-neutrals-subtle-hover);
 	}
 }
