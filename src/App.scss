@@ -29,17 +29,16 @@ h5,
 h6,
 p,
 ul {
+	padding: 0;
 	margin: 0;
 }
 
 a {
-	all: unset;
 	text-decoration: none;
 	cursor: pointer;
 }
 
 ul {
-	all: unset;
 	padding-inline-start: 0;
 	list-style: none;
 }
@@ -47,8 +46,8 @@ ul {
 input,
 button,
 a {
-	padding: 0;
 	font-family: 'Noto Sans', Arial, sans-serif;
+	color: inherit;
 	outline: none;
 	background-color: transparent;
 	border: none;

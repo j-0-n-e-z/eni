@@ -47,7 +47,6 @@ export const Login = () => {
 				</div>
 				<input
 					className={styles.input}
-					defaultValue='rigabdullin@yandex.ru'
 					id='email'
 					type='email'
 					{...register('email')}
@@ -64,11 +63,10 @@ export const Login = () => {
 				</div>
 				<input
 					className={styles.input}
-					defaultValue='Parol322'
 					id='password'
 					type='password'
 					{...register('password')}
-					placeholder='Str0n9_p4$$vv0rD'
+					placeholder='••••••••••'
 				/>
 			</label>
 

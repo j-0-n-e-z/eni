@@ -23,28 +23,28 @@
 			border: 1px solid var(--colors-border-primary);
 		}
 
+		svg {
+			color: var(--colors-border-neutrals-text);
+		}
+
 		.searchBtn {
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			height: 100%;
-			padding: 0 $space-xs;
+			padding-left: $space-xs;
 			cursor: pointer;
 
-			.icon {
-				width: 16px;
-				min-width: 16px;
-				max-width: 16px;
-				height: 16px;
-				min-height: 16px;
-				max-height: 16px;
+			.searchIcon {
+				width: 20px;
+				height: 20px;
 				cursor: pointer;
 			}
 		}
 
 		.searchInput {
 			width: 93%;
-			padding: $space-xs;
+			padding: $space-xs 0;
 			font-family: 'Noto Sans', Arial, sans-serif;
 			font-size: $font-lg;
 
@@ -69,6 +69,7 @@
 			.clearIcon {
 				width: 16px;
 				height: 16px;
+				
 			}
 		}
 	}

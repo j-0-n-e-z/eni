@@ -27,7 +27,6 @@
 				font-weight: 500;
 				color: var(--colors-text-neutrals-inverted);
 				cursor: pointer;
-				border: 1px solid var(--colors-border-neutrals);
 				transition: background-color 0.1s ease;
 
 				&:has(input:checked) {
@@ -77,7 +76,7 @@
 
 				.label {
 					display: flex;
-					align-items: center;
+					align-items: end;
 					justify-content: space-between;
 					font-size: $font-lg;
 				}
@@ -113,7 +112,7 @@
 					background-color: var(--colors-button-background-success-hover);
 				}
 
-				&Primary {
+				&.primary {
 					background-color: var(--colors-background-primary-prominent);
 
 					&:hover {

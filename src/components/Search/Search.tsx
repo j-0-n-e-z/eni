@@ -5,6 +5,9 @@ import { useLazySearchMoviesQuery } from '@/api'
 import { SearchResults } from '@/components'
 import { useDebounce } from '@/hooks'
 
+import ClearIcon from '../../assets/icons/icon-cancel.svg?react'
+import SearchIcon from '../../assets/icons/icon-search.svg?react'
+
 import styles from './Search.module.scss'
 
 export const Search: FC = () => {
@@ -45,11 +48,7 @@ export const Search: FC = () => {
 			<div className={styles.searchContainer}>
 				<label className={styles.inputContainer} htmlFor='search'>
 					<button className={styles.searchBtn} onClick={searchMovies}>
-						<img
-							alt='0'
-							className={styles.searchIcon}
-							src='/assets/icons/icon-search.svg'
-						/>
+						<SearchIcon className={styles.searchIcon} />
 					</button>
 
 					<input
@@ -64,11 +63,7 @@ export const Search: FC = () => {
 					/>
 
 					<button className={styles.clearBtn} onClick={clearInput}>
-						<img
-							alt='x'
-							className={styles.clearIcon}
-							src='/assets/icons/icon-cancel.svg'
-						/>
+						<ClearIcon className={styles.clearIcon} />
 					</button>
 				</label>
 			</div>

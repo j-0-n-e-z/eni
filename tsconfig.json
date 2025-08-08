@@ -24,9 +24,10 @@
 			"@/api": ["./api"],
 			"@/hooks": ["./hooks"],
 			"@/utils": ["./utils"],
-			"@/types": ["./types"]
+			"@/types": ["./types"],
+			"@/icons": ["./assets/icons"]
 		}
 	},
-	"include": ["**/*.ts", "**/*.tsx", "src/components/Paginator/Paginator.tsx"],
+	"include": ["**/*.ts", "**/*.tsx"],
 	"exclude": ["node_modules"]
 }

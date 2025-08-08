@@ -4,6 +4,7 @@
 	position: fixed;
 	top: 0;
 	left: 0;
+	z-index: 1;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -13,18 +14,53 @@
 	background-color: var(--colors-background-neutrals-inverted);
 	transition: width 0.3s ease;
 
-	&Collapsed {
+	&.collapsed {
 		width: 80px;
+
+		.navigation .navItem {
+			gap: 0;
+			justify-content: center;
+			padding: 0;
+		}
+
+		.navigation .words .wordsCountWrapper {
+			right: 50%;
+			bottom: 0;
+		}
+
+		.logoWrapper {
+			gap: 0;
+		}
+
+		.toggle .toggleIcon {
+			rotate: -90deg;
+		}
 	}
 
-	.topLogo {
-		display: block;
-		width: 80px;
-		height: 100px;
+	.logoWrapper {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		overflow: hidden;
+		transition: flex 0.2s linear;
 
-		.logo {
+		.topTitle {
+			display: flex;
+			flex: 1;
+			justify-content: center;
+			font-weight: 900;
+			color: var(--colors-text-neutrals-inverted);
+		}
+
+		.topLogo {
+			display: block;
 			width: 80px;
 			height: 100px;
+
+			.logo {
+				width: 80px;
+				height: 100px;
+			}
 		}
 	}
 
@@ -33,13 +69,21 @@
 		align-items: center;
 		justify-content: center;
 		width: 100%;
-		height: 25px;
-		color: white;
+		height: 30px;
+		color: var(--colors-background-neutrals);
 		cursor: pointer;
 		transition: color 0.1s ease-in;
 
 		&:hover {
-			color: var(--colors-background-primary-prominent);
+			color: var(--colors-background-success);
+		}
+
+		.toggleIcon {
+			width: 24px;
+			height: 24px;
+			stroke-width: 4px;
+			rotate: 90deg;
+			transition: rotate 0.2s linear;
 		}
 	}
 
@@ -50,19 +94,45 @@
 		width: 100%;
 		height: 100%;
 		margin-top: $space-sm;
-		color: white;
+		font-size: $font-lg;
+		color: var(--colors-text-neutrals-inverted);
+		transition: color 0.1s ease-in-out;
+
+		svg {
+			flex-shrink: 0;
+		}
 
 		.navItem {
 			display: flex;
+			gap: $space-md;
 			align-items: center;
-			justify-content: center;
 			width: 100%;
 			height: 40px;
-			transition: background-color 0.1s ease-in;
+			padding: 0 $space-lg;
+			transition:
+				background-color 0.1s ease-in,
+				padding 0.1s linear;
 
-			.searchLogo {
+			.searchIcon {
+				path {
+					stroke-width: 3px;
+				}
+			}
+
+			.searchIcon,
+			.popularIcon,
+			.infoIcon,
+			.bookIcon,
+			.settingsIcon,
+			.loginIcon,
+			.logoutIcon {
 				width: 24px;
 				height: 24px;
+			}
+
+			.logoutIcon {
+				margin-right: -6px;
+				scale: -1;
 			}
 
 			&:hover {
@@ -75,8 +145,8 @@
 
 			.wordsCountWrapper {
 				position: absolute;
-				bottom: 0;
-				left: 50%;
+				right: 11%;
+				bottom: 50%;
 				display: flex;
 				align-items: center;
 				justify-content: center;
@@ -85,17 +155,21 @@
 				padding: 6px;
 				background-color: var(--colors-background-primary-prominent);
 				border-radius: 20%;
-				translate: -50% 50%;
+				translate: 50% 50%;
 
 				.wordsCount {
 					font-size: $font-md;
 					font-weight: 600;
+					color: var(--colors-text-neutrals-inverted);
 				}
 			}
 		}
 
-		.logout {
+		.login {
+			justify-content: center;
 			margin-top: auto;
+			font-size: $space-lg;
+			cursor: pointer;
 		}
 	}
 }

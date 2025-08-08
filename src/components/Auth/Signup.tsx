@@ -90,7 +90,7 @@ export const Signup: FC<SignupProps> = ({ goToLogin }) => {
 					id='password'
 					type='password'
 					{...register('password')}
-					placeholder='Str0n9_p4$$vv0rD'
+					placeholder='••••••••••'
 				/>
 			</label>
 
@@ -112,9 +112,7 @@ export const Signup: FC<SignupProps> = ({ goToLogin }) => {
 				/>
 			</label>
 
-			<button className={cn(styles.submitBtn, styles.submitBtnPrimary)}>
-				Sign up
-			</button>
+			<button className={cn(styles.submitBtn, styles.primary)}>Sign up</button>
 		</form>
 	)
 }
