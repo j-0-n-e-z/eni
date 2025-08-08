@@ -1,6 +1,11 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import type { LoginRequest, SignupRequest, SuccessAuthResponse, User } from '@/types'
+import type {
+	LoginRequest,
+	SignupRequest,
+	SuccessAuthResponse,
+	User
+} from '@/types'
 
 import { baseQueryWithReauth } from './api'
 
@@ -33,7 +38,7 @@ export const authApi = createApi({
 				} catch (error) {
 					console.log('Login failed:', error)
 				}
-			},
+			}
 			// invalidatesTags: [{ type: 'User' }]
 		}),
 		logout: build.mutation<void, void>({
@@ -44,7 +49,7 @@ export const authApi = createApi({
 			async onQueryStarted(_, { dispatch, queryFulfilled }) {
 				try {
 					await queryFulfilled
-					dispatch(authApi.util.resetApiState())
+					dispatch(authApi.util.invalidateTags(['Me']))
 					localStorage.removeItem('accessToken')
 				} catch (error) {
 					console.log('Logout failed:', error)
