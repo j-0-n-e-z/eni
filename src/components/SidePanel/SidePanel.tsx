@@ -48,7 +48,7 @@ export const SidePanel = () => {
 					<li>
 						<Link aria-label='search' className={styles.navLink} to='/'>
 							<SearchIcon className={styles.searchIcon} />
-							<span className={styles.navItemText}>Search</span>
+							<span className={styles.navLinkText}>Search</span>
 						</Link>
 					</li>
 
@@ -56,11 +56,11 @@ export const SidePanel = () => {
 						<li>
 							<Link
 								aria-label='profile with words'
-								className={cn(styles.navLink, styles.navLinkWords)}
+								className={cn(styles.navLink, styles.words)}
 								to={`/user/${me!.username}`}
 							>
 								<BookIcon className={styles.bookIcon} />
-								<span className={styles.navItemText}>Words</span>
+								<span className={styles.navLinkText}>Words</span>
 								{words.length > 0 && (
 									<div className={styles.wordsCount}>{words.length}</div>
 								)}
@@ -75,7 +75,7 @@ export const SidePanel = () => {
 							to='/popular'
 						>
 							<PopularIcon className={styles.popularIcon} />
-							<span className={styles.navItemText}>Popular</span>
+							<span className={styles.navLinkText}>Popular</span>
 						</Link>
 					</li>
 
@@ -87,7 +87,7 @@ export const SidePanel = () => {
 								to='/settings'
 							>
 								<SettingsIcon className={styles.settingsIcon} />
-								<span className={styles.navItemText}>Settings</span>
+								<span className={styles.navLinkText}>Settings</span>
 							</Link>
 						</li>
 					)}
@@ -95,7 +95,7 @@ export const SidePanel = () => {
 					<li>
 						<Link aria-label='app info' className={styles.navLink} to='/info'>
 							<InfoIcon className={styles.infoIcon} />
-							<span className={styles.navItemText}>Info</span>
+							<span className={styles.navLinkText}>Info</span>
 						</Link>
 					</li>
 
@@ -107,12 +107,12 @@ export const SidePanel = () => {
 								onClick={handleLogout}
 							>
 								<LoginIcon className={styles.logoutIcon} />
-								<span className={styles.navItemText}>Logout</span>
+								<span className={styles.navLinkText}>Logout</span>
 							</button>
 						) : (
 							<Link aria-label='login' className={styles.navLink} to='/login'>
 								<LoginIcon className={styles.loginIcon} />
-								<span className={styles.navItemText}>Login</span>
+								<span className={styles.navLinkText}>Login</span>
 							</Link>
 						)}
 					</li>

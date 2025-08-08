@@ -20,11 +20,11 @@
 			opacity: 100%;
 		}
 
-		.navigation .navList .navLink .navItemText {
+		.navigation .navList .navLink .navLinkText {
 			opacity: 100%;
 		}
 
-		.navigation .navLinkWords .wordsCount {
+		.navigation .words .wordsCount {
 			right: 20px;
 			bottom: 50%;
 		}
@@ -64,7 +64,7 @@
 					height: 24px;
 				}
 
-				.navItemText {
+				.navLinkText {
 					opacity: 0%;
 					transition: opacity 0.1s ease-in;
 				}
@@ -117,7 +117,7 @@
 			}
 		}
 
-		.navLinkWords {
+		.words {
 			position: relative;
 
 			.wordsCount {
