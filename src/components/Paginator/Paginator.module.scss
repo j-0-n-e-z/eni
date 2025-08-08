@@ -6,7 +6,7 @@
 	column-gap: $space-sm;
 	justify-content: flex-end;
 	margin: $space-lg 0;
-	
+
 	.buttons {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
@@ -15,8 +15,15 @@
 
 		button {
 			@extend %button-base;
-			
+
 			aspect-ratio: 1;
+
+			.prevIcon,
+			.nextIcon {
+				width: 24px;
+				height: 24px;
+				margin-top: 5px;
+			}
 
 			.prevIcon {
 				rotate: 90deg;
