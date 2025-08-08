@@ -35,13 +35,12 @@ export const SidePanel = () => {
 				<ul className={styles.navList}>
 					<li>
 						<Link aria-label='search' className={styles.topWrapper} to='/'>
-							<div className={styles.logoWrapper}>
-								<img
-									alt='eni logo'
-									className={styles.logo}
-									src='/assets/images/eni_huge_logo.webp'
-								/>
-							</div>
+							<img
+								alt='eni logo'
+								className={styles.logo}
+								src='/assets/images/eni_huge_logo.webp'
+							/>
+
 							<div className={styles.topTitle}>Eni</div>
 						</Link>
 					</li>
