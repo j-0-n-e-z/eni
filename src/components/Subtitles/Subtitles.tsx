@@ -37,9 +37,9 @@ export const Subtitles: FC<SubtitlesProps> = React.memo(({ fileId }) => {
 			<div className={styles.controlPanel}>
 				<Paginator
 					currentPage={currentPage}
-					items={subtitles}
+					itemsLength={subtitles.length}
 					itemsPerPage={SUBTITLES_PER_PAGE}
-					setCurrentPage={setCurrentPage}
+					onPageChange={(p) => setCurrentPage(p)}
 				/>
 			</div>
 			<ul className={styles.subtitles}>

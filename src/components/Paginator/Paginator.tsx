@@ -1,120 +1,68 @@
+import React from 'react'
+
 import { ArrowIcon } from '@/icons'
 
 import styles from './Paginator.module.scss'
+import { generatePages } from './generatePages'
 
-interface PaginatorProps<T> {
+interface PaginatorProps {
 	currentPage: number
-	setCurrentPage: React.Dispatch<React.SetStateAction<number>>
-	items: T[]
+	itemsLength: number
 	itemsPerPage: number
+	onPageChange: (page: number) => void
 }
 
-export const Paginator = <T,>({
+export const Paginator: React.FC<PaginatorProps> = ({
 	currentPage,
-	setCurrentPage,
-	items,
-	itemsPerPage
-}: PaginatorProps<T>) => {
-	let pageCount = items.length / itemsPerPage
-	if (pageCount % 1 !== 0) pageCount = Math.floor(pageCount) + 1
+	itemsLength,
+	itemsPerPage,
+	onPageChange
+}) => {
+	const pageCount = Math.ceil(itemsLength / itemsPerPage)
 
-	function goToPreviousPage() {
-		if (currentPage > 1) setCurrentPage((p) => p - 1)
-	}
-
-	function goToNextPage() {
-		if (currentPage < pageCount) setCurrentPage((p) => p + 1)
-	}
-
-	function goToMedianPage(start: number, end: number, rightOffset: 0 | 1 = 0) {
-		setCurrentPage(Math.floor((start + end) / 2) + rightOffset)
-	}
-
-	if (items.length === 0) return null
+	if (pageCount <= 1) return null
 
 	return (
 		<div className={styles.paginator}>
 			<div className={styles.buttons}>
 				<button
+					aria-disabled={currentPage === 1}
+					aria-label='previous page'
 					className={styles.prevBtn}
 					disabled={currentPage === 1}
-					onClick={goToPreviousPage}
+					onClick={() => onPageChange(currentPage - 1)}
 				>
 					<ArrowIcon className={styles.prevIcon} />
 				</button>
 
-				{currentPage > 2 && (
-					<>
-						<button onClick={() => setCurrentPage(1)}>1</button>
-						{currentPage > 3 && (
-							<button onClick={() => goToMedianPage(1, currentPage)}>
-								...
-							</button>
-						)}
-					</>
-				)}
-
-				{currentPage === 1 && (
-					<>
-						<button className={styles.active} onClick={() => setCurrentPage(1)}>
-							1
+				{generatePages(pageCount, currentPage).map((page, index) =>
+					page === '...' ? (
+						<button key={index} disabled className={styles.ellipsis}>
+							...
 						</button>
-						<button onClick={() => setCurrentPage(2)}>2</button>
-						<button onClick={() => setCurrentPage(3)}>3</button>
-					</>
-				)}
-
-				{currentPage === pageCount && (
-					<>
-						<button onClick={() => setCurrentPage(pageCount - 2)}>
-							{pageCount - 2}
-						</button>
-						<button onClick={() => setCurrentPage(pageCount - 1)}>
-							{pageCount - 1}
-						</button>
+					) : (
 						<button
-							className={styles.active}
-							onClick={() => setCurrentPage(pageCount)}
+							key={index}
+							aria-current={currentPage === page ? 'page' : undefined}
+							className={currentPage === page ? styles.active : ''}
+							aria-label={
+								currentPage === page
+									? `current page ${page}`
+									: `go to page ${page}`
+							}
+							onClick={() => onPageChange(page)}
 						>
-							{pageCount}
+							{page}
 						</button>
-					</>
-				)}
-
-				{currentPage !== 1 && currentPage !== pageCount && (
-					<>
-						<button onClick={() => setCurrentPage(currentPage - 1)}>
-							{currentPage - 1}
-						</button>
-						<button
-							className={styles.active}
-							onClick={() => setCurrentPage(currentPage)}
-						>
-							{currentPage}
-						</button>
-						<button onClick={() => setCurrentPage(currentPage + 1)}>
-							{currentPage + 1}
-						</button>
-					</>
-				)}
-
-				{currentPage < pageCount - 1 && (
-					<>
-						{currentPage < pageCount - 2 && (
-							<button onClick={() => goToMedianPage(currentPage, pageCount, 1)}>
-								...
-							</button>
-						)}
-						<button onClick={() => setCurrentPage(pageCount)}>
-							{pageCount}
-						</button>
-					</>
+					)
 				)}
 
 				<button
+					aria-disabled={currentPage === pageCount}
+					aria-label='next page'
 					className={styles.nextBtn}
 					disabled={currentPage === pageCount}
-					onClick={goToNextPage}
+					onClick={() => onPageChange(currentPage + 1)}
 				>
 					<ArrowIcon className={styles.nextIcon} />
 				</button>
