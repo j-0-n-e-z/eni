@@ -23,6 +23,7 @@ module.exports = {
 		project: 'tsconfig.json'
 	},
 	rules: {
+		'no-plusplus': 0,
 		'@typescript-eslint/no-misused-promises': 0,
 		'no-underscore-dangle': 0,
 		'react-hooks/exhaustive-deps': 0,
