@@ -24,7 +24,7 @@
 			opacity: 100%;
 		}
 
-		.navigation .words .wordsCountWrapper {
+		.navigation .navLinkWords .wordsCount {
 			right: 20px;
 			bottom: 50%;
 		}
@@ -123,10 +123,10 @@
 			}
 		}
 
-		.words {
+		.navLinkWords {
 			position: relative;
 
-			.wordsCountWrapper {
+			.wordsCount {
 				position: absolute;
 				right: 180px;
 				bottom: 0;
@@ -136,15 +136,12 @@
 				width: fit-content;
 				height: 18px;
 				padding: 6px;
+				font-size: $font-md;
+				font-weight: 600;
+				color: var(--colors-text-neutrals-inverted);
 				background-color: var(--colors-background-primary-prominent);
 				border-radius: 20%;
 				translate: 50% 50%;
-
-				.wordsCount {
-					font-size: $font-md;
-					font-weight: 600;
-					color: var(--colors-text-neutrals-inverted);
-				}
 			}
 		}
 

@@ -57,15 +57,13 @@ export const SidePanel = () => {
 						<li>
 							<Link
 								aria-label='profile with words'
-								className={cn(styles.navLink, styles.words)}
+								className={cn(styles.navLink, styles.navLinkWords)}
 								to={`/user/${me!.username}`}
 							>
 								<BookIcon className={styles.bookIcon} />
 								<span className={styles.navItemText}>Words</span>
 								{words.length > 0 && (
-									<div className={styles.wordsCountWrapper}>
-										<span className={styles.wordsCount}>{words.length}</span>
-									</div>
+									<div className={styles.wordsCount}>{words.length}</div>
 								)}
 							</Link>
 						</li>
