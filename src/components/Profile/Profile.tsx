@@ -1,18 +1,28 @@
+import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useGetUserByUsernameQuery } from '@/api/userApi'
+import { useLazyGetUserByUsernameQuery } from '@/api/userApi'
 import { useAuth } from '@/hooks'
 
 import styles from './Profile.module.scss'
 
 export const Profile = () => {
 	const { username } = useParams()
-	const {
-		data: user,
-		error,
-		isLoading: isUserLoading
-	} = useGetUserByUsernameQuery(username!, { skip: !username })
-	const { me, isLoading } = useAuth()
+	const { me, isLoading, isAuthenticated, isError } = useAuth()
+	const [getUserByUsername, { data: user, isLoading: isUserLoading, error }] =
+		useLazyGetUserByUsernameQuery()
+
+	useEffect(() => {
+		if (!username) return
+
+		if (
+			isError ||
+			(!isLoading && !isAuthenticated) ||
+			(!isError && me && me.username !== username)
+		) {
+			getUserByUsername(username)
+		}
+	}, [username, me, isError, isLoading, isAuthenticated])
 
 	if (isUserLoading || isLoading) return <div>ТУТ СКЕЛЕТОН...</div>
 	if (error)
