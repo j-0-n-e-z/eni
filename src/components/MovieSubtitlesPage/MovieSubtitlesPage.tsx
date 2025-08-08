@@ -56,7 +56,7 @@ export const MovieSubtitlesPage: FC = () => {
 	if (!movie) return <div>Фильм не найден</div>
 
 	return (
-		<div className={styles.subtitlesPageContainer}>
+		<div className={styles.movieSubsContainer}>
 			<div className={styles.info}>
 				<img
 					alt={`${movie.title} Cover`}

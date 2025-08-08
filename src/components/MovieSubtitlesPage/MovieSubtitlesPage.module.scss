@@ -1,8 +1,8 @@
 @use '../../styles/_variables.scss' as *;
 @use '../../styles/_sharedStyles.scss' as *;
 
-.subtitlesPageContainer {
-	padding: 0 $space-lg $space-lg;
+.movieSubsContainer {
+	padding: 0 $space-lg;
 	margin-bottom: $space-xxl;
 
 	.info {
