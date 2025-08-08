@@ -1,7 +1,5 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable consistent-return */
-/* eslint-disable @typescript-eslint/naming-convention */
-import type { FC } from 'react'
+import { useEffect, type FC } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
 
 import { useGetMovieByIdQuery, useGetTMDBMovieByIdQuery } from '@/api'
@@ -33,15 +31,25 @@ export const MovieSubtitlesPage: FC = () => {
 		isLoading: isTMDBLoading
 	} = useGetTMDBMovieByIdQuery(movie?.tmdb_id ?? 0, { skip: !movie?.tmdb_id })
 
+	useEffect(() => {
+		if (tmdbError) {
+			toast.error(
+				'data' in tmdbError
+					? (tmdbError.data as { message: string }).message
+					: 'unknown error',
+				{ id: 'tmdbError' }
+			)
+		}
+	}, [tmdbError])
+
 	if (!id) return <div>Не найден id фильма</div>
 	if (isMovieLoading) return <div>...Загрузка</div>
 	if (movieError)
 		return (
 			<div>
-				Ошибка:{' '}
-				{'message' in movieError
-					? movieError.message
-					: 'Ошибка загрузки фильма'}
+				{'data' in movieError
+					? (movieError.data as { message: string }).message
+					: 'unknown error'}
 			</div>
 		)
 
@@ -80,15 +88,8 @@ export const MovieSubtitlesPage: FC = () => {
 						<b>Uploaded: </b>
 						{USDateFormatter.format(new Date(movie.upload_date))}
 					</span>
+
 					{isTMDBLoading && <p>...Loading</p>}
-					{!isTMDBLoading && tmdbError && (
-						<p>
-							Ошибка:{' '}
-							{'message' in tmdbError
-								? tmdbError.message
-								: 'Ошибка загрузки фильма'}
-						</p>
-					)}
 
 					{tmdbMovie && (
 						<>
@@ -152,6 +153,7 @@ export const MovieSubtitlesPage: FC = () => {
 			</div>
 
 			<Subtitles fileId={movie.subtitles.file_id} />
+			<Toaster position='top-right' />
 		</div>
 	)
 }
