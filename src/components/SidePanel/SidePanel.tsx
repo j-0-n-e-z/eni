@@ -1,12 +1,10 @@
 import cn from 'classnames'
-import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useLogoutMutation } from '@/api'
 import { useAppSelector } from '@/app/index'
 import { useAuth } from '@/hooks'
 import {
-	ArrowIcon,
 	BookIcon,
 	InfoIcon,
 	LoginIcon,
@@ -23,7 +21,6 @@ export const SidePanel = () => {
 	const [logout] = useLogoutMutation()
 	const navigate = useNavigate()
 	const { isLoading, me, isAuthenticated } = useAuth()
-	const [isOpened, setIsOpened] = useState(false)
 
 	async function handleLogout() {
 		await logout()
@@ -33,92 +30,96 @@ export const SidePanel = () => {
 	if (isLoading) return <div>User is loading</div>
 
 	return (
-		<aside
-			className={cn(styles.sidepanel, {
-				[styles.collapsed]: !isOpened
-			})}
-		>
-			<Link aria-label='search' className={styles.logoWrapper} to='/'>
-				<div className={styles.topLogo}>
-					<img
-						alt='eni logo'
-						className={styles.logo}
-						src='/assets/images/eni_huge_logo.webp'
-					/>
-				</div>
-				{isOpened && <div className={styles.topTitle}>Eni</div>}
-			</Link>
-
-			<button
-				aria-label='toggle menu'
-				className={styles.toggle}
-				onClick={() => setIsOpened((p) => !p)}
-			>
-				<ArrowIcon className={styles.toggleIcon} />
-			</button>
-
+		<aside className={styles.sidepanel}>
 			<nav className={cn(styles.navigation)}>
-				<Link aria-label='search' className={styles.navItem} to='/'>
-					<SearchIcon className={styles.searchIcon} />
-					{isOpened && <span>Search</span>}
-				</Link>
-
-				{isAuthenticated && (
-					<Link
-						aria-label='profile with words'
-						className={cn(styles.navItem, styles.words)}
-						to={`/user/${me!.username}`}
-					>
-						<BookIcon className={styles.bookIcon} />
-						{isOpened && <span>Words</span>}
-						{words.length > 0 && (
-							<div className={styles.wordsCountWrapper}>
-								<div className={styles.wordsCount}>{words.length}</div>
+				<ul className={styles.navList}>
+					<li>
+						<Link aria-label='search' className={styles.topWrapper} to='/'>
+							<div className={styles.logoWrapper}>
+								<img
+									alt='eni logo'
+									className={styles.logo}
+									src='/assets/images/eni_huge_logo.webp'
+								/>
 							</div>
+							<div className={styles.topTitle}>Eni</div>
+						</Link>
+					</li>
+
+					<li>
+						<Link aria-label='search' className={styles.navLink} to='/'>
+							<SearchIcon className={styles.searchIcon} />
+							<span className={styles.navItemText}>Search</span>
+						</Link>
+					</li>
+
+					{isAuthenticated && (
+						<li>
+							<Link
+								aria-label='profile with words'
+								className={cn(styles.navLink, styles.words)}
+								to={`/user/${me!.username}`}
+							>
+								<BookIcon className={styles.bookIcon} />
+								<span className={styles.navItemText}>Words</span>
+								{words.length > 0 && (
+									<div className={styles.wordsCountWrapper}>
+										<span className={styles.wordsCount}>{words.length}</span>
+									</div>
+								)}
+							</Link>
+						</li>
+					)}
+
+					<li>
+						<Link
+							aria-label='popular words'
+							className={styles.navLink}
+							to='/popular'
+						>
+							<PopularIcon className={styles.popularIcon} />
+							<span className={styles.navItemText}>Popular</span>
+						</Link>
+					</li>
+
+					{isAuthenticated && (
+						<li>
+							<Link
+								aria-label='settings'
+								className={styles.navLink}
+								to='/settings'
+							>
+								<SettingsIcon className={styles.settingsIcon} />
+								<span className={styles.navItemText}>Settings</span>
+							</Link>
+						</li>
+					)}
+
+					<li>
+						<Link aria-label='app info' className={styles.navLink} to='/info'>
+							<InfoIcon className={styles.infoIcon} />
+							<span className={styles.navItemText}>Info</span>
+						</Link>
+					</li>
+
+					<li>
+						{isAuthenticated ? (
+							<button
+								aria-label='logout'
+								className={cn(styles.navLink, styles.login)}
+								onClick={handleLogout}
+							>
+								<LoginIcon className={styles.logoutIcon} />
+								<span className={styles.navItemText}>Logout</span>
+							</button>
+						) : (
+							<Link aria-label='login' className={styles.navLink} to='/login'>
+								<LoginIcon className={styles.loginIcon} />
+								<span className={styles.navItemText}>Login</span>
+							</Link>
 						)}
-					</Link>
-				)}
-
-				<Link
-					aria-label='popular words'
-					className={styles.navItem}
-					to='/popular'
-				>
-					<PopularIcon className={styles.popularIcon} />
-					{isOpened && <span>Popular</span>}
-				</Link>
-
-				{isAuthenticated && (
-					<Link aria-label='settings' className={styles.navItem} to='/settings'>
-						<SettingsIcon className={styles.settingsIcon} />
-						{isOpened && <span>Settings</span>}
-					</Link>
-				)}
-
-				<Link aria-label='app info' className={styles.navItem} to='/info'>
-					<InfoIcon className={styles.infoIcon} />
-					{isOpened && <span>Info</span>}
-				</Link>
-
-				{isAuthenticated ? (
-					<button
-						aria-label='logout'
-						className={cn(styles.navItem, styles.login)}
-						onClick={handleLogout}
-					>
-						<LoginIcon className={styles.logoutIcon} />
-						{isOpened && <span>Logout</span>}
-					</button>
-				) : (
-					<Link
-						aria-label='login'
-						className={cn(styles.navItem, styles.login)}
-						to='/login'
-					>
-						<LoginIcon className={styles.loginIcon} />
-						{isOpened && <span>Login</span>}
-					</Link>
-				)}
+					</li>
+				</ul>
 			</nav>
 		</aside>
 	)

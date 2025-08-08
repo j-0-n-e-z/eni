@@ -1,159 +1,125 @@
 @use '../../styles/_variables.scss' as *;
+@use '../../styles/animations.scss' as *;
 
 .sidepanel {
 	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: 1;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	width: 190px;
+	width: 80px;
 	height: 100%;
+	overflow-x: hidden;
 	background-color: var(--colors-background-neutrals-inverted);
-	transition: width 0.3s ease;
+	box-shadow: 0 0 $space-xxl var(--colors-background-neutrals-control);
+	transition: width 0.5s ease;
 
-	&.collapsed {
-		width: 80px;
+	&:hover {
+		width: 220px;
 
-		.navigation .navItem {
-			gap: 0;
-			justify-content: center;
-			padding: 0;
+		.navigation .topWrapper .topTitle {
+			opacity: 100%;
+		}
+
+		.navigation .navList .navLink .navItemText {
+			opacity: 100%;
 		}
 
 		.navigation .words .wordsCountWrapper {
-			right: 50%;
-			bottom: 0;
-		}
-
-		.toggle .toggleIcon {
-			rotate: -90deg;
-		}
-	}
-
-	.logoWrapper {
-		display: flex;
-		align-items: center;
-		width: 100%;
-		overflow: hidden;
-
-		.topTitle {
-			display: flex;
-			visibility: visible;
-			flex: 1;
-			justify-content: center;
-			font-size: 30px;
-			font-weight: 900;
-			color: var(--colors-text-neutrals-inverted);
-			transition: color 0.3s ease;
-			animation: fadeIn 0.3s ease forwards;
-
-			&:hover {
-				color: var(--colors-text-neutrals-inverted-subtle);
-			}
-
-			@keyframes fadeIn {
-				from {
-					opacity: 0%;
-				}
-
-				to {
-					opacity: 100%;
-				}
-			}
-		}
-
-		.topLogo {
-			display: block;
-			width: 80px;
-			height: 100px;
-
-			.logo {
-				width: 80px;
-				height: 100px;
-			}
-		}
-	}
-
-	.toggle {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		height: 30px;
-		color: var(--colors-background-neutrals);
-		cursor: pointer;
-		transition: color 0.1s ease-in;
-
-		&:hover {
-			color: var(--colors-background-success);
-		}
-
-		.toggleIcon {
-			width: 24px;
-			height: 24px;
-			stroke-width: 4px;
-			rotate: 90deg;
-			transition: rotate 0.2s linear;
+			right: 20px;
+			bottom: 50%;
 		}
 	}
 
 	.navigation {
-		display: flex;
-		flex-direction: column;
-		gap: $space-md;
-		width: 100%;
+		width: 220px;
 		height: 100%;
-		margin-top: $space-sm;
 		font-size: $font-lg;
+		font-weight: 600;
 		color: var(--colors-text-neutrals-inverted);
+		text-transform: uppercase;
+		letter-spacing: 0.6px;
 		transition: color 0.1s ease-in-out;
 
-		svg {
-			flex-shrink: 0;
+		.navList {
+			display: flex;
+			flex-direction: column;
+			gap: $space-md;
+			height: 100%;
+
+			.navLink {
+				display: flex;
+				gap: $space-md;
+				align-items: center;
+				width: 100%;
+				height: 40px;
+				padding: 0 28px;
+				font-size: $font-lg;
+				transition:
+					background-color 0.1s ease-in,
+					padding 0.1s linear;
+
+				svg {
+					flex-shrink: 0;
+					width: 24px;
+					height: 24px;
+				}
+
+				.navItemText {
+					opacity: 0%;
+					transition: opacity 0.1s ease-in;
+				}
+
+				.searchIcon {
+					path {
+						stroke-width: 3px;
+					}
+				}
+
+				.logoutIcon {
+					scale: -1;
+				}
+
+				&:hover {
+					background-color: var(--colors-background-neutrals-inverted-subtle);
+				}
+			}
 		}
 
-		.navItem {
+		.topWrapper {
 			display: flex;
-			gap: $space-md;
 			align-items: center;
 			width: 100%;
-			height: 40px;
-			padding: 0 $space-lg;
-			transition:
-				background-color 0.1s ease-in,
-				padding 0.1s linear;
+			overflow: hidden;
 
-			.searchIcon {
-				path {
-					stroke-width: 3px;
+			.topTitle {
+				display: flex;
+				visibility: visible;
+				flex: 1;
+				justify-content: center;
+				font-size: 30px;
+				font-weight: 900;
+				color: var(--colors-text-neutrals-inverted);
+				text-decoration: var(--colors-background-primary-prominent) wavy
+					underline;
+				opacity: 0%;
+				transition:
+					opacity 0.5s ease,
+					color 0.2s linear;
+
+				&:hover {
+					color: var(--colors-text-neutrals-inverted-subtle);
 				}
 			}
 
-			.searchIcon,
-			.popularIcon,
-			.infoIcon,
-			.bookIcon,
-			.settingsIcon,
-			.loginIcon,
-			.logoutIcon {
-				width: 24px;
-				height: 24px;
-			}
+			.logoWrapper {
+				display: block;
+				width: 80px;
+				height: 100px;
 
-			.loginIcon {
-				margin-right: 6px;
-			}
-
-			.logoutIcon {
-				margin-right: -6px;
-				scale: -1;
-			}
-
-			&:hover {
-				background-color: var(--colors-background-neutrals-inverted-subtle);
+				.logo {
+					width: 80px;
+					height: 100px;
+				}
 			}
 		}
 
@@ -162,12 +128,12 @@
 
 			.wordsCountWrapper {
 				position: absolute;
-				right: 11%;
-				bottom: 50%;
+				right: 180px;
+				bottom: 0;
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				min-width: 20px;
+				width: fit-content;
 				height: 18px;
 				padding: 6px;
 				background-color: var(--colors-background-primary-prominent);
@@ -182,11 +148,14 @@
 			}
 		}
 
-		.login {
-			justify-content: center;
+		li:last-child {
 			margin-top: auto;
-			font-size: $space-lg;
-			cursor: pointer;
+
+			button {
+				font-weight: inherit;
+				text-transform: inherit;
+				cursor: pointer;
+			}
 		}
 	}
 }
