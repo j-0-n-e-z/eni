@@ -9,6 +9,7 @@ export const App: FC = () => (
 	<>
 		<SidePanel />
 		<main className='main'>
+			<h1 className='visually-hidden'>Eni</h1>
 			<Outlet />
 		</main>
 	</>
