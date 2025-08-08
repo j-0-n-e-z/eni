@@ -1,5 +1,6 @@
 @use '../../styles/_variables.scss' as *;
 @use '../../styles/_sharedStyles.scss' as *;
+@use '../../styles/animations.scss' as *;
 
 .authPage {
 	display: flex;
@@ -14,6 +15,7 @@
 		border: 1px solid var(--colors-border-neutrals);
 		border-radius: $space-lg;
 		box-shadow: 0 $space-xs $space-sm var(--colors-background-neutrals-control);
+		animation: scaleIn 0.2s ease-in-out;
 
 		.methodPicker {
 			display: flex;

@@ -8,7 +8,6 @@
 
 // when scroll disappears, it makes everything move right
 body {
-	width: 100vw;
 	min-width: 320px;
 	min-height: 100vh;
 	padding: 0 0 0 80px;
@@ -87,3 +86,4 @@ input::-webkit-clear-button {
 	white-space: nowrap;
 	border: 0;
 }
+
