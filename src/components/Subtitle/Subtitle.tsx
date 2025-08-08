@@ -11,7 +11,7 @@ interface SubtitleProps {
 }
 
 export const Subtitle: FC<SubtitleProps> = ({ subtitle }) => (
-	<li className={styles.subtitleBox}>
+	<li className={styles.subtitle}>
 		<span className={styles.timecode}>{subtitle.timecode}</span>
 		<ul className={styles.words}>
 			{subtitle.text.split(' ').map((word, i) => {
