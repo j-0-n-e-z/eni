@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-
 import { ArrowIcon } from '@/icons'
 
 import styles from './Paginator.module.scss'
@@ -17,17 +15,8 @@ export const Paginator = <T,>({
 	items,
 	itemsPerPage
 }: PaginatorProps<T>) => {
-	const [pageCount, setPageCount] = useState(0)
-
-	useEffect(() => {
-		if (!items) return
-
-		setPageCount(() => {
-			const pageCount = items.length / itemsPerPage
-			if (pageCount % 1 !== 0) return Math.floor(pageCount) + 1
-			return pageCount
-		})
-	}, [items])
+	let pageCount = items.length / itemsPerPage
+	if (pageCount % 1 !== 0) pageCount = Math.floor(pageCount) + 1
 
 	function goToPreviousPage() {
 		if (currentPage > 1) setCurrentPage((p) => p - 1)
@@ -46,7 +35,11 @@ export const Paginator = <T,>({
 	return (
 		<div className={styles.paginator}>
 			<div className={styles.buttons}>
-				<button disabled={currentPage === 1} onClick={goToPreviousPage}>
+				<button
+					className={styles.prevBtn}
+					disabled={currentPage === 1}
+					onClick={goToPreviousPage}
+				>
 					<ArrowIcon className={styles.prevIcon} />
 				</button>
 
@@ -118,7 +111,11 @@ export const Paginator = <T,>({
 					</>
 				)}
 
-				<button disabled={currentPage === pageCount} onClick={goToNextPage}>
+				<button
+					className={styles.nextBtn}
+					disabled={currentPage === pageCount}
+					onClick={goToNextPage}
+				>
 					<ArrowIcon className={styles.nextIcon} />
 				</button>
 			</div>
