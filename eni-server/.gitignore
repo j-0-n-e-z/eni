@@ -1,0 +1,6 @@
+.env
+node_modules
+downloads
+dist
+srt
+/generated/prisma

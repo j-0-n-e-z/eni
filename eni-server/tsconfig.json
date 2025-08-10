@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"target": "es2022",
+		"module": "CommonJS",
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"outDir": "dist",
+		"skipLibCheck": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./*"],
+			"@/common": ["../common"]
+		}
+	}
+}
