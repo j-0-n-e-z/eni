@@ -20,7 +20,7 @@ export const SidePanel = () => {
 	const { words } = useAppSelector(selectWords)
 	const [logout] = useLogoutMutation()
 	const navigate = useNavigate()
-	const { isLoading, me, isAuthenticated } = useAuth()
+	const { me, isLoading, isAuthenticated } = useAuth()
 
 	async function handleLogout() {
 		await logout()

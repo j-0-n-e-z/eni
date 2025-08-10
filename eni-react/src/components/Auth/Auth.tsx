@@ -10,7 +10,7 @@ import { Signup } from './Signup'
 
 export const Auth = () => {
 	const navigate = useNavigate()
-	const { isAuthenticated, me } = useAuth()
+	const { me, isAuthenticated } = useAuth()
 	const [method, setMethod] = useState<'login' | 'signup'>('login')
 
 	useEffect(() => {

@@ -11,7 +11,12 @@ import styles from './Profile.module.scss'
 
 export const Profile = () => {
 	const { username } = useParams()
-	const { me, isLoading, isAuthenticated, isError } = useAuth()
+	const {
+		me,
+		isLoading: isMeLoading,
+		isAuthenticated,
+		isError: isMeError
+	} = useAuth()
 	const [getUserByUsername, { data: user, isLoading: isUserLoading, error }] =
 		useLazyGetUserByUsernameQuery()
 	const { words } = useAppSelector(selectWords)
@@ -27,15 +32,16 @@ export const Profile = () => {
 		if (!username) return
 
 		if (
-			isError ||
-			(!isLoading && !isAuthenticated) ||
-			(!isError && me && me.username !== username)
+			!isMeLoading &&
+			(isMeError ||
+				!isAuthenticated ||
+				(!isMeError && me && me.username !== username))
 		) {
 			getUserByUsername(username)
 		}
-	}, [username, me, isError, isLoading, isAuthenticated])
+	}, [username, me, isMeError, isMeLoading, isAuthenticated])
 
-	if (isUserLoading || isLoading) return <div>ТУТ СКЕЛЕТОН...</div>
+	if (isUserLoading || isMeLoading) return <div>ТУТ СКЕЛЕТОН...</div>
 	if (error)
 		return (
 			<div>
@@ -45,11 +51,11 @@ export const Profile = () => {
 			</div>
 		)
 
-	const displayUser = me ?? user
+	const displayUser = user ?? me
 
-	if (!displayUser) return <div>User not found</div>
+	if (!displayUser || !me) return <div>User not found</div>
 
-	const isMe = displayUser.username === me?.username
+	const isMe = displayUser.username === me.username
 
 	return (
 		<div className={styles.profilePage}>
@@ -59,11 +65,11 @@ export const Profile = () => {
 
 			<ul>
 				{words.map((word) => (
-					<div>
-						<li key={word.id}>{word.text}</li>
+					<li key={word.id}>
+						<div>{word.text}</div>
 						<button onClick={() => translate(word)}>TRANSLATE</button>
 						{translation && <p>{translation}</p>}
-					</div>
+					</li>
 				))}
 			</ul>
 		</div>
