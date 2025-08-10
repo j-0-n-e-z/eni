@@ -4,9 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useLazySearchMoviesQuery } from '@/api'
 import { SearchResults } from '@/components'
 import { useDebounce } from '@/hooks'
-
-import ClearIcon from '../../assets/icons/icon-cancel.svg?react'
-import SearchIcon from '../../assets/icons/icon-search.svg?react'
+import { CancelIcon, SearchIcon } from '@/icons'
 
 import styles from './Search.module.scss'
 
@@ -63,7 +61,7 @@ export const Search: FC = () => {
 					/>
 
 					<button className={styles.clearBtn} onClick={clearInput}>
-						<ClearIcon className={styles.clearIcon} />
+						<CancelIcon className={styles.clearIcon} />
 					</button>
 				</label>
 			</div>

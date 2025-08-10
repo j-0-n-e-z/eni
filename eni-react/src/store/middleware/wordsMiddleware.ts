@@ -1,8 +1,7 @@
 import type { Dispatch, Middleware, PayloadAction } from '@reduxjs/toolkit'
 
+import type { WordsState } from '@/store'
 import type { Word } from '@/types'
-
-import type { WordsState } from '../slices/wordsSlice'
 
 const isWordAction = (action: unknown): action is PayloadAction<Word> =>
 	typeof action === 'object' &&

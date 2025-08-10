@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
@@ -24,9 +23,10 @@ export const Auth = () => {
 		<div className={styles.authPage}>
 			<div className={styles.formWrapper}>
 				<form className={styles.methodPicker}>
-					<label>
+					<label htmlFor='login'>
 						<input
 							checked={method === 'login'}
+							id='login'
 							name='method'
 							type='radio'
 							value='login'
@@ -34,9 +34,10 @@ export const Auth = () => {
 						/>
 						Login
 					</label>
-					<label>
+					<label htmlFor='signup'>
 						<input
 							checked={method === 'signup'}
+							id='signup'
 							name='method'
 							type='radio'
 							value='signup'

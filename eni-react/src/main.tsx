@@ -2,12 +2,11 @@ import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import { store } from '@/app/index'
-import { Auth, MovieSubtitlesPage, Search } from '@/components'
+import { Auth, MovieSubtitlesPage, Profile, Search } from '@/components'
+import { store } from '@/store'
 
 import { App } from './App'
 import { ProtectedRoute } from './ProtectedRoute'
-import { Profile } from './components/Profile/Profile'
 
 // TODO: add error pages
 const router = createBrowserRouter([

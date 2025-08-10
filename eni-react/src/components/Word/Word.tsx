@@ -23,7 +23,7 @@ export const Word = memo(
 
 		function selectWord() {
 			if (!movieId) return
-			
+
 			dispatch(
 				addWord({
 					id,

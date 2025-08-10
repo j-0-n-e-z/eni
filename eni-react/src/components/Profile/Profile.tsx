@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useLazyTranslateQuery } from '@/api'
-import { useLazyGetUserByUsernameQuery } from '@/api/userApi'
+import { useLazyGetUserByUsernameQuery, useLazyTranslateQuery } from '@/api'
 import { useAppSelector } from '@/app/index'
 import { useAuth } from '@/hooks'
 import { selectWords } from '@/store'

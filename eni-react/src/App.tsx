@@ -3,7 +3,7 @@ import './App.scss'
 import type { FC } from 'react'
 import { Outlet } from 'react-router-dom'
 
-import { SidePanel } from './components/SidePanel/SidePanel'
+import { SidePanel } from '@/components'
 
 export const App: FC = () => (
 	<>
