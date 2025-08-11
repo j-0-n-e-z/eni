@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import {
 	authApi,
+	useGetMeQuery,
 	useLazyGetUserByUsernameQuery,
 	useLazyTranslateQuery
 } from '@/api'
@@ -14,7 +15,11 @@ import styles from './Profile.module.scss'
 
 export const Profile = () => {
 	const { username } = useParams()
-	const { data: me, isLoading, isFetching, } = authApi.endpoints.getMe.useQueryState(null)
+	const {
+		data: me,
+		isLoading,
+		isFetching
+	} = useGetMeQuery(null)
 	const [getUserByUsername, { data: user, isLoading: isUserLoading, error }] =
 		useLazyGetUserByUsernameQuery()
 	const { words } = useAppSelector(selectWords)
@@ -28,8 +33,8 @@ export const Profile = () => {
 
 	useEffect(() => {
 		if (!username || isLoading || isFetching) return
-		
-		if (!user && me?.username !== username) {
+
+		if ((!me && !user) || (!user && me && me.username !== username)) {
 			getUserByUsername(username)
 		}
 	}, [me, isLoading, isFetching])
