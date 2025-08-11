@@ -4,17 +4,10 @@ import type {
 	FetchBaseQueryError
 } from '@reduxjs/toolkit/query/react'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import toast from 'react-hot-toast'
 
-const baseQuery = fetchBaseQuery({
-	baseUrl: `${import.meta.env.VITE_API_URL}/api`,
-	credentials: 'include',
-	prepareHeaders: (headers) => {
-		const accessToken = localStorage.getItem('accessToken')
-		if (accessToken) {
-			headers.set('Authorization', `Bearer ${accessToken}`)
-		}
-		return headers
-	}
+export const baseQuery = fetchBaseQuery({
+	baseUrl: `${import.meta.env.VITE_API_URL}/api`
 })
 
 export const baseQueryWithReauth: BaseQueryFn<
@@ -24,22 +17,20 @@ export const baseQueryWithReauth: BaseQueryFn<
 > = async (args, api, extraOptions) => {
 	let result = await baseQuery(args, api, extraOptions)
 
-	const url = typeof args === 'string' ? args : args.url
-
-	if (result.error?.status === 401 && url === 'users/me') {
+	if (
+		result.error?.status === 401 &&
+		(result.error?.data as any).message === 'Access token expired'
+	) {
 		const refreshResult = await baseQuery(
-			{ url: 'refresh', method: 'POST' },
+			{ url: 'refresh', method: 'POST', credentials: 'include' },
 			api,
 			extraOptions
 		)
 
 		if (refreshResult.data) {
-			const { accessToken } = refreshResult.data as { accessToken: string }
-			localStorage.setItem('accessToken', accessToken)
-
 			result = await baseQuery(args, api, extraOptions)
 		} else {
-			localStorage.removeItem('accessToken')
+			toast.error('Session expired, please log in again')
 		}
 	}
 
@@ -47,7 +38,7 @@ export const baseQueryWithReauth: BaseQueryFn<
 }
 
 export const api = createApi({
-	baseQuery: baseQueryWithReauth,
+	baseQuery,
 	endpoints: () => ({}),
-	tagTypes: ['User', 'Me', 'Movie', 'Subtitle', 'TMDBMovie']
+	tagTypes: ['Movie', 'Subtitle', 'TMDBMovie']
 })

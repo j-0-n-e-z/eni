@@ -1,7 +1,8 @@
 import bcrypt from 'bcrypt'
-import { Request, Response } from 'express'
+import type { Request, Response } from 'express'
+
 import type { UserService } from '../services/user.service'
-import { REFRESH_TOKEN } from '../utils/constants'
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../utils/constants'
 import { AuthenticationError } from '../utils/errors/exceptions'
 
 export class AuthController {
@@ -15,19 +16,11 @@ export class AuthController {
 
 		const hashedPassword = await bcrypt.hash(password, 5)
 
-		const { userDto, accessToken, refreshToken } =
-			await this.userService.signup(username, email, hashedPassword)
+		await this.userService.signup(username, email, hashedPassword)
 
-		return res
-			.cookie(REFRESH_TOKEN, refreshToken, {
-				maxAge: 2592000000,
-				httpOnly: true
-			})
-			.status(201)
-			.json({
-				accessToken,
-				user: userDto
-			})
+		return res.status(201).json({
+			message: 'An email with a verification code has been sent to your email'
+		})
 	}
 
 	login = async (req: Request, res: Response) => {
@@ -48,11 +41,12 @@ export class AuthController {
 				maxAge: 2592000000,
 				httpOnly: true
 			})
-			.status(200)
-			.json({
-				accessToken,
-				user: userDto
+			.cookie(ACCESS_TOKEN, accessToken, {
+				maxAge: 2592000000,
+				httpOnly: true
 			})
+			.status(200)
+			.json(userDto)
 	}
 
 	logout = async (req: Request, res: Response) => {
@@ -60,6 +54,7 @@ export class AuthController {
 
 		await this.userService.logout(refreshToken)
 		res.clearCookie(REFRESH_TOKEN)
+		res.clearCookie(ACCESS_TOKEN)
 
 		return res.status(200).json({ message: 'Logged out successfully' })
 	}
@@ -79,11 +74,12 @@ export class AuthController {
 				maxAge: 2592000000,
 				httpOnly: true
 			})
-			.status(200)
-			.json({
-				accessToken: newAccessToken,
-				user: userDto
+			.cookie(ACCESS_TOKEN, newAccessToken, {
+				maxAge: 2592000000,
+				httpOnly: true
 			})
+			.status(200)
+			.json(userDto)
 	}
 
 	activate = async (req: Request, res: Response) => {

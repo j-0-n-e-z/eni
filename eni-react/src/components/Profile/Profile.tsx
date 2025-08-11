@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useLazyGetUserByUsernameQuery, useLazyTranslateQuery } from '@/api'
+import {
+	authApi,
+	useLazyGetUserByUsernameQuery,
+	useLazyTranslateQuery
+} from '@/api'
 import { useAppSelector } from '@/app/index'
-import { useAuth } from '@/hooks'
 import { selectWords } from '@/store'
 import type { Word } from '@/types'
 
@@ -11,12 +14,7 @@ import styles from './Profile.module.scss'
 
 export const Profile = () => {
 	const { username } = useParams()
-	const {
-		me,
-		isLoading: isMeLoading,
-		isAuthenticated,
-		isError: isMeError
-	} = useAuth()
+	const { data: me, isLoading, isFetching, } = authApi.endpoints.getMe.useQueryState(null)
 	const [getUserByUsername, { data: user, isLoading: isUserLoading, error }] =
 		useLazyGetUserByUsernameQuery()
 	const { words } = useAppSelector(selectWords)
@@ -29,19 +27,14 @@ export const Profile = () => {
 	}
 
 	useEffect(() => {
-		if (!username) return
-
-		if (
-			!isMeLoading &&
-			(isMeError ||
-				!isAuthenticated ||
-				(!isMeError && me && me.username !== username))
-		) {
+		if (!username || isLoading || isFetching) return
+		
+		if (!user && me?.username !== username) {
 			getUserByUsername(username)
 		}
-	}, [username, me, isMeError, isMeLoading, isAuthenticated])
+	}, [me, isLoading, isFetching])
 
-	if (isUserLoading || isMeLoading) return <div>ТУТ СКЕЛЕТОН...</div>
+	if (isUserLoading) return <div>ТУТ СКЕЛЕТОН...</div>
 	if (error)
 		return (
 			<div>
@@ -53,9 +46,9 @@ export const Profile = () => {
 
 	const displayUser = user ?? me
 
-	if (!displayUser || !me) return <div>User not found</div>
+	if (!displayUser) return <div>User not found</div>
 
-	const isMe = displayUser.username === me.username
+	const isMe = displayUser.username === me?.username
 
 	return (
 		<div className={styles.profilePage}>
@@ -63,15 +56,20 @@ export const Profile = () => {
 			<p>{displayUser.username}</p>
 			<p>{displayUser.email}</p>
 
-			<ul>
-				{words.map((word) => (
-					<li key={word.id}>
-						<div>{word.text}</div>
-						<button onClick={() => translate(word)}>TRANSLATE</button>
-						{translation && <p>{translation}</p>}
-					</li>
-				))}
-			</ul>
+			{isMe && (
+				<>
+					<h3>Words</h3>
+					<ul>
+						{words.map((word) => (
+							<li key={word.id}>
+								<div>{word.text}</div>
+								<button onClick={() => translate(word)}>TRANSLATE</button>
+								{translation && <p>{translation}</p>}
+							</li>
+						))}
+					</ul>
+				</>
+			)}
 		</div>
 	)
 }

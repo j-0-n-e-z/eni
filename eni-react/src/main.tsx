@@ -1,3 +1,4 @@
+import { CookiesProvider } from 'react-cookie'
 import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -39,6 +40,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
 	<Provider store={store}>
-		<RouterProvider router={router} />
+		<CookiesProvider>
+			<RouterProvider router={router} />
+		</CookiesProvider>
 	</Provider>
 )

@@ -20,13 +20,11 @@ export const Login = () => {
 	const navigate = useNavigate()
 
 	async function onSubmit({ email, password }: LoginValues) {
-		const { data, error } = await login({ email, password })
-
-		if (data?.user) {
-			navigate(`/user/${data.user.username}`)
-		}
-
-		if (error && 'data' in error) {
+		try {
+			const { username } = await login({ email, password }).unwrap()
+			navigate(`/user/${username}`)
+		} catch (error) {
+			if (!('data' in error)) return
 			const apiError = error.data as ApiError
 			if (apiError.field) {
 				setError(apiError.field as 'email' | 'password', {
@@ -47,6 +45,7 @@ export const Login = () => {
 				</div>
 				<input
 					className={styles.input}
+					defaultValue='rigabdullin@yandex.ru'
 					id='email'
 					type='email'
 					{...register('email')}
@@ -63,6 +62,7 @@ export const Login = () => {
 				</div>
 				<input
 					className={styles.input}
+					defaultValue='Parol228$'
 					id='password'
 					type='password'
 					{...register('password')}

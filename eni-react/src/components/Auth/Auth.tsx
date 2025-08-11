@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
-import { useAuth } from '@/hooks'
+import { useAppSelector } from '@/app/hooks'
+import { selectUser } from '@/store'
 
 import styles from './Auth.module.scss'
 import { Login } from './Login'
@@ -10,14 +11,14 @@ import { Signup } from './Signup'
 
 export const Auth = () => {
 	const navigate = useNavigate()
-	const { me, isAuthenticated } = useAuth()
+	const me = useAppSelector(selectUser)
 	const [method, setMethod] = useState<'login' | 'signup'>('login')
 
 	useEffect(() => {
 		if (me) {
 			navigate(`/user/${me.username}`)
 		}
-	}, [isAuthenticated])
+	}, [me])
 
 	return (
 		<div className={styles.authPage}>

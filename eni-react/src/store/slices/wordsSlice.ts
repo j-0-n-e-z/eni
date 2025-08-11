@@ -21,8 +21,8 @@ const initialState: WordsState = {
 }
 
 const wordsSlice = createSlice({
-	initialState,
 	name: 'words',
+	initialState,
 	reducers: {
 		clearWords: () => initialState,
 		addWord: (state, action: PayloadAction<Word>) => {

@@ -1,11 +1,11 @@
 import cn from 'classnames'
+import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { useLogoutMutation } from '@/api'
+import { useGetMeQuery, useLogoutMutation } from '@/api'
 import { useAppSelector } from '@/app/index'
-import { useAuth } from '@/hooks'
 import {
-	BookIcon,
+	BrainIcon,
 	InfoIcon,
 	LoginIcon,
 	PopularIcon,
@@ -18,16 +18,28 @@ import styles from './SidePanel.module.scss'
 
 export const SidePanel = () => {
 	const { words } = useAppSelector(selectWords)
-	const [logout] = useLogoutMutation()
+	const { data: me, isLoading: isMeLoading } = useGetMeQuery(null)
+	const [
+		logout,
+		{
+			isLoading: isLogoutLoading,
+			isSuccess: isLogoutSuccess,
+			isError: isLogoutError,
+			error
+		}
+	] = useLogoutMutation()
 	const navigate = useNavigate()
-	const { me, isLoading, isAuthenticated } = useAuth()
 
-	async function handleLogout() {
-		await logout()
-		navigate('/login')
-	}
+	useEffect(() => {
+		if (isLogoutSuccess) {
+			navigate('/login')
+		}
+	}, [isLogoutLoading])
 
-	if (isLoading) return <div>User is loading</div>
+	if (isMeLoading) return <div>Loading...</div>
+	if (isLogoutLoading) return <div>Loggin out...</div>
+	if (isLogoutError)
+		return <div>Could not log out: {JSON.stringify(error)}</div>
 
 	return (
 		<aside className={styles.sidepanel}>
@@ -52,14 +64,14 @@ export const SidePanel = () => {
 						</Link>
 					</li>
 
-					{isAuthenticated && (
+					{me && (
 						<li>
 							<Link
 								aria-label='profile with words'
 								className={cn(styles.navLink, styles.words)}
-								to={`/user/${me!.username}`}
+								to={`/user/${me.username}`}
 							>
-								<BookIcon className={styles.bookIcon} />
+								<BrainIcon className={styles.bookIcon} />
 								<span className={styles.navLinkText}>Words</span>
 								{words.length > 0 && (
 									<div className={styles.wordsCount}>{words.length}</div>
@@ -79,7 +91,7 @@ export const SidePanel = () => {
 						</Link>
 					</li>
 
-					{isAuthenticated && (
+					{me && (
 						<li>
 							<Link
 								aria-label='settings'
@@ -100,11 +112,11 @@ export const SidePanel = () => {
 					</li>
 
 					<li>
-						{isAuthenticated ? (
+						{me ? (
 							<button
 								aria-label='logout'
 								className={cn(styles.navLink, styles.login)}
-								onClick={handleLogout}
+								onClick={() => logout()}
 							>
 								<LoginIcon className={styles.logoutIcon} />
 								<span className={styles.navLinkText}>Logout</span>

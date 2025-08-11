@@ -1,11 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import type {
-	LoginRequest,
-	SignupRequest,
-	SuccessAuthResponse,
-	User
-} from '@/types'
+import type { LoginRequest, SignupRequest, User } from '@/types'
 
 import { baseQueryWithReauth } from './api'
 
@@ -13,67 +8,52 @@ export const authApi = createApi({
 	reducerPath: 'authApi',
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
-		signup: build.mutation<SuccessAuthResponse, SignupRequest>({
+		getMe: build.query<User, null>({
+			query: () => ({
+				url: 'users/me',
+				credentials: 'include'
+			})
+		}),
+		signup: build.mutation<void, SignupRequest>({
 			query: (credentials) => ({
 				url: 'signup',
 				method: 'POST',
 				body: credentials
 			})
 		}),
-		login: build.mutation<SuccessAuthResponse, LoginRequest>({
+		login: build.mutation<User, LoginRequest>({
 			query: (credentials) => ({
 				url: 'login',
 				method: 'POST',
-				body: credentials
-			}),
-			async onQueryStarted(_, { queryFulfilled }) {
-				try {
-					const {
-						data: { accessToken }
-					} = await queryFulfilled
-
-					if (accessToken) {
-						localStorage.setItem('accessToken', accessToken)
-					}
-				} catch (error) {
-					console.log('Login failed:', error)
-				}
-			}
-			// invalidatesTags: [{ type: 'User' }]
-		}),
-		logout: build.mutation<void, void>({
-			query: () => ({
-				url: 'logout',
-				method: 'POST'
+				body: credentials,
+				credentials: 'include'
 			}),
 			async onQueryStarted(_, { dispatch, queryFulfilled }) {
 				try {
 					await queryFulfilled
-					dispatch(authApi.util.invalidateTags(['Me']))
-					localStorage.removeItem('accessToken')
+					await dispatch(authApi.endpoints.getMe.initiate(null))
 				} catch (error) {
-					console.log('Logout failed:', error)
+					console.log(error)
 				}
 			}
 		}),
-		refreshToken: build.mutation<{ accessToken: string }, void>({
+		logout: build.mutation<void, void>({
 			query: () => ({
-				url: 'refresh',
-				method: 'POST'
-			})
-		}),
-		getMe: build.query<User, void>({
-			query: () => 'users/me',
-			providesTags: ['Me']
+				url: 'logout',
+				method: 'POST',
+				credentials: 'include'
+			}),
+			async onQueryStarted(_, { dispatch, queryFulfilled }) {
+				try {
+					await queryFulfilled
+					dispatch(authApi.util.resetApiState())
+				} catch (error) {
+					console.log(error)
+				}
+			}
 		})
-	}),
-	tagTypes: ['Me']
+	})
 })
 
-export const {
-	useLoginMutation,
-	useLogoutMutation,
-	useRefreshTokenMutation,
-	useGetMeQuery,
-	useSignupMutation
-} = authApi
+export const { useGetMeQuery, useLoginMutation, useLogoutMutation, useSignupMutation } =
+	authApi

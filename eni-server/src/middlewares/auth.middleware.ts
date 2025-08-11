@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { TokenService } from '../services/token.service'
-import { REFRESH_TOKEN } from '../utils/constants'
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../utils/constants'
 import { AuthenticationError } from '../utils/errors/exceptions'
 import { prisma } from '../utils/prismaClient'
 
@@ -30,7 +30,7 @@ export class AuthMiddleware {
 	}
 
 	protectByAccessToken = (req: Request, res: Response, next: NextFunction) => {
-		const accessToken = req.headers.authorization?.split(' ')[1]
+		const accessToken = req.cookies[ACCESS_TOKEN]
 
 		if (!accessToken) {
 			throw new AuthenticationError(401, 'Not authorized')

@@ -70,16 +70,6 @@ export interface SignupRequest {
 	username: string
 }
 
-export interface SuccessAuthResponse {
-	accessToken: string
-	user: {
-		id: string
-		email: string
-		username: string
-		isEmailConfirmed: boolean
-	}
-}
-
 export class ApiError extends Error {
 	constructor(
 		public readonly statusCode: number,

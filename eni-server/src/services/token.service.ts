@@ -1,7 +1,8 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import type { Prisma, PrismaClient } from '@prisma/client'
 import jwt from 'jsonwebtoken'
-import { UserDto } from '../dtos/userDto'
-import { JwtPayload } from '../types'
+
+import type { UserDto } from '../dtos/userDto'
+import type { JwtPayload } from '../types'
 import {
 	AuthenticationError,
 	TokenExpiredError
@@ -14,7 +15,7 @@ export class TokenService {
 		return jwt.sign(
 			{ id: user.id, email: user.email },
 			process.env.JWT_ACCESS_SECRET as string,
-			{ expiresIn: '15m' }
+			{ expiresIn: '5s' }
 		)
 	}
 

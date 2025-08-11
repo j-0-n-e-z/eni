@@ -1,10 +1,12 @@
-import { Prisma, PrismaClient, User } from '@prisma/client'
+import type { Prisma, PrismaClient, User } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
+
 import { UserDto } from '../dtos/userDto'
 import { ApiError, AuthenticationError } from '../utils/errors/exceptions'
-import { MailService } from './mail.service'
-import { TokenService } from './token.service'
+
+import type { MailService } from './mail.service'
+import type { TokenService } from './token.service'
 
 export class UserService {
 	constructor(
@@ -14,11 +16,11 @@ export class UserService {
 	) {}
 
 	async getUserByUsername(username: string) {
-		return await this.prisma.user.findFirst({ where: { username } })
+		return this.prisma.user.findFirst({ where: { username } })
 	}
 
 	async getUsers() {
-		return await this.prisma.user.findMany()
+		return this.prisma.user.findMany()
 	}
 
 	async getMe(refreshToken: string) {
@@ -44,9 +46,9 @@ export class UserService {
 
 		const user = await client.user.create({
 			data: {
-				username: username,
+				username,
 				password,
-				email: email,
+				email,
 				emailConfirmationLink
 			}
 		})
@@ -55,43 +57,31 @@ export class UserService {
 	}
 
 	async signup(username: string, email: string, hashedPassword: string) {
-		const { userDto, accessToken, refreshToken } =
-			await this.prisma.$transaction(async (tx) => {
-				const existingUser = await this.findByEmail(email)
+		await this.prisma.$transaction(async (tx) => {
+			const existingUser = await this.findByEmail(email)
 
-				if (existingUser) {
-					throw new AuthenticationError(
-						409,
-						'User with given email already exists',
-						'email'
-					)
-				}
-
-				const user = await this.create(
-					{
-						username,
-						email,
-						password: hashedPassword
-					},
-					tx
+			if (existingUser) {
+				throw new AuthenticationError(
+					409,
+					'User with given email already exists',
+					'email'
 				)
+			}
 
-				const userDto = new UserDto(user)
-
-				const { accessToken, refreshToken } =
-					this.tokenService.generateTokens(userDto)
-
-				await this.tokenService.saveRefreshToken(userDto.id, refreshToken, tx)
-
-				await this.mailService.sendConfirmationEmail(
+			const user = await this.create(
+				{
+					username,
 					email,
-					`${process.env.API_URL}/api/activate/${user.emailConfirmationLink}`
-				)
+					password: hashedPassword
+				},
+				tx
+			)
 
-				return { userDto, accessToken, refreshToken }
-			})
-
-		return { userDto, accessToken, refreshToken }
+			await this.mailService.sendConfirmationEmail(
+				email,
+				`${process.env.API_URL}/api/activate/${user.emailConfirmationLink}`
+			)
+		})
 	}
 
 	async login(email: string, password: string) {
@@ -134,7 +124,7 @@ export class UserService {
 		this.tokenService.verifyRefreshToken(refreshToken)
 
 		const user = await this.prisma.user.findFirst({
-			where: { token: { refreshToken: refreshToken } }
+			where: { token: { refreshToken } }
 		})
 
 		if (!user) {
@@ -156,7 +146,7 @@ export class UserService {
 	}
 
 	async findByEmail(email: string): Promise<User | null> {
-		return await this.prisma.user.findFirst({
+		return this.prisma.user.findFirst({
 			where: {
 				email: {
 					equals: email,

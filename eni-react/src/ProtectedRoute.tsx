@@ -1,11 +1,11 @@
 import { Navigate, Outlet } from 'react-router-dom'
 
-import { useAuth } from '@/hooks'
+import { authApi } from '@/api'
 
 export const ProtectedRoute = () => {
-	const { isAuthenticated, isLoading } = useAuth()
+	const { isLoading, isSuccess } = authApi.endpoints.getMe.useQueryState(null)
 
 	if (isLoading) return <div>ЗАГРУЗКА</div>
 
-	return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
+	return isSuccess ? <Outlet /> : <Navigate to='/login' />
 }

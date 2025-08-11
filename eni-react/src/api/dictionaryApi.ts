@@ -8,7 +8,8 @@ export const dictionaryApi = api.injectEndpoints({
 			query: (text) => ({
 				url: 'translate',
 				method: 'POST',
-				body: { text }
+				body: { text },
+				credentials: 'include'
 			})
 		})
 	})
