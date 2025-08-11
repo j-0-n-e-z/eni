@@ -43,20 +43,14 @@ export const SidePanel = () => {
 
 	return (
 		<aside className={styles.sidepanel}>
+			<div className={styles.topArea}>
+				<Link aria-label='search' className={styles.topWrapper} to='/'>
+					<BrainIcon className={cn(styles.bookIcon, styles.topLogo)} />
+					<div className={styles.topTitle}>Eni</div>
+				</Link>
+			</div>
 			<nav className={cn(styles.navigation)}>
 				<ul className={styles.navList}>
-					<li>
-						<Link aria-label='search' className={styles.topWrapper} to='/'>
-							<img
-								alt='eni logo'
-								className={styles.logo}
-								src='/assets/images/eni_huge_logo.webp'
-							/>
-
-							<div className={styles.topTitle}>Eni</div>
-						</Link>
-					</li>
-
 					<li>
 						<Link aria-label='search' className={styles.navLink} to='/search'>
 							<SearchIcon className={styles.searchIcon} />
@@ -110,26 +104,26 @@ export const SidePanel = () => {
 							<span className={styles.navLinkText}>Info</span>
 						</Link>
 					</li>
-
-					<li>
-						{me ? (
-							<button
-								aria-label='logout'
-								className={cn(styles.navLink, styles.login)}
-								onClick={() => logout()}
-							>
-								<LoginIcon className={styles.logoutIcon} />
-								<span className={styles.navLinkText}>Logout</span>
-							</button>
-						) : (
-							<Link aria-label='login' className={styles.navLink} to='/login'>
-								<LoginIcon className={styles.loginIcon} />
-								<span className={styles.navLinkText}>Login</span>
-							</Link>
-						)}
-					</li>
 				</ul>
 			</nav>
+
+			<div className={styles.loginWrapper}>
+				{me ? (
+					<button
+						aria-label='logout'
+						className={styles.login}
+						onClick={() => logout()}
+					>
+						<LoginIcon className={styles.logoutIcon} />
+						<span className={styles.loginText}>Logout</span>
+					</button>
+				) : (
+					<Link aria-label='login' className={styles.login} to='/login'>
+						<LoginIcon className={styles.loginIcon} />
+						<span className={styles.loginText}>Login</span>
+					</Link>
+				)}
+			</div>
 		</aside>
 	)
 }

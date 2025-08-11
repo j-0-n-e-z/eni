@@ -1,6 +1,6 @@
 import { type FC } from 'react'
 
-import { Word } from '@/components'
+import { SubtitleWord } from '@/components'
 import type { Subtitle as ISubtitle } from '@/types'
 import { PUNCTUATION } from '@/utils'
 
@@ -20,7 +20,7 @@ export const Subtitle: FC<SubtitleProps> = ({ subtitle }) => (
 				const punctuationMatch = word.match(PUNCTUATION)
 
 				return (
-					<Word
+					<SubtitleWord
 						key={id}
 						after={punctuationMatch ? punctuationMatch[3] : undefined}
 						before={punctuationMatch ? punctuationMatch[1] : undefined}

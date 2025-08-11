@@ -5,9 +5,9 @@ import { useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@/app/index'
 import { addWord, isWordSelected, removeWord } from '@/store'
 
-import styles from './Word.module.scss'
+import styles from './SubtitleWord.module.scss'
 
-interface WordProps {
+interface SubtitleWordProps {
 	before?: string
 	after?: string
 	text: string
@@ -15,8 +15,8 @@ interface WordProps {
 	subtitleId: number
 }
 
-export const Word = memo(
-	({ text, before, after, id, subtitleId }: WordProps) => {
+export const SubtitleWord = memo(
+	({ text, before, after, id, subtitleId }: SubtitleWordProps) => {
 		const dispatch = useAppDispatch()
 		const isSelected = useAppSelector(isWordSelected(text))
 		const { id: movieId } = useParams()
