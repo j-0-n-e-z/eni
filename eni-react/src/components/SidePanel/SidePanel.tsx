@@ -1,6 +1,6 @@
 import cn from 'classnames'
 import { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { useGetMeQuery, useLogoutMutation } from '@/api'
 import { useAppSelector } from '@/app/index'
@@ -29,6 +29,9 @@ export const SidePanel = () => {
 		}
 	] = useLogoutMutation()
 	const navigate = useNavigate()
+	const location = useLocation()
+
+	console.log(location.pathname)
 
 	useEffect(() => {
 		if (isLogoutSuccess) {
@@ -52,7 +55,13 @@ export const SidePanel = () => {
 			<nav className={cn(styles.navigation)}>
 				<ul className={styles.navList}>
 					<li>
-						<Link aria-label='search' className={styles.navLink} to='/search'>
+						<Link
+							aria-label='search'
+							to='/search'
+							className={cn(styles.navLink, {
+								[styles.active]: location.pathname === '/search'
+							})}
+						>
 							<SearchIcon className={styles.searchIcon} />
 							<span className={styles.navLinkText}>Search</span>
 						</Link>
@@ -62,8 +71,10 @@ export const SidePanel = () => {
 						<li>
 							<Link
 								aria-label='profile with words'
-								className={cn(styles.navLink, styles.words)}
 								to={`/user/${me.username}`}
+								className={cn(styles.navLink, styles.words, {
+									[styles.active]: location.pathname === `/user/${me.username}`
+								})}
 							>
 								<BrainIcon className={styles.bookIcon} />
 								<span className={styles.navLinkText}>Words</span>
@@ -77,8 +88,10 @@ export const SidePanel = () => {
 					<li>
 						<Link
 							aria-label='popular words'
-							className={styles.navLink}
 							to='/popular'
+							className={cn(styles.navLink, {
+								[styles.active]: location.pathname === '/popular'
+							})}
 						>
 							<PopularIcon className={styles.popularIcon} />
 							<span className={styles.navLinkText}>Popular</span>
@@ -89,8 +102,10 @@ export const SidePanel = () => {
 						<li>
 							<Link
 								aria-label='settings'
-								className={styles.navLink}
 								to='/settings'
+								className={cn(styles.navLink, {
+									[styles.active]: location.pathname === '/settings'
+								})}
 							>
 								<SettingsIcon className={styles.settingsIcon} />
 								<span className={styles.navLinkText}>Settings</span>
@@ -99,7 +114,13 @@ export const SidePanel = () => {
 					)}
 
 					<li>
-						<Link aria-label='app info' className={styles.navLink} to='/info'>
+						<Link
+							aria-label='app info'
+							to='/info'
+							className={cn(styles.navLink, {
+								[styles.active]: location.pathname === '/info'
+							})}
+						>
 							<InfoIcon className={styles.infoIcon} />
 							<span className={styles.navLinkText}>Info</span>
 						</Link>
@@ -107,7 +128,7 @@ export const SidePanel = () => {
 				</ul>
 			</nav>
 
-			<div className={styles.loginWrapper}>
+			<div className={styles.bottomNavigation}>
 				{me ? (
 					<button
 						aria-label='logout'
@@ -118,7 +139,13 @@ export const SidePanel = () => {
 						<span className={styles.loginText}>Logout</span>
 					</button>
 				) : (
-					<Link aria-label='login' className={styles.login} to='/login'>
+					<Link
+						aria-label='login'
+						to='/login'
+						className={cn(styles.login, {
+							[styles.active]: location.pathname === '/login'
+						})}
+					>
 						<LoginIcon className={styles.loginIcon} />
 						<span className={styles.loginText}>Login</span>
 					</Link>

@@ -1,6 +1,6 @@
 import './App.scss'
 
-import type { FC } from 'react'
+import { type FC } from 'react'
 import { Outlet } from 'react-router-dom'
 
 import { SidePanel } from '@/components'
