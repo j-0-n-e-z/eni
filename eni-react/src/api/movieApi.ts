@@ -1,23 +1,22 @@
-import type { Movie, TMDBMovie } from '@/types'
+import type { BoxOffice, KinopoiskMovie, KinopoiskSearchMovie } from '@/types'
 
 import { api } from './api'
 
 export const movieApi = api.injectEndpoints({
 	endpoints: (build) => ({
-		searchMovies: build.query<Movie[], string>({
-			query: (query) => ({
+		searchMovies: build.query<KinopoiskSearchMovie[], string>({
+			query: (keyword) => ({
 				url: 'movies',
-				params: { query }
+				params: { keyword }
 			}),
 			providesTags: ['Movie']
 		}),
-		getMovieById: build.query<Movie, number>({
+		getMovieById: build.query<KinopoiskMovie, number>({
 			query: (id) => `movies/${id}`,
 			providesTags: ['Movie']
 		}),
-		getTMDBMovieById: build.query<TMDBMovie, number>({
-			query: (tmdbId) => `movies/tmdb/${tmdbId}`,
-			providesTags: ['TMDBMovie']
+		getMovieBoxOfficeById: build.query<BoxOffice, number>({
+			query: (id) => `movies/${id}/box_office`
 		})
 	})
 })
@@ -25,6 +24,6 @@ export const movieApi = api.injectEndpoints({
 export const {
 	useSearchMoviesQuery,
 	useGetMovieByIdQuery,
-	useGetTMDBMovieByIdQuery,
-	useLazySearchMoviesQuery
+	useLazySearchMoviesQuery,
+	useGetMovieBoxOfficeByIdQuery
 } = movieApi

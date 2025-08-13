@@ -1,9 +1,10 @@
 import axios from 'axios'
 import dotenv from 'dotenv'
+
 dotenv.config()
 
 export const openSubtitlesApi = axios.create({
-	baseURL: process.env.OPENSUBTITLES_BASEURL,
+	baseURL: process.env.OPENSUBTITLES_API_URL,
 	headers: {
 		'Api-Key': process.env.OPENSUBTITLES_API_KEY,
 		'X-User-Agent': 'eni v0.0.1',
@@ -12,7 +13,7 @@ export const openSubtitlesApi = axios.create({
 })
 
 export const openSubtitlesApiAuthed = axios.create({
-	baseURL: process.env.OPENSUBTITLES_BASEURL,
+	baseURL: process.env.OPENSUBTITLES_API_URL,
 	headers: {
 		Accept: 'application/json',
 		'Api-Key': process.env.OPENSUBTITLES_API_KEY,
@@ -20,9 +21,4 @@ export const openSubtitlesApiAuthed = axios.create({
 		'X-User-Agent': 'eni v0.0.1',
 		'Content-Type': 'application/json'
 	}
-})
-
-openSubtitlesApiAuthed.interceptors.request.use((config) => {
-	console.log('Final request URL:', `${config.baseURL}${config.url}`)
-	return config
 })

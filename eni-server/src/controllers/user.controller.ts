@@ -1,6 +1,7 @@
-import { Request, Response } from 'express'
+import type { Request, Response } from 'express'
+
 import { UserDto } from '../dtos/userDto'
-import { UserService } from '../services/user.service'
+import type { UserService } from '../services/user.service'
 import { REFRESH_TOKEN } from '../utils/constants'
 import { ApiError } from '../utils/errors/exceptions'
 
@@ -8,7 +9,7 @@ export class UserController {
 	constructor(private readonly userService: UserService) {}
 
 	getUserByUsername = async (req: Request, res: Response) => {
-		const username = req.params.username
+		const {username} = req.params
 
 		const user = await this.userService.getUserByUsername(username)
 

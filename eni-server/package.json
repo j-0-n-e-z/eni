@@ -12,7 +12,9 @@
 		"prisma:init": "npx prisma migrate dev --name init",
 		"prisma:generate": "npx prisma generate",
 		"prisma:pushdb": "npx prisma db push --force-reset",
-		"prisma:setup": "npm run prisma:reset && npm run prisma:init && npm run prisma:generate"
+		"prisma:setup": "npm run prisma:reset && npm run prisma:init && npm run prisma:generate",
+		"lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
+		"lint:fix": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix"
 	},
 	"license": "ISC",
 	"dependencies": {

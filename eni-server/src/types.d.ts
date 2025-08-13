@@ -1,4 +1,3 @@
-import { JwtPayload } from './types.d';
 declare module 'express' {
 	interface Request {
 		user?: JwtPayload
@@ -91,88 +90,103 @@ export interface Movie {
 	}
 }
 
-export interface TMDBMovie {
-	genres: string[]
-	production_companies: string[]
-	production_countries: string[]
-	homepage: string
-	budget: number
-	original_title: string
-	origin_countries: string[]
-	overview: string
-	runtime: number
-	tagline: string
-	title: string
-	release_date: string
-	status: string
-	vote_average: number
-	imdb_id: string
+export interface KinopoiskSearchResponse {
+	films: KinopoiskSearchMovie[]
+	pagesCount: number
+	searchFilmsCountResult: number
+}
+
+export interface KinopoiskSearchMovie {
+	filmId: number
+	nameRu: string | null
+	nameEn: string | null
+	type: FilmType
+	year: string
+	description?: string
+	filmLength: string
+	countries: { country: string }[]
+	genres: { genre: string }[]
+	rating: string | null
+	ratingVoteCount: number
+	posterUrl: string
+	posterUrlPreview: string
+}
+
+type FilmType = 'FILM' | 'VIDEO' | 'MINI_SERIES' | 'TV_SERIES' | 'TV_SHOW'
+type ProductionStatus =
+	| 'POST_PRODUCTION'
+	| 'FILMING'
+	| 'PRE_PRODUCTION'
+	| 'COMPLETED'
+	| 'ANNOUNCED'
+type MpaaRating = 'g' | 'pg' | 'pg13' | 'r' | 'nc17'
+type AgeLimits = 'age0' | 'age6' | 'age12' | 'age16' | 'age18'
+
+export interface KinopoiskMovie {
+	kinopoiskId: number
+	kinopoiskHDId: string | null
+	imdbId: string | null
+	nameRu: string | null
+	nameEn: string | null
+	nameOriginal: string | null
+	posterUrl: string
+	posterUrlPreview: string
+	coverUrl: string | null
+	logoUrl: string | null
+	reviewsCount: number
+	ratingGoodReview: number | null
+	ratingGoodReviewVoteCount: number | null
+	ratingKinopoisk: number | null
+	ratingKinopoiskVoteCount: number
+	ratingImdb: number | null
+	ratingImdbVoteCount: number
+	ratingFilmCritics: number | null
+	ratingFilmCriticsVoteCount: number | null
+	ratingAwait: number | null
+	ratingAwaitCount: number | null
+	ratingRfCritics: number | null
+	ratingRfCriticsVoteCount: number | null
+	webUrl: string
+	year: number
+	filmLength: number
+	slogan: string | null
+	description: string | null
+	shortDescription: string | null
+	editorAnnotation: string | null
+	isTicketsAvailable: boolean
+	productionStatus: ProductionStatus | null
+	type: FilmType
+	ratingMpaa: MpaaRating | null
+	ratingAgeLimits: AgeLimits | null
+	hasImax: boolean
+	has3D: boolean
+	lastSync: string
+	countries: { country: string }[]
+	genres: { genre: string }[]
+	startYear: number | null
+	endYear: number | null
+	serial: boolean
+	shortFilm: boolean
+	completed: boolean
+}
+
+interface Budget {
+	type: string
+	amount: number
+	currentCode: string
+	name: string
+	symbol: string
+}
+
+export interface BoxOffice {
+	total: number
+	items: Budget[]
 }
 
 export interface SubtitlesInfo {
 	link: string
 	file_name: string
 }
-
-export interface FullTMDBMovie {
-	adult: boolean
-	backdrop_path: string
-	belongs_to_collection: BelongsToCollection
-	budget: number
-	genres: Genre[]
-	homepage: string
-	id: number
-	imdb_id: string
-	origin_country: string[]
-	original_language: string
-	original_title: string
-	overview: string
-	popularity: number
-	poster_path: string
-	production_companies: ProductionCompany[]
-	production_countries: ProcuctionCountry[]
-	release_date: string
-	revenue: number
-	runtime: number
-	spoken_languages: SpokenLanguage[]
-	status: string
-	tagline: string
-	title: string
-	video: boolean
-	vote_average: number
-	vote_count: number
-}
-
-export interface BelongsToCollection {
-	id: number
-	name: string
-	poster_path: string
-	backdrop_path: string
-}
-
-export interface Genre {
-	id: number
-	name: string
-}
-
-export interface ProductionCompany {
-	id: number
-	logo_path?: any
-	name: string
-	origin_country: string
-}
-
-export interface ProcuctionCountry {
-	iso_3166_1: string
-	name: string
-}
-
-export interface SpokenLanguage {
-	english_name: string
-	iso_639_1: string
-	name: string
-}
-
 
 export interface DictionaryResponse {
 	head: Record<string, never>

@@ -1,10 +1,10 @@
 import { openSubtitlesApiAuthed } from '../api/openSubtitlesApi'
-import { SubtitlesInfo } from '../types'
+import type { SubtitlesInfo } from '../types'
 import { fetchSubtitlesSrtFile } from '../utils/subtitles/fetchSubtitlesSrt'
 import { parseSrt } from '../utils/subtitles/parseSrt'
 
 export class SubtitleService {
-	async downloadSubtitle(fileId: string) {
+	async downloadSubtitle(fileId: number) {
 		const response = await openSubtitlesApiAuthed.post<SubtitlesInfo>(
 			'/download',
 			{

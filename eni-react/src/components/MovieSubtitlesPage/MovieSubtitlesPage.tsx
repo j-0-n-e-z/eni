@@ -2,16 +2,14 @@ import { useEffect, type FC } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
 
-import { useGetMovieByIdQuery, useGetTMDBMovieByIdQuery } from '@/api'
-import { Subtitles } from '@/components'
-import {
-	formatMinutesToHours,
-	formatToOneDecimal,
-	USDateFormatter,
-	USDFormatter
-} from '@/utils'
+import { useGetMovieBoxOfficeByIdQuery, useGetMovieByIdQuery } from '@/api'
+import { ImdbIcon } from '@/icons'
+import { formatToOneDecimal } from '@/utils'
 
 import '../../App.scss'
+
+import { USDFormatter } from '../../utils/helpers'
+import { Subtitles } from '../Subtitles/Subtitles'
 
 import styles from './MovieSubtitlesPage.module.scss'
 
@@ -26,21 +24,18 @@ export const MovieSubtitlesPage: FC = () => {
 		skip: !movieId
 	})
 	const {
-		data: tmdbMovie,
-		error: tmdbError,
-		isLoading: isTMDBLoading
-	} = useGetTMDBMovieByIdQuery(movie?.tmdb_id ?? 0, { skip: !movie?.tmdb_id })
+		data: boxOffice,
+		error: boxOfficeError,
+		isLoading: isBoxOfficeLoading
+	} = useGetMovieBoxOfficeByIdQuery(movieId, {
+		skip: !movieId
+	})
+	const budget = boxOffice?.items.find((item) => item.type === 'BUDGET')
+	const world = boxOffice?.items.find((item) => item.type === 'WORLD')
 
 	useEffect(() => {
-		if (tmdbError) {
-			toast.error(
-				'data' in tmdbError
-					? (tmdbError.data as { message: string }).message
-					: 'unknown error',
-				{ id: 'tmdbError' }
-			)
-		}
-	}, [tmdbError])
+		if (boxOfficeError) toast.error('Faild to load budget and box office')
+	}, [isBoxOfficeLoading])
 
 	if (!id) return <div>Не найден id фильма</div>
 	if (isMovieLoading) return <div>...Загрузка</div>
@@ -59,100 +54,101 @@ export const MovieSubtitlesPage: FC = () => {
 		<div className={styles.movieSubsContainer}>
 			<div className={styles.info}>
 				<img
-					alt={`${movie.title} Cover`}
+					alt={`${movie.nameOriginal} Cover`}
 					className={styles.cover}
-					src={movie.img_url}
+					src={movie.posterUrl}
 				/>
 				<div className={styles.details}>
 					<h2 className={styles.title}>
 						<a
-							href={movie.opensubtitles.current_url}
+							href={`https://www.imdb.com/title/${movie.imdbId}`}
 							rel='noopener noreferrer'
 							target='_blank'
 						>
-							{tmdbMovie?.original_title ?? movie.title}
+							{movie.nameOriginal}
 						</a>
 					</h2>
 
 					<span>
-						<b>Released: </b>{' '}
-						{tmdbMovie
-							? USDateFormatter.format(new Date(tmdbMovie.release_date))
-							: movie.release_year}
+						<b>Released: </b> {movie.year}
 					</span>
 
-					<span>
-						<b>Subtitles rating: </b>⭐ {movie.subtitles.rating}
-					</span>
-					<span>
-						<b>Uploaded: </b>
-						{USDateFormatter.format(new Date(movie.upload_date))}
-					</span>
-
-					{isTMDBLoading && <p>...Loading</p>}
-
-					{tmdbMovie && (
-						<>
-							<span className={styles.rating}>
-								<b>Rating: </b>
-								<a
-									className={styles.imdb}
-									href={`https://www.imdb.com/title/${tmdbMovie.imdb_id}`}
-									rel='noopener noreferrer'
-									target='_blank'
-								>
-									<img
-										alt='imdb'
-										className={styles.imdbLogo}
-										src='/assets/icon-imdb-logo.svg'
-									/>
-									{formatToOneDecimal(tmdbMovie.vote_average)}
-								</a>
-							</span>
-							<span>
-								<b>Budget: </b>
-								{USDFormatter.format(tmdbMovie.budget)}
-							</span>
-							<span>
-								<b>Genres: </b>
-								{tmdbMovie.genres.join(', ')}
-							</span>
-							<span>
-								<b>Origin countries: </b>
-								{tmdbMovie.origin_countries.join(', ')}
-							</span>
-							<span>
-								<b>Production countries: </b>
-								{tmdbMovie.production_countries.join(', ')}
-							</span>
-							<span>
-								<b>Production companies: </b>
-								{tmdbMovie.production_companies.join(', ')}
-							</span>
-							<span>
-								<b>Duration: </b>
-								{formatMinutesToHours(tmdbMovie.runtime)}
-							</span>
-							<span>
-								<b>Tagline: </b>
-								{tmdbMovie.tagline}
-							</span>
-							<p>{tmdbMovie.overview}</p>
-						</>
+					{movie.ratingMpaa && (
+						<span>
+							<b>MPAA Rating: </b> {movie.ratingMpaa.toUpperCase()}
+						</span>
 					)}
 
-					<a
+					{isBoxOfficeLoading && <div>...Загрузка бокс-офиса</div>}
+					{budget && (
+						<div>
+							<b>Budget:</b> {USDFormatter.format(budget.amount)}
+						</div>
+					)}
+					{world && (
+						<div>
+							<b>Box office:</b> {USDFormatter.format(world.amount)}
+						</div>
+					)}
+
+					{movie.ratingImdb && (
+						<span className={styles.rating}>
+							<b>Rating: </b>
+							<a
+								className={styles.imdb}
+								href={`https://www.imdb.com/title/${movie.imdbId}`}
+								rel='noopener noreferrer'
+								target='_blank'
+							>
+								<ImdbIcon className={styles.imdbLogo} />
+								{formatToOneDecimal(movie.ratingImdb)}
+							</a>
+						</span>
+					)}
+
+					{movie.countries && (
+						<span>
+							<b>Countries: </b>
+							{movie.countries.map((country) => country.country).join(', ')}
+						</span>
+					)}
+
+					{movie.genres && (
+						<span>
+							<b>Genres: </b>
+							{movie.genres.map((genre) => genre.genre).join(', ')}
+						</span>
+					)}
+
+					{movie.productionStatus && (
+						<span>
+							<b>Production Status: </b>
+							{movie.productionStatus}
+						</span>
+					)}
+
+					{movie.slogan && (
+						<span>
+							<b>Slogan: </b> {movie.slogan}
+						</span>
+					)}
+
+					{movie.shortDescription && (
+						<p style={{ fontStyle: 'italic' }}>{movie.shortDescription}</p>
+					)}
+
+					{/* <a
 						className={styles.allSubsButton}
 						href={movie.opensubtitles.all_url}
 						rel='noopener noreferrer'
 						target='_blank'
 					>
 						Check subtitles on OpenSubtitles
-					</a>
+					</a> */}
 				</div>
 			</div>
 
-			<Subtitles fileId={movie.subtitles.file_id} />
+			<Subtitles imdbId={movie.imdbId} />
 			<Toaster position='top-right' />
 		</div>
 	)

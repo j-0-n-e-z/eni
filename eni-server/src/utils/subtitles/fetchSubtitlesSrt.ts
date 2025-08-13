@@ -1,4 +1,5 @@
 import https from 'https'
+
 import { saveSrtFile } from './saveSrt'
 
 export function fetchSubtitlesSrtFile(srtUrl: string, srtFilename?: string) {

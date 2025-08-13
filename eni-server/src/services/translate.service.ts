@@ -1,5 +1,5 @@
 import { dictionaryApi } from '../api/dictionaryApi'
-import { DictionaryResponse } from '../types'
+import type { DictionaryResponse } from '../types'
 
 export class TranslateService {
 	async translate(text: string) {

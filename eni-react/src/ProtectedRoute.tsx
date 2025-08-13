@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from 'react-router-dom'
 
-import { authApi } from '@/api'
+import { useGetMeQuery } from '@/api'
 
 export const ProtectedRoute = () => {
-	const { isLoading, isSuccess } = authApi.endpoints.getMe.useQueryState(null)
+	const { isLoading, isSuccess } = useGetMeQuery(null)
 
 	if (isLoading) return <div>ЗАГРУЗКА</div>
 

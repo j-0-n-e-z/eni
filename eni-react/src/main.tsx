@@ -19,7 +19,10 @@ const router = createBrowserRouter([
 			{ index: true, element: <div>Main Page</div> },
 			{
 				element: <ProtectedRoute />,
-				children: [{ path: 'search', element: <Search /> }]
+				children: [
+					{ path: 'search', element: <Search /> },
+					{ path: 'movie/:id', element: <MovieSubtitlesPage /> }
+				]
 			},
 			{
 				path: 'movie/:id',

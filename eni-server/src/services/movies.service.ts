@@ -1,6 +1,12 @@
+import { kinopoiskApiV2_1, kinopoiskApiV2_2 } from '../api/kinopoiskApi'
 import { openSubtitlesApi } from '../api/openSubtitlesApi'
-import { tmdbApi } from '../api/tmdbApi'
-import type { FullTMDBMovie, Movie, OSMovie, TMDBMovie } from '../types'
+import type {
+	BoxOffice,
+	KinopoiskMovie,
+	KinopoiskSearchResponse,
+	Movie,
+	OSMovie
+} from '../types'
 
 const OPENSUBTITLES_PARAMS = {
 	type: 'movie',
@@ -9,8 +15,20 @@ const OPENSUBTITLES_PARAMS = {
 }
 
 export class MovieService {
-	async searchMovies(queryParams: Record<string, string>) {
-		const params = { ...queryParams, ...OPENSUBTITLES_PARAMS }
+	async searchKinopoiskMovies(queryParams: Record<string, string>) {
+		const params = { ...queryParams }
+
+		const response = await kinopoiskApiV2_1.get<KinopoiskSearchResponse>(
+			`/search-by-keyword`,
+			{ params }
+		)
+
+		return response.data.films
+	}
+
+	async findOpenSubtitlesMoviesByImdbId(imdbId: string) {
+		const params = { imdb_id: imdbId, ...OPENSUBTITLES_PARAMS }
+
 		const response = await openSubtitlesApi.get<{ data: OSMovie[] }>(
 			`/subtitles`,
 			{ params }
@@ -31,36 +49,17 @@ export class MovieService {
 			.sort((a, b) => b.subtitles.rating - a.subtitles.rating)
 	}
 
-	async findTMDBMovieById(tmdbId: number) {
-		const response = await tmdbApi.get<FullTMDBMovie>(`/${tmdbId}`)
-		return this.mapFullTMDBMovieToTMDBMovie(response.data)
+	async getKinopoiskMovieById(id: number) {
+		const response = await kinopoiskApiV2_2.get<KinopoiskMovie>(`/${id}`)
+		return response.data
 	}
 
-	mapFullTMDBMovieToTMDBMovie(fullTMDBMovie: FullTMDBMovie): TMDBMovie {
-		return {
-			genres: fullTMDBMovie.genres.map((genre) => genre.name),
-			production_companies: fullTMDBMovie.production_companies.map(
-				(company) => company.name
-			),
-			production_countries: fullTMDBMovie.production_countries.map(
-				(country) => country.name
-			),
-			homepage: fullTMDBMovie.homepage,
-			budget: fullTMDBMovie.budget,
-			original_title: fullTMDBMovie.original_title,
-			origin_countries: fullTMDBMovie.origin_country,
-			overview: fullTMDBMovie.overview,
-			runtime: fullTMDBMovie.runtime,
-			tagline: fullTMDBMovie.tagline,
-			title: fullTMDBMovie.title,
-			release_date: fullTMDBMovie.release_date,
-			status: fullTMDBMovie.status,
-			vote_average: fullTMDBMovie.vote_average,
-			imdb_id: fullTMDBMovie.imdb_id
-		}
+	async getMovieBoxOfficeById(id: number) {
+		const response = await kinopoiskApiV2_2.get<BoxOffice>(`/${id}/box_office`)
+		return response.data
 	}
 
-	mapOSMovieToMovie(OSMovie: OSMovie): Movie {
+	private mapOSMovieToMovie(OSMovie: OSMovie): Movie {
 		return {
 			upload_date: OSMovie.attributes.upload_date,
 			id: OSMovie.attributes.feature_details.feature_id,
