@@ -12,7 +12,6 @@ export class SubtitleService {
 			}
 		)
 
-		console.log(response.data);
 		const srtUrl = response.data.link
 		const srtContent = await fetchSubtitlesSrtFile(
 			srtUrl,

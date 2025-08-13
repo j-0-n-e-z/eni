@@ -2,6 +2,7 @@ export interface Movie {
 	upload_date: string
 	id: number
 	tmdb_id: number
+	imdb_id: number
 	release_year: number
 	title: string
 	opensubtitles: {

@@ -1,6 +1,6 @@
 import { openSubtitlesApi } from '../api/openSubtitlesApi'
 import { tmdbApi } from '../api/tmdbApi'
-import { FullTMDBMovie, Movie, OSMovie, TMDBMovie } from '../types'
+import type { FullTMDBMovie, Movie, OSMovie, TMDBMovie } from '../types'
 
 const OPENSUBTITLES_PARAMS = {
 	type: 'movie',
@@ -19,7 +19,7 @@ export class MovieService {
 		// movies are already sorted by users' likes on the subs
 		const uniqueMovies = new Map<string, OSMovie>()
 		for (const OSMovie of response.data.data) {
-			const title = OSMovie.attributes.feature_details.title
+			const { title } = OSMovie.attributes.feature_details
 			if (!uniqueMovies.has(title)) {
 				uniqueMovies.set(title, OSMovie)
 			}
@@ -65,6 +65,7 @@ export class MovieService {
 			upload_date: OSMovie.attributes.upload_date,
 			id: OSMovie.attributes.feature_details.feature_id,
 			tmdb_id: OSMovie.attributes.feature_details.tmdb_id,
+			imdb_id: OSMovie.attributes.feature_details.imdb_id,
 			release_year: OSMovie.attributes.feature_details.year,
 			title: OSMovie.attributes.feature_details.title,
 			opensubtitles: {

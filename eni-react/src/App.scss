@@ -10,7 +10,7 @@
 body {
 	min-width: 320px;
 	min-height: 100vh;
-	padding: 0 0 0 80px;
+	padding-left: 80px;
 	margin: 0;
 	overflow-x: hidden;
 	font-family: 'Noto Sans', Arial, sans-serif;
@@ -73,7 +73,9 @@ input::-webkit-clear-button {
 .main {
 	display: flex;
 	flex-direction: column;
+	max-width: 1480px;
 	min-height: 100vh;
+	margin: 0 auto;
 }
 
 .visually-hidden {
@@ -86,4 +88,3 @@ input::-webkit-clear-button {
 	white-space: nowrap;
 	border: 0;
 }
-

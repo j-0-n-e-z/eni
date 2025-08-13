@@ -21,6 +21,7 @@ module.exports = {
 		project: 'tsconfig.json'
 	},
 	rules: {
+		'class-methods-use-this': 0,
 		'no-plusplus': 0,
 		'@typescript-eslint/no-misused-promises': 0,
 		'no-underscore-dangle': 0,
