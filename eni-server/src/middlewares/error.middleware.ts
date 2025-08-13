@@ -1,7 +1,9 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
-import axios, { AxiosError } from 'axios'
-import { NextFunction, Request, Response } from 'express'
+import type { AxiosError } from 'axios';
+import axios from 'axios'
+import type { NextFunction, Request, Response } from 'express'
 import jwt, { JsonWebTokenError } from 'jsonwebtoken'
+
 import {
 	ApiError,
 	AuthenticationError,
@@ -47,7 +49,7 @@ export class ErrorHandler {
 
 			return new ApiError(
 				error.response?.status || 503,
-				apiServiceName + ' ' + (error.response?.data?.message || error.message)
+				`${apiServiceName  } ${  error.response?.data?.message || error.message}`
 			)
 		}
 

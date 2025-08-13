@@ -6,12 +6,12 @@ export const subtitleApi = api.injectEndpoints({
 	endpoints: (build) => ({
 		getSubtitlesById: build.query<
 			Subtitle[],
-			number
+			string | null
 		>({
-			query: (fileId) => ({
+			query: (imdbId) => ({
 				url: `subtitles`,
 				method: 'POST',
-				body: { fileId }
+				body: { imdbId }
 			}),
 			providesTags: ['Subtitle']
 		})

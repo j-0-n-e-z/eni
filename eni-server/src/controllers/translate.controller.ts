@@ -1,5 +1,6 @@
-import { Request, Response } from 'express'
-import { TranslateService } from '../services/translate.service'
+import type { Request, Response } from 'express'
+
+import type { TranslateService } from '../services/translate.service'
 
 export class TranslateController {
 	constructor(private readonly translateService: TranslateService) {}

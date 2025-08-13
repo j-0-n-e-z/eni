@@ -31,8 +31,6 @@ export const SidePanel = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
 
-	console.log(location.pathname)
-
 	useEffect(() => {
 		if (isLogoutSuccess) {
 			navigate('/login')

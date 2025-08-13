@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer'
+import type nodemailer from 'nodemailer'
 
 export class MailService {
 	constructor(private readonly transporter: nodemailer.Transporter) {}

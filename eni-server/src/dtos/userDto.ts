@@ -1,9 +1,12 @@
-import { User } from '@prisma/client'
+import type { User } from '@prisma/client'
 
 export class UserDto {
 	readonly id: string
+
 	readonly email: string
+
 	readonly username: string
+
 	readonly isEmailConfirmed: boolean
 
 	constructor(user: User) {

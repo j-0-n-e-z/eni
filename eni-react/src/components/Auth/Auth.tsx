@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
-import { useAppSelector } from '@/app/hooks'
-import { selectUser } from '@/store'
+import { useGetMeQuery } from '@/api'
 
 import styles from './Auth.module.scss'
 import { Login } from './Login'
@@ -11,7 +10,7 @@ import { Signup } from './Signup'
 
 export const Auth = () => {
 	const navigate = useNavigate()
-	const me = useAppSelector(selectUser)
+	const { data: me } = useGetMeQuery(null)
 	const [method, setMethod] = useState<'login' | 'signup'>('login')
 
 	useEffect(() => {

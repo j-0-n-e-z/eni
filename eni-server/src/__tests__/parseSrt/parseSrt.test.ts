@@ -1,5 +1,7 @@
 import assert from 'node:assert'
+
 import { parseSrt } from '../../utils/subtitles/parseSrt'
+
 import { expected } from './expected'
 import { source } from './source'
 

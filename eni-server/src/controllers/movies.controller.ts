@@ -1,24 +1,33 @@
-import { Request, Response } from 'express'
-import { MovieService } from '../services/movies.service'
+import type { Request, Response } from 'express'
+
+import type { MovieService } from '../services/movies.service'
 
 export class MovieController {
 	constructor(private readonly movieService: MovieService) {}
 
 	searchMovies = async (req: Request, res: Response) => {
 		const query = req.query as Record<string, string>
-		const movies = await this.movieService.searchMovies(query)
+
+		const movies = await this.movieService.searchKinopoiskMovies(query)
+
 		res.status(200).json(movies)
 	}
 
 	findMovieById = async (req: Request, res: Response) => {
-		const movieId = req.params.id
-		const movies = await this.movieService.searchMovies({ id: movieId })
-		res.status(200).json(movies[0])
+		const { id } = req.params
+
+		const movie = await this.movieService.getKinopoiskMovieById(+id)
+
+		res.status(200).json(movie)
 	}
 
-	findTMDBMovieById = async (req: Request, res: Response) => {
-		const tmdbId = Number(req.params.id)
-		const tmdbMovie = await this.movieService.findTMDBMovieById(tmdbId)
-		res.status(200).json(tmdbMovie)
+	getMovieBoxOfficeById = async (req: Request, res: Response) => {
+		const { id } = req.params
+
+		console.log('box office id',id);
+		
+		const movieBoxOffice = await this.movieService.getMovieBoxOfficeById(+id)
+		
+		res.status(200).json(movieBoxOffice)
 	}
 }

@@ -1,4 +1,5 @@
-import { NextFunction, Request, Response } from 'express'
+import type { NextFunction, Request, Response } from 'express'
+
 import { TokenService } from '../services/token.service'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../utils/constants'
 import { AuthenticationError } from '../utils/errors/exceptions'

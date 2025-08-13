@@ -1,4 +1,5 @@
-import { Subtitle } from '../../types'
+import type { Subtitle } from '../../types'
+
 import { concatSubtitlesWithUncompleteSentences } from './concatSubtitles'
 
 export function parseSrt(data: string): Subtitle[] {

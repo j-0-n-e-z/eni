@@ -1,4 +1,4 @@
-import { Subtitle } from '../../types'
+import type { Subtitle } from '../../types'
 
 export const expected = {
 	avatar: [

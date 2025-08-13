@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { useGetSubtitlesByIdQuery } from '@/api'
 import { Paginator, Subtitle } from '@/components'
@@ -8,15 +8,15 @@ import { SUBTITLES_PER_PAGE } from '@/utils'
 import styles from './Subtitles.module.scss'
 
 interface SubtitlesProps {
-	fileId: number
+	imdbId: string | null
 }
 
-export const Subtitles: FC<SubtitlesProps> = React.memo(({ fileId }) => {
+export const Subtitles: FC<SubtitlesProps> = ({ imdbId }) => {
 	const {
 		data: subtitles,
 		isLoading,
 		error
-	} = useGetSubtitlesByIdQuery(fileId, { skip: !fileId })
+	} = useGetSubtitlesByIdQuery(imdbId, { skip: !imdbId })
 
 	const [currentPage, setCurrentPage] = useState(1)
 	const subtitlesStart = (currentPage - 1) * SUBTITLES_PER_PAGE
@@ -33,7 +33,6 @@ export const Subtitles: FC<SubtitlesProps> = React.memo(({ fileId }) => {
 
 	return (
 		<>
-			<h2 className={styles.header}>Subtitles</h2>
 			<div className={styles.controlPanel}>
 				<Paginator
 					currentPage={currentPage}
@@ -51,4 +50,4 @@ export const Subtitles: FC<SubtitlesProps> = React.memo(({ fileId }) => {
 			</ul>
 		</>
 	)
-})
+}

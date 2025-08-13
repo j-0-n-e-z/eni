@@ -1,6 +1,8 @@
+import axios from 'axios'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
+
 import { ErrorHandler } from './middlewares/error.middleware'
 import { authRouter } from './routes/auth.route'
 import { movieRouter } from './routes/movies.route'
@@ -8,7 +10,6 @@ import { subtitlesRouter } from './routes/subtitles.route'
 import { translateRouter } from './routes/translate.route'
 import { userRouter } from './routes/user.route'
 import { prisma } from './utils/prismaClient'
-import axios from 'axios'
 
 const app = express()
 

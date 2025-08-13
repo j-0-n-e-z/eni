@@ -1,4 +1,4 @@
-import { Subtitle } from '../../types'
+import type { Subtitle } from '../../types'
 
 function isCompleteSentence(text: string) {
 	return /((?<!\.)[.!?](?!\.)|[!?]\.{2}|\?!|!{2,3}|\?{2,3})$/.test(text)
@@ -42,7 +42,7 @@ export function concatSubtitlesWithUncompleteSentences(
 				const trimmedNextText = trimEllipsis(nextText)
 				text = `${trimmedText} ${trimmedNextText}`
 			} else {
-				text += ' ' + nextText
+				text += ` ${nextText}`
 			}
 
 			i += 1
