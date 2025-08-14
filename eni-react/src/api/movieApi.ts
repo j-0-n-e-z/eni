@@ -8,14 +8,12 @@ export const movieApi = api.injectEndpoints({
 			query: (keyword) => ({
 				url: 'movies',
 				params: { keyword }
-			}),
-			providesTags: ['Movie']
+			})
 		}),
-		getMovieById: build.query<KinopoiskMovie, number>({
-			query: (id) => `movies/${id}`,
-			providesTags: ['Movie']
+		getMovieByKinopoiskId: build.query<KinopoiskMovie, number>({
+			query: (id) => `movies/${id}`
 		}),
-		getMovieBoxOfficeById: build.query<BoxOffice, number>({
+		getMovieBoxOfficeByKinopoiskId: build.query<BoxOffice, number>({
 			query: (id) => `movies/${id}/box_office`
 		})
 	})
@@ -23,7 +21,7 @@ export const movieApi = api.injectEndpoints({
 
 export const {
 	useSearchMoviesQuery,
-	useGetMovieByIdQuery,
+	useGetMovieByKinopoiskIdQuery,
 	useLazySearchMoviesQuery,
-	useGetMovieBoxOfficeByIdQuery
+	useGetMovieBoxOfficeByKinopoiskIdQuery
 } = movieApi

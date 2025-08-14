@@ -6,8 +6,8 @@
 	@include generate-color-vars($colors);
 }
 
-// when scroll disappears, it makes everything move right
 body {
+	width: 100vw;
 	min-width: 320px;
 	min-height: 100vh;
 	padding-left: 80px;

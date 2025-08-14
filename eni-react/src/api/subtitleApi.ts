@@ -1,21 +1,25 @@
-import type { Subtitle } from '@/types'
+import type { MovieSubtitle, Subtitle } from '@/types'
 
 import { api } from './api'
 
 export const subtitleApi = api.injectEndpoints({
 	endpoints: (build) => ({
-		getSubtitlesById: build.query<
-			Subtitle[],
-			string | null
-		>({
+		getMovieSubtitlesByImdbId: build.query<MovieSubtitle[], string | null>({
 			query: (imdbId) => ({
-				url: `subtitles`,
-				method: 'POST',
-				body: { imdbId }
-			}),
-			providesTags: ['Subtitle']
+				url: `movie-subtitles/${imdbId}`
+			})
+		}),
+		getSubtitleByFileId: build.query<Subtitle[], number>({
+			query: (fileId) => ({
+				url: `subtitles/${fileId}`,
+				method: 'POST'
+			})
 		})
 	})
 })
 
-export const { useGetSubtitlesByIdQuery } = subtitleApi
+export const {
+	useGetMovieSubtitlesByImdbIdQuery,
+	useGetSubtitleByFileIdQuery,
+	useLazyGetSubtitleByFileIdQuery
+} = subtitleApi

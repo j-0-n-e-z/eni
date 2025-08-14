@@ -24,8 +24,6 @@ export class MovieController {
 	getMovieBoxOfficeById = async (req: Request, res: Response) => {
 		const { id } = req.params
 
-		console.log('box office id',id);
-		
 		const movieBoxOffice = await this.movieService.getMovieBoxOfficeById(+id)
 		
 		res.status(200).json(movieBoxOffice)

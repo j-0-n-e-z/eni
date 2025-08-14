@@ -20,7 +20,7 @@ export interface OSSubtitle {
 	file_name: string
 }
 
-export interface OSMovie {
+export interface OSMovieSubtitle {
 	id: string
 	type: string
 	attributes: {
@@ -72,9 +72,9 @@ export interface OSMovie {
 	}
 }
 
-export interface Movie {
+export interface MovieSubtitle {
 	upload_date: string
-	id: number
+	id: string
 	tmdb_id: number
 	imdb_id: number
 	release_year: number

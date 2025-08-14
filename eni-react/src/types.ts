@@ -85,7 +85,7 @@ export interface BoxOffice {
 	items: Budget[]
 }
 
-export interface Movie {
+export interface MovieSubtitle {
 	upload_date: string
 	id: number
 	tmdb_id: number
@@ -101,24 +101,6 @@ export interface Movie {
 		rating: number
 		file_id: number
 	}
-}
-
-export interface TMDBMovie {
-	genres: string[]
-	production_companies: string[]
-	production_countries: string[]
-	homepage: string
-	budget: number
-	original_title: string
-	origin_countries: string[]
-	overview: string
-	runtime: number
-	tagline: string
-	title: string
-	release_date: string
-	status: string
-	vote_average: number
-	imdb_id: string
 }
 
 export interface Subtitle {
@@ -177,17 +159,17 @@ export interface DictionaryResponse {
 
 interface Definition {
 	text: string
-	pos: string // Part of Speech (можно уточнить как union тип)
-	ts?: string // Транскрипция (может отсутствовать)
+	pos: string
+	ts?: string
 	tr: Translation[]
 }
 
 interface Translation {
 	text: string
 	pos: string
-	gen?: string // Род (для существительных)
-	asp?: string // Вид глагола (совершенный/несовершенный)
-	fr?: number // Частота использования
+	gen?: string
+	asp?: string
+	fr?: number
 	syn?: Synonym[]
 	mean?: Meaning[]
 }

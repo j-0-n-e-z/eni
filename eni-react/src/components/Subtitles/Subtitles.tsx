@@ -1,35 +1,19 @@
 import type { FC } from 'react'
 import { useState } from 'react'
 
-import { useGetSubtitlesByIdQuery } from '@/api'
 import { Paginator, Subtitle } from '@/components'
+import type { Subtitle as ISubtitle } from '@/types'
 import { SUBTITLES_PER_PAGE } from '@/utils'
 
 import styles from './Subtitles.module.scss'
 
 interface SubtitlesProps {
-	imdbId: string | null
+	subtitles: ISubtitle[]
 }
 
-export const Subtitles: FC<SubtitlesProps> = ({ imdbId }) => {
-	const {
-		data: subtitles,
-		isLoading,
-		error
-	} = useGetSubtitlesByIdQuery(imdbId, { skip: !imdbId })
-
+export const Subtitles: FC<SubtitlesProps> = ({ subtitles }) => {
 	const [currentPage, setCurrentPage] = useState(1)
 	const subtitlesStart = (currentPage - 1) * SUBTITLES_PER_PAGE
-
-	if (isLoading) return 'Загрузка...'
-	if (error)
-		return (
-			<div>
-				Ошибка:{' '}
-				{'message' in error ? error.message : 'Ошибка загрузки субтитров'}
-			</div>
-		)
-	if (!subtitles) return <div>Субтитров почему-то нет :(</div>
 
 	return (
 		<>

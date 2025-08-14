@@ -1,27 +1,38 @@
 import type { Request, Response } from 'express'
 
-import type { MovieService } from '../services/movies.service'
 import type { SubtitleService } from '../services/subtitles.service'
+import type { MovieSubtitle } from '../types'
 
 export class SubtitleController {
-	constructor(
-		private readonly subtitleService: SubtitleService,
-		private readonly movieService: MovieService
-	) {}
+	constructor(private readonly subtitleService: SubtitleService) {}
 
-	downloadSubtitle = async (req: Request, res: Response) => {
-		const { imdbId } = req.body as { imdbId: string }
+	getSubtitlesByImdbId = async (req: Request, res: Response) => {
+		const { imdbId } = req.params
 
-		console.log('imdbId', imdbId)
+		const movieSubtitles =
+			await this.subtitleService.findMovieSubtitlesByImdbId(imdbId)
 
-		const movies =
-			await this.movieService.findOpenSubtitlesMoviesByImdbId(imdbId)
+		const movieSubtitleMap = new Map<number, MovieSubtitle>()
 
-		console.log('movies', movies)
+		movieSubtitles.forEach((m) => {
+			if (!movieSubtitleMap.has(m.subtitles.rating)) {
+				movieSubtitleMap.set(m.subtitles.rating, m)
+			}
+		})
 
-		const subtitles = await this.subtitleService.downloadSubtitle(
-			movies[0].subtitles.file_id
-		)
+		res
+			.status(200)
+			.json(
+				Array.from(movieSubtitleMap.values()).sort(
+					(a, b) => b.subtitles.rating - a.subtitles.rating
+				)
+			)
+	}
+
+	getSubtitlesByFileId = async (req: Request, res: Response) => {
+		const { fileId } = req.params
+
+		const subtitles = await this.subtitleService.getSubtitlesByFileId(+fileId)
 
 		res.status(200).json(subtitles)
 	}

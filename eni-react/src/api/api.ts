@@ -40,5 +40,4 @@ export const baseQueryWithReauth: BaseQueryFn<
 export const api = createApi({
 	baseQuery,
 	endpoints: () => ({}),
-	tagTypes: ['Movie', 'Subtitle', 'TMDBMovie']
 })

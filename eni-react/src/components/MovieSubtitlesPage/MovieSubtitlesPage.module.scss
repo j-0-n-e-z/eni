@@ -3,11 +3,9 @@
 
 .movieSubsContainer {
 	padding: 0 $space-lg;
-	margin-bottom: $space-xxl;
 
 	.info {
 		display: flex;
-		gap: $space-xl;
 		overflow: hidden;
 		color: var(--colors-text-neutrals);
 		background-color: var(--colors-background-neutrals-subtle);
@@ -15,9 +13,10 @@
 		border-radius: 0 0 $space-xl $space-xl;
 
 		.cover {
+			display: block;
 			width: 100%;
 			max-width: 230px;
-			height: auto;
+			max-height: 345px;
 			aspect-ratio: 2/3;
 			object-fit: cover;
 		}
@@ -26,10 +25,9 @@
 			display: flex;
 			flex-direction: column;
 			gap: $space-md;
-			padding: 0 $space-lg $space-lg 0;
+			padding: $space-xxl;
 
 			.title {
-				margin: $space-lg 0 $space-md;
 				font-size: $font-xl;
 				color: var(--colors-text-neutrals);
 				transition: color 0.1s linear;
