@@ -23,7 +23,7 @@ export const SubtitlesSection: FC<SubtitlesSectionProps> = ({
 	<section>
 		{isSubtitlesLoading && <div>...Загрузка субтитров</div>}
 		{isMovieSubtitlesLoading && <div>...Загрузка вариантов субтитров</div>}
-		{!isMovieSubtitlesLoading && !movieSubtitles && (
+		{!isMovieSubtitlesLoading && (!movieSubtitles || movieSubtitles.length === 0) && (
 			<div>Не удалось загрузить варианты субтитров</div>
 		)}
 

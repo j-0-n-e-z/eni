@@ -10,21 +10,24 @@ interface SearchResultsProps {
 }
 
 export const SearchResults: FC<SearchResultsProps> = ({ movies }) => (
-	<ul className={styles.searchResults}>
-		{movies.map(({ filmId, posterUrlPreview, nameEn, year }) => (
-			<li key={filmId}>
-				<Link className={styles.movieCard} to={`/movie/${filmId}`}>
-					<img
-						alt={`${nameEn} Cover`}
-						className={styles.cover}
-						src={posterUrlPreview}
-					/>
-					<div className={styles.details}>
-						<h3 className={styles.title}>{nameEn}</h3>
-						<span className={styles.year}>{year}</span>
-					</div>
-				</Link>
-			</li>
-		))}
-	</ul>
+	<div className={styles.resultsContainer}>
+		<h2 className={styles.header}>Результаты поиска</h2>
+		<ul className={styles.searchResults}>
+			{movies.map(({ filmId, posterUrlPreview, nameEn, year }) => (
+				<li key={filmId}>
+					<Link className={styles.movieCard} to={`/movie/${filmId}`}>
+						<img
+							alt={`${nameEn} Cover`}
+							className={styles.cover}
+							src={posterUrlPreview}
+						/>
+						<div className={styles.details}>
+							<h3 className={styles.title}>{nameEn}</h3>
+							<span className={styles.year}>{year}</span>
+						</div>
+					</Link>
+				</li>
+			))}
+		</ul>
+	</div>
 )

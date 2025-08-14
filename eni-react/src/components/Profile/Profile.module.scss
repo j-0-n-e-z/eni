@@ -1,3 +1,368 @@
+@use '../../styles/_colors2.scss' as*;
+
+// Profile Page SCSS Module
 .profilePage {
-  height: 100%;
+  min-height: 100vh;
+  background: $bg-gradient-light;
+  padding: 2rem 1rem;
+
+  @media (min-width: $breakpoint-mobile) {
+    padding: 3rem 2rem;
+  }
+}
+
+.container {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+.profileHeader {
+  background: $card-bg;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: $shadow-md;
+  border: 1px solid $card-border;
+
+  .headerContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    @media (min-width: $breakpoint-mobile) {
+      flex-direction: row;
+      text-align: left;
+      align-items: flex-start;
+    }
+
+    .avatar {
+      width: 5rem;
+      height: 5rem;
+      background: $bg-gradient-light;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      border: 3px solid $brand-primary;
+      position: relative;
+
+      @media (min-width: $breakpoint-mobile) {
+        margin-bottom: 0;
+        margin-right: 1.5rem;
+      }
+
+      svg {
+        width: 2.5rem;
+        height: 2.5rem;
+        color: $text-tertiary;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        right: -2px;
+        width: 1.25rem;
+        height: 1.25rem;
+        background: $success;
+        border-radius: 50%;
+        border: 3px solid $card-bg;
+      }
+    }
+
+    .userInfo {
+      flex: 1;
+
+      .username {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: $text-primary;
+        margin-bottom: 0.5rem;
+
+        @media (min-width: $breakpoint-mobile) {
+          font-size: 1.875rem;
+        }
+      }
+
+      .email {
+        color: $text-secondary;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .stats {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+
+        @media (min-width: $breakpoint-mobile) {
+          justify-content: flex-start;
+        }
+
+        .stat {
+          text-align: center;
+
+          .number {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: $brand-primary;
+            display: block;
+          }
+
+          .label {
+            font-size: 0.875rem;
+            color: $text-tertiary;
+          }
+        }
+      }
+    }
+  }
+}
+
+.contentGrid {
+  display: grid;
+  gap: 2rem;
+
+  @media (min-width: $breakpoint-tablet) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.section {
+  background: $card-bg;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: $shadow-sm;
+  border: 1px solid $card-border;
+
+  .sectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+
+    .sectionTitle {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: $text-primary;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        color: $brand-primary;
+      }
+    }
+
+    .badge {
+      background: $bg-secondary;
+      color: $text-secondary;
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+  }
+}
+
+.translationForm {
+  .formGroup {
+    margin-bottom: 1rem;
+
+    .inputContainer {
+      display: flex;
+      gap: 0.75rem;
+
+      input {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 1px solid $form-border;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+
+        &:focus {
+          outline: none;
+          border-color: $form-border-focus;
+          box-shadow: 0 0 0 3px $interactive-focus;
+        }
+
+        &::placeholder {
+          color: $form-placeholder;
+        }
+      }
+
+      .translateButton {
+        background: $btn-primary-bg;
+        color: $btn-primary-text;
+        border: none;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        white-space: nowrap;
+
+        &:hover {
+          box-shadow: $shadow-md;
+          transform: translateY(-1px);
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+          transform: none;
+        }
+
+        svg {
+          width: 1rem;
+          height: 1rem;
+        }
+      }
+    }
+  }
+
+  .translationResult {
+    background: $bg-secondary;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-top: 0.75rem;
+    border-left: 4px solid $success;
+
+    .resultText {
+      color: $text-primary;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .addButton {
+      background: $success;
+      color: $text-white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+
+      &:hover {
+        background: darken($success, 10%);
+        transform: translateY(-1px);
+      }
+
+      svg {
+        width: 0.875rem;
+        height: 0.875rem;
+      }
+    }
+  }
+}
+
+.wordsList {
+  .wordsGrid {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .wordItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: $bg-secondary;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: darken($bg-secondary, 3%);
+    }
+
+    .wordInfo {
+      flex: 1;
+
+      .word {
+        font-weight: 500;
+        color: $text-primary;
+        margin-bottom: 0.25rem;
+      }
+
+      .translation {
+        font-size: 0.875rem;
+        color: $text-secondary;
+      }
+    }
+
+    .wordActions {
+      display: flex;
+      gap: 0.5rem;
+
+      .actionButton {
+        background: none;
+        border: none;
+        padding: 0.375rem;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: $text-tertiary;
+
+        &:hover {
+          background: $bg-tertiary;
+          color: $text-secondary;
+        }
+
+        &.studiedButton:hover {
+          color: $success;
+        }
+
+        &.deleteButton:hover {
+          color: $error;
+        }
+
+        svg {
+          width: 1rem;
+          height: 1rem;
+        }
+      }
+    }
+  }
+
+  .emptyState {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: $text-tertiary;
+
+    svg {
+      width: 3rem;
+      height: 3rem;
+      margin-bottom: 1rem;
+      color: $text-muted;
+    }
+
+    .emptyTitle {
+      font-size: 1.125rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .emptyDescription {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.fullWidth {
+  @media (min-width: $breakpoint-tablet) {
+    grid-column: span 2;
+  }
 }

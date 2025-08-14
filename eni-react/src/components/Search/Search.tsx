@@ -76,12 +76,7 @@ export const Search: FC = () => {
 					</div>
 				)}
 				{movies && movies.length === 0 && <div>Ничего не найдено</div>}
-				{movies && movies.length !== 0 && (
-					<div className={styles.resultsContainer}>
-						<h2 className={styles.header}>Результаты поиска</h2>
-						<SearchResults movies={movies} />
-					</div>
-				)}
+				{movies && movies.length !== 0 && <SearchResults movies={movies} />}
 			</div>
 		</>
 	)

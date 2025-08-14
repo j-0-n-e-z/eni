@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
-	authApi,
 	useGetMeQuery,
 	useLazyGetUserByUsernameQuery,
 	useLazyTranslateQuery
@@ -15,11 +14,7 @@ import styles from './Profile.module.scss'
 
 export const Profile = () => {
 	const { username } = useParams()
-	const {
-		data: me,
-		isLoading,
-		isFetching
-	} = useGetMeQuery(null)
+	const { data: me, isLoading, isFetching } = useGetMeQuery(null)
 	const [getUserByUsername, { data: user, isLoading: isUserLoading, error }] =
 		useLazyGetUserByUsernameQuery()
 	const { words } = useAppSelector(selectWords)

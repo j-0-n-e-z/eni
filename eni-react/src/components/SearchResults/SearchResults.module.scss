@@ -1,57 +1,80 @@
 @use '../../styles/_variables.scss' as *;
 
-.searchResults {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+.resultsContainer {
+	display: flex;
+	flex-direction: column;
 	gap: $space-lg;
-	padding: 0 $space-lg;
+	align-self: flex-start;
+	justify-content: center;
+	width: 100%;
 
-	.movieCard {
+	.header {
 		display: flex;
-		flex-direction: column;
-		height: 100%;
-		overflow: hidden;
-		color: var(--colors-text-neutrals);
-		text-decoration: none;
-		background-color: var(--colors-background-neutrals-subtle);
-		border-radius: $space-xl;
-		box-shadow: 2px 2px 5px var(--colors-background-neutrals-control);
-		transition: transform 0.3s ease;
+		gap: $space-md;
+		align-items: center;
+		justify-content: center;
+		font-size: $font-xxl;
+		color: var(--color-black);
+	}
 
-		&:hover {
-			background-color: var(--colors-background-neutrals-subtle-hover);
-			transform: translateY(-$space-sm);
-		}
+	.searchResults {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+		gap: $space-lg;
 
-		.cover {
-			width: 100%;
-			max-width: 300px;
-			aspect-ratio: 2/3;
-			margin: 0 auto;
-			object-fit: cover;
-		}
-
-		.details {
+		.movieCard {
 			display: flex;
 			flex-direction: column;
-			gap: $space-sm;
 			height: 100%;
-			padding: $space-lg;
+			overflow: hidden;
+			color: var(--colors-text-neutrals);
+			text-decoration: none;
+			background-color: var(--colors-background-neutrals-subtle);
+			border-radius: $space-xl;
+			box-shadow: 2px 2px 5px var(--colors-background-neutrals-control);
+			transition: transform 0.3s ease;
 
-			.title {
-				font-size: $font-lg;
-				font-weight: 700;
+			&:hover {
+				background-color: var(--colors-background-neutrals-subtle-hover);
+				transform: translateY(-$space-sm);
 			}
 
-			.year {
-				font-size: $font-lg;
-				color: var(--colors-text-neutrals-subtle);
+			.cover {
+				width: 100%;
+				max-width: 300px;
+				aspect-ratio: 2/3;
+				margin: 0 auto;
+				object-fit: cover;
 			}
 
-			.rating {
-				margin-top: auto;
-				font-size: $font-lg;
+			.details {
+				display: flex;
+				flex-direction: column;
+				gap: $space-sm;
+				height: 100%;
+				padding: $space-lg;
+
+				.title {
+					font-size: $font-lg;
+					font-weight: 700;
+				}
+
+				.year {
+					font-size: $font-lg;
+					color: var(--colors-text-neutrals-subtle);
+				}
+
+				.rating {
+					margin-top: auto;
+					font-size: $font-lg;
+				}
 			}
 		}
 	}
+}
+
+.searchError {
+	font-size: $font-xl;
+	color: var(--color-yellow-dark);
+	text-align: center;
 }

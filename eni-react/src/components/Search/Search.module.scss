@@ -4,7 +4,6 @@
 .searchContainer {
 	display: flex;
 	justify-content: center;
-	padding: $space-lg;
 
 	.inputContainer {
 		display: flex;
@@ -69,7 +68,6 @@
 			.clearIcon {
 				width: 16px;
 				height: 16px;
-				
 			}
 		}
 	}
@@ -80,29 +78,6 @@
 	flex: 1;
 	align-items: center;
 	justify-content: center;
+	margin-top: $space-lg;
 	margin-bottom: $space-lg;
-
-	.resultsContainer {
-		display: flex;
-		flex-direction: column;
-		gap: $space-lg;
-		align-self: flex-start;
-		justify-content: center;
-		width: 100%;
-
-		.header {
-			display: flex;
-			gap: $space-md;
-			align-items: center;
-			justify-content: center;
-			font-size: $font-xxl;
-			color: var(--color-black);
-		}
-	}
-
-	.searchError {
-		font-size: $font-xl;
-		color: var(--color-yellow-dark);
-		text-align: center;
-	}
 }
