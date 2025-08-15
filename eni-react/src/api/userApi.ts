@@ -1,8 +1,13 @@
+import { createApi } from '@reduxjs/toolkit/query/react'
+
 import type { User, Word, WordResponse } from '@/types'
 
-import { authApi } from './authApi'
+import { baseQueryWithReauth } from './authApi'
 
-export const userApi = authApi.injectEndpoints({
+export const userApi = createApi({
+	tagTypes: ['Words'],
+	reducerPath: 'userApi',
+	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
 		getUserByUsername: build.query<User, string>({
 			query: (username) => ({
