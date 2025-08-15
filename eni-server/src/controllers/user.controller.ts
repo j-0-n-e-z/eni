@@ -65,6 +65,8 @@ export class UserController {
 	deleteWord = async (req: Request, res: Response) => {
 		const { userId, wordId } = req.params
 
+		console.log(userId, wordId);
+
 		await this.userService.deleteWord(userId, wordId)
 
 		return res.json({ message: 'Word deleted' })

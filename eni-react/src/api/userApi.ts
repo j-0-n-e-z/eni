@@ -20,10 +20,11 @@ export const userApi = authApi.injectEndpoints({
 		}),
 		deleteWord: build.mutation<void, { userId: string; wordId: string }>({
 			query: ({ userId, wordId }) => ({
-				url: `/user/${userId}/word/:${wordId}`,
+				url: `/user/${userId}/word/${encodeURIComponent(wordId)}`,
 				method: 'DELETE',
 				credentials: 'include'
-			})
+			}),
+			invalidatesTags: [{ type: 'Words', id: 'LIST' }]
 		}),
 		getWordsByUserId: build.query<Word[], string>({
 			query: (userId) => ({
@@ -59,5 +60,6 @@ export const {
 	useLazyGetUserByUsernameQuery,
 	useSaveWordMutation,
 	useGetWordsByUserIdQuery,
-	useLazyGetWordsByUserIdQuery
+	useLazyGetWordsByUserIdQuery,
+	useDeleteWordMutation
 } = userApi

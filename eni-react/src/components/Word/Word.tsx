@@ -4,6 +4,7 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
 import {
+	useDeleteWordMutation,
 	useLazyGetDifinitionQuery,
 	useLazyTranslateQuery,
 	useSaveWordMutation
@@ -27,11 +28,12 @@ export const Word: FC<MyWordProps> = ({ word, isMe, myId, isLearned }) => {
 	const [triggerGetDefinition, { data: definitions }] =
 		useLazyGetDifinitionQuery()
 	const [triggerSaveWord] = useSaveWordMutation()
+	const [triggerDeleteWord] = useDeleteWordMutation()
 	const navigate = useNavigate()
 	const dispatch = useAppDispatch()
 
 	const translate = async () => {
-		if (!definitions) {
+		if (!definitions && !translations) {
 			try {
 				await triggerGetDefinition(word.text).unwrap()
 			} catch (error) {
@@ -66,7 +68,20 @@ export const Word: FC<MyWordProps> = ({ word, isMe, myId, isLearned }) => {
 		dispatch(removeWord(word.id))
 	}
 
-	const deleteWordFromLearned = () => {}
+	const deleteWordFromLearned = async () => {
+		try {
+			if (!myId) return
+
+			console.log('@wordId', word.id);
+
+			await triggerDeleteWord({
+				userId: myId,
+				wordId: word.id
+			}).unwrap()
+		} catch (e) {
+			console.log(e)
+		}
+	}
 
 	const goToWord = () => {
 		navigate(`/movie/${word.from.movieId}`)
