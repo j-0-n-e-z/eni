@@ -3,9 +3,11 @@
 .pickMovieSubs {
 	display: flex;
 	flex: 1;
+	flex-direction: column;
+	gap: $space-xl;
 	align-items: center;
 	justify-content: center;
-	margin-top: $space-xxl;
+	margin-top: $space-xl;
 
 	.movieSubList {
 		display: flex;

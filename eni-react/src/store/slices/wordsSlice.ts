@@ -36,9 +36,11 @@ const wordsSlice = createSlice({
 					isRepeating: false
 				})
 			}
+			localStorage.setItem('words', JSON.stringify(state.words))
 		},
 		removeWord: (state, action: PayloadAction<string>) => {
 			state.words = state.words.filter((word) => word.id !== action.payload)
+			localStorage.setItem('words', JSON.stringify(state.words))
 		}
 	}
 })

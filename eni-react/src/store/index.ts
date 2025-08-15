@@ -1,4 +1,4 @@
 export * from './middleware/wordsMiddleware'
-export * from './slices/userSlice'
+export * from './slices/searchHistorySlice'
 export * from './slices/wordsSlice'
 export * from './store'

@@ -8,7 +8,7 @@ export const movieApi = api.injectEndpoints({
 			query: (keyword) => ({
 				url: 'movies',
 				params: { keyword }
-			})
+			}),
 		}),
 		getMovieByKinopoiskId: build.query<KinopoiskMovie, number>({
 			query: (id) => `movies/${id}`

@@ -2,9 +2,11 @@ import type { FC } from 'react'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { useLazySearchMoviesQuery } from '@/api'
+import { useAppSelector } from '@/app/hooks'
 import { SearchResults } from '@/components'
 import { useDebounce } from '@/hooks'
 import { CancelIcon, SearchIcon } from '@/icons'
+import { selectMoviesFromHistory } from '@/store'
 
 import styles from './Search.module.scss'
 
@@ -12,8 +14,9 @@ export const Search: FC = () => {
 	const [movieTitle, setMovieTitle] = useState('')
 	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 1000)
 	const inputRef = useRef<HTMLInputElement>(null)
+	const searchedMovies = useAppSelector(selectMoviesFromHistory)
 
-	const [triggerSearch, { data: movies, isFetching, error, isUninitialized }] =
+	const [triggerSearch, { data: movies, isFetching, error }] =
 		useLazySearchMoviesQuery()
 
 	function clearInput() {
@@ -67,7 +70,9 @@ export const Search: FC = () => {
 			</div>
 			<div className={styles.results}>
 				{isFetching && <div>Загрузка...</div>}
-				{isUninitialized && !movies && <div>Пока пусто</div>}
+				{!isFetching && !movies && searchedMovies.length === 0 && (
+					<div>Пока пусто</div>
+				)}
 				{error && (
 					<div className={styles.searchError}>
 						{'data' in error
@@ -78,8 +83,12 @@ export const Search: FC = () => {
 				{!isFetching && movies && movies.length === 0 && (
 					<div>Ничего не найдено</div>
 				)}
+				{}
 				{!isFetching && movies && movies.length !== 0 && (
-					<SearchResults movies={movies} />
+					<SearchResults movies={movies} title='Результаты поиска' />
+				)}
+				{!isFetching && !movies && searchedMovies.length !== 0 && (
+					<SearchResults movies={searchedMovies} title='Вы искали' />
 				)}
 			</div>
 		</>

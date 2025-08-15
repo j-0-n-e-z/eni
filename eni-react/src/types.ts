@@ -1,9 +1,13 @@
-export interface KinopoiskSearchMovie {
+export interface BaseKinoposikMovie {
 	filmId: number
+	posterUrlPreview: string
+	year: string
 	nameRu: string | null
 	nameEn: string | null
 	type: FilmType
-	year: string
+}
+
+export interface KinopoiskSearchMovie extends BaseKinoposikMovie {
 	description?: string
 	filmLength: string
 	countries: { country: string }[]
@@ -11,7 +15,6 @@ export interface KinopoiskSearchMovie {
 	rating: string | null
 	ratingVoteCount: number
 	posterUrl: string
-	posterUrlPreview: string
 }
 
 type FilmType = 'FILM' | 'VIDEO' | 'MINI_SERIES' | 'TV_SERIES' | 'TV_SHOW'

@@ -17,6 +17,7 @@ export const MovieSubtitlesPicker: FC<MovieSubtitlesPickerProps> = ({
 	console.log(movieSubtitles)
 	return (
 		<div className={styles.pickMovieSubs}>
+			<h3>Выберите субтитры</h3>
 			<ul className={styles.movieSubList}>
 				{movieSubtitles?.map((movieSub) => (
 					<li key={movieSub.id} className={styles.movieSubItem}>
