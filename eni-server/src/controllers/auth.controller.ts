@@ -93,6 +93,6 @@ export class AuthController {
 	activate = async (req: Request, res: Response) => {
 		const emailConfirmationLink = req.params.link
 		await this.userService.confirmEmail(emailConfirmationLink)
-		res.redirect(process.env.CLIENT_URL as string)
+		res.redirect(`${process.env.CLIENT_URL as string}?email_confirmed=1`)
 	}
 }

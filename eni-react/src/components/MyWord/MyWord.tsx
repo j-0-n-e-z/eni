@@ -1,6 +1,7 @@
 import cn from 'classnames'
 import type { FC } from 'react'
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
 import { useLazyTranslateQuery, useSaveWordMutation } from '@/api'
@@ -14,7 +15,7 @@ import styles from './MyWord.module.scss'
 interface MyWordProps {
 	word: Word
 	isMe: boolean
-	myId: string
+	myId?: string
 }
 
 export const MyWord: FC<MyWordProps> = ({ word, isMe, myId }) => {
@@ -28,28 +29,34 @@ export const MyWord: FC<MyWordProps> = ({ word, isMe, myId }) => {
 
 	const translate = async () => {
 		if (!translations) {
-			const response = await triggerTranslate(word.text).unwrap()
-			console.log(response)
-			const translations = response.def
-				.reduce(
-					(acc, def, i) => {
-						acc[i] = { pos: '', tr: '' }
-						acc[i].pos = def.pos
-						acc[i].tr = def.tr
-							.slice(0, 3)
-							.map((tr) => tr.text)
-							.join(', ')
-						return acc
-					},
-					[] as { pos: string; tr: string }[]
-				)
-				.sort((a, b) => a.pos.localeCompare(b.pos))
-			setTranslations(translations)
+			try {
+				const response = await triggerTranslate(word.text).unwrap()
+				const translations = response.def
+					.reduce(
+						(acc, def, i) => {
+							acc[i] = { pos: '', tr: '' }
+							acc[i].pos = def.pos
+							acc[i].tr = def.tr
+								.slice(0, 3)
+								.map((tr) => tr.text)
+								.join(', ')
+							return acc
+						},
+						[] as { pos: string; tr: string }[]
+					)
+					.sort((a, b) => a.pos.localeCompare(b.pos))
+				setTranslations(translations)
+			} catch (error) {
+				if ('status' in error && error.status === 401)
+					toast.error('Для перевода слов нужно авторизоваться')
+			}
 		}
 	}
 
 	const saveWord = async () => {
 		try {
+			if (!myId) return
+
 			await triggerSaveWord({
 				text: word.text,
 				userId: myId,

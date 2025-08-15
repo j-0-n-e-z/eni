@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import { Auth, MovieSubtitlesPage, Profile, Search } from '@/components'
+import { Auth, Main, MovieSubtitlesPage, Profile, Search } from '@/components'
 import { store } from '@/store'
 
 import { App } from './App'
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
 		element: <App />,
 		errorElement: <div>ЖОПА APP</div>,
 		children: [
-			{ index: true, element: <div>Main Page</div> },
+			{ index: true, element: <Main /> },
 			{
 				element: <ProtectedRoute />,
 				children: [

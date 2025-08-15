@@ -43,7 +43,9 @@ export class UserController {
 
 		const words = await this.userService.getWordsByUserId(userId)
 
-		if (!words || words.length === 0) throw new ApiError(404, 'Words not found')
+		if (!words || words.length === 0) {
+			throw new ApiError(404, 'Words not found')
+		}
 
 		res.json(words.map((w) => ({ ...w, text: w.word.text })))
 	}

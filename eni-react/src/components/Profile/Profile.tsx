@@ -14,6 +14,7 @@ import type { User } from '@/types'
 import { MyWord } from '../MyWord/MyWord'
 
 import styles from './Profile.module.scss'
+import { Toaster } from 'react-hot-toast'
 
 export const Profile = () => {
 	const { username } = useParams()
@@ -126,7 +127,7 @@ export const Profile = () => {
 			{!isUserWordsLoading && isUserWordsError && (
 				<div>Не удалось загрузить слова</div>
 			)}
-			{!isUserWordsLoading && userWords && userWords.length !== 0 && me && (
+			{!isUserWordsLoading && userWords && userWords.length !== 0 && (
 				<section className={styles.section}>
 					<div className={styles.sectionHeader}>
 						<h3 className={styles.sectionTitle}>
@@ -138,12 +139,13 @@ export const Profile = () => {
 					{userWords.length !== 0 && (
 						<ul className={styles.wordsList}>
 							{userWords.map((word) => (
-								<MyWord key={word.id} isMe={isMe} myId={me.id} word={word} />
+								<MyWord key={word.id} isMe={isMe} myId={me?.id} word={word} />
 							))}
 						</ul>
 					)}
 				</section>
 			)}
+			<Toaster position="top-right" />
 		</div>
 	)
 }

@@ -76,7 +76,9 @@ export const SidePanel = () => {
 								aria-label='profile with words'
 								to={`/user/${me.username}`}
 								className={cn(styles.navLink, styles.words, {
-									[styles.active]: location.pathname === `/user/${me.username}`
+									[styles.active]:
+										location.pathname ===
+										`/user/${me.username.replace(' ', '%20')}`
 								})}
 							>
 								<BrainIcon className={styles.bookIcon} />
