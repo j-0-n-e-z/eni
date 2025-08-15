@@ -23,6 +23,6 @@ export class TranslateController {
 
 		const translation = await this.translateService.translate(text)
 
-		res.status(200).json({ ...translation })
+		res.status(200).json(translation.translations)
 	}
 }

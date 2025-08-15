@@ -195,11 +195,12 @@ interface Meaning {
 	text: string
 }
 
-export interface YandexTranslateResponse {
-	translations: YandexTranslation[]
-}
-
 export interface YandexTranslation {
 	text: string
 	detectedLanguageCode: string
+}
+
+export interface YandexDefinition {
+	pos: string
+	tr: string
 }

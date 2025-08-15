@@ -1,6 +1,5 @@
 import cn from 'classnames'
 import type { FC } from 'react'
-import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
@@ -24,11 +23,9 @@ interface MyWordProps {
 }
 
 export const Word: FC<MyWordProps> = ({ word, isMe, myId, isLearned }) => {
-	const [definitions, setDefinitions] = useState<
-		{ pos: string; tr: string }[] | null
-	>(null)
-	const [triggerTranslate, { data: translateResult }] = useLazyTranslateQuery()
-	const [triggerGetDefinition] = useLazyGetDifinitionQuery()
+	const [triggerTranslate, { data: translations }] = useLazyTranslateQuery()
+	const [triggerGetDefinition, { data: definitions }] =
+		useLazyGetDifinitionQuery()
 	const [triggerSaveWord] = useSaveWordMutation()
 	const navigate = useNavigate()
 	const dispatch = useAppDispatch()
@@ -36,29 +33,7 @@ export const Word: FC<MyWordProps> = ({ word, isMe, myId, isLearned }) => {
 	const translate = async () => {
 		if (!definitions) {
 			try {
-				const response = await triggerGetDefinition(word.word.text).unwrap()
-
-				const translations = response.def.reduce(
-					(acc, def, i) => {
-						if (!def.pos) return acc
-						acc[i] = { pos: '', tr: '' }
-						acc[i].pos = def.pos
-						acc[i].tr = def.tr
-							.slice(0, 3)
-							.map((tr) => tr.text)
-							.join(', ')
-						return acc
-					},
-					[] as { pos: string; tr: string }[]
-				) as { pos: string; tr: string }[]
-
-				if (!translations.length) {
-					toast.error('Не удалось перевести слово')
-					return
-				}
-
-				translations.sort((a, b) => a.pos.localeCompare(b.pos))
-				setDefinitions(translations)
+				await triggerGetDefinition(word.word.text).unwrap()
 			} catch (error) {
 				console.error(error)
 				if ('status' in error) {
@@ -109,9 +84,9 @@ export const Word: FC<MyWordProps> = ({ word, isMe, myId, isLearned }) => {
 						))}
 					</div>
 				)}
-				{translateResult && (
+				{translations && (
 					<div className={styles.translations}>
-						{translateResult.translations.map((tr, i) => (
+						{translations.map((tr, i) => (
 							<div key={i} className={styles.translation}>
 								{tr.text}
 							</div>
