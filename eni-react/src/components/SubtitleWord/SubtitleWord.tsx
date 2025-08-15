@@ -38,15 +38,12 @@ export const SubtitleWord = memo(
 
 			dispatch(
 				addWord({
-					id,
-					text,
-					from: {
-						subtitleIndex,
-						subtitleTimecode,
-						movieId: +movieId,
-						page,
-						fileId
-					},
+					word: { id, text },
+					subtitleIndex,
+					subtitleTimecode,
+					movieId: +movieId,
+					page,
+					fileId,
 					isFavorite: false,
 					isLearned: false,
 					isRepeating: false

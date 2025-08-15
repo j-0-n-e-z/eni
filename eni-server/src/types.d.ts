@@ -192,7 +192,7 @@ export interface SubtitlesInfo {
 	file_name: string
 }
 
-export interface DictionaryResponse {
+export interface YandexDictionaryResponse {
 	head: Record<string, never>
 	def: Definition[]
 	nmt_code: number
@@ -225,4 +225,13 @@ interface Synonym {
 
 interface Meaning {
 	text: string
+}
+
+export interface YandexTranslateResponse {
+	translations: Translation[]
+}
+
+interface Translation {
+	text: string
+	detectedLanguageCode: string
 }

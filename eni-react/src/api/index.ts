@@ -1,6 +1,6 @@
 export * from './api'
 export * from './authApi'
-export * from './dictionaryApi'
+export * from './translateApi'
 export * from './movieApi'
 export * from './subtitleApi'
 export * from './userApi'

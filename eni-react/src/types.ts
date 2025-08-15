@@ -118,15 +118,15 @@ export interface Subtitle extends PureSubtitle {
 }
 
 export interface Word {
-	id: string
-	text: string
-	from: {
-		subtitleTimecode: string
-		subtitleIndex: number
-		movieId: number
-		fileId: number
-		page: number
+	word: {
+		id: string
+		text: string
 	}
+	subtitleTimecode: string
+	subtitleIndex: number
+	movieId: number
+	fileId: number
+	page: number
 	isLearned: boolean
 	isRepeating: boolean
 	isFavorite: boolean
@@ -160,7 +160,7 @@ export class ApiError extends Error {
 	}
 }
 
-export interface DictionaryResponse {
+export interface YandexDictionaryResponse {
 	head: Record<string, never>
 	def: Definition[]
 	nmt_code: number
@@ -193,4 +193,13 @@ interface Synonym {
 
 interface Meaning {
 	text: string
+}
+
+export interface YandexTranslateResponse {
+	translations: YandexTranslation[]
+}
+
+export interface YandexTranslation {
+	text: string
+	detectedLanguageCode: string
 }

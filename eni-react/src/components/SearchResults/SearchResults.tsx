@@ -22,7 +22,8 @@ export const SearchResults: FC<SearchResultsProps> = ({ movies, title }) => {
 				posterUrlPreview: movie.posterUrlPreview,
 				filmId: movie.filmId,
 				nameEn: movie.nameEn,
-				nameRu: movie.nameRu
+				nameRu: movie.nameRu,
+				type: movie.type
 			})
 		)
 	}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
 
 import {
@@ -7,14 +8,12 @@ import {
 	useLazyGetUserByUsernameQuery
 } from '@/api'
 import { useAppSelector } from '@/app/index'
+import { Word } from '@/components'
 import { BookIcon, BrainIcon, ProfileIcon } from '@/icons'
 import { selectWords } from '@/store'
 import type { User } from '@/types'
 
-import { MyWord } from '../MyWord/MyWord'
-
 import styles from './Profile.module.scss'
-import { Toaster } from 'react-hot-toast'
 
 export const Profile = () => {
 	const { username } = useParams()
@@ -117,7 +116,13 @@ export const Profile = () => {
 					{words.length !== 0 && me && (
 						<ul className={styles.wordsList}>
 							{words.map((word) => (
-								<MyWord key={word.id} isMe={isMe} myId={me.id} word={word} />
+								<Word
+									key={`learn${word.word.id}`}
+									isLearned={false}
+									isMe={isMe}
+									myId={me.id}
+									word={word}
+								/>
 							))}
 						</ul>
 					)}
@@ -139,13 +144,19 @@ export const Profile = () => {
 					{userWords.length !== 0 && (
 						<ul className={styles.wordsList}>
 							{userWords.map((word) => (
-								<MyWord key={word.id} isMe={isMe} myId={me?.id} word={word} />
+								<Word
+									key={`learned${word.word.id}`}
+									isLearned
+									isMe={isMe}
+									myId={me?.id}
+									word={word}
+								/>
 							))}
 						</ul>
 					)}
 				</section>
 			)}
-			<Toaster position="top-right" />
+			<Toaster position='top-right' />
 		</div>
 	)
 }

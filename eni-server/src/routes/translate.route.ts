@@ -10,6 +10,12 @@ const translateRouter = express.Router()
 const translateController = new TranslateController(new TranslateService())
 
 translateRouter.post(
+	'/definition',
+	authMiddleware.protectByAccessToken,
+	asyncHandler(translateController.findDefinition)
+)
+
+translateRouter.post(
 	'/translate',
 	authMiddleware.protectByAccessToken,
 	asyncHandler(translateController.translate)

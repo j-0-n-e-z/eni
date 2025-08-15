@@ -26,11 +26,9 @@ const wordsSlice = createSlice({
 	reducers: {
 		clearWords: () => initialState,
 		addWord: (state, action: PayloadAction<Word>) => {
-			if (!state.words.find((word) => word.id === action.payload.id)) {
+			if (!state.words.find((word) => word.word.id === action.payload.word.id)) {
 				state.words.push({
-					id: action.payload.id,
-					text: action.payload.text,
-					from: action.payload.from,
+					...action.payload,
 					isFavorite: false,
 					isLearned: false,
 					isRepeating: false
@@ -39,7 +37,7 @@ const wordsSlice = createSlice({
 			localStorage.setItem('words', JSON.stringify(state.words))
 		},
 		removeWord: (state, action: PayloadAction<string>) => {
-			state.words = state.words.filter((word) => word.id !== action.payload)
+			state.words = state.words.filter((word) => word.word.id !== action.payload)
 			localStorage.setItem('words', JSON.stringify(state.words))
 		}
 	}
@@ -47,7 +45,7 @@ const wordsSlice = createSlice({
 
 export const selectWords = (state: RootState) => state.wordsReducer
 export const isWordSelected = (text: string) => (state: RootState) =>
-	state.wordsReducer.words.some((w) => w.text === text)
+	state.wordsReducer.words.some((w) => w.word.text === text)
 
 export const { clearWords, addWord, removeWord } = wordsSlice.actions
 

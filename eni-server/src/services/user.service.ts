@@ -227,11 +227,7 @@ export class UserService {
 				subtitleTimecode: true,
 				isFavorite: true,
 				isLearned: true,
-				word: {
-					select: {
-						text: true
-					}
-				}
+				word: true
 			}
 		})
 	}
