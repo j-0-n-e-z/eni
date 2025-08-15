@@ -89,15 +89,17 @@ export const Profile = () => {
 						<p className={styles.email}>{displayUser.email}</p>
 						<div className={styles.stats}>
 							<div className={styles.stat}>
-								<span className={styles.number}>{~~(Math.random() * 100)}</span>
+								<span className={styles.number}>{userWords?.length ?? 0}</span>
 								<span className={styles.label}>Изучено</span>
 							</div>
 							<div className={styles.stat}>
-								<span className={styles.number}>{~~(Math.random() * 100)}</span>
+								<span className={styles.number}>{words?.length ?? 0}</span>
 								<span className={styles.label}>Изучаю</span>
 							</div>
 							<div className={styles.stat}>
-								<span className={styles.number}>{~~(Math.random() * 100)}</span>
+								<span className={styles.number}>
+									{(userWords?.length ?? 0) + (words?.length ?? 0)}
+								</span>
 								<span className={styles.label}>Всего слов</span>
 							</div>
 						</div>
@@ -117,7 +119,7 @@ export const Profile = () => {
 						<ul className={styles.wordsList}>
 							{words.map((word) => (
 								<Word
-									key={`learn${word.word.id}`}
+									key={`learn${word.id}`}
 									isLearned={false}
 									isMe={isMe}
 									myId={me.id}
@@ -145,7 +147,7 @@ export const Profile = () => {
 						<ul className={styles.wordsList}>
 							{userWords.map((word) => (
 								<Word
-									key={`learned${word.word.id}`}
+									key={`learned${word.id}`}
 									isLearned
 									isMe={isMe}
 									myId={me?.id}

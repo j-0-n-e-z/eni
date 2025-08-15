@@ -235,3 +235,31 @@ interface Translation {
 	text: string
 	detectedLanguageCode: string
 }
+
+export interface WordResponse {
+	fileId: number
+	page: number
+	subtitleTimecode: string
+	subtitleIndex: number
+	movieId: number
+	isLearned: boolean
+	isFavorite: boolean
+	word: {
+		id: number
+		text: string
+	}
+}
+
+export interface Word {
+	id: string
+	text: string
+	from: {
+		fileId: number
+		page: number
+		subtitleTimecode: string
+		subtitleIndex: number
+		movieId: number
+	}
+	isLearned: boolean
+	isFavorite: boolean
+}

@@ -23,9 +23,11 @@ export const Signup: FC<SignupProps> = ({ goToLogin }) => {
 		formState: { errors },
 		setError
 	} = useForm<SignupValues>({ resolver: zodResolver(signupSchema) })
-	const [signup] = useSignupMutation()
+	const [signup, {isLoading}] = useSignupMutation()
 
 	async function onSubmit({ email, password, username }: SignupValues) {
+		if (isLoading) return
+		
 		const { error } = await signup({ email, password, username })
 
 		if (!error) {

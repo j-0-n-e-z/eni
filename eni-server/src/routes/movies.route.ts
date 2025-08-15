@@ -9,7 +9,7 @@ const movieRouter = express.Router()
 const movieController = new MovieController(new MovieService())
 
 movieRouter.get('/movies', asyncHandler(movieController.searchMovies))
-movieRouter.get('/movies/:id', asyncHandler(movieController.findMovieById))
-movieRouter.get('/movies/:id/box_office', asyncHandler(movieController.getMovieBoxOfficeById))
+movieRouter.get('/movie/:movieId', asyncHandler(movieController.findMovieById))
+movieRouter.get('/movie/:movieId/box_office', asyncHandler(movieController.getMovieBoxOfficeById))
 
 export { movieRouter }

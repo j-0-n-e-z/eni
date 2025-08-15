@@ -43,7 +43,7 @@ export const authApi = createApi({
 	endpoints: (build) => ({
 		getMe: build.query<User, null>({
 			query: () => ({
-				url: 'users/me',
+				url: 'user/me',
 				credentials: 'include'
 			})
 		}),

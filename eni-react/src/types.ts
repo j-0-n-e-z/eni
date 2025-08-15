@@ -117,18 +117,31 @@ export interface Subtitle extends PureSubtitle {
 	page: number // to go to page
 }
 
-export interface Word {
-	word: {
-		id: string
-		text: string
-	}
+export interface WordResponse {
+	fileId: number
+	page: number
 	subtitleTimecode: string
 	subtitleIndex: number
 	movieId: number
-	fileId: number
-	page: number
 	isLearned: boolean
-	isRepeating: boolean
+	isFavorite: boolean
+	word: {
+		id: number
+		text: string
+	}
+}
+
+export interface Word {
+	id: string
+	text: string
+	from: {
+		fileId: number
+		page: number
+		subtitleTimecode: string
+		subtitleIndex: number
+		movieId: number
+	}
+	isLearned: boolean
 	isFavorite: boolean
 }
 

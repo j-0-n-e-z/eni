@@ -14,17 +14,18 @@ export class MovieController {
 	}
 
 	findMovieById = async (req: Request, res: Response) => {
-		const { id } = req.params
+		const { movieId } = req.params
 
-		const movie = await this.movieService.getKinopoiskMovieById(+id)
+		const movie = await this.movieService.getKinopoiskMovieById(+movieId)
 
 		res.status(200).json(movie)
 	}
 
 	getMovieBoxOfficeById = async (req: Request, res: Response) => {
-		const { id } = req.params
+		const { movieId } = req.params
 
-		const movieBoxOffice = await this.movieService.getMovieBoxOfficeById(+id)
+		const movieBoxOffice =
+			await this.movieService.getMovieBoxOfficeById(+movieId)
 		
 		res.status(200).json(movieBoxOffice)
 	}

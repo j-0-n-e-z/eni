@@ -11,10 +11,10 @@ export const movieApi = api.injectEndpoints({
 			}),
 		}),
 		getMovieByKinopoiskId: build.query<KinopoiskMovie, number>({
-			query: (id) => `movies/${id}`
+			query: (id) => `movie/${id}`
 		}),
 		getMovieBoxOfficeByKinopoiskId: build.query<BoxOffice, number>({
-			query: (id) => `movies/${id}/box_office`
+			query: (id) => `movie/${id}/box_office`
 		})
 	})
 })

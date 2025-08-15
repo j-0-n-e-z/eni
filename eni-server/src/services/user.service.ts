@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
 
 import { UserDto } from '../dtos/userDto'
+import type { Word } from '../types'
 import { ApiError, AuthenticationError } from '../utils/errors/exceptions'
 
 import type { MailService } from './mail.service'
@@ -172,6 +173,7 @@ export class UserService {
 			data: { isEmailConfirmed: true, emailConfirmationLink: null },
 			where: { emailConfirmationLink }
 		})
+
 		await this.mailService.sendEmail(
 			user?.email,
 			'Account Activated',
@@ -179,41 +181,34 @@ export class UserService {
 		)
 	}
 
-	async delete(userId: string, tx: PrismaClient) {
-		const client = tx || this.prisma
-		await client.user.delete({ where: { id: userId } })
+	async deleteUser(userId: string) {
+		await this.prisma.user.delete({ where: { id: userId } })
 	}
 
-	async saveWord(
-		text: string,
-		userId: string,
-		fileId: number,
-		movieId: number,
-		page: number,
-		subtitleIndex: number,
-		subtitleTimecode: string
-	) {
-		const wordDb = await this.prisma.word.upsert({
-			where: { text },
-			create: { text },
+	async saveWord(userId: string, word: Word) {
+		await this.prisma.word.upsert({
+			where: { id: word.id },
+			create: { text: word.text, id: word.id },
 			update: {}
 		})
 
 		const userWord = await this.prisma.userWord.create({
 			data: {
 				userId,
-				movieId,
-				fileId,
-				subtitleIndex,
-				subtitleTimecode,
-				page,
-				wordId: wordDb.id,
+				wordId: word.id,
+				...word.from,
 				isFavorite: false,
 				isLearned: false
 			}
 		})
 
 		return userWord
+	}
+
+	async deleteWord(userId: string, wordId: string) {
+		await this.prisma.userWord.delete({
+			where: { userId_wordId: { userId, wordId } }
+		})
 	}
 
 	async getWordsByUserId(userId: string) {

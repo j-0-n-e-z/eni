@@ -20,24 +20,33 @@ const userController = new UserController(
 const authMiddleware = AuthMiddleware.getInstance(tokenService)
 
 userRouter.get(
-	'/users/me',
+	'/user/me',
 	authMiddleware.protectByAccessToken,
 	asyncHandler(userController.getMe)
 )
 
 userRouter.get(
-	'/users/:username',
+	'/user/:username',
 	asyncHandler(userController.getUserByUsername)
 )
 
 userRouter.get('/users', asyncHandler(userController.getUsers))
 
 userRouter.post(
-	'/users/word',
+	'/user/:userId/word',
 	authMiddleware.protectByAccessToken,
 	asyncHandler(userController.saveWord)
 )
 
-userRouter.get('/users/:userId/words', asyncHandler(userController.getWordsByUserId))
+userRouter.delete(
+	'/user/:userId/word/:wordId',
+	authMiddleware.protectByAccessToken,
+	asyncHandler(userController.deleteWord)
+)
+
+userRouter.get(
+	'/user/:userId/words',
+	asyncHandler(userController.getWordsByUserId)
+)
 
 export { userRouter }

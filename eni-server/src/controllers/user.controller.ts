@@ -2,6 +2,7 @@ import type { Request, Response } from 'express'
 
 import { UserDto } from '../dtos/userDto'
 import type { UserService } from '../services/user.service'
+import type { Word } from '../types'
 import { REFRESH_TOKEN } from '../utils/constants'
 import { ApiError, AuthenticationError } from '../utils/errors/exceptions'
 
@@ -47,38 +48,25 @@ export class UserController {
 			throw new ApiError(404, 'Words not found')
 		}
 
-		res.json(words.map((w) => ({ ...w, text: w.word.text })))
+		res.json(words)
 	}
 
 	saveWord = async (req: Request, res: Response) => {
-		const {
-			text,
-			userId,
-			fileId,
-			movieId,
-			page,
-			subtitleTimecode,
-			subtitleIndex
-		} = req.body as {
-			text: string
-			userId: string
-			fileId: number
-			movieId: number
-			page: number
-			subtitleTimecode: string
-			subtitleIndex: number
+		const { userId } = req.params
+		const { word } = req.body as {
+			word: Word
 		}
 
-		const userWord = await this.userService.saveWord(
-			text,
-			userId,
-			fileId,
-			movieId,
-			page,
-			subtitleIndex,
-			subtitleTimecode
-		)
+		const userWord = await this.userService.saveWord(userId, word)
 
 		return res.json(userWord)
+	}
+
+	deleteWord = async (req: Request, res: Response) => {
+		const { userId, wordId } = req.params
+
+		await this.userService.deleteWord(userId, wordId)
+
+		return res.json({ message: 'Word deleted' })
 	}
 }

@@ -33,14 +33,14 @@ export const Word: FC<MyWordProps> = ({ word, isMe, myId, isLearned }) => {
 	const translate = async () => {
 		if (!definitions) {
 			try {
-				await triggerGetDefinition(word.word.text).unwrap()
+				await triggerGetDefinition(word.text).unwrap()
 			} catch (error) {
 				console.error(error)
 				if ('status' in error) {
 					if (error.status === 401) {
 						toast.error('Для перевода слов нужно авторизоваться')
 					} else if (error.status === 404) {
-						triggerTranslate(word.word.text)
+						triggerTranslate(word.text)
 					}
 				}
 			}
@@ -52,29 +52,30 @@ export const Word: FC<MyWordProps> = ({ word, isMe, myId, isLearned }) => {
 			if (!myId) return
 
 			await triggerSaveWord({
-				text: word.word.text,
 				userId: myId,
-				...word
+				word
 			}).unwrap()
 
-			dispatch(removeWord(word.word.id))
+			dispatch(removeWord(word.id))
 		} catch (e) {
 			console.log(e)
 		}
 	}
 
-	const deleteWord = () => {
-		dispatch(removeWord(word.word.id))
+	const deleteWordFromLearning = () => {
+		dispatch(removeWord(word.id))
 	}
 
+	const deleteWordFromLearned = () => {}
+
 	const goToWord = () => {
-		navigate(`/movie/${word.movieId}`)
+		navigate(`/movie/${word.from.movieId}`)
 	}
 
 	return (
 		<li className={styles.wordItem}>
 			<div className={styles.wordInfo}>
-				<div className={styles.word}>{word.word.text}</div>
+				<div className={styles.word}>{word.text}</div>
 				{definitions && (
 					<div className={styles.translations}>
 						{definitions.map((def, i) => (
@@ -104,14 +105,19 @@ export const Word: FC<MyWordProps> = ({ word, isMe, myId, isLearned }) => {
 				{isMe && (
 					<>
 						{!isLearned && (
-							<button onClick={saveWord}>
+							<button
+								className={cn(styles.actionButton, styles.saveButton)}
+								onClick={saveWord}
+							>
 								<BrainIcon />
 							</button>
 						)}
 						<button
 							aria-label='delete word'
 							className={cn(styles.actionButton, styles.deleteButton)}
-							onClick={deleteWord}
+							onClick={
+								isLearned ? deleteWordFromLearned : deleteWordFromLearning
+							}
 						>
 							<TrashIcon />
 						</button>

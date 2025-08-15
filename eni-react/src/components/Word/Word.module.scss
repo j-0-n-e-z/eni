@@ -51,6 +51,10 @@
 				color: $success;
 			}
 
+			&.saveButton:hover {
+				color: $warning;
+			}
+
 			&.deleteButton:hover {
 				color: $error;
 			}

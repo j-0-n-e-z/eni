@@ -25,7 +25,7 @@ model Token {
 }
 
 model Word {
-  id        Int        @id() @default(autoincrement())
+  id        String     @id()
   userWords UserWord[]
   text      String     @unique
 }
@@ -33,7 +33,7 @@ model Word {
 model UserWord {
   userId           String
   user             User    @relation(fields: [userId], references: [id])
-  wordId           Int
+  wordId           String
   word             Word    @relation(fields: [wordId], references: [id])
   fileId           Int
   page             Int
