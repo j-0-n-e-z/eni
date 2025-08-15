@@ -89,12 +89,12 @@ export const Profile = () => {
 						<p className={styles.email}>{displayUser.email}</p>
 						<div className={styles.stats}>
 							<div className={styles.stat}>
-								<span className={styles.number}>{userWords?.length ?? 0}</span>
-								<span className={styles.label}>Изучено</span>
-							</div>
-							<div className={styles.stat}>
 								<span className={styles.number}>{words?.length ?? 0}</span>
 								<span className={styles.label}>Изучаю</span>
+							</div>
+							<div className={styles.stat}>
+								<span className={styles.number}>{userWords?.length ?? 0}</span>
+								<span className={styles.label}>Изучено</span>
 							</div>
 							<div className={styles.stat}>
 								<span className={styles.number}>
@@ -110,7 +110,7 @@ export const Profile = () => {
 				<section className={styles.section}>
 					<div className={styles.sectionHeader}>
 						<h3 className={styles.sectionTitle}>
-							<BrainIcon />
+							<BookIcon />
 							<span>Изучить</span>
 						</h3>
 						<span className={styles.badge}>{words.length}</span>
@@ -138,7 +138,7 @@ export const Profile = () => {
 				<section className={styles.section}>
 					<div className={styles.sectionHeader}>
 						<h3 className={styles.sectionTitle}>
-							<BookIcon />
+							<BrainIcon />
 							<span>Изучено</span>
 						</h3>
 						<span className={styles.badge}>{userWords.length}</span>

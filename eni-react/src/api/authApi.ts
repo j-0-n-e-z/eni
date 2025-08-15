@@ -37,7 +37,7 @@ export const baseQueryWithReauth: BaseQueryFn<
 }
 
 export const authApi = createApi({
-	tagTypes: ['Words'],
+	tagTypes: ['Me'],
 	reducerPath: 'authApi',
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
@@ -45,7 +45,8 @@ export const authApi = createApi({
 			query: () => ({
 				url: 'user/me',
 				credentials: 'include'
-			})
+			}),
+			providesTags: ['Me']
 		}),
 		signup: build.mutation<void, SignupRequest>({
 			query: (credentials) => ({
@@ -60,15 +61,7 @@ export const authApi = createApi({
 				method: 'POST',
 				body: credentials,
 				credentials: 'include'
-			}),
-			async onQueryStarted(_, { dispatch, queryFulfilled }) {
-				try {
-					await queryFulfilled
-					await dispatch(authApi.endpoints.getMe.initiate(null))
-				} catch (error) {
-					console.log(error)
-				}
-			}
+			})
 		}),
 		logout: build.mutation<void, void>({
 			query: () => ({
@@ -83,7 +76,8 @@ export const authApi = createApi({
 				} catch (error) {
 					console.log(error)
 				}
-			}
+			},
+			invalidatesTags: ['Me']
 		})
 	})
 })

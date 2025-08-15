@@ -1,9 +1,9 @@
 import type { FC } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { Paginator, Subtitle } from '@/components'
-import type { PureSubtitle } from '@/types'
+import type { PureSubtitle, Word } from '@/types'
 import { SUBTITLES_PER_PAGE } from '@/utils'
 
 import styles from './Subtitles.module.scss'
@@ -11,12 +11,23 @@ import styles from './Subtitles.module.scss'
 interface SubtitlesProps {
 	subtitles: PureSubtitle[]
 	fileId: number
+	lookupWord: Word | undefined
 }
 
-export const Subtitles: FC<SubtitlesProps> = ({ subtitles, fileId }) => {
+export const Subtitles: FC<SubtitlesProps> = ({
+	subtitles,
+	fileId,
+	lookupWord
+}) => {
 	const [currentPage, setCurrentPage] = useState(1)
 	const subtitlesStart = (currentPage - 1) * SUBTITLES_PER_PAGE
 	const { id: movieId } = useParams()
+
+	useEffect(() => {
+		if (lookupWord) {
+			setCurrentPage(lookupWord.from.page)
+		}
+	}, [])
 
 	return (
 		<>
@@ -35,6 +46,7 @@ export const Subtitles: FC<SubtitlesProps> = ({ subtitles, fileId }) => {
 						<Subtitle
 							key={subtitle.timecode}
 							fileId={fileId}
+							lookupWord={lookupWord}
 							movieId={+movieId!}
 							page={currentPage}
 							subtitle={subtitle}

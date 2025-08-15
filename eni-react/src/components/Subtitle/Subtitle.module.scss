@@ -1,5 +1,27 @@
 @use '../../styles/_variables.scss' as *;
 
+@keyframes highlight {
+	0% {
+		background-color: var(--colors-background-neutrals-subtle);
+	}
+
+	25% {
+		background-color: lightblue;
+	}
+
+	50% {
+		background-color: var(--colors-background-neutrals-subtle);
+	}
+
+	75% {
+		background-color: lightblue;
+	}
+
+	100% {
+		background-color: var(--colors-background-neutrals-subtle);
+	}
+}
+
 .subtitle {
 	display: flex;
 	flex-direction: column;
@@ -9,6 +31,10 @@
 	background-color: var(--colors-background-neutrals-subtle);
 	border: 1px solid var(--colors-border-neutrals);
 	border-radius: $space-sm;
+
+	&.highlighted {
+		animation: highlight 2.5s ease-in-out;
+	}
 
 	.words {
 		display: flex;

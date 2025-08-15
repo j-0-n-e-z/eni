@@ -1,7 +1,8 @@
-import { type FC } from 'react'
+import cn from 'classnames'
+import { useEffect, useRef, type FC } from 'react'
 
 import { SubtitleWord } from '@/components'
-import type { PureSubtitle } from '@/types'
+import type { PureSubtitle, Word } from '@/types'
 import { PUNCTUATION } from '@/utils'
 
 import styles from './Subtitle.module.scss'
@@ -11,37 +12,58 @@ interface SubtitleProps {
 	page: number
 	fileId: number
 	movieId: number
+	lookupWord: Word | undefined
 }
 
 export const Subtitle: FC<SubtitleProps> = ({
 	subtitle,
 	page,
 	fileId,
-	movieId
-}) => (
-	<li className={styles.subtitle}>
-		<span className={styles.timecode}>{subtitle.timecode}</span>
-		<ul className={styles.words}>
-			{subtitle.text.split(' ').map((word, i) => {
-				const id = `${i}#${subtitle.timecode}#${fileId}`
+	movieId,
+	lookupWord
+}) => {
+	const isLookedUpSubtitle =
+		subtitle.timecode === lookupWord?.from.subtitleTimecode
+	const lookupTarget = useRef<HTMLLIElement>(null)
 
-				const punctuationMatch = word.match(PUNCTUATION)
+	useEffect(() => {
+		if (lookupTarget.current)
+			lookupTarget.current.scrollIntoView({
+				behavior: 'smooth',
+				block: 'center'
+			})
+	}, [])
 
-				return (
-					<SubtitleWord
-						key={id}
-						after={punctuationMatch ? punctuationMatch[3] : undefined}
-						before={punctuationMatch ? punctuationMatch[1] : undefined}
-						fileId={fileId}
-						id={id}
-						movieId={movieId}
-						page={page}
-						subtitleIndex={i}
-						subtitleTimecode={subtitle.timecode}
-						text={punctuationMatch ? punctuationMatch[2] : word}
-					/>
-				)
+	return (
+		<li
+			ref={isLookedUpSubtitle ? lookupTarget : undefined}
+			className={cn(styles.subtitle, {
+				[styles.highlighted]: isLookedUpSubtitle
 			})}
-		</ul>
-	</li>
-)
+		>
+			<span className={styles.timecode}>{subtitle.timecode}</span>
+			<ul className={styles.words}>
+				{subtitle.text.split(' ').map((word, i) => {
+					const id = `${i}#${subtitle.timecode}#${fileId}`
+
+					const punctuationMatch = word.match(PUNCTUATION)
+
+					return (
+						<SubtitleWord
+							key={id}
+							after={punctuationMatch ? punctuationMatch[3] : undefined}
+							before={punctuationMatch ? punctuationMatch[1] : undefined}
+							fileId={fileId}
+							id={id}
+							movieId={movieId}
+							page={page}
+							subtitleIndex={i}
+							subtitleTimecode={subtitle.timecode}
+							text={punctuationMatch ? punctuationMatch[2] : word}
+						/>
+					)
+				})}
+			</ul>
+		</li>
+	)
+}

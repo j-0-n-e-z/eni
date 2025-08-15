@@ -1,6 +1,6 @@
 import { useEffect, type FC } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 import {
 	useGetMovieBoxOfficeByKinopoiskIdQuery,
@@ -10,6 +10,8 @@ import {
 
 import '../../App.scss'
 
+import type { Word } from '@/types'
+
 import { MovieInfoSection } from './MovieInfoSection'
 import styles from './MovieSubtitlesPage.module.scss'
 import { SubtitlesSection } from './SubtitlesSection'
@@ -17,6 +19,8 @@ import { SubtitlesSection } from './SubtitlesSection'
 export const MovieSubtitlesPage: FC = () => {
 	const { id } = useParams<{ id: string }>()
 	const movieId = Number(id)
+	const location = useLocation()
+	const lookupWord = (location?.state as { lookupWord?: Word })?.lookupWord
 
 	const {
 		data: movie,
@@ -39,10 +43,8 @@ export const MovieSubtitlesPage: FC = () => {
 		isError: movieSubtitlesError,
 		isLoading: isMovieSubtitlesLoading
 	} = useGetMovieSubtitlesByImdbIdQuery(movie?.imdbId || '', {
-		skip: !movie?.imdbId
+		skip: !movie?.imdbId || Boolean(lookupWord)
 	})
-
-	console.log(movieSubtitles)
 
 	const budget = boxOffice?.items.find((item) => item.type === 'BUDGET')
 	const world = boxOffice?.items.find((item) => item.type === 'WORLD')
@@ -81,6 +83,7 @@ export const MovieSubtitlesPage: FC = () => {
 
 			<SubtitlesSection
 				isMovieSubtitlesLoading={isMovieSubtitlesLoading}
+				lookupWord={lookupWord}
 				movieSubtitles={movieSubtitles}
 			/>
 			<Toaster position='top-right' />

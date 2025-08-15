@@ -2,7 +2,7 @@ import { useEffect, useState, type FC } from 'react'
 import toast from 'react-hot-toast'
 
 import { useLazyGetSubtitleByFileIdQuery } from '@/api'
-import type { MovieSubtitle } from '@/types'
+import type { MovieSubtitle, Word } from '@/types'
 
 import { MovieSubtitlesPicker } from '../MovieSubtitlesPicker/MovieSubtitlesPicker'
 import { Subtitles } from '../Subtitles/Subtitles'
@@ -10,17 +10,19 @@ import { Subtitles } from '../Subtitles/Subtitles'
 interface SubtitlesSectionProps {
 	isMovieSubtitlesLoading: boolean
 	movieSubtitles?: MovieSubtitle[]
+	lookupWord: Word | undefined
 }
 
 export const SubtitlesSection: FC<SubtitlesSectionProps> = ({
 	isMovieSubtitlesLoading,
-	movieSubtitles
+	movieSubtitles,
+	lookupWord
 }) => {
 	const [pickedMovieSubtitles, setPickedMovieSubtitles] =
 		useState<MovieSubtitle | null>(null)
 
 	const [
-		triggerGetSubtiles,
+		triggerGetSubtilesByFileId,
 		{ data: subtitles, isLoading: isSubtitlesLoading, error: subtitlesError }
 	] = useLazyGetSubtitleByFileIdQuery()
 
@@ -31,8 +33,26 @@ export const SubtitlesSection: FC<SubtitlesSectionProps> = ({
 
 	useEffect(() => {
 		if (pickedMovieSubtitles)
-			triggerGetSubtiles(pickedMovieSubtitles.subtitles.file_id)
+			triggerGetSubtilesByFileId(pickedMovieSubtitles.subtitles.file_id)
 	}, [pickedMovieSubtitles])
+
+	useEffect(() => {
+		if (lookupWord) {
+			triggerGetSubtilesByFileId(lookupWord.from.fileId)
+		}
+	}, [])
+
+	if (lookupWord && subtitles) {
+		return (
+			<section>
+				<Subtitles
+					fileId={lookupWord.from.fileId}
+					lookupWord={lookupWord}
+					subtitles={subtitles}
+				/>
+			</section>
+		)
+	}
 
 	return (
 		<section>

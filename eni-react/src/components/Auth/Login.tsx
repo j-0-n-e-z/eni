@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useLoginMutation } from '@/api'
 import type { LoginValues } from '@/schemas/login.schemas'
@@ -18,11 +18,13 @@ export const Login = () => {
 	} = useForm<LoginValues>({ resolver: zodResolver(loginSchema) })
 	const [login] = useLoginMutation()
 	const navigate = useNavigate()
+	const location = useLocation()
+	const from = (location?.state as { from?: string })?.from
 
 	async function onSubmit({ email, password }: LoginValues) {
 		try {
 			const { username } = await login({ email, password }).unwrap()
-			navigate(`/user/${username}`)
+			navigate(from ?? `/user/${username}`, { replace: true })
 		} catch (error) {
 			if (!('data' in error)) return
 			const apiError = error.data as ApiError

@@ -54,7 +54,7 @@ export const SubtitleWord = memo(
 		}
 
 		function unselectWord() {
-			dispatch(removeWord(text))
+			dispatch(removeWord(id))
 		}
 
 		return (

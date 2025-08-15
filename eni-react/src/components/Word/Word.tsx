@@ -72,8 +72,6 @@ export const Word: FC<MyWordProps> = ({ word, isMe, myId, isLearned }) => {
 		try {
 			if (!myId) return
 
-			console.log('@wordId', word.id);
-
 			await triggerDeleteWord({
 				userId: myId,
 				wordId: word.id
@@ -84,7 +82,7 @@ export const Word: FC<MyWordProps> = ({ word, isMe, myId, isLearned }) => {
 	}
 
 	const goToWord = () => {
-		navigate(`/movie/${word.from.movieId}`)
+		navigate(`/movie/${word.from.movieId}`, { state: { lookupWord: word } })
 	}
 
 	return (
@@ -110,6 +108,7 @@ export const Word: FC<MyWordProps> = ({ word, isMe, myId, isLearned }) => {
 					</div>
 				)}
 			</div>
+			<button onClick={goToWord}>Go to word</button>
 			<div className={styles.wordActions}>
 				<button
 					className={cn(styles.actionButton, styles.translateButton)}
