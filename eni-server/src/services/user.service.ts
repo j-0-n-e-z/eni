@@ -183,4 +183,56 @@ export class UserService {
 		const client = tx || this.prisma
 		await client.user.delete({ where: { id: userId } })
 	}
+
+	async saveWord(
+		text: string,
+		userId: string,
+		fileId: number,
+		movieId: number,
+		page: number,
+		subtitleIndex: number,
+		subtitleTimecode: string
+	) {
+		const wordDb = await this.prisma.word.upsert({
+			where: { text },
+			create: { text },
+			update: {}
+		})
+
+		const userWord = await this.prisma.userWord.create({
+			data: {
+				userId,
+				movieId,
+				fileId,
+				subtitleIndex,
+				subtitleTimecode,
+				page,
+				wordId: wordDb.id,
+				isFavorite: false,
+				isLearned: false
+			}
+		})
+
+		return userWord
+	}
+
+	async getWordsByUserId(userId: string) {
+		return this.prisma.userWord.findMany({
+			where: { userId },
+			select: {
+				movieId: true,
+				fileId: true,
+				page: true,
+				subtitleIndex: true,
+				subtitleTimecode: true,
+				isFavorite: true,
+				isLearned: true,
+				word: {
+					select: {
+						text: true
+					}
+				}
+			}
+		})
+	}
 }

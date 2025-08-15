@@ -75,8 +75,12 @@ export const Search: FC = () => {
 							: 'Ошибка поиска'}
 					</div>
 				)}
-				{movies && movies.length === 0 && <div>Ничего не найдено</div>}
-				{movies && movies.length !== 0 && <SearchResults movies={movies} />}
+				{!isFetching && movies && movies.length === 0 && (
+					<div>Ничего не найдено</div>
+				)}
+				{!isFetching && movies && movies.length !== 0 && (
+					<SearchResults movies={movies} />
+				)}
 			</div>
 		</>
 	)

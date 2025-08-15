@@ -38,7 +38,7 @@ const wordsSlice = createSlice({
 			}
 		},
 		removeWord: (state, action: PayloadAction<string>) => {
-			state.words = state.words.filter((word) => word.text !== action.payload)
+			state.words = state.words.filter((word) => word.id !== action.payload)
 		}
 	}
 })

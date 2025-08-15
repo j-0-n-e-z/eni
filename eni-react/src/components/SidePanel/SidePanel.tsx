@@ -37,7 +37,12 @@ export const SidePanel = () => {
 		}
 	}, [isLogoutLoading])
 
-	if (isMeLoading) return <div>Loading...</div>
+	if (isMeLoading)
+		return (
+			<div style={{ position: 'fixed', top: 0, left: 0 }}>
+				SidePanel Loading...
+			</div>
+		)
 	if (isLogoutLoading) return <div>Loggin out...</div>
 	if (isLogoutError)
 		return <div>Could not log out: {JSON.stringify(error)}</div>

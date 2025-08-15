@@ -1,14 +1,12 @@
-import { useEffect, useState, type FC } from 'react'
+import { useEffect, type FC } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
 
 import {
 	useGetMovieBoxOfficeByKinopoiskIdQuery,
 	useGetMovieByKinopoiskIdQuery,
-	useGetMovieSubtitlesByImdbIdQuery,
-	useLazyGetSubtitleByFileIdQuery
+	useGetMovieSubtitlesByImdbIdQuery
 } from '@/api'
-import type { MovieSubtitle } from '@/types'
 
 import '../../App.scss'
 
@@ -44,13 +42,7 @@ export const MovieSubtitlesPage: FC = () => {
 		skip: !movie?.imdbId
 	})
 
-	const [
-		triggerGetSubtiles,
-		{ data: subtitles, isLoading: isSubtitlesLoading, error: subtitlesError }
-	] = useLazyGetSubtitleByFileIdQuery()
-
-	const [pickedMovieSubtitles, setPickedMovieSubtitles] =
-		useState<MovieSubtitle | null>(null)
+	console.log(movieSubtitles)
 
 	const budget = boxOffice?.items.find((item) => item.type === 'BUDGET')
 	const world = boxOffice?.items.find((item) => item.type === 'WORLD')
@@ -64,16 +56,6 @@ export const MovieSubtitlesPage: FC = () => {
 		if (movieSubtitlesError)
 			toast.error('Faild to load movie subtitles', { id: 'movie-subtitles' })
 	}, [movieSubtitlesError])
-
-	useEffect(() => {
-		if (subtitlesError)
-			toast.error('Faild to load subtitles', { id: 'subtitles' })
-	}, [subtitlesError])
-
-	useEffect(() => {
-		if (pickedMovieSubtitles)
-			triggerGetSubtiles(pickedMovieSubtitles.subtitles.file_id)
-	}, [pickedMovieSubtitles])
 
 	if (!id) return <div>Не найден id фильма</div>
 	if (isMovieLoading) return <div>...Загрузка</div>
@@ -99,10 +81,7 @@ export const MovieSubtitlesPage: FC = () => {
 
 			<SubtitlesSection
 				isMovieSubtitlesLoading={isMovieSubtitlesLoading}
-				isSubtitlesLoading={isSubtitlesLoading}
 				movieSubtitles={movieSubtitles}
-				setPickedMovieSubtitles={setPickedMovieSubtitles}
-				subtitles={subtitles}
 			/>
 			<Toaster position='top-right' />
 		</div>

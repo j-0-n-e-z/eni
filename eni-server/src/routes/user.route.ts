@@ -14,11 +14,7 @@ const userRouter = express.Router()
 const tokenService = new TokenService(prisma)
 
 const userController = new UserController(
-	new UserService(
-		prisma,
-		tokenService,
-		new MailService(gmailTransporter)
-	)
+	new UserService(prisma, tokenService, new MailService(gmailTransporter))
 )
 
 const authMiddleware = AuthMiddleware.getInstance(tokenService)
@@ -34,9 +30,14 @@ userRouter.get(
 	asyncHandler(userController.getUserByUsername)
 )
 
-userRouter.get(
-	'/users',
-	asyncHandler(userController.getUsers)
+userRouter.get('/users', asyncHandler(userController.getUsers))
+
+userRouter.post(
+	'/users/word',
+	authMiddleware.protectByAccessToken,
+	asyncHandler(userController.saveWord)
 )
+
+userRouter.get('/users/:userId/words', asyncHandler(userController.getWordsByUserId))
 
 export { userRouter }

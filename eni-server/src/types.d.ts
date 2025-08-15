@@ -1,7 +1,12 @@
 declare module 'express' {
 	interface Request {
 		user?: JwtPayload
+		cookies: MyCookies
 	}
+}
+
+interface MyCookies {
+	[key: string]: string | undefined
 }
 
 export interface JwtPayload extends jwt.JwtPayload {
@@ -9,8 +14,7 @@ export interface JwtPayload extends jwt.JwtPayload {
 	email: string
 }
 
-export interface Subtitle {
-	id: number
+export interface PureSubtitle {
 	timecode: string
 	text: string
 }

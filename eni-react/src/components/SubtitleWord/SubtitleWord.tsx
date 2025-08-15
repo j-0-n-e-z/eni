@@ -1,6 +1,5 @@
 import cn from 'classnames'
 import { memo } from 'react'
-import { useParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '@/app/index'
 import { addWord, isWordSelected, removeWord } from '@/store'
@@ -12,14 +11,27 @@ interface SubtitleWordProps {
 	after?: string
 	text: string
 	id: string
-	subtitleId: number
+	subtitleTimecode: string
+	subtitleIndex: number
+	page: number
+	fileId: number
+	movieId: number
 }
 
 export const SubtitleWord = memo(
-	({ text, before, after, id, subtitleId }: SubtitleWordProps) => {
+	({
+		text,
+		before,
+		after,
+		id,
+		subtitleTimecode,
+		subtitleIndex,
+		page,
+		fileId,
+		movieId
+	}: SubtitleWordProps) => {
 		const dispatch = useAppDispatch()
 		const isSelected = useAppSelector(isWordSelected(text))
-		const { id: movieId } = useParams()
 
 		function selectWord() {
 			if (!movieId) return
@@ -28,7 +40,13 @@ export const SubtitleWord = memo(
 				addWord({
 					id,
 					text,
-					from: { subtitleId, movieId: +movieId },
+					from: {
+						subtitleIndex,
+						subtitleTimecode,
+						movieId: +movieId,
+						page,
+						fileId
+					},
 					isFavorite: false,
 					isLearned: false,
 					isRepeating: false

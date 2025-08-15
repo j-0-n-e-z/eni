@@ -1,4 +1,4 @@
-import type { Subtitle } from '../../types'
+import type { PureSubtitle } from '../../types'
 
 function isCompleteSentence(text: string) {
 	return /((?<!\.)[.!?](?!\.)|[!?]\.{2}|\?!|!{2,3}|\?{2,3})$/.test(text)
@@ -28,12 +28,13 @@ function trimEllipsis(text: string) {
 }
 
 export function concatSubtitlesWithUncompleteSentences(
-	subtitles: Subtitle[]
-): Subtitle[] {
-	const completeSubtitles: Subtitle[] = []
+	subtitles: PureSubtitle[]
+): PureSubtitle[] {
+	const completeSubtitles: PureSubtitle[] = []
 
 	for (let i = 0; i < subtitles.length; i++) {
-		let { id, timecode: startTimecode, text } = subtitles[i]
+		const { timecode: startTimecode } = subtitles[i]
+		let { text } = subtitles[i]
 		let nextText = subtitles[i + 1]?.text
 
 		while (nextText && !isCompleteSentence(text)) {
@@ -55,7 +56,6 @@ export function concatSubtitlesWithUncompleteSentences(
 		const timecode = `${startTime}-->${endTime}`
 
 		completeSubtitles.push({
-			id,
 			timecode,
 			text
 		})

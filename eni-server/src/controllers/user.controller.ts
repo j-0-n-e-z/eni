@@ -3,19 +3,19 @@ import type { Request, Response } from 'express'
 import { UserDto } from '../dtos/userDto'
 import type { UserService } from '../services/user.service'
 import { REFRESH_TOKEN } from '../utils/constants'
-import { ApiError } from '../utils/errors/exceptions'
+import { ApiError, AuthenticationError } from '../utils/errors/exceptions'
 
 export class UserController {
 	constructor(private readonly userService: UserService) {}
 
 	getUserByUsername = async (req: Request, res: Response) => {
-		const {username} = req.params
+		const { username } = req.params
 
 		const user = await this.userService.getUserByUsername(username)
 
 		if (!user) throw new ApiError(404, 'User not found')
 
-		res.json({ ...user })
+		res.json(user)
 	}
 
 	getUsers = async (req: Request, res: Response) => {
@@ -27,10 +27,56 @@ export class UserController {
 	}
 
 	getMe = async (req: Request, res: Response) => {
-		const refreshToken = req.cookies[REFRESH_TOKEN]
+		const refreshToken = req.cookies[REFRESH_TOKEN] as string | undefined
+
+		if (!refreshToken) {
+			throw new AuthenticationError(401, 'Not authorized')
+		}
 
 		const user = await this.userService.getMe(refreshToken)
 
-		res.json({ ...new UserDto(user) })
+		res.json(new UserDto(user))
+	}
+
+	getWordsByUserId = async (req: Request, res: Response) => {
+		const { userId } = req.params
+
+		const words = await this.userService.getWordsByUserId(userId)
+
+		if (!words || words.length === 0) throw new ApiError(404, 'Words not found')
+
+		res.json(words.map((w) => ({ ...w, text: w.word.text })))
+	}
+
+	saveWord = async (req: Request, res: Response) => {
+		const {
+			text,
+			userId,
+			fileId,
+			movieId,
+			page,
+			subtitleTimecode,
+			subtitleIndex
+		} = req.body as {
+			text: string
+			userId: string
+			fileId: number
+			movieId: number
+			page: number
+			subtitleTimecode: string
+			subtitleIndex: number
+		}
+
+		const userWord = await this.userService.saveWord(
+			text,
+			userId,
+			fileId,
+			movieId,
+			page,
+			subtitleIndex,
+			subtitleTimecode
+		)
+
+		return res.json(userWord)
 	}
 }

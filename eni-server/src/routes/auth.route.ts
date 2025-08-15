@@ -27,6 +27,10 @@ authRouter.post(
 	asyncHandler(authController.logout)
 )
 authRouter.get('/activate/:link', asyncHandler(authController.activate))
-authRouter.post('/refresh', asyncHandler(authController.refresh))
+authRouter.post(
+	'/refresh',
+	authMiddleware.protectByRefreshToken,
+	asyncHandler(authController.refresh)
+)
 
 export { authRouter }

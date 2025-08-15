@@ -8,17 +8,41 @@ datasource db {
 }
 
 model User {
-  id                    String  @id @default(uuid())
-  email                 String  @unique
-  isEmailConfirmed      Boolean @default(false)
+  id                    String     @id @default(uuid())
+  email                 String     @unique
+  isEmailConfirmed      Boolean    @default(false)
   username              String
   password              String
-  emailConfirmationLink String? @unique
+  emailConfirmationLink String?    @unique
   token                 Token?
+  userWords             UserWord[]
 }
 
 model Token {
   userId       String  @id()
   user         User    @relation(fields: [userId], references: [id])
   refreshToken String?
+}
+
+model Word {
+  id        Int        @id() @default(autoincrement())
+  userWords UserWord[]
+  text      String     @unique
+}
+
+model UserWord {
+  userId           String
+  user             User    @relation(fields: [userId], references: [id])
+  wordId           Int
+  word             Word    @relation(fields: [wordId], references: [id])
+  fileId           Int
+  page             Int
+  subtitleTimecode String
+  subtitleIndex    Int
+  movieId          Int
+  isLearned        Boolean
+  isFavorite       Boolean
+
+  @@id([userId, wordId])
+  @@unique([userId, wordId])
 }

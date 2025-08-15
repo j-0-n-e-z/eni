@@ -6,7 +6,7 @@ export class TranslateController {
 	constructor(private readonly translateService: TranslateService) {}
 
 	translate = async (req: Request, res: Response) => {
-		const {text} = req.body
+		const { text } = req.body as { text: string }
 
 		const translation = await this.translateService.translate(text)
 

@@ -1,8 +1,8 @@
 import type { DictionaryResponse } from '@/types'
 
-import { api } from './api'
+import { authApi } from './authApi'
 
-export const dictionaryApi = api.injectEndpoints({
+export const dictionaryApi = authApi.injectEndpoints({
 	endpoints: (build) => ({
 		translate: build.query<DictionaryResponse, string>({
 			query: (text) => ({

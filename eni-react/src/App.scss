@@ -1,4 +1,5 @@
 @use './styles/_colors.scss' as *;
+@use './styles/_colors2.scss' as *;
 @use './styles/_variables.scss' as *;
 @use 'sass:meta';
 
@@ -14,6 +15,10 @@ body {
 	margin: 0;
 	overflow-x: hidden;
 	font-family: 'Noto Sans', Arial, sans-serif;
+}
+
+#root {
+	background: $bg-gradient-light;
 }
 
 * {

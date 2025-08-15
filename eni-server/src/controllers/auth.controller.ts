@@ -1,3 +1,4 @@
+import type { User } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import type { Request, Response } from 'express'
 
@@ -9,7 +10,10 @@ export class AuthController {
 	constructor(private readonly userService: UserService) {}
 
 	signup = async (req: Request, res: Response) => {
-		const { username, password, email } = req.body
+		const { username, password, email } = req.body as Pick<
+			User,
+			'username' | 'password' | 'email'
+		>
 
 		// TODO: validate username, email and password
 		// validation error - code 422
@@ -24,7 +28,7 @@ export class AuthController {
 	}
 
 	login = async (req: Request, res: Response) => {
-		const { email, password } = req.body
+		const { email, password } = req.body as Pick<User, 'email' | 'password'>
 
 		console.log(email, password)
 
@@ -50,7 +54,11 @@ export class AuthController {
 	}
 
 	logout = async (req: Request, res: Response) => {
-		const refreshToken = req.cookies[REFRESH_TOKEN]
+		const refreshToken = req.cookies[REFRESH_TOKEN] as string | undefined
+
+		if (!refreshToken) {
+			throw new AuthenticationError(401, 'Not authorized')
+		}
 
 		await this.userService.logout(refreshToken)
 		res.clearCookie(REFRESH_TOKEN)
@@ -60,10 +68,10 @@ export class AuthController {
 	}
 
 	refresh = async (req: Request, res: Response) => {
-		const refreshToken = req.cookies[REFRESH_TOKEN]
+		const refreshToken = req.cookies[REFRESH_TOKEN] as string | undefined
 
 		if (!refreshToken) {
-			throw new AuthenticationError(401, 'Refresh token required')
+			throw new AuthenticationError(401, 'Not authorized')
 		}
 
 		const { userDto, newAccessToken, newRefreshToken } =

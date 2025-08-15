@@ -3,48 +3,75 @@ import { useParams } from 'react-router-dom'
 
 import {
 	useGetMeQuery,
-	useLazyGetUserByUsernameQuery,
-	useLazyTranslateQuery
+	useGetWordsByUserIdQuery,
+	useLazyGetUserByUsernameQuery
 } from '@/api'
 import { useAppSelector } from '@/app/index'
+import { BookIcon, BrainIcon, ProfileIcon } from '@/icons'
 import { selectWords } from '@/store'
-import type { Word } from '@/types'
+import type { User } from '@/types'
+
+import { MyWord } from '../MyWord/MyWord'
 
 import styles from './Profile.module.scss'
 
 export const Profile = () => {
 	const { username } = useParams()
-	const { data: me, isLoading, isFetching } = useGetMeQuery(null)
-	const [getUserByUsername, { data: user, isLoading: isUserLoading, error }] =
-		useLazyGetUserByUsernameQuery()
+	const {
+		data: me,
+		isLoading: isMeLoading,
+		isFetching: isMeFetching
+	} = useGetMeQuery(null)
+	const [
+		getUserByUsername,
+		{
+			data: user,
+			isLoading: isUserLoading,
+			isFetching: isUserFetcing,
+			error: userError
+		}
+	] = useLazyGetUserByUsernameQuery()
 	const { words } = useAppSelector(selectWords)
-	const [translation, setTranslation] = useState<string | null>(null)
-	const [triggerTranslate] = useLazyTranslateQuery()
+	const [displayUser, setDisplayUser] = useState<User | null>(null)
+	const {
+		data: userWords,
+		isLoading: isUserWordsLoading,
+		error: isUserWordsError
+	} = useGetWordsByUserIdQuery(displayUser?.id ?? '', { skip: !displayUser })
 
-	const translate = async (word: Word) => {
-		const response = await triggerTranslate(word.text).unwrap()
-		setTranslation(response.def[0].tr[0].text)
-	}
+	const isLoading =
+		isMeLoading || isMeFetching || isUserLoading || isUserFetcing
 
 	useEffect(() => {
-		if (!username || isLoading || isFetching) return
+		if (!username || isLoading) return
 
 		if ((!me && !user) || (!user && me && me.username !== username)) {
 			getUserByUsername(username)
 		}
-	}, [me, isLoading, isFetching])
+	}, [me, isMeLoading, isMeFetching])
 
-	if (isUserLoading) return <div>ТУТ СКЕЛЕТОН...</div>
-	if (error)
+	useEffect(() => {
+		if (user) {
+			setDisplayUser(user)
+		}
+	}, [user])
+
+	useEffect(() => {
+		if (me) {
+			setDisplayUser(me)
+		}
+	}, [me])
+
+	if (!isLoading && userError)
 		return (
 			<div>
-				{'data' in error
-					? (error.data as { message: string }).message
+				{'data' in userError
+					? (userError.data as { message: string }).message
 					: 'unknown error'}
 			</div>
 		)
 
-	const displayUser = user ?? me
+	if (isLoading) return <div>Profile Loading...</div>
 
 	if (!displayUser) return <div>User not found</div>
 
@@ -52,23 +79,70 @@ export const Profile = () => {
 
 	return (
 		<div className={styles.profilePage}>
-			<h2>{isMe ? 'My account' : 'User profile'}</h2>
-			<p>{displayUser.username}</p>
-			<p>{displayUser.email}</p>
-
-			{isMe && (
-				<>
-					<h3>Words</h3>
-					<ul>
-						{words.map((word) => (
-							<li key={word.id}>
-								<div>{word.text}</div>
-								<button onClick={() => translate(word)}>TRANSLATE</button>
-								{translation && <p>{translation}</p>}
-							</li>
-						))}
-					</ul>
-				</>
+			<div className={styles.profileHeader}>
+				<div className={styles.headerContent}>
+					<div className={styles.avatar}>
+						<ProfileIcon />
+					</div>
+					<div className={styles.userInfo}>
+						<h2 className={styles.username}>{displayUser.username}</h2>
+						<p className={styles.email}>{displayUser.email}</p>
+						<div className={styles.stats}>
+							<div className={styles.stat}>
+								<span className={styles.number}>{~~(Math.random() * 100)}</span>
+								<span className={styles.label}>Изучено</span>
+							</div>
+							<div className={styles.stat}>
+								<span className={styles.number}>{~~(Math.random() * 100)}</span>
+								<span className={styles.label}>Изучаю</span>
+							</div>
+							<div className={styles.stat}>
+								<span className={styles.number}>{~~(Math.random() * 100)}</span>
+								<span className={styles.label}>Всего слов</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{words && words.length !== 0 && (
+				<section className={styles.section}>
+					<div className={styles.sectionHeader}>
+						<h3 className={styles.sectionTitle}>
+							<BrainIcon />
+							<span>Изучить</span>
+						</h3>
+						<span className={styles.badge}>{words.length}</span>
+					</div>
+					{words.length !== 0 && me && (
+						<ul className={styles.wordsList}>
+							{words.map((word) => (
+								<MyWord key={word.id} isMe={isMe} myId={me.id} word={word} />
+							))}
+						</ul>
+					)}
+				</section>
+			)}
+			{isUserWordsLoading && <div>Words loading...</div>}
+			{!isUserWordsLoading && isUserWordsError && (
+				<div>Не удалось загрузить слова</div>
+			)}
+			{!isUserWordsLoading && userWords && userWords.length !== 0 && me && (
+				<section className={styles.section}>
+					<div className={styles.sectionHeader}>
+						<h3 className={styles.sectionTitle}>
+							<BookIcon />
+							<span>Изучено</span>
+						</h3>
+						<span className={styles.badge}>{userWords.length}</span>
+					</div>
+					{userWords.length !== 0 && (
+						<ul className={styles.wordsList}>
+							{userWords.map((word) => (
+								<MyWord key={word.id} isMe={isMe} myId={me.id} word={word} />
+							))}
+						</ul>
+					)}
+				</section>
 			)}
 		</div>
 	)

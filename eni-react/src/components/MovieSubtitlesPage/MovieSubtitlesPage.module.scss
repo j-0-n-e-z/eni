@@ -10,7 +10,7 @@
 		color: var(--colors-text-neutrals);
 		background-color: var(--colors-background-neutrals-subtle);
 		border-top: 0;
-		border-radius: 0 0 $space-xl $space-xl;
+		border-radius: $space-xl;
 
 		.cover {
 			display: block;

@@ -19,7 +19,7 @@ export class AuthMiddleware {
 	}
 
 	protectByRefreshToken = (req: Request, res: Response, next: NextFunction) => {
-		const refreshToken = req.cookies[REFRESH_TOKEN]
+		const refreshToken = req.cookies[REFRESH_TOKEN] as string | undefined
 
 		if (!refreshToken) {
 			throw new AuthenticationError(401, 'Not authorized')
@@ -31,7 +31,7 @@ export class AuthMiddleware {
 	}
 
 	protectByAccessToken = (req: Request, res: Response, next: NextFunction) => {
-		const accessToken = req.cookies[ACCESS_TOKEN]
+		const accessToken = req.cookies[ACCESS_TOKEN] as string | undefined
 
 		if (!accessToken) {
 			throw new AuthenticationError(401, 'Not authorized')

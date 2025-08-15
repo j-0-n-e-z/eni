@@ -5,7 +5,7 @@ import { useGetMeQuery } from '@/api'
 export const ProtectedRoute = () => {
 	const { isLoading, isSuccess } = useGetMeQuery(null)
 
-	if (isLoading) return <div>ЗАГРУЗКА</div>
+	if (isLoading) return <div>ЗАГРУЗКА ProtectedRoute</div>
 
 	return isSuccess ? <Outlet /> : <Navigate to='/login' />
 }

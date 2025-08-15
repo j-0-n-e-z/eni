@@ -63,8 +63,8 @@ export interface KinopoiskMovie {
 	hasImax: boolean
 	has3D: boolean
 	lastSync: string
-	countries: {country:string}[]
-	genres: {genre:string}[]
+	countries: { country: string }[]
+	genres: { genre: string }[]
 	startYear: number | null
 	endYear: number | null
 	serial: boolean
@@ -103,19 +103,26 @@ export interface MovieSubtitle {
 	}
 }
 
-export interface Subtitle {
-	id: number
+export interface PureSubtitle {
 	timecode: string
 	text: string
-	movieId: number
+}
+
+export interface Subtitle extends PureSubtitle {
+	fileId: number // to load subtitles
+	movieId: number // to load movie info
+	page: number // to go to page
 }
 
 export interface Word {
 	id: string
 	text: string
 	from: {
+		subtitleTimecode: string
+		subtitleIndex: number
 		movieId: number
-		subtitleId: number
+		fileId: number
+		page: number
 	}
 	isLearned: boolean
 	isRepeating: boolean
