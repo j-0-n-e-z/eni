@@ -7,4 +7,4 @@ export const loginSchema = z.object({
 	password: passwordScheme
 })
 
-export type LoginValues = z.infer<typeof loginSchema>
+export type LoginCredentials = z.infer<typeof loginSchema>

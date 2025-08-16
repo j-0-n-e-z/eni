@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useGetMeQuery } from '@/api'
 
@@ -12,10 +12,12 @@ export const Auth = () => {
 	const navigate = useNavigate()
 	const { data: me } = useGetMeQuery(null)
 	const [method, setMethod] = useState<'login' | 'signup'>('login')
+	const location = useLocation()
+	const from = (location.state as { from?: string })?.from
 
 	useEffect(() => {
 		if (me) {
-			navigate(`/user/${me.username}`)
+			navigate(from ?? `/user/${me.username}`, { replace: true })
 		}
 	}, [me])
 
