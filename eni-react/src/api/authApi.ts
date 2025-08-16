@@ -61,9 +61,17 @@ export const authApi = createApi({
 				method: 'POST',
 				body: credentials,
 				credentials: 'include'
-			})
+			}),
+			async onQueryStarted(_, { dispatch, queryFulfilled }) {
+				try {
+					await queryFulfilled
+					dispatch(authApi.endpoints.getMe.initiate(null))
+				} catch (e) {
+					console.log(e)
+				}
+			}
 		}),
-		logout: build.mutation<void, void>({
+		logout: build.mutation<null, null>({
 			query: () => ({
 				url: 'logout',
 				method: 'POST',
@@ -73,11 +81,11 @@ export const authApi = createApi({
 				try {
 					await queryFulfilled
 					dispatch(authApi.util.resetApiState())
+					dispatch(authApi.util.invalidateTags(['Me']))
 				} catch (error) {
 					console.log(error)
 				}
-			},
-			invalidatesTags: ['Me']
+			}
 		})
 	})
 })

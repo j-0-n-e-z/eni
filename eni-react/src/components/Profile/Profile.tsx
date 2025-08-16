@@ -22,13 +22,15 @@ export const Profile = () => {
 		isLoading: isMeLoading,
 		isFetching: isMeFetching
 	} = useGetMeQuery(null)
+
 	const [
-		getUserByUsername,
+		triggerGetUserByUsername,
 		{
 			data: user,
 			isLoading: isUserLoading,
 			isFetching: isUserFetcing,
-			error: userError
+			error: userError,
+			reset: userReset
 		}
 	] = useLazyGetUserByUsernameQuery()
 	const { words } = useAppSelector(selectWords)
@@ -45,22 +47,25 @@ export const Profile = () => {
 	useEffect(() => {
 		if (!username || isLoading) return
 
-		if ((!me && !user) || (!user && me && me.username !== username)) {
-			getUserByUsername(username)
+		if (me && me.username === username?.replaceAll('%20', ' ')) {
+			setDisplayUser(me)
+			userReset()
+			return
 		}
-	}, [me, isMeLoading, isMeFetching])
+
+		if (
+			(!me && !user) ||
+			(!user && me && me.username !== username.replaceAll('%20', ' '))
+		) {
+			triggerGetUserByUsername(username)
+		}
+	}, [me, isMeLoading, isMeFetching, username])
 
 	useEffect(() => {
 		if (user) {
 			setDisplayUser(user)
 		}
 	}, [user])
-
-	useEffect(() => {
-		if (me) {
-			setDisplayUser(me)
-		}
-	}, [me])
 
 	if (!isLoading && userError)
 		return (
@@ -71,11 +76,11 @@ export const Profile = () => {
 			</div>
 		)
 
-	if (isLoading) return <div>Profile Loading...</div>
+	if (isLoading || !displayUser) return <div>Profile Loading...</div>
 
-	if (!displayUser) return <div>User not found</div>
+	if (!isLoading && userError) return <div>User not found ЫЫЫЫ</div>
 
-	const isMe = displayUser.username === me?.username
+	const isMe = displayUser?.username === me?.username
 
 	return (
 		<div className={styles.profilePage}>
@@ -106,7 +111,7 @@ export const Profile = () => {
 					</div>
 				</div>
 			</div>
-			{words && words.length !== 0 && (
+			{words && words.length > 0 && me && (
 				<section className={styles.section}>
 					<div className={styles.sectionHeader}>
 						<h3 className={styles.sectionTitle}>
@@ -115,19 +120,18 @@ export const Profile = () => {
 						</h3>
 						<span className={styles.badge}>{words.length}</span>
 					</div>
-					{words.length !== 0 && me && (
-						<ul className={styles.wordsList}>
-							{words.map((word) => (
-								<Word
-									key={`learn${word.id}`}
-									isLearned={false}
-									isMe={isMe}
-									myId={me.id}
-									word={word}
-								/>
-							))}
-						</ul>
-					)}
+
+					<ul className={styles.wordsList}>
+						{words.map((word) => (
+							<Word
+								key={`learn${word.id}`}
+								isLearned={false}
+								isMe={isMe}
+								myId={me.id}
+								word={word}
+							/>
+						))}
+					</ul>
 				</section>
 			)}
 			{isUserWordsLoading && <div>Words loading...</div>}
@@ -143,7 +147,7 @@ export const Profile = () => {
 						</h3>
 						<span className={styles.badge}>{userWords.length}</span>
 					</div>
-					{userWords.length !== 0 && (
+					{userWords.length > 0 && (
 						<ul className={styles.wordsList}>
 							{userWords.map((word) => (
 								<Word
