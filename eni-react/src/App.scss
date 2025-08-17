@@ -80,10 +80,7 @@ input::-webkit-clear-button {
 .main {
 	display: flex;
 	flex-direction: column;
-	max-width: 1480px;
 	min-height: 100vh;
-	padding: $space-lg;
-	margin: 0 auto;
 }
 
 .visually-hidden {

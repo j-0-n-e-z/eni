@@ -1,7 +1,9 @@
+import cn from 'classnames'
 import type { FC } from 'react'
 
+import { StarIcon } from '@/icons'
 import type { MovieSubtitle as IMovieSubtitle } from '@/types'
-import { USDateFormatter } from '@/utils'
+import { NumberFormatter, USDateFormatter } from '@/utils'
 
 import styles from './MovieSubtitlesPicker.module.scss'
 
@@ -14,24 +16,43 @@ export const MovieSubtitle: FC<MovieSubtitleProps> = ({
 	movieSubtitle,
 	pickMovieSubtitle
 }) => (
-	<li className={styles.movieSubItem}>
+	<li className={styles.movieSub}>
+		<div className={styles.movieSubRating}>
+			{Array.from({ length: 10 }).map((_, i) => (
+				<StarIcon
+					className={cn(styles.star, {
+						[styles.filled]: i + 1 <= movieSubtitle.subtitles.rating
+					})}
+				/>
+			))}
+		</div>
+
+		<div className={styles.movieSubMeta}>
+			<div className={styles.metaRow}>
+				<span className={styles.metaLabel}>Скачиваний:</span>
+				<span className={styles.metaValue}>
+					{NumberFormatter.format(movieSubtitle.download_count)}
+				</span>
+			</div>
+
+			<div className={styles.metaRow}>
+				<span className={styles.metaLabel}>Загружено:</span>
+				<span className={styles.metaValue}>
+					{USDateFormatter.format(new Date(movieSubtitle.upload_date))}
+				</span>
+			</div>
+
+			<div className={styles.metaRow}>
+				<span className={styles.metaLabel}>Автор:</span>
+				<span className={styles.metaValue}>{movieSubtitle.uploader}</span>
+			</div>
+		</div>
+
 		<button
 			className={styles.pickMovieSubBtn}
 			onClick={() => pickMovieSubtitle(movieSubtitle)}
 		>
-			<span className={styles.title}>{movieSubtitle.title}</span>
-			<span>{movieSubtitle.download_count}</span>
-			<span className={styles.date}>
-				{USDateFormatter.format(new Date(movieSubtitle.upload_date))}
-			</span>
-			<div
-				style={{
-					width: `${movieSubtitle.subtitles.rating * 10}%`,
-					background: 'lightgreen'
-				}}
-			>
-				{movieSubtitle.subtitles.rating}
-			</div>
+			Выбрать
 		</button>
 	</li>
 )

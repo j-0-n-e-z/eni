@@ -5,17 +5,22 @@ import { useAppDispatch } from '@/app/hooks'
 import { addMovieToHistory } from '@/store'
 import type { BaseKinoposikMovie } from '@/types'
 
-import styles from './SearchResults.module.scss'
+import styles from './Search.module.scss'
 
 interface SearchResultsProps {
 	movies: BaseKinoposikMovie[]
-	title: string
+	isHistory?: true
 }
 
-export const SearchResults: FC<SearchResultsProps> = ({ movies, title }) => {
+export const SearchResults: FC<SearchResultsProps> = ({
+	movies,
+	isHistory
+}) => {
 	const dispatch = useAppDispatch()
 
 	const addToSearchHistory = (movie: BaseKinoposikMovie) => {
+		if (isHistory) return
+
 		dispatch(
 			addMovieToHistory({
 				year: movie.year,
@@ -29,8 +34,10 @@ export const SearchResults: FC<SearchResultsProps> = ({ movies, title }) => {
 	}
 
 	return (
-		<div className={styles.resultsContainer}>
-			<h2 className={styles.header}>{title}</h2>
+		<>
+			<h2 className={styles.header}>
+				{isHistory ? 'История поиска' : 'Результаты поиска'}
+			</h2>
 			<ul className={styles.searchResults}>
 				{movies.map(({ filmId, posterUrlPreview, nameEn, year }, i, movies) => (
 					<li key={filmId}>
@@ -52,6 +59,6 @@ export const SearchResults: FC<SearchResultsProps> = ({ movies, title }) => {
 					</li>
 				))}
 			</ul>
-		</div>
+		</>
 	)
 }

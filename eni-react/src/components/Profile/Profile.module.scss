@@ -6,6 +6,10 @@
 	display: flex;
 	flex-direction: column;
 	gap: $space-xxl;
+	width: 100%;
+	max-width: 1480px;
+	padding: $space-lg;
+	margin: 0 auto;
 	background: $bg-gradient-light;
 
 	.profileHeader {

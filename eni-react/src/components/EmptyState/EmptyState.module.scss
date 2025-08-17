@@ -1,0 +1,33 @@
+@use '../../styles/_variables.scss' as *;
+
+.emptyState {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: $space-md;
+	align-items: center;
+	justify-content: center;
+	color: #64748b;
+	text-align: center;
+
+	svg {
+		width: 4rem;
+		height: 4rem;
+		margin: 0 auto 1.5rem;
+		color: #9ca3af;
+	}
+
+	.header {
+		margin-bottom: 0.5rem;
+		font-size: 1.25rem;
+		font-weight: 600;
+		color: #475569;
+	}
+
+	.description {
+		max-width: 24rem;
+		margin: 0 auto;
+		font-size: 0.875rem;
+		line-height: 1.5;
+	}
+}

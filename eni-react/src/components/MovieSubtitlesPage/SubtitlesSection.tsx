@@ -19,18 +19,13 @@ export const SubtitlesSection: FC<SubtitlesSectionProps> = ({
 		return <Subtitles fileId={lookupWord.from.fileId} lookupWord={lookupWord} />
 	}
 
-	return (
-		<>
-			{!pickedMovieSubtitle && (
-				<MovieSubtitlesPicker
-					imdbId={imdbId}
-					pickMovieSubtitle={setPickedMovieSubtitle}
-				/>
-			)}
+	if (pickedMovieSubtitle)
+		return <Subtitles fileId={pickedMovieSubtitle.subtitles.file_id} />
 
-			{pickedMovieSubtitle && (
-				<Subtitles fileId={pickedMovieSubtitle.subtitles.file_id} />
-			)}
-		</>
+	return (
+		<MovieSubtitlesPicker
+			imdbId={imdbId}
+			pickMovieSubtitle={setPickedMovieSubtitle}
+		/>
 	)
 }

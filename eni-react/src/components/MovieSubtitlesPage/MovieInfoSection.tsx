@@ -1,10 +1,11 @@
+import cn from 'classnames'
 import { useEffect, type FC } from 'react'
 import toast from 'react-hot-toast'
 
 import { useGetMovieBoxOfficeByKinopoiskIdQuery } from '@/api'
 import { ImdbIcon } from '@/icons'
 import type { KinopoiskMovie } from '@/types'
-import { formatToOneDecimal, USDFormatter } from '@/utils'
+import { USDFormatter } from '@/utils'
 
 import styles from './MovieSubtitlesPage.module.scss'
 
@@ -22,7 +23,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 	})
 
 	const budget = boxOffice?.items.find((item) => item.type === 'BUDGET')
-	const world = boxOffice?.items.find((item) => item.type === 'WORLD')
+	const boxOfficeWorld = boxOffice?.items.find((item) => item.type === 'WORLD')
 
 	useEffect(() => {
 		if (boxOfficeError)
@@ -30,97 +31,111 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 	}, [boxOfficeError])
 
 	return (
-		<section className={styles.info}>
-			<img
-				alt={`${movie.nameOriginal} Cover`}
-				className={styles.cover}
-				src={movie.posterUrl}
-			/>
-			<div className={styles.details}>
-				<h2 className={styles.title}>
-					<a
-						href={`https://www.imdb.com/title/${movie.imdbId}`}
-						rel='noopener noreferrer'
-						target='_blank'
-					>
-						{movie.nameOriginal}
-					</a>
-				</h2>
-
-				<span>
-					<b>Released: </b> {movie.year}
-				</span>
-
-				{movie.ratingMpaa && (
-					<span>
-						<b>MPAA Rating: </b> {movie.ratingMpaa.toUpperCase()}
-					</span>
-				)}
-
-				{isBoxOfficeLoading ? (
-					<div>...Загрузка бокс-офиса</div>
-				) : (
-					<>
-						{budget && (
-							<div>
-								<b>Budget:</b> {USDFormatter.format(budget.amount)}
-							</div>
-						)}
-						{world && (
-							<div>
-								<b>Box office:</b> {USDFormatter.format(world.amount)}
-							</div>
-						)}
-					</>
-				)}
-
-				{movie.ratingImdb && (
-					<span className={styles.rating}>
-						<b>Rating: </b>
+		<section className={styles.movieSection}>
+			<div className={styles.heroContainer}>
+				<img
+					alt={`${movie.nameOriginal} Cover`}
+					className={styles.cover}
+					src={movie.posterUrl}
+				/>
+				<div className={styles.details}>
+					<h2 className={styles.title}>
 						<a
-							className={styles.imdb}
 							href={`https://www.imdb.com/title/${movie.imdbId}`}
 							rel='noopener noreferrer'
 							target='_blank'
 						>
-							<ImdbIcon className={styles.imdbLogo} />
-							{formatToOneDecimal(movie.ratingImdb)}
+							{movie.nameOriginal}
 						</a>
-					</span>
-				)}
+					</h2>
 
-				{movie.countries && (
-					<span>
-						<b>Countries: </b>
-						{movie.countries.map((country) => country.country).join(', ')}
-					</span>
-				)}
+					{movie.slogan && <p className={styles.slogan}>{movie.slogan}</p>}
 
-				{movie.genres && (
-					<span>
-						<b>Genres: </b>
-						{movie.genres.map((genre) => genre.genre).join(', ')}
-					</span>
-				)}
+					<div className={styles.movieMeta}>
+						<div className={styles.metaItem}>
+							<span className={styles.metaLabel}>Год:</span>
+							<span className={styles.metaValue}>{movie.year}</span>
+						</div>
 
-				{movie.productionStatus && (
-					<span>
-						<b>Production Status: </b>
-						{movie.productionStatus}
-					</span>
-				)}
+						{movie.ratingMpaa && (
+							<div className={styles.metaItem}>
+								<span className={styles.metaLabel}>Возраст: </span>
+								<span className={styles.metaValue}>
+									{movie.ratingMpaa.toUpperCase()}
+								</span>
+							</div>
+						)}
 
-				{movie.slogan && (
-					<span>
-						<b>Slogan: </b> {movie.slogan}
-					</span>
-				)}
+						{isBoxOfficeLoading ? (
+							<div>...Загрузка бокс-офиса</div>
+						) : (
+							<>
+								{budget && (
+									<div className={styles.metaItem}>
+										<span className={styles.metaLabel}>Бюджет:</span>
+										<span className={cn(styles.metaValue, styles.budget)}>
+											{USDFormatter.format(budget.amount)}
+										</span>
+									</div>
+								)}
+								{boxOfficeWorld && (
+									<div className={styles.metaItem}>
+										<span className={styles.metaLabel}>Сборы:</span>
+										<span className={cn(styles.metaValue, styles.boxOffice)}>
+											{USDFormatter.format(boxOfficeWorld.amount)}
+										</span>
+									</div>
+								)}
+							</>
+						)}
 
-				{movie.shortDescription && (
-					<p style={{ fontStyle: 'italic' }}>{movie.shortDescription}</p>
-				)}
+						{movie.ratingImdb && (
+							<div className={styles.metaItem}>
+								<span className={styles.metaLabel}>Рейтинг: </span>
+								<a
+									className={cn(styles.metaValue, styles.imdb)}
+									href={`https://www.imdb.com/title/${movie.imdbId}`}
+									rel='noopener noreferrer'
+									target='_blank'
+								>
+									<ImdbIcon className={styles.imdbLogo} />
+									{movie.ratingImdb.toFixed(1)}
+								</a>
+							</div>
+						)}
 
-				{/* <a
+						{movie.countries && (
+							<div className={styles.metaItem}>
+								<span className={styles.metaLabel}>Страны: </span>
+								<span className={styles.metaValue}>
+									{movie.countries.map(({ country }) => country).join(', ')}
+								</span>
+							</div>
+						)}
+					</div>
+
+					{movie.genres && (
+						<ul className={styles.genres}>
+							{movie.genres.map(({ genre }) => (
+								<li key={genre} className={styles.genre}>
+									{genre}
+								</li>
+							))}
+						</ul>
+					)}
+
+					{movie.shortDescription && (
+						<p className={styles.description}>{movie.shortDescription}</p>
+					)}
+
+					{movie.productionStatus && (
+						<span>
+							<b>Production Status: </b>
+							{movie.productionStatus}
+						</span>
+					)}
+
+					{/* <a
 						className={styles.allSubsButton}
 						href={movie.opensubtitles.all_url}
 						rel='noopener noreferrer'
@@ -128,6 +143,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 					>
 						Check subtitles on OpenSubtitles
 					</a> */}
+				</div>
 			</div>
 		</section>
 	)

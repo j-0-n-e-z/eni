@@ -30,8 +30,6 @@ export class AuthController {
 	login = async (req: Request, res: Response) => {
 		const { email, password } = req.body as Pick<User, 'email' | 'password'>
 
-		console.log(email, password)
-
 		// TODO: validate email and password
 		// validation error - code 422
 

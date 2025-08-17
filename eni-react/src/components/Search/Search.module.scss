@@ -1,83 +1,162 @@
 @use '../../styles/_variables.scss' as *;
+@use '../../styles/_colors2.scss' as *;
 @use '../../styles/sharedStyles.scss' as *;
 
-.searchContainer {
+.searchPage {
+	@extend %container;
+
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
+	gap: $space-md;
+	min-height: 100vh;
+	padding: $space-lg;
 
-	.inputContainer {
+	.searchContainer {
 		display: flex;
-		gap: $space-sm;
-		align-items: center;
-		width: 100%;
-		max-width: 800px;
-		padding: $space-sm 0 $space-sm $space-sm;
-		cursor: text;
-		background-color: var(--colors-background-neutrals-subtle);
-		border: 1px solid transparent;
-		border-radius: $space-md;
-		transition: border 0.1s linear;
+		justify-content: center;
 
-		&:has(input:focus) {
-			border: 1px solid var(--colors-border-primary);
-		}
-
-		svg {
-			color: var(--colors-border-neutrals-text);
-		}
-
-		.searchBtn {
+		.inputContainer {
 			display: flex;
+			gap: $space-sm;
 			align-items: center;
-			justify-content: center;
-			height: 100%;
-			padding-left: $space-xs;
-			cursor: pointer;
+			width: 100%;
+			max-width: 800px;
+			padding: $space-sm 0 $space-sm $space-sm;
+			cursor: text;
+			background: #fff;
+			border: 2px solid #e5e7eb;
+			border-radius: $space-md;
+			box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%);
+			transition: border 0.1s linear;
 
-			.searchIcon {
-				width: 20px;
-				height: 20px;
+			&:has(input:focus) {
+				border: 2px solid $brand-primary;
+			}
+
+			svg {
+				color: var(--colors-border-neutrals-text);
+			}
+
+			.searchBtn {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				height: 100%;
+				padding-left: $space-xs;
 				cursor: pointer;
-			}
-		}
 
-		.searchInput {
-			width: 93%;
-			padding: $space-xs 0;
-			font-family: 'Noto Sans', Arial, sans-serif;
-			font-size: $font-lg;
-
-			&::placeholder {
-				color: var(--colors-text-neutrals-placeholder);
+				.searchIcon {
+					width: 20px;
+					height: 20px;
+					cursor: pointer;
+				}
 			}
 
-			::-webkit-clear-button {
-				display: none;
+			.searchInput {
+				width: 93%;
+				padding: $space-xs 0;
+				font-family: 'Noto Sans', Arial, sans-serif;
+				font-size: $font-lg;
+
+				&::placeholder {
+					color: var(--colors-text-neutrals-placeholder);
+				}
+
+				::-webkit-clear-button {
+					display: none;
+				}
 			}
-		}
 
-		.clearBtn {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 40px;
-			height: 100%;
-			padding: 0;
-			cursor: pointer;
+			.clearBtn {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 40px;
+				height: 100%;
+				padding: 0;
+				cursor: pointer;
 
-			.clearIcon {
-				width: 16px;
-				height: 16px;
+				.clearIcon {
+					width: 16px;
+					height: 16px;
+				}
 			}
 		}
 	}
-}
 
-.results {
-	display: flex;
-	flex: 1;
-	align-items: center;
-	justify-content: center;
-	margin-top: $space-lg;
-	margin-bottom: $space-lg;
+	.searchResultsContainer {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		gap: $space-lg;
+		justify-content: start;
+		width: 100%;
+
+		.header {
+			display: flex;
+			gap: $space-md;
+			align-items: center;
+			justify-content: center;
+			font-size: $font-xxl;
+			color: var(--color-black);
+			text-align: center;
+		}
+
+		.searchResults {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+			gap: $space-lg;
+
+			.movieCard {
+				display: flex;
+				flex-direction: column;
+				max-width: 320px;
+				height: 100%;
+				overflow: hidden;
+				color: var(--colors-text-neutrals);
+				text-decoration: none;
+				background-color: var(--colors-background-neutrals-subtle);
+				border-radius: $space-xl;
+				box-shadow: 2px 2px 5px var(--colors-background-neutrals-control);
+				transition:
+					transform 0.3s ease,
+					background-color 0.2s ease;
+
+				&:hover {
+					background-color: var(--colors-background-neutrals-subtle-hover);
+					transform: translateY(-$space-sm);
+				}
+
+				.cover {
+					display: block;
+					width: 100%;
+					aspect-ratio: 2/3;
+					object-fit: cover;
+				}
+
+				.details {
+					display: flex;
+					flex-direction: column;
+					gap: $space-sm;
+					height: 100%;
+					padding: $space-lg;
+
+					.title {
+						font-size: $font-lg;
+						font-weight: 700;
+					}
+
+					.year {
+						font-size: $font-lg;
+						color: var(--colors-text-neutrals-subtle);
+					}
+
+					.rating {
+						margin-top: auto;
+						font-size: $font-lg;
+					}
+				}
+			}
+		}
+	}
 }

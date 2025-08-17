@@ -1,5 +1,11 @@
 @use './_variables.scss' as *;
 
+%container {
+	width: 100%;
+	max-width: 1480px;
+	margin: 0 auto;
+}
+
 %button-base {
 	display: block;
 	width: fit-content;

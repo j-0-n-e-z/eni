@@ -89,12 +89,13 @@ export interface BoxOffice {
 }
 
 export interface MovieSubtitle {
-	upload_date: string
 	id: number
 	tmdb_id: number
 	imdb_id: number
 	release_year: number
 	download_count: number
+	upload_date: string
+	uploader: string
 	title: string
 	opensubtitles: {
 		current_url: string

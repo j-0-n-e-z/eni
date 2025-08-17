@@ -3,25 +3,50 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { useLazySearchMoviesQuery } from '@/api'
 import { useAppSelector } from '@/app/hooks'
-import { SearchResults } from '@/components'
+import { EmptyState, SearchResults } from '@/components'
 import { useDebounce } from '@/hooks'
-import { CancelIcon, SearchIcon } from '@/icons'
+import { CancelIcon, MovieIcon, SearchIcon } from '@/icons'
 import { selectMoviesFromHistory } from '@/store'
 
 import styles from './Search.module.scss'
 
 export const Search: FC = () => {
 	const [movieTitle, setMovieTitle] = useState('')
-	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 1000)
+	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 500)
 	const inputRef = useRef<HTMLInputElement>(null)
 	const searchedMovies = useAppSelector(selectMoviesFromHistory)
-
-	const [triggerSearch, { data: movies, isFetching, error }] =
+	const [triggerSearch, { data: movies, isFetching, error, reset }] =
 		useLazySearchMoviesQuery()
+
+	function render() {
+		if (isFetching) return <div>Загрузка...</div>
+		if (error) return <div>JSON.stringify(error)</div>
+		if (!movies && !searchedMovies.length)
+			return (
+				<EmptyState
+					description='Введите название фильма в поле поиска'
+					header='Пока пусто'
+					icon={<MovieIcon />}
+				/>
+			)
+		if (movies && movies.length)
+			return (
+				<EmptyState
+					description='Похоже фильм отсутствует в базе кинопоиска'
+					header='Ничего не найдено'
+					icon={<MovieIcon />}
+				/>
+			)
+		if (movies && movies.length) return <SearchResults movies={movies} />
+		if (searchedMovies.length)
+			return <SearchResults isHistory movies={searchedMovies} />
+		return null
+	}
 
 	function clearInput() {
 		cancelDebounce()
 		setMovieTitle('')
+		reset()
 		inputRef.current?.focus()
 	}
 
@@ -39,13 +64,18 @@ export const Search: FC = () => {
 	}
 
 	useEffect(() => {
-		if (debouncedMovieTitle && !isFetching) {
+		if (!debouncedMovieTitle) {
+			reset()
+			return
+		}
+
+		if (!isFetching) {
 			triggerSearch(debouncedMovieTitle)
 		}
 	}, [debouncedMovieTitle])
 
 	return (
-		<>
+		<div className={styles.searchPage}>
 			<div className={styles.searchContainer}>
 				<label className={styles.inputContainer} htmlFor='search'>
 					<button className={styles.searchBtn} onClick={searchMovies}>
@@ -68,29 +98,8 @@ export const Search: FC = () => {
 					</button>
 				</label>
 			</div>
-			<div className={styles.results}>
-				{isFetching && <div>Загрузка...</div>}
-				{!isFetching && !movies && searchedMovies.length === 0 && (
-					<div>Пока пусто</div>
-				)}
-				{error && (
-					<div className={styles.searchError}>
-						{'data' in error
-							? (error.data as { message: string }).message
-							: 'Ошибка поиска'}
-					</div>
-				)}
-				{!isFetching && movies && movies.length === 0 && (
-					<div>Ничего не найдено</div>
-				)}
-				{}
-				{!isFetching && movies && movies.length !== 0 && (
-					<SearchResults movies={movies} title='Результаты поиска' />
-				)}
-				{!isFetching && !movies && searchedMovies.length !== 0 && (
-					<SearchResults movies={searchedMovies} title='Вы искали' />
-				)}
-			</div>
-		</>
+
+			<div className={styles.searchResultsContainer}>{render()}</div>
+		</div>
 	)
 }

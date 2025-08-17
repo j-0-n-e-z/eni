@@ -20,6 +20,13 @@ export class SubtitleService {
 			}
 		)
 
+		console.log(
+			response.data.data.map((x) => ({
+				uploader: x.attributes.uploader,
+				feature_details: x.attributes.feature_details
+			}))
+		)
+
 		return response.data.data
 			.filter((m) => m.attributes.files.length !== 0)
 			.map(this.mapOSMovieSubtitleToMovie)
@@ -52,6 +59,7 @@ export class SubtitleService {
 			imdb_id: OSMovieSubtitle.attributes.feature_details.imdb_id,
 			release_year: OSMovieSubtitle.attributes.feature_details.year,
 			download_count: OSMovieSubtitle.attributes.download_count,
+			uploader: OSMovieSubtitle.attributes.uploader.name,
 			title: OSMovieSubtitle.attributes.feature_details.title,
 			opensubtitles: {
 				current_url: OSMovieSubtitle.attributes.url,

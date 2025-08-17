@@ -36,13 +36,15 @@ export const MovieSubtitlesPage: FC = () => {
 		<div className={styles.movieSubsContainer}>
 			<MovieInfoSection movie={movie} />
 
-			{!movie.imdbId && (
-				<div>Не удалось загрузить субтитры, отсутствует imdbId</div>
-			)}
+			<section className={styles.subtitlesSection}>
+				{!movie.imdbId && (
+					<div>Не удалось загрузить субтитры, отсутствует imdbId</div>
+				)}
 
-			{movie.imdbId && (
-				<SubtitlesSection imdbId={movie.imdbId} lookupWord={lookupWord} />
-			)}
+				{movie.imdbId && (
+					<SubtitlesSection imdbId={movie.imdbId} lookupWord={lookupWord} />
+				)}
+			</section>
 
 			<Toaster position='top-right' />
 		</div>

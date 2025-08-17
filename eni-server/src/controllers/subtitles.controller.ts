@@ -14,19 +14,17 @@ export class SubtitleController {
 
 		const movieSubtitleMap = new Map<number, MovieSubtitle>()
 
-		movieSubtitles.forEach((m) => {
-			if (!movieSubtitleMap.has(m.subtitles.rating)) {
-				movieSubtitleMap.set(m.subtitles.rating, m)
+		movieSubtitles.forEach((movie) => {
+			if (!movieSubtitleMap.has(movie.subtitles.rating)) {
+				movieSubtitleMap.set(movie.subtitles.rating, movie)
 			}
 		})
 
-		res
-			.status(200)
-			.json(
-				Array.from(movieSubtitleMap.values()).sort(
-					(a, b) => b.subtitles.rating - a.subtitles.rating
-				)
-			)
+		const sortedMovieSubtitles = Array.from(
+			movieSubtitleMap.values()
+		).sort((a, b) => b.subtitles.rating - a.subtitles.rating)
+
+		res.status(200).json(sortedMovieSubtitles)
 	}
 
 	getSubtitlesByFileId = async (req: Request, res: Response) => {

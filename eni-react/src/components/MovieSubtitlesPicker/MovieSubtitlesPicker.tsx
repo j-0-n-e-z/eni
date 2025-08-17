@@ -25,18 +25,14 @@ export const MovieSubtitlesPicker: FC<MovieSubtitlesPickerProps> = ({
 
 	if (isMovieSubtitlesLoading) return <div>...Загрузка вариантов субтитров</div>
 
-	if (!isMovieSubtitlesLoading && movieSubtitlesError)
+	if (movieSubtitlesError)
 		return <div>{JSON.stringify(movieSubtitlesError)}</div>
 
-	if (
-		!isMovieSubtitlesLoading &&
-		(!movieSubtitles || movieSubtitles.length === 0)
-	)
-		return <div>Варианты субтитров не найдены</div>
+	if (!movieSubtitles?.length) return <div>Варианты субтитров не найдены</div>
 
 	return (
-		<div className={styles.pickMovieSubs}>
-			<h3>Выберите субтитры</h3>
+		<div className={styles.movieSubsPicker}>
+			<h3 className={styles.movieSubsHeader}>Выберите субтитры</h3>
 			<ul className={styles.movieSubList}>
 				{movieSubtitles.map((movieSubtitle) => (
 					<MovieSubtitle
