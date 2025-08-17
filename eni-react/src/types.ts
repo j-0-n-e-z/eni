@@ -94,6 +94,7 @@ export interface MovieSubtitle {
 	tmdb_id: number
 	imdb_id: number
 	release_year: number
+	download_count: number
 	title: string
 	opensubtitles: {
 		current_url: string
@@ -135,11 +136,11 @@ export interface Word {
 	id: string
 	text: string
 	from: {
+		movieId: number
 		fileId: number
 		page: number
 		subtitleTimecode: string
 		subtitleIndex: number
-		movieId: number
 	}
 	isLearned: boolean
 	isFavorite: boolean

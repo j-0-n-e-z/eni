@@ -1,15 +1,8 @@
-import { useEffect, type FC } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
+import { type FC } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { useLocation, useParams } from 'react-router-dom'
 
-import {
-	useGetMovieBoxOfficeByKinopoiskIdQuery,
-	useGetMovieByKinopoiskIdQuery,
-	useGetMovieSubtitlesByImdbIdQuery
-} from '@/api'
-
-import '../../App.scss'
-
+import { useGetMovieByKinopoiskIdQuery } from '@/api'
 import type { Word } from '@/types'
 
 import { MovieInfoSection } from './MovieInfoSection'
@@ -30,62 +23,27 @@ export const MovieSubtitlesPage: FC = () => {
 		skip: !movieId
 	})
 
-	const {
-		data: boxOffice,
-		error: boxOfficeError,
-		isLoading: isBoxOfficeLoading
-	} = useGetMovieBoxOfficeByKinopoiskIdQuery(movieId, {
-		skip: !movieId
-	})
+	if (Number.isNaN(movieId)) return <div>Отсутствует id фильма</div>
 
-	const {
-		data: movieSubtitles,
-		isError: movieSubtitlesError,
-		isLoading: isMovieSubtitlesLoading
-	} = useGetMovieSubtitlesByImdbIdQuery(movie?.imdbId || '', {
-		skip: !movie?.imdbId || Boolean(lookupWord)
-	})
-
-	const budget = boxOffice?.items.find((item) => item.type === 'BUDGET')
-	const world = boxOffice?.items.find((item) => item.type === 'WORLD')
-
-	useEffect(() => {
-		if (boxOfficeError)
-			toast.error('Faild to load budget and box office', { id: 'box-office' })
-	}, [boxOfficeError])
-
-	useEffect(() => {
-		if (movieSubtitlesError)
-			toast.error('Faild to load movie subtitles', { id: 'movie-subtitles' })
-	}, [movieSubtitlesError])
-
-	if (!id) return <div>Не найден id фильма</div>
 	if (isMovieLoading) return <div>...Загрузка</div>
-	if (movieError)
-		return (
-			<div>
-				{'data' in movieError
-					? (movieError.data as { message: string }).message
-					: 'unknown error'}
-			</div>
-		)
 
-	if (!movie) return <div>Фильм не найден</div>
+	if (!isMovieLoading && movieError)
+		return <div>JSON.stringify(movieError)</div>
+
+	if (!isMovieLoading && !movie) return <div>Нет данных о фильме</div>
 
 	return (
 		<div className={styles.movieSubsContainer}>
-			<MovieInfoSection
-				budget={budget}
-				isBoxOfficeLoading={isBoxOfficeLoading}
-				movie={movie}
-				world={world}
-			/>
+			<MovieInfoSection movie={movie} />
 
-			<SubtitlesSection
-				isMovieSubtitlesLoading={isMovieSubtitlesLoading}
-				lookupWord={lookupWord}
-				movieSubtitles={movieSubtitles}
-			/>
+			{!movie.imdbId && (
+				<div>Не удалось загрузить субтитры, отсутствует imdbId</div>
+			)}
+
+			{movie.imdbId && (
+				<SubtitlesSection imdbId={movie.imdbId} lookupWord={lookupWord} />
+			)}
+
 			<Toaster position='top-right' />
 		</div>
 	)

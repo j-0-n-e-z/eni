@@ -12,7 +12,7 @@ interface SubtitleProps {
 	page: number
 	fileId: number
 	movieId: number
-	lookupWord: Word | undefined
+	lookupWord?: Word
 }
 
 export const Subtitle: FC<SubtitleProps> = ({

@@ -82,6 +82,7 @@ export interface MovieSubtitle {
 	tmdb_id: number
 	imdb_id: number
 	release_year: number
+	download_count: number
 	title: string
 	opensubtitles: {
 		current_url: string

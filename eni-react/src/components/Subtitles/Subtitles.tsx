@@ -2,32 +2,43 @@ import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { useGetSubtitleByFileIdQuery } from '@/api'
 import { Paginator, Subtitle } from '@/components'
-import type { PureSubtitle, Word } from '@/types'
+import type { Word } from '@/types'
 import { SUBTITLES_PER_PAGE } from '@/utils'
 
 import styles from './Subtitles.module.scss'
 
 interface SubtitlesProps {
-	subtitles: PureSubtitle[]
 	fileId: number
-	lookupWord: Word | undefined
+	lookupWord?: Word
 }
 
-export const Subtitles: FC<SubtitlesProps> = ({
-	subtitles,
-	fileId,
-	lookupWord
-}) => {
+export const Subtitles: FC<SubtitlesProps> = ({ fileId, lookupWord }) => {
 	const [currentPage, setCurrentPage] = useState(1)
 	const subtitlesStart = (currentPage - 1) * SUBTITLES_PER_PAGE
 	const { id: movieId } = useParams()
+	const {
+		data: subtitles,
+		isLoading: isSubtitlesLoading,
+		error: subtitlesError
+	} = useGetSubtitleByFileIdQuery(fileId, {
+		skip: !fileId
+	})
 
 	useEffect(() => {
 		if (lookupWord) {
 			setCurrentPage(lookupWord.from.page)
 		}
 	}, [])
+
+	if (isSubtitlesLoading) return <div>...Загрузка субтитров</div>
+
+	if (!isSubtitlesLoading && subtitlesError)
+		return <div>{JSON.stringify(subtitlesError)}</div>
+
+	if (!isSubtitlesLoading && (!subtitles || subtitles.length === 0))
+		return <div>Субтитры не найдены</div>
 
 	return (
 		<>

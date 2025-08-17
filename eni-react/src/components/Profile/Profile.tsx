@@ -47,7 +47,7 @@ export const Profile = () => {
 	useEffect(() => {
 		if (!username || isLoading) return
 
-		if (me && me.username === username?.replaceAll('%20', ' ')) {
+		if (me && me.username === username.replaceAll('%20', ' ')) {
 			setDisplayUser(me)
 			userReset()
 			return

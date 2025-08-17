@@ -1,44 +1,49 @@
 import type { FC } from 'react'
 
-import type { MovieSubtitle } from '@/types'
-import { USDateFormatter } from '@/utils'
+import { useGetMovieSubtitlesByImdbIdQuery } from '@/api'
+import type { MovieSubtitle as IMovieSubtitle } from '@/types'
 
+import { MovieSubtitle } from './MovieSubtitle'
 import styles from './MovieSubtitlesPicker.module.scss'
 
 interface MovieSubtitlesPickerProps {
-	movieSubtitles: MovieSubtitle[]
-	pickMovieSubtitle: (movieSub: MovieSubtitle) => void
+	pickMovieSubtitle: (movieSubtitle: IMovieSubtitle) => void
+	imdbId: string
 }
 
 export const MovieSubtitlesPicker: FC<MovieSubtitlesPickerProps> = ({
-	movieSubtitles,
-	pickMovieSubtitle
+	pickMovieSubtitle,
+	imdbId
 }) => {
-	console.log(movieSubtitles)
+	const {
+		data: movieSubtitles,
+		isError: movieSubtitlesError,
+		isLoading: isMovieSubtitlesLoading
+	} = useGetMovieSubtitlesByImdbIdQuery(imdbId || '', {
+		skip: !imdbId
+	})
+
+	if (isMovieSubtitlesLoading) return <div>...Загрузка вариантов субтитров</div>
+
+	if (!isMovieSubtitlesLoading && movieSubtitlesError)
+		return <div>{JSON.stringify(movieSubtitlesError)}</div>
+
+	if (
+		!isMovieSubtitlesLoading &&
+		(!movieSubtitles || movieSubtitles.length === 0)
+	)
+		return <div>Варианты субтитров не найдены</div>
+
 	return (
 		<div className={styles.pickMovieSubs}>
 			<h3>Выберите субтитры</h3>
 			<ul className={styles.movieSubList}>
-				{movieSubtitles?.map((movieSub) => (
-					<li key={movieSub.id} className={styles.movieSubItem}>
-						<button
-							className={styles.pickMovieSubBtn}
-							onClick={() => pickMovieSubtitle(movieSub)}
-						>
-							<span className={styles.title}>{movieSub.title}</span>
-							<span className={styles.date}>
-								{USDateFormatter.format(new Date(movieSub.upload_date))}
-							</span>
-							<div
-								style={{
-									width: `${movieSub.subtitles.rating * 10}%`,
-									background: 'lightgreen'
-								}}
-							>
-								{movieSub.subtitles.rating}
-							</div>
-						</button>
-					</li>
+				{movieSubtitles.map((movieSubtitle) => (
+					<MovieSubtitle
+						key={movieSubtitle.id}
+						movieSubtitle={movieSubtitle}
+						pickMovieSubtitle={pickMovieSubtitle}
+					/>
 				))}
 			</ul>
 		</div>

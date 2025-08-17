@@ -51,6 +51,7 @@ export class SubtitleService {
 			tmdb_id: OSMovieSubtitle.attributes.feature_details.tmdb_id,
 			imdb_id: OSMovieSubtitle.attributes.feature_details.imdb_id,
 			release_year: OSMovieSubtitle.attributes.feature_details.year,
+			download_count: OSMovieSubtitle.attributes.download_count,
 			title: OSMovieSubtitle.attributes.feature_details.title,
 			opensubtitles: {
 				current_url: OSMovieSubtitle.attributes.url,
