@@ -1,12 +1,7 @@
 declare module 'express' {
 	interface Request {
 		user?: JwtPayload
-		cookies: MyCookies
 	}
-}
-
-interface MyCookies {
-	[key: string]: string | undefined
 }
 
 export interface JwtPayload extends jwt.JwtPayload {
@@ -259,7 +254,7 @@ export interface Word {
 		fileId: number
 		page: number
 		subtitleTimecode: string
-		subtitleIndex: number
+		subtitleWordIndex: number
 		movieId: number
 	}
 	isLearned: boolean

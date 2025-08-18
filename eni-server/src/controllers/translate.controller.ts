@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express'
 
-import type { TranslateService } from '../services/translate.service'
-import { ApiError } from '../utils/errors/exceptions'
+import type { TranslateService } from '@/services'
+import { ApiError } from '@/utils'
 
 export class TranslateController {
 	constructor(private readonly translateService: TranslateService) {}

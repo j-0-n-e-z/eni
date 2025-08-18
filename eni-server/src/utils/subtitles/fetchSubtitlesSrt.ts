@@ -1,6 +1,6 @@
 import https from 'https'
 
-import { saveSrtFile } from './saveSrt'
+import { saveSrtFile } from './saveSrtFile'
 
 export function fetchSubtitlesSrtFile(srtUrl: string, srtFilename?: string) {
 	return new Promise<string>((resolve, reject) => {

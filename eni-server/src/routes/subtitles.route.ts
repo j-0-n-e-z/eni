@@ -1,8 +1,8 @@
 import express from 'express'
 
-import { SubtitleController } from '../controllers/subtitles.controller'
-import { SubtitleService } from '../services/subtitles.service'
-import { asyncHandler } from '../utils/errors/asyncHandler'
+import { SubtitleController } from '@/controllers'
+import { SubtitleService } from '@/services'
+import { asyncHandler } from '@/utils'
 
 const subtitlesRouter = express.Router()
 
@@ -16,6 +16,5 @@ subtitlesRouter.post(
 	'/subtitles/:fileId',
 	asyncHandler(subtitleController.getSubtitlesByFileId)
 )
-
 
 export { subtitlesRouter }

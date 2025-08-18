@@ -1,13 +1,9 @@
 import express from 'express'
 
-import { AuthController } from '../controllers/auth.controller'
-import { authMiddleware } from '../middlewares/auth.middleware'
-import { MailService } from '../services/mail.service'
-import { TokenService } from '../services/token.service'
-import { UserService } from '../services/user.service'
-import { asyncHandler } from '../utils/errors/asyncHandler'
-import { gmailTransporter } from '../utils/gmailTransporter'
-import { prisma } from '../utils/prismaClient'
+import { AuthController } from '@/controllers'
+import { authMiddleware } from '@/middlewares'
+import { MailService, TokenService, UserService } from '@/services'
+import { asyncHandler, gmailTransporter, prisma } from '@/utils'
 
 const authRouter = express.Router()
 

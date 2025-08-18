@@ -1,10 +1,11 @@
 import type { Request, Response } from 'express'
 
-import { UserDto } from '../dtos/userDto'
-import type { UserService } from '../services/user.service'
+import { UserDto } from '@/dtos'
+import type { UserService } from '@/services'
+import { ApiError, AuthenticationError } from '@/utils'
+
 import type { Word } from '../types'
 import { REFRESH_TOKEN } from '../utils/constants'
-import { ApiError, AuthenticationError } from '../utils/errors/exceptions'
 
 export class UserController {
 	constructor(private readonly userService: UserService) {}

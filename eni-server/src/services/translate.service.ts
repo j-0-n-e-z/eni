@@ -1,5 +1,5 @@
-import { yandexDictionaryApi } from '../api/dictionaryApi'
-import { yandexTranslateApi } from '../api/translateApi'
+import { yandexDictionaryApi, yandexTranslateApi } from '@/api'
+
 import type {
 	YandexDictionaryResponse,
 	YandexTranslateResponse

@@ -1,12 +1,10 @@
 import type { Prisma, PrismaClient } from '@prisma/client'
 import jwt from 'jsonwebtoken'
 
-import type { UserDto } from '../dtos/userDto'
+import type { UserDto } from '@/dtos'
+import { AuthenticationError, TokenExpiredError } from '@/utils'
+
 import type { JwtPayload } from '../types'
-import {
-	AuthenticationError,
-	TokenExpiredError
-} from '../utils/errors/exceptions'
 
 export class TokenService {
 	constructor(private readonly prisma: PrismaClient) {}

@@ -1,10 +1,7 @@
-import {
-	openSubtitlesApi,
-	openSubtitlesApiAuthed
-} from '../api/openSubtitlesApi'
+import { openSubtitlesApi, openSubtitlesApiAuthed } from '@/api'
+import { fetchSubtitlesSrtFile, parseSrt } from '@/utils'
+
 import type { MovieSubtitle, OSMovieSubtitle, SubtitlesInfo } from '../types'
-import { fetchSubtitlesSrtFile } from '../utils/subtitles/fetchSubtitlesSrt'
-import { parseSrt } from '../utils/subtitles/parseSrt'
 
 export class SubtitleService {
 	async findMovieSubtitlesByImdbId(imdbId: string) {
@@ -18,13 +15,6 @@ export class SubtitleService {
 					order_by: 'points'
 				}
 			}
-		)
-
-		console.log(
-			response.data.data.map((x) => ({
-				uploader: x.attributes.uploader,
-				feature_details: x.attributes.feature_details
-			}))
 		)
 
 		return response.data.data

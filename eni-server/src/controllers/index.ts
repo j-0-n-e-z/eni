@@ -1,0 +1,5 @@
+export { AuthController } from './auth.controller'
+export { MovieController } from './movies.controller'
+export { SubtitleController } from './subtitles.controller'
+export { TranslateController } from './translate.controller'
+export { UserController } from './user.controller'

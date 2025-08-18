@@ -1,13 +1,9 @@
 import express from 'express'
 
-import { UserController } from '../controllers/user.controller'
-import { AuthMiddleware } from '../middlewares/auth.middleware'
-import { MailService } from '../services/mail.service'
-import { TokenService } from '../services/token.service'
-import { UserService } from '../services/user.service'
-import { asyncHandler } from '../utils/errors/asyncHandler'
-import { gmailTransporter } from '../utils/gmailTransporter'
-import { prisma } from '../utils/prismaClient'
+import { UserController } from '@/controllers'
+import { authMiddleware } from '@/middlewares'
+import { MailService, TokenService, UserService } from '@/services'
+import { asyncHandler, gmailTransporter, prisma } from '@/utils'
 
 const userRouter = express.Router()
 
@@ -16,8 +12,6 @@ const tokenService = new TokenService(prisma)
 const userController = new UserController(
 	new UserService(prisma, tokenService, new MailService(gmailTransporter))
 )
-
-const authMiddleware = AuthMiddleware.getInstance(tokenService)
 
 userRouter.get(
 	'/user/me',

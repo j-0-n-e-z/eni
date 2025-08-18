@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express'
 
-import type { MovieService } from '../services/movies.service'
+import type { MovieService } from '@/services'
 
 export class MovieController {
 	constructor(private readonly movieService: MovieService) {}
@@ -26,7 +26,7 @@ export class MovieController {
 
 		const movieBoxOffice =
 			await this.movieService.getMovieBoxOfficeById(+movieId)
-		
+
 		res.status(200).json(movieBoxOffice)
 	}
 }

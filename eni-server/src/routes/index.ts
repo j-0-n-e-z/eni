@@ -1,0 +1,5 @@
+export { authRouter } from './auth.route'
+export { movieRouter } from './movies.route'
+export { subtitlesRouter } from './subtitles.route'
+export { translateRouter } from './translate.route'
+export { userRouter } from './user.route'

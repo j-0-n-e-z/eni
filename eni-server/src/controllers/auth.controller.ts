@@ -2,9 +2,8 @@ import type { User } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import type { Request, Response } from 'express'
 
-import type { UserService } from '../services/user.service'
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../utils/constants'
-import { AuthenticationError } from '../utils/errors/exceptions'
+import type { UserService } from '@/services'
+import { ACCESS_TOKEN, AuthenticationError, REFRESH_TOKEN } from '@/utils'
 
 export class AuthController {
 	constructor(private readonly userService: UserService) {}

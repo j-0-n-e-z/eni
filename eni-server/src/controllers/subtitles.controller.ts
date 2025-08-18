@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express'
 
-import type { SubtitleService } from '../services/subtitles.service'
+import type { SubtitleService } from '@/services'
+
 import type { MovieSubtitle } from '../types'
 
 export class SubtitleController {
@@ -20,9 +21,9 @@ export class SubtitleController {
 			}
 		})
 
-		const sortedMovieSubtitles = Array.from(
-			movieSubtitleMap.values()
-		).sort((a, b) => b.subtitles.rating - a.subtitles.rating)
+		const sortedMovieSubtitles = Array.from(movieSubtitleMap.values()).sort(
+			(a, b) => b.subtitles.rating - a.subtitles.rating
+		)
 
 		res.status(200).json(sortedMovieSubtitles)
 	}

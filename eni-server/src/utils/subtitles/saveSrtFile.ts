@@ -1,6 +1,6 @@
 import fs from 'fs'
 
-function saveSrtFile(data: string, filename: string) {
+export function saveSrtFile(data: string, filename: string) {
 	const dir = 'srt'
 	if (!fs.existsSync(dir)) {
 		fs.mkdirSync(dir)
@@ -13,5 +13,3 @@ function saveSrtFile(data: string, filename: string) {
 		}
 	})
 }
-
-export { saveSrtFile }

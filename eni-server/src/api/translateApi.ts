@@ -1,6 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import axios from 'axios'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export const yandexTranslateApi = axios.create({
 	baseURL: process.env.YANDEX_TRANSLATE_API_URL,
@@ -16,8 +17,8 @@ yandexTranslateApi.interceptors.request.use((config) => {
 			? JSON.parse(config.data)
 			: (config.data ?? {})
 
-  body.folderId = process.env.YANDEX_TRANSLATE_FOLDER_ID
-  body.targetLanguageCode = 'ru'
+	body.folderId = process.env.YANDEX_TRANSLATE_FOLDER_ID
+	body.targetLanguageCode = 'ru'
 
 	return { ...config, data: JSON.stringify(body) }
 })

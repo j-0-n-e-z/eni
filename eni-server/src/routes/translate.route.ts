@@ -1,9 +1,9 @@
 import express from 'express'
 
-import { TranslateController } from '../controllers/translate.controller'
-import { authMiddleware } from '../middlewares/auth.middleware'
-import { TranslateService } from '../services/translate.service'
-import { asyncHandler } from '../utils/errors/asyncHandler'
+import { TranslateController } from '@/controllers'
+import { authMiddleware } from '@/middlewares'
+import { TranslateService } from '@/services'
+import { asyncHandler } from '@/utils'
 
 const translateRouter = express.Router()
 

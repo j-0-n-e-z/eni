@@ -2,9 +2,10 @@ import type { Prisma, PrismaClient, User } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
 
-import { UserDto } from '../dtos/userDto'
+import { UserDto } from '@/dtos'
+import { ApiError, AuthenticationError } from '@/utils'
+
 import type { Word } from '../types'
-import { ApiError, AuthenticationError } from '../utils/errors/exceptions'
 
 import type { MailService } from './mail.service'
 import type { TokenService } from './token.service'
@@ -218,7 +219,7 @@ export class UserService {
 				movieId: true,
 				fileId: true,
 				page: true,
-				subtitleIndex: true,
+				subtitleWordIndex: true,
 				subtitleTimecode: true,
 				isFavorite: true,
 				isLearned: true,

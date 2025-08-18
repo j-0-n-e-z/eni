@@ -1,4 +1,5 @@
-import { kinopoiskApiV2_1, kinopoiskApiV2_2 } from '../api/kinopoiskApi'
+import { kinopoiskApiV2_1, kinopoiskApiV2_2 } from '@/api'
+
 import type {
 	BoxOffice,
 	KinopoiskMovie,

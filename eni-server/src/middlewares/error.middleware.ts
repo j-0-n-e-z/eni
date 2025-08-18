@@ -1,14 +1,10 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
-import type { AxiosError } from 'axios';
+import type { AxiosError } from 'axios'
 import axios from 'axios'
 import type { NextFunction, Request, Response } from 'express'
 import jwt, { JsonWebTokenError } from 'jsonwebtoken'
 
-import {
-	ApiError,
-	AuthenticationError,
-	TokenExpiredError
-} from '../utils/errors/exceptions'
+import { ApiError, AuthenticationError, TokenExpiredError } from '@/utils'
 
 export class ErrorHandler {
 	constructor(private readonly logger: (error: Error) => void) {}
@@ -38,18 +34,12 @@ export class ErrorHandler {
 		if (axios.isAxiosError(error)) {
 			const apiServiceName = this.getApiServiceName(error)
 
-			if (apiServiceName.includes('TMDB'))
-				return new ApiError(
-					503,
-					'Failed to load additional movie data from TMDB'
-				)
-
 			if (apiServiceName.includes('opensubtitle'))
 				return new ApiError(503, 'Failed to load subtitles from OpenSubtitles')
 
 			return new ApiError(
 				error.response?.status || 503,
-				`${apiServiceName  } ${  error.response?.data?.message || error.message}`
+				`${apiServiceName} ${error.response?.data?.message || error.message}`
 			)
 		}
 
@@ -72,7 +62,6 @@ export class ErrorHandler {
 		console.log('ERROR', error)
 
 		if (url.includes('opensubtitle')) return 'OpenSubtitles'
-		if (url.includes('themoviedb')) return 'TMDB'
 
 		return 'External API'
 	}

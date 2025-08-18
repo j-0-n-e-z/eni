@@ -1,9 +1,12 @@
 import type { NextFunction, Request, Response } from 'express'
 
-import { TokenService } from '../services/token.service'
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../utils/constants'
-import { AuthenticationError } from '../utils/errors/exceptions'
-import { prisma } from '../utils/prismaClient'
+import { TokenService } from '@/services/'
+import {
+	ACCESS_TOKEN,
+	AuthenticationError,
+	prisma,
+	REFRESH_TOKEN
+} from '@/utils'
 
 export class AuthMiddleware {
 	private static instance: AuthMiddleware

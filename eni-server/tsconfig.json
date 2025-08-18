@@ -10,8 +10,9 @@
 		"noImplicitAny": true,
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./*"],
-			"@/common": ["../common"]
+			"@/*": ["./src/*"],
+			"@/types": ["../shared/types"]
 		}
-	}
+	},
+	"exclude": ["node_modules"]
 }
