@@ -19,7 +19,7 @@ export const MovieSubtitlesPage: FC = () => {
 		data: movie,
 		error: movieError,
 		isLoading: isMovieLoading
-	} = useGetMovieByKinopoiskIdQuery(movieId, {
+	} = useGetMovieByKinopoiskIdQuery(movieId || 0, {
 		skip: !movieId
 	})
 
@@ -27,25 +27,14 @@ export const MovieSubtitlesPage: FC = () => {
 
 	if (isMovieLoading) return <div>...Загрузка</div>
 
-	if (!isMovieLoading && movieError)
-		return <div>JSON.stringify(movieError)</div>
+	if (movieError) return <div>JSON.stringify(movieError)</div>
 
-	if (!isMovieLoading && !movie) return <div>Нет данных о фильме</div>
+	if (!movie) return <div>Нет данных о фильме</div>
 
 	return (
 		<div className={styles.movieSubsContainer}>
 			<MovieInfoSection movie={movie} />
-
-			<section className={styles.subtitlesSection}>
-				{!movie.imdbId && (
-					<div>Не удалось загрузить субтитры, отсутствует imdbId</div>
-				)}
-
-				{movie.imdbId && (
-					<SubtitlesSection imdbId={movie.imdbId} lookupWord={lookupWord} />
-				)}
-			</section>
-
+			<SubtitlesSection imdbId={movie.imdbId} lookupWord={lookupWord} />
 			<Toaster position='top-right' />
 		</div>
 	)

@@ -29,7 +29,7 @@ export const Search: FC = () => {
 					icon={<MovieIcon />}
 				/>
 			)
-		if (movies && movies.length)
+		if (movies && !movies.length)
 			return (
 				<EmptyState
 					description='Похоже фильм отсутствует в базе кинопоиска'

@@ -141,7 +141,7 @@ export interface Word {
 		fileId: number
 		page: number
 		subtitleTimecode: string
-		subtitleIndex: number
+		subtitleWordIndex: number
 	}
 	isLearned: boolean
 	isFavorite: boolean

@@ -17,7 +17,8 @@ interface SubtitlesProps {
 export const Subtitles: FC<SubtitlesProps> = ({ fileId, lookupWord }) => {
 	const [currentPage, setCurrentPage] = useState(1)
 	const subtitlesStart = (currentPage - 1) * SUBTITLES_PER_PAGE
-	const { id: movieId } = useParams()
+	const { id } = useParams()
+	const movieId = Number(id)
 	const {
 		data: subtitles,
 		isLoading: isSubtitlesLoading,
@@ -34,11 +35,9 @@ export const Subtitles: FC<SubtitlesProps> = ({ fileId, lookupWord }) => {
 
 	if (isSubtitlesLoading) return <div>...Загрузка субтитров</div>
 
-	if (!isSubtitlesLoading && subtitlesError)
-		return <div>{JSON.stringify(subtitlesError)}</div>
+	if (subtitlesError) return <div>{JSON.stringify(subtitlesError)}</div>
 
-	if (!isSubtitlesLoading && (!subtitles || subtitles.length === 0))
-		return <div>Субтитры не найдены</div>
+	if (!subtitles?.length) return <div>Субтитры не найдены</div>
 
 	return (
 		<>
@@ -58,7 +57,7 @@ export const Subtitles: FC<SubtitlesProps> = ({ fileId, lookupWord }) => {
 							key={subtitle.timecode}
 							fileId={fileId}
 							lookupWord={lookupWord}
-							movieId={+movieId!}
+							movieId={movieId}
 							page={currentPage}
 							subtitle={subtitle}
 						/>

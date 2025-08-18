@@ -48,17 +48,21 @@ export const Subtitle: FC<SubtitleProps> = ({
 
 					const punctuationMatch = word.match(PUNCTUATION)
 
+					const from = {
+						fileId,
+						movieId,
+						page,
+						subtitleWordIndex: i,
+						subtitleTimecode: subtitle.timecode
+					}
+
 					return (
 						<SubtitleWord
 							key={id}
 							after={punctuationMatch ? punctuationMatch[3] : undefined}
 							before={punctuationMatch ? punctuationMatch[1] : undefined}
-							fileId={fileId}
+							from={from}
 							id={id}
-							movieId={movieId}
-							page={page}
-							subtitleIndex={i}
-							subtitleTimecode={subtitle.timecode}
 							text={punctuationMatch ? punctuationMatch[2] : word}
 						/>
 					)
