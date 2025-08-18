@@ -8,19 +8,22 @@ import {
 	useLazyGetUserByUsernameQuery
 } from '@/api'
 import { useAppSelector } from '@/app/index'
-import { Word } from '@/components'
 import { BookIcon, BrainIcon, ProfileIcon } from '@/icons'
 import { selectWords } from '@/store'
 import type { User } from '@/types'
 
 import styles from './Profile.module.scss'
+import { WordsSection } from './WordsSection'
 
 export const Profile = () => {
 	const { username } = useParams()
+	const [displayUser, setDisplayUser] = useState<User | null>(null)
+
 	const {
 		data: me,
 		isLoading: isMeLoading,
-		isFetching: isMeFetching
+		isFetching: isMeFetching,
+		error: meError
 	} = useGetMeQuery(null)
 
 	const [
@@ -33,19 +36,20 @@ export const Profile = () => {
 			reset: userReset
 		}
 	] = useLazyGetUserByUsernameQuery()
-	const { words } = useAppSelector(selectWords)
-	const [displayUser, setDisplayUser] = useState<User | null>(null)
+
 	const {
-		data: userWords,
-		isLoading: isUserWordsLoading,
-		error: isUserWordsError
+		data: learnedWords,
+		isLoading: isLearnedWordsLoading,
+		error: isLearnedWordsError
 	} = useGetWordsByUserIdQuery(displayUser?.id ?? '', { skip: !displayUser })
+
+	const { words } = useAppSelector(selectWords)
 
 	const isLoading =
 		isMeLoading || isMeFetching || isUserLoading || isUserFetcing
 
 	useEffect(() => {
-		if (!username || isLoading) return
+		if (!username || isLoading || meError || userError) return
 
 		if (me && me.username === username.replaceAll('%20', ' ')) {
 			setDisplayUser(me)
@@ -59,32 +63,25 @@ export const Profile = () => {
 		) {
 			triggerGetUserByUsername(username)
 		}
-	}, [me, isMeLoading, isMeFetching, username])
+	}, [me, isLoading, username])
 
+	// user is loaded only after me
 	useEffect(() => {
 		if (user) {
 			setDisplayUser(user)
 		}
 	}, [user])
 
-	if (!isLoading && userError)
-		return (
-			<div>
-				{'data' in userError
-					? (userError.data as { message: string }).message
-					: 'unknown error'}
-			</div>
-		)
+	if (meError) return <div>{JSON.stringify(meError)}</div>
+	if (userError) return <div>{JSON.stringify(userError)}</div>
 
 	if (isLoading || !displayUser) return <div>Profile Loading...</div>
 
-	if (!isLoading && userError) return <div>User not found ЫЫЫЫ</div>
-
-	const isMe = displayUser?.username === me?.username
+	const isMyPage = displayUser.username === me?.username
 
 	return (
 		<div className={styles.profilePage}>
-			<div className={styles.profileHeader}>
+			<section className={styles.profileHeader}>
 				<div className={styles.headerContent}>
 					<div className={styles.avatar}>
 						<ProfileIcon />
@@ -98,70 +95,45 @@ export const Profile = () => {
 								<span className={styles.label}>Изучаю</span>
 							</div>
 							<div className={styles.stat}>
-								<span className={styles.number}>{userWords?.length ?? 0}</span>
+								<span className={styles.number}>
+									{learnedWords?.length ?? 0}
+								</span>
 								<span className={styles.label}>Изучено</span>
 							</div>
 							<div className={styles.stat}>
 								<span className={styles.number}>
-									{(userWords?.length ?? 0) + (words?.length ?? 0)}
+									{(learnedWords?.length ?? 0) + (words?.length ?? 0)}
 								</span>
 								<span className={styles.label}>Всего слов</span>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			{words && words.length > 0 && me && (
-				<section className={styles.section}>
-					<div className={styles.sectionHeader}>
-						<h3 className={styles.sectionTitle}>
-							<BookIcon />
-							<span>Изучить</span>
-						</h3>
-						<span className={styles.badge}>{words.length}</span>
-					</div>
+			</section>
 
-					<ul className={styles.wordsList}>
-						{words.map((word) => (
-							<Word
-								key={`learn${word.id}`}
-								isLearned={false}
-								isMe={isMe}
-								myId={me.id}
-								word={word}
-							/>
-						))}
-					</ul>
-				</section>
+			{isMyPage && words.length > 0 && (
+				<WordsSection
+					icon={<BrainIcon />}
+					isMyPage={isMyPage}
+					me={me}
+					title='Изучить'
+					words={words}
+				/>
 			)}
-			{isUserWordsLoading && <div>Words loading...</div>}
-			{!isUserWordsLoading && isUserWordsError && (
-				<div>Не удалось загрузить слова</div>
+
+			{isLearnedWordsLoading && <div>Loading learned words...</div>}
+			{isLearnedWordsError && <div>Не удалось загрузить изученные слова</div>}
+
+			{learnedWords && learnedWords.length > 0 && (
+				<WordsSection
+					icon={<BookIcon />}
+					isMyPage={isMyPage}
+					me={me}
+					title='Изучено'
+					words={learnedWords}
+				/>
 			)}
-			{!isUserWordsLoading && userWords && userWords.length !== 0 && (
-				<section className={styles.section}>
-					<div className={styles.sectionHeader}>
-						<h3 className={styles.sectionTitle}>
-							<BrainIcon />
-							<span>Изучено</span>
-						</h3>
-						<span className={styles.badge}>{userWords.length}</span>
-					</div>
-					{userWords.length > 0 && (
-						<ul className={styles.wordsList}>
-							{userWords.map((word) => (
-								<Word
-									key={`learned${word.id}`}
-									isLearned
-									isMe={isMe}
-									myId={me?.id}
-									word={word}
-								/>
-							))}
-						</ul>
-					)}
-				</section>
-			)}
+			
 			<Toaster position='top-right' />
 		</div>
 	)

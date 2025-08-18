@@ -18,12 +18,12 @@ import styles from './Word.module.scss'
 
 interface MyWordProps {
 	word: IWord
-	isMe: boolean
+	isMyPage: boolean
 	myId?: string
 	isLearned: boolean
 }
 
-export const Word: FC<MyWordProps> = ({ word, isMe, myId, isLearned }) => {
+export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 	const [triggerTranslate, { data: translations }] = useLazyTranslateQuery()
 	const [triggerGetDefinition, { data: definitions }] =
 		useLazyGetDifinitionQuery()
@@ -116,7 +116,7 @@ export const Word: FC<MyWordProps> = ({ word, isMe, myId, isLearned }) => {
 				>
 					<TranslateIcon />
 				</button>
-				{isMe && (
+				{isMyPage && (
 					<>
 						{!isLearned && (
 							<button

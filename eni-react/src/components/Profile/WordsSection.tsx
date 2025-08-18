@@ -1,0 +1,45 @@
+import type { FC } from 'react'
+
+import type { Word as IWord, User } from '@/types'
+
+import { Word } from '../Word/Word'
+
+import styles from './Profile.module.scss'
+
+interface WordsSectionProps {
+	icon: React.ReactNode
+	title: string
+	words: IWord[]
+	isMyPage: boolean
+	me?: User
+}
+
+export const WordsSection: FC<WordsSectionProps> = ({
+	isMyPage,
+	me,
+	words,
+	title,
+	icon
+}) => (
+	<section className={styles.section}>
+		<div className={styles.sectionHeader}>
+			<h3 className={styles.sectionTitle}>
+				{icon}
+				<span>{title}</span>
+			</h3>
+			<span className={styles.badge}>{words.length}</span>
+		</div>
+
+		<ul className={styles.wordsList}>
+			{words.map((word) => (
+				<Word
+					key={`learn${word.id}`}
+					isLearned={false}
+					isMyPage={isMyPage}
+					myId={me?.id}
+					word={word}
+				/>
+			))}
+		</ul>
+	</section>
+)
