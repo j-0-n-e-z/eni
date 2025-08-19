@@ -1,10 +1,9 @@
 import type { Prisma, PrismaClient } from '@prisma/client'
+import type { UserJwtPayload } from 'global'
 import jwt from 'jsonwebtoken'
 
 import type { UserDto } from '@/dtos'
 import { AuthenticationError, TokenExpiredError } from '@/utils'
-
-import type { JwtPayload } from '../types'
 
 export class TokenService {
 	constructor(private readonly prisma: PrismaClient) {}
@@ -59,7 +58,7 @@ export class TokenService {
 				accessToken,
 				process.env.JWT_ACCESS_SECRET as string
 			)
-			return decoded as JwtPayload
+			return decoded as UserJwtPayload
 		} catch (error) {
 			if (error instanceof jwt.TokenExpiredError) {
 				throw new TokenExpiredError(401, 'Access token expired')
@@ -74,7 +73,7 @@ export class TokenService {
 				refreshToken,
 				process.env.JWT_REFRESH_SECRET as string
 			)
-			return decoded as JwtPayload
+			return decoded as UserJwtPayload
 		} catch (error) {
 			if (error instanceof jwt.TokenExpiredError) {
 				throw new TokenExpiredError(401, 'Refresh token expired')

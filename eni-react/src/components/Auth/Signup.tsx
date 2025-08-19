@@ -5,10 +5,10 @@ import type { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
+import type { BackendError } from '@/api'
 import { useSignupMutation } from '@/api'
-import type { SignupValues } from '@/schemas/signup.schemas'
+import type { SignupCredentials } from '@/schemas/signup.schemas'
 import { signupSchema } from '@/schemas/signup.schemas'
-import type { ApiError } from '@/types'
 
 import styles from './Auth.module.scss'
 
@@ -22,27 +22,21 @@ export const Signup: FC<SignupProps> = ({ goToLogin }) => {
 		handleSubmit,
 		formState: { errors },
 		setError
-	} = useForm<SignupValues>({ resolver: zodResolver(signupSchema) })
-	const [signup, {isLoading}] = useSignupMutation()
+	} = useForm<SignupCredentials>({ resolver: zodResolver(signupSchema) })
+	const [signup, { isLoading }] = useSignupMutation()
 
-	async function onSubmit({ email, password, username }: SignupValues) {
+	async function onSubmit({ email, password, username }: SignupCredentials) {
 		if (isLoading) return
-		
-		const { error } = await signup({ email, password, username })
 
-		if (!error) {
-      toast.success('You successfully signed up!')
-      goToLogin()
-		}
-
-		// TODO: validate and send {field: confirmPassword} on error
-		if (error && 'data' in error) {
-			const apiError = error.data as ApiError
-			if (apiError.field) {
-				setError(apiError.field as 'email' | 'password' | 'confirmPassword', {
-					message: apiError.message
-				})
-			}
+		try {
+			await signup({ email, password, username }).unwrap()
+			toast.success('You successfully signed up!')
+			goToLogin()
+		} catch (error) {
+			const err = error as BackendError
+			setError(err.data?.error.details.field as 'email' | 'password', {
+				message: err.data?.error.message
+			})
 		}
 	}
 

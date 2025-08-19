@@ -6,8 +6,8 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
-		"lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
-		"lint:fix": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix",
+		"lint": "eslint \"src/**/*.{ts,tsx}\"",
+		"lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
 		"preview": "vite preview",
 		"lint:css": "stylelint \"src/**/*.{css,scss}\"",
 		"lint:css:fix": "stylelint \"src/**/*.{css,scss}\" --fix"

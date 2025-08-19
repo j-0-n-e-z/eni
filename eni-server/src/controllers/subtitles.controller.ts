@@ -1,8 +1,7 @@
 import type { Request, Response } from 'express'
 
 import type { SubtitleService } from '@/services'
-
-import type { MovieSubtitle } from '../types'
+import type { MovieSubtitle } from '@/shared-types'
 
 export class SubtitleController {
 	constructor(private readonly subtitleService: SubtitleService) {}

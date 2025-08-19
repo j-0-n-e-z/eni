@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { useSearchParams } from 'react-router-dom'
 
 export const Main = () => {
@@ -12,10 +12,5 @@ export const Main = () => {
 		}
 	}, [isVerifined])
 
-	return (
-		<>
-			<div>Main</div>
-			<Toaster position='top-center' />
-		</>
-	)
+	return <div>Main</div>
 }

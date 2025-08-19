@@ -1,12 +1,12 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
-import { useLoginMutation } from '@/api'
-import type { LoginCredentials } from '@/schemas/login.schemas'
-import { loginSchema } from '@/schemas/login.schemas'
-import type { ApiError } from '@/types'
+import type { BackendError } from '@/api';
+import { useLoginMutation } from '@/api';
+import type { LoginCredentials } from '@/schemas/login.schemas';
+import { loginSchema } from '@/schemas/login.schemas';
 
-import styles from './Auth.module.scss'
+import styles from './Auth.module.scss';
 
 export const Login = () => {
 	const {
@@ -15,19 +15,18 @@ export const Login = () => {
 		formState: { errors },
 		setError
 	} = useForm<LoginCredentials>({ resolver: zodResolver(loginSchema) })
-	const [login] = useLoginMutation()
+	const [login, {isLoading}] = useLoginMutation()
 
 	async function onSubmit({ email, password }: LoginCredentials) {
+		if (isLoading) return
+		
 		try {
 			await login({ email, password }).unwrap()
 		} catch (error) {
-			if (!('data' in error)) return
-			const apiError = error.data as ApiError
-			if (apiError.field) {
-				setError(apiError.field as 'email' | 'password', {
-					message: apiError.message
-				})
-			}
+			const err = error as BackendError
+			setError(err.data?.error.details.field as 'email' | 'password', {
+				message: err.data?.error.message
+			})
 		}
 	}
 

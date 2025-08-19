@@ -1,8 +1,12 @@
+import { createApi } from '@reduxjs/toolkit/query/react'
+
 import type { MovieSubtitle, PureSubtitle } from '@/types'
 
-import { api } from './api'
+import { baseQueryWithReauth } from './authApi'
 
-export const subtitleApi = api.injectEndpoints({
+export const subtitleApi = createApi({
+	reducerPath: 'subtitleApi',
+	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
 		getMovieSubtitlesByImdbId: build.query<MovieSubtitle[], string | null>({
 			query: (imdbId) => ({

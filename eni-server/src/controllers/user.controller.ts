@@ -2,9 +2,9 @@ import type { Request, Response } from 'express'
 
 import { UserDto } from '@/dtos'
 import type { UserService } from '@/services'
-import { ApiError, AuthenticationError } from '@/utils'
+import type { Word } from '@/shared-types'
+import { ApiError, AuthenticationError, ErrorCodes } from '@/utils'
 
-import type { Word } from '../types'
 import { REFRESH_TOKEN } from '../utils/constants'
 
 export class UserController {
@@ -15,7 +15,7 @@ export class UserController {
 
 		const user = await this.userService.getUserByUsername(username)
 
-		if (!user) throw new ApiError(404, 'User not found')
+		if (!user) throw new ApiError(404, 'User not found', ErrorCodes.NOT_FOUND)
 
 		res.json(user)
 	}
@@ -46,7 +46,7 @@ export class UserController {
 		const words = await this.userService.getWordsByUserId(userId)
 
 		if (!words || !words.length) {
-			throw new ApiError(404, 'Words not found')
+			throw new ApiError(404, 'Words not found', ErrorCodes.NOT_FOUND)
 		}
 
 		res.json(words)

@@ -1,7 +1,8 @@
 import { openSubtitlesApi, openSubtitlesApiAuthed } from '@/api'
-import { fetchSubtitlesSrtFile, parseSrt } from '@/utils'
+import type { MovieSubtitle } from '@/shared-types'
+import { fetchSrtFile, parseSrt } from '@/utils'
 
-import type { MovieSubtitle, OSMovieSubtitle, SubtitlesInfo } from '../types'
+import type { OSMovieSubtitle, SubtitlesInfo } from '../types'
 
 export class SubtitleService {
 	async findMovieSubtitlesByImdbId(imdbId: string) {
@@ -18,7 +19,7 @@ export class SubtitleService {
 		)
 
 		return response.data.data
-			.filter((m) => m.attributes.files.length !== 0)
+			.filter((m) => m.attributes.files.length)
 			.map(this.mapOSMovieSubtitleToMovie)
 	}
 
@@ -31,34 +32,31 @@ export class SubtitleService {
 		)
 
 		const srtUrl = response.data.link
-		const srtContent = await fetchSubtitlesSrtFile(
-			srtUrl,
-			response.data.file_name
-		)
+		const srtContent = await fetchSrtFile(srtUrl, response.data.file_name)
 
 		return parseSrt(srtContent)
 	}
 
 	private mapOSMovieSubtitleToMovie(
-		OSMovieSubtitle: OSMovieSubtitle
+		osMovieSubtitle: OSMovieSubtitle
 	): MovieSubtitle {
 		return {
-			upload_date: OSMovieSubtitle.attributes.upload_date,
-			id: OSMovieSubtitle.id,
-			tmdb_id: OSMovieSubtitle.attributes.feature_details.tmdb_id,
-			imdb_id: OSMovieSubtitle.attributes.feature_details.imdb_id,
-			release_year: OSMovieSubtitle.attributes.feature_details.year,
-			download_count: OSMovieSubtitle.attributes.download_count,
-			uploader: OSMovieSubtitle.attributes.uploader.name,
-			title: OSMovieSubtitle.attributes.feature_details.title,
+			upload_date: osMovieSubtitle.attributes.upload_date,
+			id: osMovieSubtitle.id,
+			tmdb_id: osMovieSubtitle.attributes.feature_details.tmdb_id,
+			imdb_id: osMovieSubtitle.attributes.feature_details.imdb_id,
+			release_year: osMovieSubtitle.attributes.feature_details.year,
+			download_count: osMovieSubtitle.attributes.download_count,
+			uploader: osMovieSubtitle.attributes.uploader.name,
+			title: osMovieSubtitle.attributes.feature_details.title,
 			opensubtitles: {
-				current_url: OSMovieSubtitle.attributes.url,
-				all_url: OSMovieSubtitle.attributes.related_links[0].url
+				current_url: osMovieSubtitle.attributes.url,
+				all_url: osMovieSubtitle.attributes.related_links[0].url
 			},
-			img_url: OSMovieSubtitle.attributes.related_links[0].img_url,
+			img_url: osMovieSubtitle.attributes.related_links[0].img_url,
 			subtitles: {
-				rating: OSMovieSubtitle.attributes.ratings,
-				file_id: OSMovieSubtitle.attributes.files[0].file_id
+				rating: osMovieSubtitle.attributes.ratings,
+				file_id: osMovieSubtitle.attributes.files[0].file_id
 			}
 		}
 	}

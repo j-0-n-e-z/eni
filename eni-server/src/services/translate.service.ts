@@ -1,6 +1,8 @@
 import { yandexDictionaryApi, yandexTranslateApi } from '@/api'
+import type { SimpleYandexDefinition } from '@/shared-types'
 
 import type {
+	Definition,
 	YandexDictionaryResponse,
 	YandexTranslateResponse
 } from '../types'
@@ -18,7 +20,10 @@ export class TranslateService {
 			}
 		)
 
-		return response.data
+		return response.data.def
+			.filter((def) => def.pos)
+			.map(this.mapYandexDefinitionToSimpleYandexDefinition)
+			.sort((a, b) => a.pos.localeCompare(b.pos))
 	}
 
 	async translate(text: string) {
@@ -30,5 +35,17 @@ export class TranslateService {
 		)
 
 		return response.data
+	}
+
+	private mapYandexDefinitionToSimpleYandexDefinition(
+		def: Definition
+	): SimpleYandexDefinition {
+		return {
+			pos: def.pos,
+			tr: def.tr
+				.slice(0, 3)
+				.map((tr) => tr.text)
+				.join(', ')
+		}
 	}
 }

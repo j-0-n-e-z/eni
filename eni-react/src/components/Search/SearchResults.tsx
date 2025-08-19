@@ -38,9 +38,9 @@ export const SearchResults: FC<SearchResultsProps> = ({
 			<h2 className={styles.header}>
 				{isHistory ? 'История поиска' : 'Результаты поиска'}
 			</h2>
-			<ul className={styles.searchResults}>
+			<ul className={styles.searchResultList}>
 				{movies.map(({ filmId, posterUrlPreview, nameEn, year }, i, movies) => (
-					<li key={filmId}>
+					<li key={filmId} className={styles.searchResultItem}>
 						<Link
 							className={styles.movieCard}
 							to={`/movie/${filmId}`}

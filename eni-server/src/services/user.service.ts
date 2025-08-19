@@ -1,11 +1,15 @@
-import type { Prisma, PrismaClient, User, UserWord } from '@prisma/client'
+import type { Prisma, PrismaClient, User } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
 
 import { UserDto } from '@/dtos'
-import { ApiError, AuthenticationError } from '@/utils'
-
-import type { Word } from '../types'
+import type { Word } from '@/shared-types'
+import {
+	ApiError,
+	AuthenticationError,
+	ErrorCodes,
+	ValidationError
+} from '@/utils'
 
 import type { MailService } from './mail.service'
 import type { TokenService } from './token.service'
@@ -63,9 +67,10 @@ export class UserService {
 			const existingUser = await this.findByEmail(email)
 
 			if (existingUser) {
-				throw new AuthenticationError(
+				throw new ValidationError(
 					409,
 					'User with given email already exists',
+					ErrorCodes.RECORD_ALREADY_EXISTS,
 					'email'
 				)
 			}
@@ -92,9 +97,10 @@ export class UserService {
 				const user = await this.findByEmail(email)
 
 				if (!user) {
-					throw new ApiError(
-						401,
+					throw new ValidationError(
+						404,
 						'User with given email was not found',
+						ErrorCodes.NOT_FOUND,
 						'email'
 					)
 				}
@@ -102,7 +108,12 @@ export class UserService {
 				const isPasswordMatch = await bcrypt.compare(password, user.password)
 
 				if (!isPasswordMatch) {
-					throw new ApiError(401, 'Incorrent password', 'password')
+					throw new ValidationError(
+						400,
+						'Incorrent password',
+						ErrorCodes.INVALID_CREDENTIALS,
+						'password'
+					)
 				}
 
 				const userDto = new UserDto(user)
@@ -130,7 +141,11 @@ export class UserService {
 		})
 
 		if (!user) {
-			throw new ApiError(404, 'User with given refresh token not found')
+			throw new ApiError(
+				404,
+				'User with given refresh token not found',
+				ErrorCodes.NOT_FOUND
+			)
 		}
 
 		const userDto = new UserDto(user)
@@ -165,8 +180,9 @@ export class UserService {
 
 		if (!user) {
 			throw new ApiError(
-				400,
-				'User with given email confirmation link was not found'
+				404,
+				'User with given email confirmation link was not found',
+				ErrorCodes.NOT_FOUND
 			)
 		}
 
@@ -230,10 +246,12 @@ export class UserService {
 
 	async getWordsByUserId(userId: string) {
 		const userWords = await this.findWordsByUserId(userId)
-		return userWords.map((uw) => this.mapUserWordToWord(uw))
+		return userWords.map(this.mapUserWordToWord)
 	}
 
-	private mapUserWordToWord(userWord: Awaited<ReturnType<typeof this.findWordsByUserId>>[number]): Word {
+	private mapUserWordToWord(
+		userWord: Awaited<ReturnType<typeof this.findWordsByUserId>>[number]
+	): Word {
 		return {
 			id: userWord.word.id,
 			text: userWord.word.text,

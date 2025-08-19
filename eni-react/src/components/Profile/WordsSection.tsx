@@ -11,6 +11,7 @@ interface WordsSectionProps {
 	title: string
 	words: IWord[]
 	isMyPage: boolean
+	isLearned?: boolean
 	me?: User
 }
 
@@ -19,7 +20,8 @@ export const WordsSection: FC<WordsSectionProps> = ({
 	me,
 	words,
 	title,
-	icon
+	icon,
+	isLearned
 }) => (
 	<section className={styles.section}>
 		<div className={styles.sectionHeader}>
@@ -34,7 +36,7 @@ export const WordsSection: FC<WordsSectionProps> = ({
 			{words.map((word) => (
 				<Word
 					key={`learn${word.id}`}
-					isLearned={false}
+					isLearned={Boolean(isLearned)}
 					isMyPage={isMyPage}
 					myId={me?.id}
 					word={word}

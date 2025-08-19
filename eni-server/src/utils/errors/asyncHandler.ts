@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import type { NextFunction, Request, Response } from 'express'
 
 export const asyncHandler =

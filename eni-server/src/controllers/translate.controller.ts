@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express'
 
 import type { TranslateService } from '@/services'
-import { ApiError } from '@/utils'
+import { ApiError, ErrorCodes } from '@/utils'
 
 export class TranslateController {
 	constructor(private readonly translateService: TranslateService) {}
@@ -9,20 +9,20 @@ export class TranslateController {
 	findDefinition = async (req: Request, res: Response) => {
 		const { text } = req.body as { text: string }
 
-		const definition = await this.translateService.findDefinition(text)
+		const definitions = await this.translateService.findDefinition(text)
 
-		if (definition.def.length === 0) {
-			throw new ApiError(404, 'Definition not found')
+		if (definitions.length === 0) {
+			throw new ApiError(404, 'Definition not found', ErrorCodes.NOT_FOUND)
 		}
 
-		res.status(200).json({ ...definition })
+		res.status(200).json(definitions)
 	}
 
 	translate = async (req: Request, res: Response) => {
 		const { text } = req.body as { text: string }
 
-		const translation = await this.translateService.translate(text)
+		const response = await this.translateService.translate(text)
 
-		res.status(200).json(translation.translations)
+		res.status(200).json(response.translations)
 	}
 }

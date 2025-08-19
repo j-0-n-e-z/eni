@@ -1,10 +1,7 @@
 import { kinopoiskApiV2_1, kinopoiskApiV2_2 } from '@/api'
+import type { BoxOffice, KinopoiskMovie } from '@/shared-types'
 
-import type {
-	BoxOffice,
-	KinopoiskMovie,
-	KinopoiskSearchResponse
-} from '../types'
+import type { KinopoiskSearchResponse } from '../types'
 
 export class MovieService {
 	async searchKinopoiskMovies(queryParams: Record<string, string>) {

@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import { api, authApi, userApi } from '@/api'
+import { api, authApi, subtitleApi, userApi } from '@/api'
 import { wordsReducer } from '@/store'
 
 import { searchHistoryReducer } from './slices/searchHistorySlice'
@@ -10,6 +10,7 @@ export const store = configureStore({
 		[api.reducerPath]: api.reducer,
 		[authApi.reducerPath]: authApi.reducer,
 		[userApi.reducerPath]: userApi.reducer,
+		[subtitleApi.reducerPath]: subtitleApi.reducer,
 		wordsReducer,
 		searchHistoryReducer
 	},
@@ -18,6 +19,7 @@ export const store = configureStore({
 			.concat(api.middleware)
 			.concat(authApi.middleware)
 			.concat(userApi.middleware)
+			.concat(subtitleApi.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>

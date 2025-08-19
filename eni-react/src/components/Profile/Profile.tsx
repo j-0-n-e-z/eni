@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Toaster } from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
 
 import {
@@ -49,7 +48,7 @@ export const Profile = () => {
 		isMeLoading || isMeFetching || isUserLoading || isUserFetcing
 
 	useEffect(() => {
-		if (!username || isLoading || meError || userError) return
+		if (!username || isLoading || userError) return
 
 		if (me && me.username === username.replaceAll('%20', ' ')) {
 			setDisplayUser(me)
@@ -72,7 +71,6 @@ export const Profile = () => {
 		}
 	}, [user])
 
-	if (meError) return <div>{JSON.stringify(meError)}</div>
 	if (userError) return <div>{JSON.stringify(userError)}</div>
 
 	if (isLoading || !displayUser) return <div>Profile Loading...</div>
@@ -126,6 +124,7 @@ export const Profile = () => {
 
 			{learnedWords && learnedWords.length > 0 && (
 				<WordsSection
+					isLearned
 					icon={<BookIcon />}
 					isMyPage={isMyPage}
 					me={me}
@@ -133,8 +132,6 @@ export const Profile = () => {
 					words={learnedWords}
 				/>
 			)}
-
-			<Toaster position='top-right' />
 		</div>
 	)
 }

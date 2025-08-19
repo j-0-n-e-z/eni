@@ -1,24 +1,24 @@
-import type {
-	BaseQueryFn,
-	FetchArgs,
-	FetchBaseQueryError
-} from '@reduxjs/toolkit/query/react'
+import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query/react'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import type { LoginRequest, SignupRequest, User } from '@/types'
+import type { LoginCredentials } from '@/schemas/login.schemas'
+import type { SignupCredentials } from '@/schemas/signup.schemas'
+import type { User } from '@/types'
 
+import type { BackendError } from './api'
 import { baseQuery } from './api'
 
 export const baseQueryWithReauth: BaseQueryFn<
 	string | FetchArgs,
 	unknown,
-	FetchBaseQueryError
+	BackendError
 > = async (args, api, extraOptions) => {
 	let result = await baseQuery(args, api, extraOptions)
 
 	if (
-		result.error?.status === 401 &&
-		(result.error?.data as any).message === 'Access token expired'
+		result.error &&
+		result.error.status === 401 &&
+		result.error.data?.error.message === 'Access token expired'
 	) {
 		const refreshResult = await baseQuery(
 			{ url: 'refresh', method: 'POST', credentials: 'include' },
@@ -44,18 +44,22 @@ export const authApi = createApi({
 		getMe: build.query<User, null>({
 			query: () => ({
 				url: 'user/me',
-				credentials: 'include'
+				credentials: 'include',
+				headers: {
+					'Cache-Control': 'no-cache',
+					Pragma: 'no-cache'
+				}
 			}),
 			providesTags: ['Me']
 		}),
-		signup: build.mutation<void, SignupRequest>({
+		signup: build.mutation<void, Omit<SignupCredentials, 'confirmPassword'>>({
 			query: (credentials) => ({
 				url: 'signup',
 				method: 'POST',
 				body: credentials
 			})
 		}),
-		login: build.mutation<User, LoginRequest>({
+		login: build.mutation<User, LoginCredentials>({
 			query: (credentials) => ({
 				url: 'login',
 				method: 'POST',
@@ -69,7 +73,8 @@ export const authApi = createApi({
 				} catch (e) {
 					console.log(e)
 				}
-			}
+			},
+			invalidatesTags: ['Me']
 		}),
 		logout: build.mutation<null, null>({
 			query: () => ({
@@ -85,7 +90,8 @@ export const authApi = createApi({
 				} catch (error) {
 					console.log(error)
 				}
-			}
+			},
+			invalidatesTags: ['Me']
 		})
 	})
 })

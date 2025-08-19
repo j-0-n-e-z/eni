@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Toaster } from 'react-hot-toast'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useGetMeQuery } from '@/api'
@@ -51,7 +50,6 @@ export const Auth = () => {
 				{method === 'login' && <Login />}
 				{method === 'signup' && <Signup goToLogin={() => setMethod('login')} />}
 			</div>
-			<Toaster />
 		</div>
 	)
 }

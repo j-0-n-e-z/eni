@@ -1,7 +1,13 @@
-import { ApiError } from "./ApiError";
+import { ApiError } from './ApiError'
+import { ErrorCodes } from './ErrorCodes'
 
 export class AuthenticationError extends ApiError {
-	constructor(statusCode = 401, message = 'Authentication failed', field = '') {
-		super(statusCode, message, field)
+	constructor(
+		statusCode: number = 401,
+		message: string = 'Authentication failed',
+		code: string = ErrorCodes.UNAUTHORIZED,
+		details?: any
+	) {
+		super(statusCode, message, code, details)
 	}
 }

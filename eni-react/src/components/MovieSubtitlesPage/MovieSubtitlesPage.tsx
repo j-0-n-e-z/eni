@@ -1,5 +1,4 @@
 import { type FC } from 'react'
-import { Toaster } from 'react-hot-toast'
 import { useLocation, useParams } from 'react-router-dom'
 
 import { useGetMovieByKinopoiskIdQuery } from '@/api'
@@ -35,7 +34,6 @@ export const MovieSubtitlesPage: FC = () => {
 		<div className={styles.movieSubsContainer}>
 			<MovieInfoSection movie={movie} />
 			<SubtitlesSection imdbId={movie.imdbId} lookupWord={lookupWord} />
-			<Toaster position='top-right' />
 		</div>
 	)
 }

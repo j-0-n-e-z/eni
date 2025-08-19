@@ -3,6 +3,7 @@ import type { FC } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
+import type { BackendError } from '@/api'
 import {
 	useDeleteWordMutation,
 	useLazyGetDifinitionQuery,
@@ -37,13 +38,13 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 			try {
 				await triggerGetDefinition(word.text).unwrap()
 			} catch (error) {
-				console.error(error)
-				if ('status' in error) {
-					if (error.status === 401) {
-						toast.error('Для перевода слов нужно авторизоваться')
-					} else if (error.status === 404) {
-						triggerTranslate(word.text)
-					}
+				const err = error as BackendError
+				if (err.status === 401) {
+					toast.error('Для перевода слов нужно авторизоваться', {
+						id: 'authToTranslate'
+					})
+				} else if (err.status === 404) {
+					triggerTranslate(word.text)
 				}
 			}
 		}

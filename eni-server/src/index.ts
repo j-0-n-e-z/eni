@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axios from 'axios'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
@@ -24,7 +25,7 @@ app.get('/alloha', async (req, res) => {
 	try {
 		const { kp } = req.query
 		const response = await axios.get(
-			`https://api.alloha.tv/?token=d317441359e505c343c2063edc97e7&kp=${kp}`
+			`https://api.alloha.tv/?token=d317441359e505c343c2063edc97e7&kp=${kp?.toString()}`
 		)
 		res.json(response.data)
 	} catch (error) {
@@ -38,7 +39,8 @@ app.use('/api', authRouter)
 app.use('/api', userRouter)
 app.use('/api', translateRouter)
 
-app.use(new ErrorHandler((error) => console.error(error)).handle)
+const logger = (error: Error) => console.error(error)
+app.use(new ErrorHandler(logger).handle)
 
 const PORT = process.env.PORT || 8080
 
