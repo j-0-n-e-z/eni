@@ -45,7 +45,7 @@ export class UserController {
 
 		const words = await this.userService.getWordsByUserId(userId)
 
-		if (!words || words.length === 0) {
+		if (!words || !words.length) {
 			throw new ApiError(404, 'Words not found')
 		}
 

@@ -35,20 +35,6 @@ export const userApi = createApi({
 			query: (userId) => ({
 				url: `user/${userId}/words`
 			}),
-			transformResponse: (response: WordResponse[]) =>
-				response.map((w) => ({
-					id: `${w.subtitleIndex}#${w.subtitleTimecode}#${w.fileId}`,
-					text: w.word.text,
-					from: {
-						subtitleIndex: w.subtitleIndex,
-						subtitleTimecode: w.subtitleTimecode,
-						page: w.page,
-						fileId: w.fileId,
-						movieId: w.movieId
-					},
-					isLearned: w.isLearned,
-					isFavorite: w.isFavorite
-				})),
 			providesTags: (result) =>
 				result
 					? [

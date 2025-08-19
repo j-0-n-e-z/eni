@@ -1,4 +1,4 @@
-import type { Prisma, PrismaClient, User } from '@prisma/client'
+import type { Prisma, PrismaClient, User, UserWord } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -212,7 +212,7 @@ export class UserService {
 		})
 	}
 
-	async getWordsByUserId(userId: string) {
+	private async findWordsByUserId(userId: string) {
 		return this.prisma.userWord.findMany({
 			where: { userId },
 			select: {
@@ -226,5 +226,26 @@ export class UserService {
 				word: true
 			}
 		})
+	}
+
+	async getWordsByUserId(userId: string) {
+		const userWords = await this.findWordsByUserId(userId)
+		return userWords.map((uw) => this.mapUserWordToWord(uw))
+	}
+
+	private mapUserWordToWord(userWord: Awaited<ReturnType<typeof this.findWordsByUserId>>[number]): Word {
+		return {
+			id: userWord.word.id,
+			text: userWord.word.text,
+			from: {
+				fileId: userWord.fileId,
+				page: userWord.page,
+				subtitleTimecode: userWord.subtitleTimecode,
+				subtitleWordIndex: userWord.subtitleWordIndex,
+				movieId: userWord.movieId
+			},
+			isLearned: userWord.isLearned,
+			isFavorite: userWord.isFavorite
+		}
 	}
 }

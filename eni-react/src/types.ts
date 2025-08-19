@@ -120,10 +120,11 @@ export interface Subtitle extends PureSubtitle {
 }
 
 export interface WordResponse {
+	id: string
 	fileId: number
 	page: number
 	subtitleTimecode: string
-	subtitleIndex: number
+	subtitleWordIndex: number
 	movieId: number
 	isLearned: boolean
 	isFavorite: boolean
