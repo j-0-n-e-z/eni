@@ -53,7 +53,7 @@ export const Profile = () => {
 
 		if (me && me.username === username.replaceAll('%20', ' ')) {
 			setDisplayUser(me)
-			userReset()
+			userReset() // in case user had error
 			return
 		}
 
@@ -133,7 +133,7 @@ export const Profile = () => {
 					words={learnedWords}
 				/>
 			)}
-			
+
 			<Toaster position='top-right' />
 		</div>
 	)

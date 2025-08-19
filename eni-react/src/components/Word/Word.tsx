@@ -60,7 +60,9 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 
 			dispatch(removeWord(word.id))
 		} catch (e) {
-			console.log(e)
+			toast.error('Произошла ошибка при сохранении слова', {
+				id: 'saveWordError'
+			})
 		}
 	}
 
@@ -77,7 +79,9 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 				wordId: word.id
 			}).unwrap()
 		} catch (e) {
-			console.log(e)
+			toast.error('Произошла ошибка при удалении слова', {
+				id: 'deleteWordError'
+			})
 		}
 	}
 
