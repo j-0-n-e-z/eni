@@ -14,7 +14,7 @@ export interface BackendError {
 }
 
 export const baseQuery = fetchBaseQuery({
-	baseUrl: `${import.meta.env.VITE_API_URL}/api`
+	baseUrl: `${import.meta.env.VITE_API_URL}/api`,
 }) as BaseQueryFn<string | FetchArgs, unknown, BackendError>
 
 export const api = createApi({
@@ -26,15 +26,15 @@ export const api = createApi({
 
 			if (error.data?.error) {
 				return {
-					error: {
-						status: error.status,
-						data: {
+					status: error.status,
+					data: {
+						error: {
 							code: error.data.error.code,
 							message: error.data.error.message,
 							details: error.data.error.details
 						}
 					}
-				}
+				} as BackendError
 			}
 		}
 

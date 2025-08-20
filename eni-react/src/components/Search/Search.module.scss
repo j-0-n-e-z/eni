@@ -112,6 +112,7 @@
 				justify-content: center;
 
 				.movieCard {
+					position: relative;
 					display: flex;
 					flex-direction: column;
 					max-width: 320px;
@@ -129,6 +130,10 @@
 					&:hover {
 						background-color: var(--colors-background-neutrals-subtle-hover);
 						transform: translateY(-$space-sm);
+
+						.deleteBtnWrapper {
+							opacity: 100%;
+						}
 					}
 
 					.cover {
@@ -151,6 +156,7 @@
 						}
 
 						.year {
+							margin-top: auto;
 							font-size: $font-lg;
 							color: var(--colors-text-neutrals-subtle);
 						}
@@ -160,7 +166,37 @@
 							font-size: $font-lg;
 						}
 					}
+
+					.deleteBtnWrapper {
+						position: absolute;
+						top: 10px;
+						left: 10px;
+						opacity: 0%;
+						transition: opacity 0.2s ease;
+					}
 				}
+			}
+		}
+
+		.deleteBtn {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 40px;
+			height: 40px;
+			cursor: pointer;
+			background-color: rgb(0 0 0 / 61.6%);
+			border: 2px solid #ccc;
+			border-radius: 8px;
+
+			.deleteBtnIcon {
+				width: 16px;
+				height: 16px;
+				color: #ccc;
+			}
+
+			&:hover {
+				background-color: #ed3838;
 			}
 		}
 	}

@@ -5,7 +5,7 @@ import { type RootState } from '@/store'
 import type { BaseKinoposikMovie } from '@/types'
 
 export interface SearchHistoryState {
-	movies: BaseKinoposikMovie[]
+	historyMovies: BaseKinoposikMovie[]
 }
 
 const loadHistory = () => {
@@ -18,34 +18,43 @@ const loadHistory = () => {
 	}
 }
 
+const updateHistory = (movies: BaseKinoposikMovie[]) => {
+	localStorage.setItem('searchHistory', JSON.stringify(movies))
+}
+
 const initialState: SearchHistoryState = {
-	movies: loadHistory()
+	historyMovies: loadHistory()
 }
 
 const searchHistorySlice = createSlice({
 	name: 'searchHistory',
 	initialState,
 	reducers: {
-		clearMovieHistory: () => initialState,
+		clearMovieHistory: (state) => {
+			state.historyMovies = []
+			updateHistory([])
+		},
 		addMovieToHistory: (state, action: PayloadAction<BaseKinoposikMovie>) => {
 			if (
-				!state.movies.find((movie) => movie.filmId === action.payload.filmId)
+				!state.historyMovies.find(
+					(movie) => movie.filmId === action.payload.filmId
+				)
 			) {
-				state.movies.push(action.payload)
-				localStorage.setItem('searchHistory', JSON.stringify(state.movies))
+				state.historyMovies.push(action.payload)
+				updateHistory(state.historyMovies)
 			}
 		},
 		removeMovieFromHistory: (state, action: PayloadAction<number>) => {
-			state.movies = state.movies.filter(
+			state.historyMovies = state.historyMovies.filter(
 				(movie) => movie.filmId !== action.payload
 			)
-			localStorage.setItem('searchHistory', JSON.stringify(state.movies))
+			updateHistory(state.historyMovies)
 		}
 	}
 })
 
 export const selectMoviesFromHistory = (state: RootState) =>
-	state.searchHistoryReducer.movies
+	state.searchHistoryReducer.historyMovies
 
 export const { clearMovieHistory, addMovieToHistory, removeMovieFromHistory } =
 	searchHistorySlice.actions

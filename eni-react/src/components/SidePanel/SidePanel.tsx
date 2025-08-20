@@ -1,6 +1,5 @@
 import cn from 'classnames'
-import { useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import { useGetMeQuery, useLogoutMutation } from '@/api'
 import { useAppSelector } from '@/app/index'
@@ -21,25 +20,13 @@ export const SidePanel = () => {
 	const { data: me, isLoading: isMeLoading } = useGetMeQuery(null)
 	const [
 		logout,
-		{
-			isLoading: isLogoutLoading,
-			isSuccess: isLogoutSuccess,
-			isError: isLogoutError,
-			error
-		}
+		{ isLoading: isLogoutLoading, isError: isLogoutError, error }
 	] = useLogoutMutation()
-	const navigate = useNavigate()
 	const location = useLocation()
 
 	const setActiveIf = (path: string) => ({
 		[styles.active]: location.pathname === path
 	})
-
-	useEffect(() => {
-		if (isLogoutSuccess) {
-			navigate('/login')
-		}
-	}, [isLogoutLoading])
 
 	if (isMeLoading)
 		return (

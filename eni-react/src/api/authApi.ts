@@ -29,7 +29,7 @@ export const baseQueryWithReauth: BaseQueryFn<
 		if (refreshResult.data) {
 			result = await baseQuery(args, api, extraOptions)
 		} else {
-			console.log('faild to make a request: ', args)
+			console.log('Faild to make a request: ', args)
 		}
 	}
 
@@ -86,7 +86,6 @@ export const authApi = createApi({
 				try {
 					await queryFulfilled
 					dispatch(authApi.util.resetApiState())
-					dispatch(authApi.util.invalidateTags(['Me']))
 				} catch (error) {
 					console.log(error)
 				}

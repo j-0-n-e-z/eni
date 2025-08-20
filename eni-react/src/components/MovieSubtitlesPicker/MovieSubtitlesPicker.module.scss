@@ -9,15 +9,17 @@
 	justify-content: center;
 
 	.movieSubList {
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 		gap: $space-lg;
+		justify-items: center;
+		width: 100%;
 
 		.movieSub {
 			display: flex;
-			flex: 1;
 			flex-direction: column;
 			gap: $space-lg;
+			width: 100%;
 			max-width: 350px;
 			padding: $space-lg;
 			background: #fff;

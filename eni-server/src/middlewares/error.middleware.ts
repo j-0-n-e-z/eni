@@ -21,6 +21,8 @@ export class ErrorHandler {
 
 		const apiError = this.normalizeError(error)
 
+		console.log(apiError)
+
 		res.status(apiError.statusCode).json({
 			success: false,
 			error: {

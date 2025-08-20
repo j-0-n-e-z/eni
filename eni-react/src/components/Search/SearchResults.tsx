@@ -1,10 +1,16 @@
 import type { FC } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { useAppDispatch } from '@/app/hooks'
-import { addMovieToHistory } from '@/store'
+import {
+	addMovieToHistory,
+	clearMovieHistory,
+	removeMovieFromHistory
+} from '@/store'
 import type { BaseKinoposikMovie } from '@/types'
 
+import { DeleteButton } from './DeleteButton'
 import styles from './Search.module.scss'
 
 interface SearchResultsProps {
@@ -33,27 +39,46 @@ export const SearchResults: FC<SearchResultsProps> = ({
 		)
 	}
 
+	const handleDeleteMovieBtnClick = (
+		e: React.MouseEvent<HTMLButtonElement>,
+		filmId: number
+	) => {
+		e.preventDefault()
+		e.stopPropagation()
+		dispatch(removeMovieFromHistory(filmId))
+	}
+
 	return (
 		<>
 			<h2 className={styles.header}>
 				{isHistory ? 'История поиска' : 'Результаты поиска'}
+				{isHistory && (
+					<DeleteButton onClick={() => dispatch(clearMovieHistory())} />
+				)}
 			</h2>
 			<ul className={styles.searchResultList}>
-				{movies.map(({ filmId, posterUrlPreview, nameEn, year }, i, movies) => (
-					<li key={filmId} className={styles.searchResultItem}>
+				{movies.map((movie) => (
+					<li key={movie.filmId} className={styles.searchResultItem}>
 						<Link
 							className={styles.movieCard}
-							to={`/movie/${filmId}`}
-							onClick={() => addToSearchHistory(movies[i])}
+							to={`/movie/${movie.filmId}`}
+							onClick={() => addToSearchHistory(movie)}
 						>
+							{isHistory && (
+								<div className={styles.deleteBtnWrapper}>
+									<DeleteButton
+										onClick={(e) => handleDeleteMovieBtnClick(e, movie.filmId)}
+									/>
+								</div>
+							)}
 							<img
-								alt={`${nameEn} Cover`}
+								alt={`${movie.nameEn} Cover`}
 								className={styles.cover}
-								src={posterUrlPreview}
+								src={movie.posterUrlPreview}
 							/>
 							<div className={styles.details}>
-								<h3 className={styles.title}>{nameEn}</h3>
-								<span className={styles.year}>{year}</span>
+								<h3 className={styles.title}>{movie.nameEn}</h3>
+								<span className={styles.year}>{movie.year}</span>
 							</div>
 						</Link>
 					</li>

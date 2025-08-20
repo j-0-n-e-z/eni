@@ -14,14 +14,14 @@ export const Search: FC = () => {
 	const [movieTitle, setMovieTitle] = useState('')
 	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 500)
 	const inputRef = useRef<HTMLInputElement>(null)
-	const searchedMovies = useAppSelector(selectMoviesFromHistory)
+	const historyMovies = useAppSelector(selectMoviesFromHistory)
 	const [triggerSearch, { data: movies, isFetching, error, reset }] =
 		useLazySearchMoviesQuery()
 
 	function render() {
 		if (isFetching) return <div>Загрузка...</div>
 		if (error) return <div>JSON.stringify(error)</div>
-		if (!movies && !searchedMovies.length)
+		if (!movies && !historyMovies.length)
 			return (
 				<EmptyState
 					description='Введите название фильма в поле поиска'
@@ -38,8 +38,8 @@ export const Search: FC = () => {
 				/>
 			)
 		if (movies && movies.length) return <SearchResults movies={movies} />
-		if (searchedMovies.length)
-			return <SearchResults isHistory movies={searchedMovies} />
+		if (historyMovies.length)
+			return <SearchResults isHistory movies={historyMovies} />
 		return null
 	}
 

@@ -21,8 +21,7 @@ export const Profile = () => {
 	const {
 		data: me,
 		isLoading: isMeLoading,
-		isFetching: isMeFetching,
-		error: meError
+		isFetching: isMeFetching
 	} = useGetMeQuery(null)
 
 	const [
