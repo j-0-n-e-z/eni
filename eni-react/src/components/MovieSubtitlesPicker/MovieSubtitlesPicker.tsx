@@ -17,7 +17,7 @@ export const MovieSubtitlesPicker: FC<MovieSubtitlesPickerProps> = ({
 }) => {
 	const {
 		data: movieSubtitles,
-		isError: movieSubtitlesError,
+		error: movieSubtitlesError,
 		isLoading: isMovieSubtitlesLoading
 	} = useGetMovieSubtitlesByImdbIdQuery(imdbId || '', {
 		skip: !imdbId
@@ -26,7 +26,7 @@ export const MovieSubtitlesPicker: FC<MovieSubtitlesPickerProps> = ({
 	if (isMovieSubtitlesLoading) return <div>...Загрузка вариантов субтитров</div>
 
 	if (movieSubtitlesError)
-		return <div>{JSON.stringify(movieSubtitlesError)}</div>
+		return <div>Error: {JSON.stringify(movieSubtitlesError)}</div>
 
 	if (!movieSubtitles?.length) return <div>Варианты субтитров не найдены</div>
 
