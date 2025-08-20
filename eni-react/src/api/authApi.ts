@@ -66,14 +66,6 @@ export const authApi = createApi({
 				body: credentials,
 				credentials: 'include'
 			}),
-			async onQueryStarted(_, { dispatch, queryFulfilled }) {
-				try {
-					await queryFulfilled
-					dispatch(authApi.endpoints.getMe.initiate(null))
-				} catch (e) {
-					console.log(e)
-				}
-			},
 			invalidatesTags: ['Me']
 		}),
 		logout: build.mutation<null, null>({
