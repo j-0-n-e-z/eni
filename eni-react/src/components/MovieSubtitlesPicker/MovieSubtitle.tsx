@@ -3,7 +3,7 @@ import type { FC } from 'react'
 
 import { StarIcon } from '@/icons'
 import type { MovieSubtitle as IMovieSubtitle } from '@/types'
-import { NumberFormatter, USDateFormatter } from '@/utils'
+import { NumberFormatter, DateFormatter } from '@/utils'
 
 import styles from './MovieSubtitlesPicker.module.scss'
 
@@ -43,7 +43,7 @@ export const MovieSubtitle: FC<MovieSubtitleProps> = ({
 				<div className={styles.metaRow}>
 					<span className={styles.metaLabel}>Загружено:</span>
 					<span className={styles.metaValue}>
-						{USDateFormatter.format(new Date(movieSubtitle.upload_date))}
+						{DateFormatter.format(new Date(movieSubtitle.upload_date))}
 					</span>
 				</div>
 
