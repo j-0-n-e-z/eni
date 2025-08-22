@@ -77,6 +77,10 @@ input::-webkit-clear-button {
 	appearance: textfield;
 }
 
+svg {
+	flex-shrink: 0;
+}
+
 .main {
 	display: flex;
 	flex-direction: column;

@@ -29,6 +29,8 @@ export const MovieSubtitlesPage: FC = () => {
 
 	if (!movie) return <div>Нет данных о фильме</div>
 
+	console.log(movie)
+
 	return (
 		<>
 			<MovieInfoSection movie={movie} />

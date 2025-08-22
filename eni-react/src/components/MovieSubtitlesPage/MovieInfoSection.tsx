@@ -1,11 +1,11 @@
 import cn from 'classnames'
-import { useEffect, type FC } from 'react'
+import { useEffect, useState, type FC } from 'react'
 import toast from 'react-hot-toast'
 
 import { useGetMovieBoxOfficeByKinopoiskIdQuery } from '@/api'
-import { ImdbIcon } from '@/icons'
+import { ImdbIcon, TranslateIcon } from '@/icons'
 import type { KinopoiskMovie } from '@/types'
-import { formatMoney } from '@/utils'
+import { formatMoney, formatRating } from '@/utils'
 
 import styles from './MovieSubtitlesPage.module.scss'
 
@@ -21,9 +21,14 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 	} = useGetMovieBoxOfficeByKinopoiskIdQuery(movie.kinopoiskId, {
 		skip: !movie.kinopoiskId
 	})
+	const [isShowOriginalTitle, setIsShowOriginalTitle] = useState(true)
 
 	const budget = boxOffice?.items.find((item) => item.type === 'BUDGET')
 	const boxOfficeWorld = boxOffice?.items.find((item) => item.type === 'WORLD')
+
+	console.log(boxOffice);
+
+	const toggleShowOriginalTitle = () => setIsShowOriginalTitle((p) => !p)
 
 	useEffect(() => {
 		if (boxOfficeError)
@@ -39,14 +44,23 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 					src={movie.posterUrl}
 				/>
 				<div className={styles.details}>
-					<h2 className={styles.title}>
+					<h2 className={styles.titleWrapper}>
 						<a
+							className={styles.titleLink}
 							href={`https://www.imdb.com/title/${movie.imdbId}`}
 							rel='noopener noreferrer'
 							target='_blank'
 						>
-							{movie.nameOriginal ?? movie.nameRu}
+							{isShowOriginalTitle
+								? (movie.nameOriginal ?? movie.nameRu)
+								: movie.nameRu}
 						</a>
+						{movie.nameOriginal && (
+							<TranslateIcon
+								className={styles.translateTitleIcon}
+								onClick={toggleShowOriginalTitle}
+							/>
+						)}
 					</h2>
 
 					{movie.slogan && <p className={styles.slogan}>{movie.slogan}</p>}
@@ -60,8 +74,8 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 						{movie.ratingMpaa && (
 							<div className={styles.metaItem}>
 								<span className={styles.metaLabel}>Возраст: </span>
-								<span className={styles.metaValue}>
-									{movie.ratingMpaa.toUpperCase()}
+								<span className={cn(styles.metaValue, styles.mpaa)}>
+									{formatRating(movie.ratingMpaa).toUpperCase()}
 								</span>
 							</div>
 						)}
@@ -74,7 +88,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 									<div className={styles.metaItem}>
 										<span className={styles.metaLabel}>Бюджет:</span>
 										<span className={cn(styles.metaValue, styles.budget)}>
-											{formatMoney(budget.amount, budget.currencyCode)}
+											{formatMoney(budget.amount, budget.currencyCode || 'USD')}
 										</span>
 									</div>
 								)}
@@ -84,7 +98,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 										<span className={cn(styles.metaValue, styles.boxOffice)}>
 											{formatMoney(
 												boxOfficeWorld.amount,
-												boxOfficeWorld.currencyCode
+												boxOfficeWorld.currencyCode || 'USD'
 											)}
 										</span>
 									</div>
@@ -101,8 +115,8 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 									rel='noopener noreferrer'
 									target='_blank'
 								>
-									<ImdbIcon className={styles.imdbLogo} />
 									{movie.ratingImdb.toFixed(1)}
+									<ImdbIcon className={styles.imdbLogo} />
 								</a>
 							</div>
 						)}

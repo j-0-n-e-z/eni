@@ -31,13 +31,31 @@
 	max-width: 48rem;
 }
 
-.title {
+.titleWrapper {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
 	margin-bottom: 0.5rem;
+}
+
+.titleLink {
 	font-size: 2.5rem;
 	transition: color 0.2s linear;
 
 	&:hover {
 		color: color.adjust(#fff, $lightness: -20%);
+	}
+}
+
+.translateTitleIcon {
+	width: 2rem;
+	height: 2rem;
+	color: #cbd5e1;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover {
+		color: red;
 	}
 }
 
@@ -51,7 +69,8 @@
 .movieMeta {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	gap: 1rem;
+	grid-auto-rows: 1fr;
+	row-gap: 1rem;
 	margin-bottom: 2rem;
 }
 
@@ -59,6 +78,7 @@
 	display: flex;
 	gap: $space-sm;
 	align-items: center;
+	height: 100%;
 }
 
 .metaLabel {
@@ -75,18 +95,25 @@
 		font-weight: 600;
 		color: #10b981;
 	}
+
+	&.mpaa {
+		padding: 0.4rem;
+		cursor: default;
+		background-color: color.adjust(#0e1829, $lightness: 30%);
+		border-radius: 10px;
+	}
 }
 
 .imdb {
 	display: flex;
 	gap: $space-sm;
-	align-items: center;
+	align-items: end;
 	width: fit-content;
 }
 
 .imdbLogo {
-	width: $space-xl;
-	height: $space-lg;
+	width: 2rem;
+	height: 1rem;
 }
 
 .genres {

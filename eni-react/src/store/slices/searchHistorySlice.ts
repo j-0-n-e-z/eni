@@ -34,15 +34,25 @@ const searchHistorySlice = createSlice({
 			state.historyMovies = []
 			updateHistory([])
 		},
-		addMovieToHistory: (state, action: PayloadAction<BaseKinoposikMovie>) => {
+		upsertMovieInHistory: (
+			state,
+			action: PayloadAction<BaseKinoposikMovie>
+		) => {
 			if (
 				!state.historyMovies.find(
 					(movie) => movie.filmId === action.payload.filmId
 				)
 			) {
-				state.historyMovies.push(action.payload)
-				updateHistory(state.historyMovies)
+				state.historyMovies = [action.payload, ...state.historyMovies]
+			} else {
+				state.historyMovies = [
+					action.payload,
+					...state.historyMovies.filter(
+						(movie) => movie.filmId !== action.payload.filmId
+					)
+				]
 			}
+			updateHistory(state.historyMovies)
 		},
 		removeMovieFromHistory: (state, action: PayloadAction<number>) => {
 			state.historyMovies = state.historyMovies.filter(
@@ -56,7 +66,10 @@ const searchHistorySlice = createSlice({
 export const selectMoviesFromHistory = (state: RootState) =>
 	state.searchHistoryReducer.historyMovies
 
-export const { clearMovieHistory, addMovieToHistory, removeMovieFromHistory } =
-	searchHistorySlice.actions
+export const {
+	clearMovieHistory,
+	upsertMovieInHistory,
+	removeMovieFromHistory
+} = searchHistorySlice.actions
 
 export const searchHistoryReducer = searchHistorySlice.reducer

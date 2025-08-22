@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 
 import { useAppDispatch } from '@/app/hooks'
 import {
-	addMovieToHistory,
 	clearMovieHistory,
-	removeMovieFromHistory
+	removeMovieFromHistory,
+	upsertMovieInHistory
 } from '@/store'
 import type { BaseKinoposikMovie } from '@/types'
 
@@ -25,10 +25,8 @@ export const SearchResults: FC<SearchResultsProps> = ({
 	const dispatch = useAppDispatch()
 
 	const addToSearchHistory = (movie: BaseKinoposikMovie) => {
-		if (isHistory) return
-
 		dispatch(
-			addMovieToHistory({
+			upsertMovieInHistory({
 				year: movie.year,
 				posterUrlPreview: movie.posterUrlPreview,
 				filmId: movie.filmId,

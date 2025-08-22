@@ -43,3 +43,13 @@ export function formatMoney(amount: number, currency: string) {
 	return USDFormatter.format(amount)
 }
 
+export function formatRating(mpaaRating: string) {
+	const letters = mpaaRating.match(/[a-z]+/)
+	const digits = mpaaRating.match(/\d+/)
+
+	if (letters && digits) {
+		return `${letters?.join('')}-${digits?.join('')}`
+	}
+
+	return mpaaRating
+}
