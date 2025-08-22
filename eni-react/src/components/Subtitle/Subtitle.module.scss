@@ -1,24 +1,15 @@
 @use '../../styles/_variables.scss' as *;
 
 @keyframes highlight {
-	0% {
-		background-color: var(--colors-background-neutrals-subtle);
-	}
-
-	25% {
-		background-color: lightblue;
-	}
-
-	50% {
-		background-color: var(--colors-background-neutrals-subtle);
-	}
-
-	75% {
-		background-color: lightblue;
-	}
-
+	0%,
+	50%,
 	100% {
 		background-color: var(--colors-background-neutrals-subtle);
+	}
+
+	25%,
+	75% {
+		background-color: lightblue;
 	}
 }
 
@@ -35,13 +26,13 @@
 	&.highlighted {
 		animation: highlight 2.5s ease-in-out;
 	}
+}
 
-	.words {
-		display: flex;
-		flex-wrap: wrap;
-	}
+.words {
+	display: flex;
+	flex-wrap: wrap;
+}
 
-	.timecode {
-		font-style: italic;
-	}
+.timecode {
+	font-style: italic;
 }

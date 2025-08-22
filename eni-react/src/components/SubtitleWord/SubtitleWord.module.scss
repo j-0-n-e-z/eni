@@ -32,12 +32,12 @@
 	&.added {
 		background-color: var(--colors-border-success-subtle);
 	}
+}
 
-	.text {
-		font-size: $font-lg;
-		font-weight: 500;
-		transition: translate 0.1s linear;
-	}
+.text {
+	font-size: $font-lg;
+	font-weight: 500;
+	transition: translate 0.1s linear;
 }
 
 .punctuation {

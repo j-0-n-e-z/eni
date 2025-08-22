@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use '../../styles/_colors2' as *;
 @use '../../styles/variables' as *;
 
@@ -11,58 +12,58 @@
 	transition: all 0.2s ease;
 
 	&:hover {
-		background: darken($bg-secondary, 3%);
+		background: color.adjust($bg-secondary, $lightness: -3%);
 	}
+}
 
-	.wordInfo {
-		flex: 1;
+.wordInfo {
+	flex: 1;
+}
 
-		.word {
-			margin-bottom: 0.25rem;
-			font-weight: 500;
-			color: $text-primary;
-		}
+.word {
+	margin-bottom: 0.25rem;
+	font-weight: 500;
+	color: $text-primary;
+}
 
-		.translation {
-			font-size: 0.875rem;
-			color: $text-secondary;
-		}
+.translation {
+	font-size: 0.875rem;
+	color: $text-secondary;
+}
+
+.wordActions {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.actionButton {
+	padding: 0.375rem;
+	color: $text-tertiary;
+	cursor: pointer;
+	background: none;
+	border: none;
+	border-radius: 0.375rem;
+	transition: all 0.2s ease;
+
+	&:hover {
+		color: $text-secondary;
+		background: $bg-tertiary;
 	}
+}
 
-	.wordActions {
-		display: flex;
-		gap: 0.5rem;
+.actionButton.translateButton:hover {
+	color: $success;
+}
 
-		.actionButton {
-			padding: 0.375rem;
-			color: $text-tertiary;
-			cursor: pointer;
-			background: none;
-			border: none;
-			border-radius: 0.375rem;
-			transition: all 0.2s ease;
+.actionButton.saveButton:hover {
+	color: $warning;
+}
 
-			&:hover {
-				color: $text-secondary;
-				background: $bg-tertiary;
-			}
+.actionButton.deleteButton:hover {
+	color: $error;
+}
 
-			&.translateButton:hover {
-				color: $success;
-			}
-
-			&.saveButton:hover {
-				color: $warning;
-			}
-
-			&.deleteButton:hover {
-				color: $error;
-			}
-
-			svg {
-				width: 1rem;
-				height: 1rem;
-			}
-		}
-	}
+.actionButton svg {
+	width: 1rem;
+	height: 1rem;
 }

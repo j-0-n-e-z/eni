@@ -18,6 +18,7 @@ export const MovieSubtitle: FC<MovieSubtitleProps> = ({
 }) => {
 	const ratingStars = Array.from({ length: 10 }).map((_, i) => (
 		<StarIcon
+			key={i}
 			className={cn(styles.star, {
 				[styles.filled]: i + 1 <= movieSubtitle.subtitles.rating
 			})}
@@ -26,7 +27,10 @@ export const MovieSubtitle: FC<MovieSubtitleProps> = ({
 
 	return (
 		<li className={styles.movieSub}>
-			<div className={styles.movieSubRating}>{ratingStars}</div>
+			<div className={styles.movieSubRating}>
+				<div className={styles.stars}>{ratingStars}</div>
+				<div className={styles.rating}>{movieSubtitle.subtitles.rating}/10</div>
+			</div>
 
 			<div className={styles.movieSubMeta}>
 				<div className={styles.metaRow}>

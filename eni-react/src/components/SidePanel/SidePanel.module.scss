@@ -18,196 +18,191 @@
 	&:hover {
 		width: 220px;
 		box-shadow: 0 0 $space-xxl var(--colors-background-neutrals-control);
-
-		.topArea .topWrapper {
-			gap: $space-lg;
-
-			.topTitle {
-				opacity: 100%;
-			}
-		}
-
-		.navigation .navList .navLink {
-			gap: $space-lg;
-
-			.navLinkText {
-				width: 100px;
-				opacity: 100%;
-			}
-		}
-
-		.bottomNavigation {
-			.login {
-				gap: $space-lg;
-
-				.loginText {
-					opacity: 100%;
-				}
-			}
-		}
-
-		.navigation .words .wordsCount {
-			right: 20px;
-			bottom: 50%;
-		}
 	}
+}
 
-	svg {
-		flex-shrink: 0;
-		width: 24px;
-		height: 24px;
-		color: var(--colors-text-neutrals-inverted);
+.sidepanel:hover .topWrapper {
+	gap: $space-lg;
+}
+
+.sidepanel:hover .navLink {
+	gap: $space-lg;
+}
+
+.sidepanel:hover .topTitle {
+	opacity: 100%;
+}
+
+.sidepanel:hover .navLinkText {
+	width: 100px;
+	opacity: 100%;
+}
+
+.sidepanel:hover .login {
+	gap: $space-lg;
+}
+
+.sidepanel:hover .loginText {
+	opacity: 100%;
+}
+
+.sidepanel:hover .wordsCount {
+	right: 20px;
+	bottom: 50%;
+}
+
+.sidepanel svg {
+	flex-shrink: 0;
+	width: 24px;
+	height: 24px;
+	color: var(--colors-text-neutrals-inverted);
+}
+
+.topArea {
+	padding: $space-lg $space-xxl;
+	border-bottom: 1px solid rgb(255 255 255 / 10%);
+}
+
+.topWrapper {
+	display: flex;
+	gap: 0;
+	align-items: center;
+	transition: gap 0.1s ease;
+}
+
+.topLogo {
+	width: 30px;
+	height: 30px;
+}
+
+.topTitle {
+	font-size: 30px;
+	font-weight: 900;
+	color: var(--colors-text-neutrals-inverted);
+	text-decoration: var(--colors-background-primary-prominent) wavy underline;
+	opacity: 0%;
+	transition:
+		opacity 0.2s ease,
+		color 0.2s linear;
+
+	&:hover {
+		color: var(--colors-text-neutrals-inverted-subtle);
 	}
+}
 
-	.topArea {
-		padding: $space-lg $space-xxl;
-		border-bottom: 1px solid rgb(255 255 255 / 10%);
+.navigation {
+	padding: $space-md $space-sm;
+	font-size: $font-lg;
+	font-weight: 600;
+	color: var(--colors-text-neutrals-inverted);
+	text-transform: uppercase;
+	letter-spacing: 0.6px;
+	transition: color 0.1s ease-in-out;
+}
 
-		.topWrapper {
-			display: flex;
-			gap: 0;
-			align-items: center;
-			transition: gap 0.1s ease;
+.navList {
+	display: flex;
+	flex-direction: column;
+	gap: $space-md;
+}
 
-			.topLogo {
-				width: 30px;
-				height: 30px;
-			}
+.navLink {
+	display: flex;
+	gap: 0;
+	align-items: center;
+	width: 100%;
+	padding: $space-lg $space-xl;
+	font-size: $font-lg;
+	font-weight: 500;
+	text-transform: uppercase;
+	border-radius: $space-lg;
+	transition:
+		background-color 0.1s ease-in,
+		padding 0.1s linear,
+		gap 0.1s ease-in;
+}
 
-			.topTitle {
-				font-size: 30px;
-				font-weight: 900;
-				color: var(--colors-text-neutrals-inverted);
-				text-decoration: var(--colors-background-primary-prominent) wavy
-					underline;
-				opacity: 0%;
-				transition:
-					opacity 0.2s ease,
-					color 0.2s linear;
+.navLinkText {
+	width: 0;
+	opacity: 0%;
+	transition:
+		opacity 0.1s ease-in,
+		width 0.1s ease-in;
+}
 
-				&:hover {
-					color: var(--colors-text-neutrals-inverted-subtle);
-				}
-			}
-		}
-	}
+.searchIcon path {
+	stroke-width: 3px;
+}
 
-	.navigation {
-		padding: $space-md $space-sm;
-		font-size: $font-lg;
-		font-weight: 600;
-		color: var(--colors-text-neutrals-inverted);
-		text-transform: uppercase;
-		letter-spacing: 0.6px;
-		transition: color 0.1s ease-in-out;
+.navLink.active {
+	background: rgb(255 255 255 / 15%);
+}
 
-		.navList {
-			display: flex;
-			flex-direction: column;
-			gap: $space-md;
+.navLink:hover {
+	background: rgb(255 255 255 / 10%);
+}
 
-			.navLink {
-				display: flex;
-				gap: 0;
-				align-items: center;
-				width: 100%;
-				padding: $space-lg $space-xl;
-				font-size: $font-lg;
-				font-weight: 500;
-				text-transform: uppercase;
-				border-radius: $space-lg;
-				transition:
-					background-color 0.1s ease-in,
-					padding 0.1s linear,
-					gap 0.1s ease-in;
+.words {
+	position: relative;
+}
 
-				.navLinkText {
-					width: 0;
-					opacity: 0%;
-					transition:
-						opacity 0.1s ease-in,
-						width 0.1s ease-in;
-				}
+.wordsCount {
+	position: absolute;
+	right: 32px;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: fit-content;
+	height: 18px;
+	padding: 6px;
+	font-size: $font-md;
+	font-weight: 600;
+	color: var(--colors-text-neutrals-inverted);
+	background-color: var(--colors-background-primary-prominent);
+	border-radius: 20%;
+	translate: 50% 50%;
+}
 
-				.searchIcon {
-					path {
-						stroke-width: 3px;
-					}
-				}
+.bottomNavigation {
+	padding: $space-md $space-sm;
+	color: var(--colors-text-neutrals-inverted);
+	border-top: 1px solid rgb(255 255 255 / 10%);
+	transition: margin-left 0.2s ease;
+}
 
-				&.active {
-					background: rgb(255 255 255 / 15%);
-				}
+.login {
+	display: flex;
+	gap: 0;
+	align-items: center;
+	width: 100%;
+	padding: $space-lg $space-xl;
+	font-size: $font-lg;
+	font-weight: 500;
+	text-transform: uppercase;
+	cursor: pointer;
+	border-radius: $space-lg;
+	transition:
+		background-color 0.1s ease-in,
+		padding 0.1s linear,
+		gap 0.1s ease-in;
+}
 
-				&:hover {
-					background: rgb(255 255 255 / 10%);
-				}
-			}
-		}
+.logoutIcon {
+	margin-left: 3px;
+	scale: -1;
+}
 
-		.words {
-			position: relative;
+.loginText {
+	width: 0;
+	opacity: 0%;
+	transition: opacity 0.1s ease-in;
+}
 
-			.wordsCount {
-				position: absolute;
-				right: 32px;
-				bottom: 0;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				width: fit-content;
-				height: 18px;
-				padding: 6px;
-				font-size: $font-md;
-				font-weight: 600;
-				color: var(--colors-text-neutrals-inverted);
-				background-color: var(--colors-background-primary-prominent);
-				border-radius: 20%;
-				translate: 50% 50%;
-			}
-		}
-	}
+.login.active {
+	background: rgb(255 255 255 / 15%);
+}
 
-	.bottomNavigation {
-		padding: $space-md $space-sm;
-		color: var(--colors-text-neutrals-inverted);
-		border-top: 1px solid rgb(255 255 255 / 10%);
-		transition: margin-left 0.2s ease;
-
-		.login {
-			display: flex;
-			gap: 0;
-			align-items: center;
-			width: 100%;
-			padding: $space-lg $space-xl;
-			font-size: $font-lg;
-			font-weight: 500;
-			text-transform: uppercase;
-			cursor: pointer;
-			border-radius: $space-lg;
-			transition:
-				background-color 0.1s ease-in,
-				padding 0.1s linear,
-				gap 0.1s ease-in;
-
-			.logoutIcon {
-				margin-left: 3px;
-				scale: -1;
-			}
-
-			.loginText {
-				width: 0;
-				opacity: 0%;
-				transition: opacity 0.1s ease-in;
-			}
-
-			&.active {
-				background: rgb(255 255 255 / 15%);
-			}
-
-			&:hover {
-				background: rgb(255 255 255 / 10%);
-			}
-		}
-	}
+.login:hover {
+	background: rgb(255 255 255 / 10%);
 }

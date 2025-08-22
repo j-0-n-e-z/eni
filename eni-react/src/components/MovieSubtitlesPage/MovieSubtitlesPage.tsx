@@ -5,7 +5,6 @@ import { useGetMovieByKinopoiskIdQuery } from '@/api'
 import type { Word } from '@/types'
 
 import { MovieInfoSection } from './MovieInfoSection'
-import styles from './MovieSubtitlesPage.module.scss'
 import { SubtitlesSection } from './SubtitlesSection'
 
 export const MovieSubtitlesPage: FC = () => {
@@ -31,9 +30,9 @@ export const MovieSubtitlesPage: FC = () => {
 	if (!movie) return <div>Нет данных о фильме</div>
 
 	return (
-		<div className={styles.movieSubsContainer}>
+		<>
 			<MovieInfoSection movie={movie} />
 			<SubtitlesSection imdbId={movie.imdbId} lookupWord={lookupWord} />
-		</div>
+		</>
 	)
 }

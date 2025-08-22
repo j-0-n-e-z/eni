@@ -3,50 +3,50 @@
 
 .paginator {
 	display: flex;
+}
 
-	.buttons {
-		display: grid;
-		grid-auto-columns: min-content;
-		grid-auto-flow: column;
-		column-gap: $space-sm;
+.buttons {
+	display: grid;
+	grid-auto-columns: min-content;
+	grid-auto-flow: column;
+	column-gap: $space-sm;
+}
 
-		button {
-			@extend %button-base;
+.paginator button {
+	@extend %button-base;
 
-			min-width: 0;
-			aspect-ratio: 1;
-			padding: $space-sm;
+	min-width: 0;
+	aspect-ratio: 1;
+	padding: $space-sm;
+}
 
-			.prevIcon,
-			.nextIcon {
-				width: 24px;
-				height: 24px;
-				margin-top: 5px;
-			}
+.prevIcon,
+.nextIcon {
+	width: 24px;
+	height: 24px;
+	margin-top: 5px;
+}
 
-			.prevIcon {
-				rotate: 90deg;
-			}
+.prevIcon {
+	rotate: 90deg;
+}
 
-			.nextIcon {
-				rotate: -90deg;
-			}
+.nextIcon {
+	rotate: -90deg;
+}
 
-			&:disabled {
-				background-color: var(--colors-background-neutrals-disabled);
-				opacity: 50%;
-			}
+.paginator button:disabled {
+	background-color: var(--colors-background-neutrals-disabled);
+	opacity: 50%;
+}
 
-			&.active {
-				color: var(--colors-text-neutrals-inverted);
-				background-color: var(--colors-background-primary-prominent);
-			}
+.paginator button.active {
+	color: var(--colors-text-neutrals-inverted);
+	background-color: var(--colors-background-primary-prominent);
+}
 
-			&.ellipsis {
-				cursor: default;
-				background: transparent;
-				border: none;
-			}
-		}
-	}
+.paginator button.ellipsis {
+	cursor: default;
+	background: transparent;
+	border: none;
 }
