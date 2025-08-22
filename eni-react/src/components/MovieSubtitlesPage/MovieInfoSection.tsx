@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import { useGetMovieBoxOfficeByKinopoiskIdQuery } from '@/api'
 import { ImdbIcon } from '@/icons'
 import type { KinopoiskMovie } from '@/types'
-import { USDFormatter } from '@/utils'
+import { formatMoney } from '@/utils'
 
 import styles from './MovieSubtitlesPage.module.scss'
 
@@ -74,7 +74,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 									<div className={styles.metaItem}>
 										<span className={styles.metaLabel}>Бюджет:</span>
 										<span className={cn(styles.metaValue, styles.budget)}>
-											{USDFormatter.format(budget.amount)}
+											{formatMoney(budget.amount)}
 										</span>
 									</div>
 								)}
@@ -82,7 +82,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 									<div className={styles.metaItem}>
 										<span className={styles.metaLabel}>Сборы:</span>
 										<span className={cn(styles.metaValue, styles.boxOffice)}>
-											{USDFormatter.format(boxOfficeWorld.amount)}
+											{formatMoney(boxOfficeWorld.amount)}
 										</span>
 									</div>
 								)}
