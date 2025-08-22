@@ -17,7 +17,7 @@ import styles from './SidePanel.module.scss'
 
 export const SidePanel = () => {
 	const { words } = useAppSelector(selectWords)
-	const { data: me, isLoading: isMeLoading } = useGetMeQuery(null)
+	const { data: me, isLoading: isMeLoading } = useGetMeQuery()
 	const [
 		logout,
 		{ isLoading: isLogoutLoading, isError: isLogoutError, error }

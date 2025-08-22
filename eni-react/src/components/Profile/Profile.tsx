@@ -22,7 +22,7 @@ export const Profile = () => {
 		data: me,
 		isLoading: isMeLoading,
 		isFetching: isMeFetching
-	} = useGetMeQuery(null)
+	} = useGetMeQuery()
 
 	const [
 		triggerGetUserByUsername,

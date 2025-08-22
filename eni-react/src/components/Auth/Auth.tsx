@@ -9,7 +9,7 @@ import { Signup } from './Signup'
 
 export const Auth = () => {
 	const navigate = useNavigate()
-	const { data: me } = useGetMeQuery(null)
+	const { data: me } = useGetMeQuery()
 	const [method, setMethod] = useState<'login' | 'signup'>('login')
 	const location = useLocation()
 	const from = (location.state as { from?: string })?.from

@@ -41,7 +41,7 @@ export const authApi = createApi({
 	reducerPath: 'authApi',
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
-		getMe: build.query<User, null>({
+		getMe: build.query<User, void>({
 			query: () => ({
 				url: 'user/me',
 				credentials: 'include',
@@ -68,7 +68,7 @@ export const authApi = createApi({
 			}),
 			invalidatesTags: ['Me']
 		}),
-		logout: build.mutation<null, null>({
+		logout: build.mutation<void, void>({
 			query: () => ({
 				url: 'logout',
 				method: 'POST',
