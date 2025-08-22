@@ -45,7 +45,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 							rel='noopener noreferrer'
 							target='_blank'
 						>
-							{movie.nameOriginal}
+							{movie.nameOriginal ?? movie.nameRu}
 						</a>
 					</h2>
 
@@ -74,7 +74,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 									<div className={styles.metaItem}>
 										<span className={styles.metaLabel}>Бюджет:</span>
 										<span className={cn(styles.metaValue, styles.budget)}>
-											{formatMoney(budget.amount)}
+											{formatMoney(budget.amount, budget.currencyCode)}
 										</span>
 									</div>
 								)}
@@ -82,7 +82,10 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 									<div className={styles.metaItem}>
 										<span className={styles.metaLabel}>Сборы:</span>
 										<span className={cn(styles.metaValue, styles.boxOffice)}>
-											{formatMoney(boxOfficeWorld.amount)}
+											{formatMoney(
+												boxOfficeWorld.amount,
+												boxOfficeWorld.currencyCode
+											)}
 										</span>
 									</div>
 								)}

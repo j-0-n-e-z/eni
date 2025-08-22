@@ -22,7 +22,14 @@ export const formatMinutesToHours = (totalMinutes: number) => {
 	return `${hours}h ${minutes}m`
 }
 
-export function formatMoney(amount: number) {
+export function formatMoney(amount: number, currency: string) {
+	const USDFormatter = new Intl.NumberFormat('en-US', {
+		style: 'currency',
+		currency,
+		minimumFractionDigits: 0,
+		maximumFractionDigits: 1
+	})
+
 	if (amount >= 1_000_000_000) {
 		const billions = amount / 1_000_000_000
 		return `${USDFormatter.format(billions)} billion`
@@ -35,3 +42,4 @@ export function formatMoney(amount: number) {
 
 	return USDFormatter.format(amount)
 }
+

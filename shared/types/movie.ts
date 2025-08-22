@@ -78,7 +78,7 @@ export interface KinopoiskMovie {
 interface Budget {
 	type: string
 	amount: number
-	currentCode: string
+	currencyCode: string
 	name: string
 	symbol: string
 }
