@@ -20,3 +20,90 @@
 	gap: $space-lg;
 	margin-bottom: $space-xl;
 }
+
+@keyframes highlight {
+	0%,
+	50%,
+	100% {
+		background-color: var(--colors-background-neutrals-subtle);
+	}
+
+	25%,
+	75% {
+		background-color: lightblue;
+	}
+}
+
+.subtitle {
+	display: flex;
+	flex-direction: column;
+	gap: $space-lg;
+	padding: $space-lg;
+	color: var(--colors-text-neutrals);
+	background-color: var(--colors-background-neutrals-subtle);
+	border: 1px solid var(--colors-border-neutrals);
+	border-radius: $space-sm;
+
+	&.highlighted {
+		animation: highlight 2.5s ease-in-out;
+	}
+}
+
+.words {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.timecode {
+	font-style: italic;
+}
+
+
+.word {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 35px;
+	padding: 0 $space-sm;
+	cursor: pointer;
+	background-color: var(--colors-background-neutrals);
+	transition:
+		background-color 0.15s linear,
+		scale 0.2s linear;
+
+	&:hover {
+		background-color: var(--);
+	}
+
+	&:hover:not(.added) .text {
+		translate: 0 -2px;
+	}
+
+	&:active:not(.added) .text {
+		translate: 0;
+	}
+
+	&:active {
+		scale: 1.1;
+	}
+
+	&.added {
+		background-color: var(--colors-border-success-subtle);
+	}
+}
+
+.text {
+	font-size: $font-lg;
+	font-weight: 500;
+	transition: translate 0.1s linear;
+}
+
+.punctuation {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: $space-md;
+	font-size: $font-lg;
+	font-weight: 800;
+	background-color: var(--colors-background-neutrals);
+}

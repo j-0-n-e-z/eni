@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '@/app/index'
 import { addWord, isWordSelected, removeWord } from '@/store'
 import type { Word } from '@/types'
 
-import styles from './SubtitleWord.module.scss'
+import styles from './Subtitles.module.scss'
 
 interface SubtitleWordProps {
 	before?: string
@@ -47,7 +47,7 @@ export const SubtitleWord = ({
 			{before && <li className={styles.punctuation}>{before}</li>}
 			<li>
 				<button
-					className={cn(styles.wordContainer, {
+					className={cn(styles.word, {
 						[styles.added]: isSelected
 					})}
 					onClick={isSelected ? unselectWord : selectWord}

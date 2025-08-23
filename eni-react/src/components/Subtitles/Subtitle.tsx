@@ -5,7 +5,7 @@ import { SubtitleWord } from '@/components'
 import type { PureSubtitle, Word } from '@/types'
 import { PUNCTUATION } from '@/utils'
 
-import styles from './Subtitle.module.scss'
+import styles from './Subtitles.module.scss'
 
 interface SubtitleProps {
 	subtitle: PureSubtitle
