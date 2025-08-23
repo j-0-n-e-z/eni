@@ -4,3 +4,4 @@ downloads
 dist
 srt
 /generated/prisma
+prisma/*.svg
