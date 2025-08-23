@@ -2,9 +2,9 @@ import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { useOutletContext, useParams } from 'react-router-dom'
 
-import { useGetSubtitleByFileIdQuery } from '@/api'
 import { Paginator, Subtitle } from '@/components'
 import type { MovieSubtitlesContext } from '@/frontend-types'
+import { useGetSubtitleByFileIdQuery } from '@/store/api'
 import { SUBTITLES_PER_PAGE } from '@/utils'
 
 import styles from './Subtitles.module.scss'

@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { useAppSelector } from '@/app/index'
+import { BookIcon, BrainIcon, ProfileIcon } from '@/icons'
+import { selectWords, selectWordsCombinations } from '@/store'
 import {
 	useGetMeQuery,
 	useGetWordsByUserIdQuery,
 	useLazyGetUserByUsernameQuery
-} from '@/api'
-import { useAppSelector } from '@/app/index'
-import { BookIcon, BrainIcon, ProfileIcon } from '@/icons'
-import { selectWords } from '@/store'
+} from '@/store/api'
 import type { User } from '@/types'
 
 import styles from './Profile.module.scss'
@@ -42,6 +42,17 @@ export const Profile = () => {
 	} = useGetWordsByUserIdQuery(displayUser?.id ?? '', { skip: !displayUser })
 
 	const { words } = useAppSelector(selectWords)
+	const { wordsCombinations } = useAppSelector(selectWordsCombinations)
+
+	const learningWords = words.concat(
+		wordsCombinations.map((wc) => ({
+			id: wc.id,
+			text: wc.text,
+			from: wc.words[0].from,
+			isLearned: false,
+			isFavorite: false
+		}))
+	)
 
 	const isLoading =
 		isMeLoading || isMeFetching || isUserLoading || isUserFetcing
@@ -88,7 +99,7 @@ export const Profile = () => {
 						<p className={styles.email}>{displayUser.email}</p>
 						<div className={styles.stats}>
 							<div className={styles.stat}>
-								<span className={styles.number}>{words?.length ?? 0}</span>
+								<span className={styles.number}>{learningWords.length}</span>
 								<span className={styles.label}>Изучаю</span>
 							</div>
 							<div className={styles.stat}>
@@ -99,7 +110,7 @@ export const Profile = () => {
 							</div>
 							<div className={styles.stat}>
 								<span className={styles.number}>
-									{(learnedWords?.length ?? 0) + (words?.length ?? 0)}
+									{(learnedWords?.length ?? 0) + learningWords.length}
 								</span>
 								<span className={styles.label}>Всего слов</span>
 							</div>
@@ -108,13 +119,13 @@ export const Profile = () => {
 				</div>
 			</section>
 
-			{isMyPage && words.length > 0 && (
+			{isMyPage && learningWords.length > 0 && (
 				<WordsSection
 					icon={<BrainIcon />}
 					isMyPage={isMyPage}
 					me={me}
 					title='Изучить'
-					words={words}
+					words={learningWords}
 				/>
 			)}
 

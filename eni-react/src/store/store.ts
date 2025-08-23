@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import { api, authApi, subtitleApi, userApi } from '@/api'
-import { wordsReducer } from '@/store'
-
-import { searchHistoryReducer } from './slices/searchHistorySlice'
+import {
+	searchHistoryReducer,
+	wordsCombinationsReducer,
+	wordsReducer
+} from '@/store'
+import { api, authApi, subtitleApi, userApi } from '@/store/api'
 
 export const store = configureStore({
 	reducer: {
@@ -12,6 +14,7 @@ export const store = configureStore({
 		[userApi.reducerPath]: userApi.reducer,
 		[subtitleApi.reducerPath]: subtitleApi.reducer,
 		wordsReducer,
+		wordsCombinationsReducer,
 		searchHistoryReducer
 	},
 	middleware: (getDefaultMiddleware) =>

@@ -1,7 +1,6 @@
 import cn from 'classnames'
 
-import { useAppDispatch, useAppSelector } from '@/app/index'
-import { addWord, isWordSelected, removeWord } from '@/store'
+import { useAppDispatch } from '@/app/index'
 import type { Word } from '@/types'
 
 import styles from './Subtitles.module.scss'
@@ -9,37 +8,30 @@ import styles from './Subtitles.module.scss'
 interface SubtitleWordProps {
 	before?: string
 	after?: string
-	text: string
-	id: string
-	from: Word['from']
+	word: Word
+	isSelected: boolean
+	addToWordCombiner: () => void
+	removeFromWordCombiner: () => void
 }
 
 export const SubtitleWord = ({
-	text,
 	before,
 	after,
-	id,
-	from
+	isSelected,
+	word,
+	addToWordCombiner,
+	removeFromWordCombiner
 }: SubtitleWordProps) => {
 	const dispatch = useAppDispatch()
-	const isSelected = useAppSelector(isWordSelected(text))
 
 	function selectWord() {
-		if (!from.movieId) return
-
-		dispatch(
-			addWord({
-				id,
-				text,
-				from,
-				isFavorite: false,
-				isLearned: false
-			})
-		)
+		addToWordCombiner()
+		// dispatch(addWord(word))
 	}
 
 	function unselectWord() {
-		dispatch(removeWord(id))
+		removeFromWordCombiner()
+		// dispatch(removeWord(word.id))
 	}
 
 	return (
@@ -52,7 +44,7 @@ export const SubtitleWord = ({
 					})}
 					onClick={isSelected ? unselectWord : selectWord}
 				>
-					<span className={styles.text}>{text}</span>
+					<span className={styles.text}>{word.text}</span>
 				</button>
 			</li>
 			{after && <li className={styles.punctuation}>{after}</li>}

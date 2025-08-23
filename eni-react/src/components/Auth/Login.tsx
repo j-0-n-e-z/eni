@@ -1,12 +1,12 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 
-import type { BackendError } from '@/api';
-import { useLoginMutation } from '@/api';
-import type { LoginCredentials } from '@/schemas/login.schemas';
-import { loginSchema } from '@/schemas/login.schemas';
+import type { LoginCredentials } from '@/schemas/login.schemas'
+import { loginSchema } from '@/schemas/login.schemas'
+import type { BackendError } from '@/store/api'
+import { useLoginMutation } from '@/store/api'
 
-import styles from './Auth.module.scss';
+import styles from './Auth.module.scss'
 
 export const Login = () => {
 	const {
@@ -15,11 +15,11 @@ export const Login = () => {
 		formState: { errors },
 		setError
 	} = useForm<LoginCredentials>({ resolver: zodResolver(loginSchema) })
-	const [login, {isLoading}] = useLoginMutation()
+	const [login, { isLoading }] = useLoginMutation()
 
 	async function onSubmit({ email, password }: LoginCredentials) {
 		if (isLoading) return
-		
+
 		try {
 			await login({ email, password }).unwrap()
 		} catch (error) {

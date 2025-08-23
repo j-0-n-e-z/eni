@@ -1,7 +1,7 @@
 import { useEffect, useState, type FC } from 'react'
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 
-import { useGetMovieByKinopoiskIdQuery } from '@/api'
+import { useGetMovieByKinopoiskIdQuery } from '@/store/api'
 import type { MovieSubtitle, Word } from '@/types'
 
 import type { MovieSubtitlesContext } from '../../types'

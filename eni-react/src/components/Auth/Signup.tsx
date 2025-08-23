@@ -5,10 +5,10 @@ import type { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-import type { BackendError } from '@/api'
-import { useSignupMutation } from '@/api'
 import type { SignupCredentials } from '@/schemas/signup.schemas'
 import { signupSchema } from '@/schemas/signup.schemas'
+import type { BackendError } from '@/store/api'
+import { useSignupMutation } from '@/store/api'
 
 import styles from './Auth.module.scss'
 

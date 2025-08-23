@@ -1,12 +1,12 @@
 import type { FC } from 'react'
 import React, { useEffect, useRef, useState } from 'react'
 
-import { useLazySearchMoviesQuery } from '@/api'
 import { useAppSelector } from '@/app/hooks'
 import { EmptyState, SearchResults } from '@/components'
 import { useDebounce } from '@/hooks'
 import { CancelIcon, MovieIcon, SearchIcon } from '@/icons'
 import { selectMoviesFromHistory } from '@/store'
+import { useLazySearchMoviesQuery } from '@/store/api'
 
 import styles from './Search.module.scss'
 

@@ -1,8 +1,8 @@
 import type { FC } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
-import { useGetMovieSubtitlesByImdbIdQuery } from '@/api'
 import type { MovieSubtitlesContext } from '@/frontend-types'
+import { useGetMovieSubtitlesByImdbIdQuery } from '@/store/api'
 
 import { MovieSubtitle } from './MovieSubtitle'
 import styles from './MovieSubtitlesPicker.module.scss'

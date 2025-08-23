@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { useGetMeQuery } from '@/api'
+import { useGetMeQuery } from '@/store/api'
 
 import styles from './Auth.module.scss'
 import { Login } from './Login'

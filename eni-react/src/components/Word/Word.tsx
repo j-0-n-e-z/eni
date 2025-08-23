@@ -3,16 +3,16 @@ import type { FC } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
-import type { BackendError } from '@/api'
+import { useAppDispatch } from '@/app/index'
+import { BrainIcon, TranslateIcon, TrashIcon } from '@/icons'
+import { removeWord, removeWordsCombination } from '@/store'
+import type { BackendError } from '@/store/api'
 import {
 	useDeleteWordMutation,
 	useLazyGetDifinitionQuery,
 	useLazyTranslateQuery,
 	useSaveWordMutation
-} from '@/api'
-import { useAppDispatch } from '@/app/index'
-import { BrainIcon, TranslateIcon, TrashIcon } from '@/icons'
-import { removeWord } from '@/store'
+} from '@/store/api'
 import type { Word as IWord } from '@/types'
 
 import styles from './Word.module.scss'
@@ -50,6 +50,14 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 		}
 	}
 
+	const deleteWordFromLearning = () => {
+		if (word.id.startsWith('combo_')) {
+			dispatch(removeWordsCombination(word.id))
+		} else {
+			dispatch(removeWord(word.id))
+		}
+	}
+
 	const saveWord = async () => {
 		try {
 			if (!myId) return
@@ -59,16 +67,16 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 				word
 			}).unwrap()
 
-			dispatch(removeWord(word.id))
+			toast.success('Слово сохранено', {
+				id: 'saveWordSuccess'
+			})
+
+			deleteWordFromLearning()
 		} catch (e) {
 			toast.error('Произошла ошибка при сохранении слова', {
 				id: 'saveWordError'
 			})
 		}
-	}
-
-	const deleteWordFromLearning = () => {
-		dispatch(removeWord(word.id))
 	}
 
 	const deleteWordFromLearned = async () => {
@@ -87,7 +95,9 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 	}
 
 	const goToWord = () => {
-		navigate(`/movie/${word.from.movieId}/subtitles/${word.from.fileId}`, { state: { lookupWord: word } })
+		navigate(`/movie/${word.from.movieId}/subtitles/${word.from.fileId}`, {
+			state: { lookupWord: word }
+		})
 	}
 
 	return (

@@ -1,7 +1,6 @@
 import cn from 'classnames'
 import { Link, useLocation } from 'react-router-dom'
 
-import { useGetMeQuery, useLogoutMutation } from '@/api'
 import { useAppSelector } from '@/app/index'
 import {
 	BrainIcon,
@@ -12,6 +11,7 @@ import {
 	SettingsIcon
 } from '@/icons'
 import { selectWords } from '@/store'
+import { useGetMeQuery, useLogoutMutation } from '@/store/api'
 
 import styles from './SidePanel.module.scss'
 
@@ -40,12 +40,10 @@ export const SidePanel = () => {
 
 	return (
 		<aside className={styles.sidepanel}>
-			<div className={styles.topArea}>
-				<Link aria-label='search' className={styles.topWrapper} to='/'>
-					<BrainIcon className={cn(styles.bookIcon, styles.topLogo)} />
-					<div className={styles.topTitle}>Eni</div>
-				</Link>
-			</div>
+			<Link aria-label='hero' className={styles.topArea} to='/'>
+				<BrainIcon className={cn(styles.bookIcon, styles.topLogo)} />
+				<div className={styles.topTitle}>Eni</div>
+			</Link>
 			<nav className={cn(styles.navigation)}>
 				<ul className={styles.navList}>
 					<li>
@@ -97,7 +95,7 @@ export const SidePanel = () => {
 								className={cn(styles.navLink, setActiveIf('/settings'))}
 								to='/settings'
 							>
-								<SettingsIcon className={styles.settingsIcon} />
+								<SettingsIcon />
 								<span className={styles.navLinkText}>Settings</span>
 							</Link>
 						</li>
@@ -109,7 +107,7 @@ export const SidePanel = () => {
 							className={cn(styles.navLink, setActiveIf('/info'))}
 							to='/info'
 						>
-							<InfoIcon className={styles.infoIcon} />
+							<InfoIcon />
 							<span className={styles.navLinkText}>Info</span>
 						</Link>
 					</li>
@@ -121,7 +119,7 @@ export const SidePanel = () => {
 					<button
 						aria-label='logout'
 						className={styles.login}
-						onClick={() => logout(null)}
+						onClick={() => logout()}
 					>
 						<LoginIcon className={styles.logoutIcon} />
 						<span className={styles.loginText}>Logout</span>

@@ -21,16 +21,16 @@
 	}
 }
 
-.sidepanel:hover .topWrapper {
-	gap: $space-lg;
-}
-
-.sidepanel:hover .navLink {
+.sidepanel:hover .topArea {
 	gap: $space-lg;
 }
 
 .sidepanel:hover .topTitle {
 	opacity: 100%;
+}
+
+.sidepanel:hover .navLink {
+	gap: $space-lg;
 }
 
 .sidepanel:hover .navLinkText {
@@ -51,7 +51,7 @@
 	bottom: 50%;
 }
 
-.sidepanel svg {
+.sidepanel svg:not(.topLogo) {
 	flex-shrink: 0;
 	width: 24px;
 	height: 24px;
@@ -59,23 +59,24 @@
 }
 
 .topArea {
-	padding: $space-lg $space-xxl;
-	border-bottom: 1px solid rgb(255 255 255 / 10%);
-}
-
-.topWrapper {
 	display: flex;
 	gap: 0;
 	align-items: center;
-	transition: gap 0.1s ease;
+	width: 100%;
+	padding: $space-lg $space-xxl;
+	border-bottom: 1px solid rgb(255 255 255 / 10%);
+	transition: gap 0.2s ease;
 }
 
 .topLogo {
+	flex-shrink: 0;
 	width: 30px;
 	height: 30px;
+	color: var(--colors-text-neutrals-inverted);
 }
 
 .topTitle {
+	width: 0;
 	font-size: 30px;
 	font-weight: 900;
 	color: var(--colors-text-neutrals-inverted);
@@ -83,6 +84,8 @@
 	opacity: 0%;
 	transition:
 		opacity 0.2s ease,
+		width 0.2s ease,
+		gap 0.2s ease,
 		color 0.2s linear;
 
 	&:hover {

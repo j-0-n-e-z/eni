@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
-import { useGetMeQuery } from '@/api'
+import { useGetMeQuery } from '@/store/api'
 
 export const ProtectedRoute = () => {
 	const { isLoading, isSuccess } = useGetMeQuery()

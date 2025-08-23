@@ -5,3 +5,9 @@ export interface MovieSubtitlesContext {
 	imdbId: string
 	lookupWord?: Word
 }
+
+export interface WordsCombination {
+	id: string
+	text: string
+	words: Word[]
+}

@@ -2,8 +2,8 @@ import cn from 'classnames'
 import { useEffect, useState, type FC } from 'react'
 import toast from 'react-hot-toast'
 
-import { useGetMovieBoxOfficeByKinopoiskIdQuery } from '@/api'
 import { ImdbIcon, TranslateIcon } from '@/icons'
+import { useGetMovieBoxOfficeByKinopoiskIdQuery } from '@/store/api'
 import type { KinopoiskMovie } from '@/types'
 import { formatMoney, formatRating } from '@/utils'
 
@@ -26,7 +26,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 	const budget = boxOffice?.items.find((item) => item.type === 'BUDGET')
 	const boxOfficeWorld = boxOffice?.items.find((item) => item.type === 'WORLD')
 
-	console.log(boxOffice);
+	console.log(boxOffice)
 
 	const toggleShowOriginalTitle = () => setIsShowOriginalTitle((p) => !p)
 
