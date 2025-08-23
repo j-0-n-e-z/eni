@@ -1,20 +1,15 @@
 import type { FC } from 'react'
+import { useOutletContext } from 'react-router-dom'
 
 import { useGetMovieSubtitlesByImdbIdQuery } from '@/api'
-import type { MovieSubtitle as IMovieSubtitle } from '@/types'
+import type { MovieSubtitlesContext } from '@/frontend-types'
 
 import { MovieSubtitle } from './MovieSubtitle'
 import styles from './MovieSubtitlesPicker.module.scss'
 
-interface MovieSubtitlesPickerProps {
-	pickMovieSubtitle: (movieSubtitle: IMovieSubtitle) => void
-	imdbId: string
-}
-
-export const MovieSubtitlesPicker: FC<MovieSubtitlesPickerProps> = ({
-	pickMovieSubtitle,
-	imdbId
-}) => {
+export const MovieSubtitlesPicker: FC = () => {
+	const { imdbId, pickMovieSubtitle } =
+		useOutletContext<MovieSubtitlesContext>()
 	const {
 		data: movieSubtitles,
 		error: movieSubtitlesError,

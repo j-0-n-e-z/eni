@@ -87,7 +87,7 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 	}
 
 	const goToWord = () => {
-		navigate(`/movie/${word.from.movieId}`, { state: { lookupWord: word } })
+		navigate(`/movie/${word.from.movieId}/subtitles/${word.from.fileId}`, { state: { lookupWord: word } })
 	}
 
 	return (

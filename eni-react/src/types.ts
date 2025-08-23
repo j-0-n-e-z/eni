@@ -1,6 +1,7 @@
-export interface User {
-	id: string
-	email: string
-	isEmailConfirmed: boolean
-	username: string
+import type { MovieSubtitle, Word } from '@/types'
+
+export interface MovieSubtitlesContext {
+	pickMovieSubtitle: (movieSubtitle: MovieSubtitle) => void
+	imdbId: string
+	lookupWord?: Word
 }

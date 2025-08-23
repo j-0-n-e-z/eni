@@ -1,29 +1,25 @@
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useOutletContext, useParams } from 'react-router-dom'
 
 import { useGetSubtitleByFileIdQuery } from '@/api'
 import { Paginator, Subtitle } from '@/components'
-import type { Word } from '@/types'
+import type { MovieSubtitlesContext } from '@/frontend-types'
 import { SUBTITLES_PER_PAGE } from '@/utils'
 
 import styles from './Subtitles.module.scss'
 
-interface SubtitlesProps {
-	fileId: number
-	lookupWord?: Word
-}
-
-export const Subtitles: FC<SubtitlesProps> = ({ fileId, lookupWord }) => {
+export const Subtitles: FC = () => {
+	const { lookupWord } = useOutletContext<MovieSubtitlesContext>()
 	const [currentPage, setCurrentPage] = useState(1)
 	const subtitlesStart = (currentPage - 1) * SUBTITLES_PER_PAGE
-	const { id } = useParams()
-	const movieId = Number(id)
+	const { movieId, fileId } = useParams()
+
 	const {
 		data: subtitles,
 		isLoading: isSubtitlesLoading,
 		error: subtitlesError
-	} = useGetSubtitleByFileIdQuery(fileId, {
+	} = useGetSubtitleByFileIdQuery(Number(fileId), {
 		skip: !fileId
 	})
 
@@ -31,7 +27,7 @@ export const Subtitles: FC<SubtitlesProps> = ({ fileId, lookupWord }) => {
 		if (lookupWord) {
 			setCurrentPage(lookupWord.from.page)
 		}
-	}, [])
+	}, [lookupWord])
 
 	if (isSubtitlesLoading) return <div>...Загрузка субтитров</div>
 
@@ -40,7 +36,7 @@ export const Subtitles: FC<SubtitlesProps> = ({ fileId, lookupWord }) => {
 	if (!subtitles?.length) return <div>Субтитры не найдены</div>
 
 	return (
-		<>
+		<section className={styles.subtitlesSection}>
 			<div className={styles.controlPanel}>
 				<Paginator
 					currentPage={currentPage}
@@ -55,14 +51,14 @@ export const Subtitles: FC<SubtitlesProps> = ({ fileId, lookupWord }) => {
 					.map((subtitle) => (
 						<Subtitle
 							key={subtitle.timecode}
-							fileId={fileId}
+							fileId={Number(fileId)}
 							lookupWord={lookupWord}
-							movieId={movieId}
+							movieId={Number(movieId)}
 							page={currentPage}
 							subtitle={subtitle}
 						/>
 					))}
 			</ul>
-		</>
+		</section>
 	)
 }

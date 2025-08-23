@@ -3,7 +3,15 @@ import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import { Auth, Main, MovieSubtitlesPage, Profile, Search } from '@/components'
+import {
+	Auth,
+	Main,
+	MovieSubtitlesPage,
+	MovieSubtitlesPicker,
+	Profile,
+	Search,
+	Subtitles
+} from '@/components'
 import { store } from '@/store'
 
 import { App } from './App'
@@ -21,12 +29,15 @@ const router = createBrowserRouter([
 				element: <ProtectedRoute />,
 				children: [
 					{ path: 'search', element: <Search /> },
-					{ path: 'movie/:id', element: <MovieSubtitlesPage /> }
+					{
+						path: 'movie/:movieId',
+						element: <MovieSubtitlesPage/>,
+						children: [
+							{ index: true, element: <MovieSubtitlesPicker /> },
+							{ path: 'subtitles/:fileId', element: <Subtitles /> }
+						]
+					}
 				]
-			},
-			{
-				path: 'movie/:id',
-				element: <MovieSubtitlesPage />
 			},
 			{
 				path: 'login',

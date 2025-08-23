@@ -1,25 +1,37 @@
-import { type FC } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useEffect, useState, type FC } from 'react'
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useGetMovieByKinopoiskIdQuery } from '@/api'
-import type { Word } from '@/types'
+import type { MovieSubtitle, Word } from '@/types'
+
+import type { MovieSubtitlesContext } from '../../types'
 
 import { MovieInfoSection } from './MovieInfoSection'
-import { SubtitlesSection } from './SubtitlesSection'
+import styles from './MovieSubtitlesPage.module.scss'
 
 export const MovieSubtitlesPage: FC = () => {
-	const { id } = useParams<{ id: string }>()
-	const movieId = Number(id)
+	const { movieId } = useParams()
 	const location = useLocation()
+	const navigate = useNavigate()
+	const [pickedMovieSubtitle, setPickedMovieSubtitle] =
+		useState<MovieSubtitle | null>(null)
 	const lookupWord = (location?.state as { lookupWord?: Word })?.lookupWord
 
 	const {
 		data: movie,
 		error: movieError,
 		isLoading: isMovieLoading
-	} = useGetMovieByKinopoiskIdQuery(movieId || 0, {
+	} = useGetMovieByKinopoiskIdQuery(Number(movieId), {
 		skip: !movieId
 	})
+
+	useEffect(() => {
+		if (movie && pickedMovieSubtitle) {
+			navigate(
+				`/movie/${movie.kinopoiskId}/subtitles/${pickedMovieSubtitle.subtitles.file_id}`
+			)
+		}
+	}, [pickedMovieSubtitle])
 
 	if (Number.isNaN(movieId)) return <div>Отсутствует id фильма</div>
 
@@ -29,12 +41,22 @@ export const MovieSubtitlesPage: FC = () => {
 
 	if (!movie) return <div>Нет данных о фильме</div>
 
-	console.log(movie)
+	if (!movie.imdbId) {
+		return <div>Не удалось загрузить субтитры, отсутствует imdbId</div>
+	}
+
+	const contextValue: MovieSubtitlesContext = {
+		pickMovieSubtitle: setPickedMovieSubtitle,
+		imdbId: movie.imdbId,
+		lookupWord
+	}
 
 	return (
 		<>
 			<MovieInfoSection movie={movie} />
-			<SubtitlesSection imdbId={movie.imdbId} lookupWord={lookupWord} />
+			<section className={styles.subtitlesSection}>
+				<Outlet context={contextValue} />
+			</section>
 		</>
 	)
 }
