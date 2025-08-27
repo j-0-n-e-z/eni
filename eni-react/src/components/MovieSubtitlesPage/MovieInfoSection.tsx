@@ -7,6 +7,8 @@ import { useGetMovieBoxOfficeByKinopoiskIdQuery } from '@/store/api'
 import type { KinopoiskMovie } from '@/types'
 import { formatMoney, formatRating } from '@/utils'
 
+import { formatMinutesToHours } from '../../utils/helpers'
+
 import styles from './MovieSubtitlesPage.module.scss'
 
 interface MovieInfoSectionProps {
@@ -75,7 +77,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 							<div className={styles.metaItem}>
 								<span className={styles.metaLabel}>Возраст: </span>
 								<span className={cn(styles.metaValue, styles.mpaa)}>
-									{formatRating(movie.ratingMpaa).toUpperCase()}
+									{formatRating(movie.ratingMpaa)}
 								</span>
 							</div>
 						)}
@@ -129,6 +131,15 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 								</span>
 							</div>
 						)}
+
+						{movie.filmLength && (
+							<div className={styles.metaItem}>
+								<span className={styles.metaLabel}>Продолжительность: </span>
+								<span className={styles.metaValue}>
+									{formatMinutesToHours(movie.filmLength)}
+								</span>
+							</div>
+						)}
 					</div>
 
 					{movie.genres && (
@@ -151,15 +162,6 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 							{movie.productionStatus}
 						</span>
 					)}
-
-					{/* <a
-						className={styles.allSubsButton}
-						href={movie.opensubtitles.all_url}
-						rel='noopener noreferrer'
-						target='_blank'
-					>
-						Check subtitles on OpenSubtitles
-					</a> */}
 				</div>
 			</div>
 		</section>
