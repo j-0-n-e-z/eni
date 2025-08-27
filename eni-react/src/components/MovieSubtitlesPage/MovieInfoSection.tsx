@@ -5,9 +5,7 @@ import toast from 'react-hot-toast'
 import { ImdbIcon, TranslateIcon } from '@/icons'
 import { useGetMovieBoxOfficeByKinopoiskIdQuery } from '@/store/api'
 import type { KinopoiskMovie } from '@/types'
-import { formatMoney, formatRating } from '@/utils'
-
-import { formatMinutesToHours } from '../../utils/helpers'
+import { formatMinutesToHours, formatMoney, formatRating } from '@/utils'
 
 import styles from './MovieSubtitlesPage.module.scss'
 
@@ -66,6 +64,12 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 					</h2>
 
 					{movie.slogan && <p className={styles.slogan}>{movie.slogan}</p>}
+
+					{movie.filmLength && (
+						<span className={styles.duration}>
+							{formatMinutesToHours(movie.filmLength)}
+						</span>
+					)}
 
 					<div className={styles.movieMeta}>
 						<div className={styles.metaItem}>
@@ -128,15 +132,6 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 								<span className={styles.metaLabel}>Страны: </span>
 								<span className={styles.metaValue}>
 									{movie.countries.map(({ country }) => country).join(', ')}
-								</span>
-							</div>
-						)}
-
-						{movie.filmLength && (
-							<div className={styles.metaItem}>
-								<span className={styles.metaLabel}>Продолжительность: </span>
-								<span className={styles.metaValue}>
-									{formatMinutesToHours(movie.filmLength)}
 								</span>
 							</div>
 						)}
