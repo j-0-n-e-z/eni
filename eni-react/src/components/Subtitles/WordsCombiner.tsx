@@ -1,8 +1,10 @@
-import { useState, type FC } from 'react'
+import { useEffect, useState, type FC } from 'react'
 
 import { useAppDispatch } from '@/app/hooks'
 import { addWordsCombination } from '@/store/slices/wordsCombinationsSlice'
 import type { Word } from '@/types'
+
+import styles from './Subtitles.module.scss'
 
 interface WordsCombinerProps {
 	words: Word[]
@@ -41,21 +43,34 @@ export const WordsCombiner: FC<WordsCombinerProps> = ({ words }) => {
 		}
 	}
 
+	function clearCombination() {
+		setIsSettingCombination(false)
+		setWordsCombination(null)
+	}
+
+	useEffect(() => {
+		if (!words.length) {
+			clearCombination()
+		}
+	}, [words])
+
 	return (
-		<ul>
-			{words.map((word) => (
-				<li
-					key={word.id}
-					style={{
-						color: wordsCombination?.find((w) => w.id === word.id)
-							? 'lime'
-							: 'inherit'
-					}}
-					onClick={() => addWordToCombination(word)}
-				>
-					{word.text}
-				</li>
-			))}
+		<>
+			<ul className={styles.selectedWords}>
+				{words.map((word) => (
+					<li
+						key={word.id}
+						style={{
+							color: wordsCombination?.find((w) => w.id === word.id)
+								? 'lime'
+								: 'inherit'
+						}}
+						onClick={() => addWordToCombination(word)}
+					>
+						{word.text}
+					</li>
+				))}
+			</ul>
 			{words.length > 1 && !isSettingCombination && (
 				<button onClick={() => setIsSettingCombination(true)}>
 					Make combination
@@ -63,12 +78,14 @@ export const WordsCombiner: FC<WordsCombinerProps> = ({ words }) => {
 			)}
 			{isSettingCombination && (
 				<>
-					<button onClick={() => setIsSettingCombination(false)}>Cancel</button>
+					{words.length > 0 && (
+						<button onClick={clearCombination}>Cancel</button>
+					)}
 					{wordsCombination && wordsCombination.length > 1 && (
 						<button onClick={addCombinationToLearningWords}>Save</button>
 					)}
 				</>
 			)}
-		</ul>
+		</>
 	)
 }

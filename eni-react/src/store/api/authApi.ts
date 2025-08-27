@@ -81,8 +81,7 @@ export const authApi = createApi({
 				} catch (error) {
 					console.log(error)
 				}
-			},
-			invalidatesTags: ['Me']
+			}
 		})
 	})
 })

@@ -41,16 +41,19 @@ export const Signup: FC<SignupProps> = ({ goToLogin }) => {
 	}
 
 	return (
-		<form noValidate className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-			<label className={styles.inputWrapper}>
-				<div className={styles.label}>
-					<span>Email</span>
+		<form
+			noValidate
+			className={styles.formContainer}
+			onSubmit={handleSubmit(onSubmit)}
+		>
+			<label className={styles.formGroup}>
+				<div className={styles.labelWrapper}>
+					<span className={styles.label}>Email</span>
 					{errors.email && (
 						<span className={styles.inputError}>{errors.email.message}</span>
 					)}
 				</div>
 				<input
-					className={styles.input}
 					id='email'
 					type='email'
 					{...register('email')}
@@ -58,15 +61,14 @@ export const Signup: FC<SignupProps> = ({ goToLogin }) => {
 				/>
 			</label>
 
-			<label className={styles.inputWrapper}>
-				<div className={styles.label}>
-					<span>Username</span>
+			<label className={styles.formGroup}>
+				<div className={styles.labelWrapper}>
+					<span className={styles.label}>Username</span>
 					{errors.username && (
 						<span className={styles.inputError}>{errors.username.message}</span>
 					)}
 				</div>
 				<input
-					className={styles.input}
 					id='username'
 					type='text'
 					{...register('username')}
@@ -74,15 +76,14 @@ export const Signup: FC<SignupProps> = ({ goToLogin }) => {
 				/>
 			</label>
 
-			<label className={styles.inputWrapper}>
-				<div className={styles.label}>
-					<span>Password</span>
+			<label className={styles.formGroup}>
+				<div className={styles.labelWrapper}>
+					<span className={styles.label}>Password</span>
 					{errors.password && (
 						<span className={styles.inputError}>{errors.password.message}</span>
 					)}
 				</div>
 				<input
-					className={styles.input}
 					id='password'
 					type='password'
 					{...register('password')}
@@ -90,9 +91,9 @@ export const Signup: FC<SignupProps> = ({ goToLogin }) => {
 				/>
 			</label>
 
-			<label className={styles.inputWrapper}>
-				<div className={styles.label}>
-					<span>Confirm password</span>
+			<label className={styles.formGroup}>
+				<div className={styles.labelWrapper}>
+					<span className={styles.label}>Confirm password</span>
 					{errors.confirmPassword && (
 						<span className={styles.inputError}>
 							{errors.confirmPassword.message}
@@ -100,7 +101,6 @@ export const Signup: FC<SignupProps> = ({ goToLogin }) => {
 					)}
 				</div>
 				<input
-					className={styles.input}
 					id='confirmPassword'
 					type='password'
 					{...register('confirmPassword')}

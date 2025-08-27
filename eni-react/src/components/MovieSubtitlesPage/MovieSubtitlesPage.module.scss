@@ -33,7 +33,8 @@
 
 .titleWrapper {
 	display: flex;
-	align-items: baseline;
+	gap: 1rem;
+	align-items: center;
 	justify-content: space-between;
 	margin-bottom: 0.5rem;
 }

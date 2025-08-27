@@ -87,6 +87,27 @@ export const Profile = () => {
 
 	const isMyPage = displayUser.username === me?.username
 
+	function renderLearnedWords() {
+		if (isLearnedWordsLoading) return <div>Loading learned words...</div>
+
+		if (isLearnedWordsError)
+			return <div>Не удалось загрузить изученные слова</div>
+
+		if (learnedWords?.length)
+			return (
+				<WordsSection
+					isLearned
+					icon={<BookIcon />}
+					isMyPage={isMyPage}
+					me={me}
+					title='Изучено'
+					words={learnedWords}
+				/>
+			)
+
+		return null
+	}
+
 	return (
 		<div className={styles.profilePage}>
 			<section className={styles.profileHeader}>
@@ -129,19 +150,7 @@ export const Profile = () => {
 				/>
 			)}
 
-			{isLearnedWordsLoading && <div>Loading learned words...</div>}
-			{isLearnedWordsError && <div>Не удалось загрузить изученные слова</div>}
-
-			{learnedWords && learnedWords.length > 0 && (
-				<WordsSection
-					isLearned
-					icon={<BookIcon />}
-					isMyPage={isMyPage}
-					me={me}
-					title='Изучено'
-					words={learnedWords}
-				/>
-			)}
+			{renderLearnedWords()}
 		</div>
 	)
 }

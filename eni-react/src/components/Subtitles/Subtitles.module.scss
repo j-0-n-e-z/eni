@@ -107,3 +107,8 @@
 	font-weight: 800;
 	background-color: var(--colors-background-neutrals);
 }
+
+.selectedWords {
+	display: flex;
+	gap: 1rem;
+}
