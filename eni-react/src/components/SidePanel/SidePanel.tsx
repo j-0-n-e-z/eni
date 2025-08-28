@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 
 import { useAppSelector } from '@/app/index'
 import {
+	BookIcon,
 	BrainIcon,
 	InfoIcon,
 	LoginIcon,
@@ -10,13 +11,13 @@ import {
 	SearchIcon,
 	SettingsIcon
 } from '@/icons'
-import { selectWords } from '@/store'
+import { selectLearningWords } from '@/store'
 import { useGetMeQuery, useLogoutMutation } from '@/store/api'
 
 import styles from './SidePanel.module.scss'
 
 export const SidePanel = () => {
-	const { words } = useAppSelector(selectWords)
+	const { learningWords } = useAppSelector(selectLearningWords)
 	const { data: me, isLoading: isMeLoading } = useGetMeQuery()
 	const [
 		logout,
@@ -68,10 +69,12 @@ export const SidePanel = () => {
 									setActiveIf(`/user/${me.username.replaceAll(' ', '%20')}`)
 								)}
 							>
-								<BrainIcon className={styles.bookIcon} />
+								<BookIcon className={styles.bookIcon} />
 								<span className={styles.navLinkText}>Words</span>
-								{words.length > 0 && (
-									<div className={styles.wordsCount}>{words.length}</div>
+								{learningWords.length > 0 && (
+									<div className={styles.wordsCount}>
+										{learningWords.length}
+									</div>
 								)}
 							</Link>
 						</li>

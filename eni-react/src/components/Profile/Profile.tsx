@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import { useAppSelector } from '@/app/index'
 import { BookIcon, BrainIcon, ProfileIcon } from '@/icons'
-import { selectWords, selectWordsCombinations } from '@/store'
+import { selectLearningWords } from '@/store'
 import {
 	useGetMeQuery,
 	useGetWordsByUserIdQuery,
@@ -41,18 +41,7 @@ export const Profile = () => {
 		error: isLearnedWordsError
 	} = useGetWordsByUserIdQuery(displayUser?.id ?? '', { skip: !displayUser })
 
-	const { words } = useAppSelector(selectWords)
-	const { wordsCombinations } = useAppSelector(selectWordsCombinations)
-
-	const learningWords = words.concat(
-		wordsCombinations.map((wc) => ({
-			id: wc.id,
-			text: wc.text,
-			from: wc.words[0].from,
-			isLearned: false,
-			isFavorite: false
-		}))
-	)
+	const { learningWords } = useAppSelector(selectLearningWords)
 
 	const isLoading =
 		isMeLoading || isMeFetching || isUserLoading || isUserFetcing

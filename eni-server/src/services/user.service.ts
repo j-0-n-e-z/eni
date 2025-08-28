@@ -263,7 +263,8 @@ export class UserService {
 				movieId: userWord.movieId
 			},
 			isLearned: userWord.isLearned,
-			isFavorite: userWord.isFavorite
+			isFavorite: userWord.isFavorite,
+			isJoined: false
 		}
 	}
 }

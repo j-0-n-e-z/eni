@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch } from '@/app/index'
 import { BrainIcon, TranslateIcon, TrashIcon } from '@/icons'
-import { removeWord, removeWordsCombination } from '@/store'
+import { removeLearningWord } from '@/store'
 import type { BackendError } from '@/store/api'
 import {
 	useDeleteWordMutation,
@@ -51,10 +51,21 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 	}
 
 	const deleteWordFromLearning = () => {
-		if (word.id.startsWith('combo_')) {
-			dispatch(removeWordsCombination(word.id))
-		} else {
-			dispatch(removeWord(word.id))
+		dispatch(removeLearningWord(word.id))
+	}
+
+	const deleteWordFromLearned = async () => {
+		try {
+			if (!myId) return
+
+			await triggerDeleteWord({
+				userId: myId,
+				wordId: word.id
+			}).unwrap()
+		} catch (e) {
+			toast.error('Произошла ошибка при удалении слова', {
+				id: 'deleteWordError'
+			})
 		}
 	}
 
@@ -79,25 +90,15 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 		}
 	}
 
-	const deleteWordFromLearned = async () => {
-		try {
-			if (!myId) return
-
-			await triggerDeleteWord({
-				userId: myId,
-				wordId: word.id
-			}).unwrap()
-		} catch (e) {
-			toast.error('Произошла ошибка при удалении слова', {
-				id: 'deleteWordError'
-			})
-		}
-	}
-
 	const goToWord = () => {
-		navigate(`/movie/${word.from.movieId}/subtitles/${word.from.fileId}`, {
-			state: { lookupWord: word }
-		})
+		const { movieId, fileId, page, subtitleTimecode } = word.from
+
+		navigate(
+			`/movie/${movieId}/subtitles/${fileId}?page=${page}&timecode=${subtitleTimecode}`,
+			{
+				state: { lookupWord: word }
+			}
+		)
 	}
 
 	return (
@@ -135,6 +136,7 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 					<>
 						{!isLearned && (
 							<button
+								aria-label='save word'
 								className={cn(styles.actionButton, styles.saveButton)}
 								onClick={saveWord}
 							>

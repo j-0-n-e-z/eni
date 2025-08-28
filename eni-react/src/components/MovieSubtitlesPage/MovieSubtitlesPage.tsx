@@ -28,7 +28,7 @@ export const MovieSubtitlesPage: FC = () => {
 	useEffect(() => {
 		if (movie && pickedMovieSubtitle) {
 			navigate(
-				`/movie/${movie.kinopoiskId}/subtitles/${pickedMovieSubtitle.subtitles.file_id}`
+				`/movie/${movie.kinopoiskId}/subtitles/${pickedMovieSubtitle.subtitles.file_id}?page=1`
 			)
 		}
 	}, [pickedMovieSubtitle])
@@ -37,7 +37,7 @@ export const MovieSubtitlesPage: FC = () => {
 
 	if (isMovieLoading) return <div>...Загрузка</div>
 
-	if (movieError) return <div>JSON.stringify(movieError)</div>
+	if (movieError) return <div>{JSON.stringify(movieError)}</div>
 
 	if (!movie) return <div>Нет данных о фильме</div>
 

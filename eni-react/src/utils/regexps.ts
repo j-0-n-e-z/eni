@@ -1,1 +1,0 @@
-export const PUNCTUATION = /([^\w]*)(\w+'?\w+)([^\w]*)/

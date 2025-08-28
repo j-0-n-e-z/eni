@@ -58,7 +58,6 @@
 	font-style: italic;
 }
 
-
 .word {
 	display: flex;
 	align-items: center;
@@ -101,11 +100,29 @@
 .punctuation {
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: start;
 	width: $space-md;
 	font-size: $font-lg;
 	font-weight: 800;
 	background-color: var(--colors-background-neutrals);
+}
+
+.wordsJoinContainer {
+	display: flex;
+	flex-flow: row wrap;
+	gap: 0.5rem;
+}
+
+.wordToJoin {
+	width: fit-content;
+	padding: 1rem;
+	font-size: 1rem;
+	border: 1px solid #cdd;
+}
+
+.wordsJoinControls {
+	display: flex;
+	gap: 0.5rem;
 }
 
 .selectedWords {

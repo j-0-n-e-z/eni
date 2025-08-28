@@ -10,4 +10,6 @@ export interface Word {
 	}
 	isLearned: boolean
 	isFavorite: boolean
+	isJoined: boolean
+	words?: Word[]
 }

@@ -1,19 +1,18 @@
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
-import { useOutletContext, useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 
 import { Paginator, Subtitle } from '@/components'
-import type { MovieSubtitlesContext } from '@/frontend-types'
 import { useGetSubtitleByFileIdQuery } from '@/store/api'
 import { SUBTITLES_PER_PAGE } from '@/utils'
 
 import styles from './Subtitles.module.scss'
 
 export const Subtitles: FC = () => {
-	const { lookupWord } = useOutletContext<MovieSubtitlesContext>()
+	const [searchParams, setSearchParams] = useSearchParams()
+	const { movieId, fileId } = useParams()
 	const [currentPage, setCurrentPage] = useState(1)
 	const subtitlesStart = (currentPage - 1) * SUBTITLES_PER_PAGE
-	const { movieId, fileId } = useParams()
 
 	const {
 		data: subtitles,
@@ -23,11 +22,17 @@ export const Subtitles: FC = () => {
 		skip: !fileId
 	})
 
+	const onPageChange = (page: number) => {
+		setCurrentPage(page)
+		searchParams.delete('timecode')
+		searchParams.set('page', page.toString())
+		setSearchParams(searchParams)
+	}
+
 	useEffect(() => {
-		if (lookupWord) {
-			setCurrentPage(lookupWord.from.page)
-		}
-	}, [lookupWord])
+		const page = parseInt(searchParams.get('page') || '1')
+		setCurrentPage(page)
+	}, [searchParams])
 
 	if (isSubtitlesLoading) return <div>...Загрузка субтитров</div>
 
@@ -42,7 +47,7 @@ export const Subtitles: FC = () => {
 					currentPage={currentPage}
 					itemsLength={subtitles.length}
 					itemsPerPage={SUBTITLES_PER_PAGE}
-					onPageChange={(p) => setCurrentPage(p)}
+					onPageChange={onPageChange}
 				/>
 			</div>
 			<ul className={styles.subtitles}>
@@ -52,7 +57,6 @@ export const Subtitles: FC = () => {
 						<Subtitle
 							key={subtitle.timecode}
 							fileId={Number(fileId)}
-							lookupWord={lookupWord}
 							movieId={Number(movieId)}
 							page={currentPage}
 							subtitle={subtitle}

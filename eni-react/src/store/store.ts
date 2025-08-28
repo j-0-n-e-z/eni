@@ -2,8 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import {
 	searchHistoryReducer,
-	wordsCombinationsReducer,
-	wordsReducer
+	learningWordsReducer
 } from '@/store'
 import { api, authApi, subtitleApi, userApi } from '@/store/api'
 
@@ -13,8 +12,7 @@ export const store = configureStore({
 		[authApi.reducerPath]: authApi.reducer,
 		[userApi.reducerPath]: userApi.reducer,
 		[subtitleApi.reducerPath]: subtitleApi.reducer,
-		wordsReducer,
-		wordsCombinationsReducer,
+		learningWordsReducer,
 		searchHistoryReducer
 	},
 	middleware: (getDefaultMiddleware) =>
