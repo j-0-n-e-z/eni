@@ -36,12 +36,10 @@
 
 .subtitle {
 	display: flex;
-	flex-direction: column;
-	gap: $space-lg;
-	padding: $space-lg;
-	color: var(--colors-text-neutrals);
-	background-color: var(--colors-background-neutrals-subtle);
-	border: 1px solid var(--colors-border-neutrals);
+	gap: 1rem;
+	align-items: center;
+	padding: 0.5rem;
+	border: 1px solid #e5e7eb;
 	border-radius: $space-sm;
 
 	&.highlighted {
@@ -49,45 +47,51 @@
 	}
 }
 
-.words {
+.subtitleWordsContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.subtitleWordList {
 	display: flex;
 	flex-wrap: wrap;
 }
 
 .timecode {
-	font-style: italic;
+	display: grid;
+	place-content: center;
+	padding: 0.25rem 0.5rem;
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: #64748b;
+	background: #f8fafc;
+	border-radius: 0.25rem;
 }
 
 .word {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 35px;
-	padding: 0 $space-sm;
+	position: relative;
+	padding: 0.125rem 0.25rem;
 	cursor: pointer;
-	background-color: var(--colors-background-neutrals);
+	border-radius: 0.25rem;
+	transition: all 0.2s ease;
 	transition:
 		background-color 0.15s linear,
 		scale 0.2s linear;
 
 	&:hover {
-		background-color: var(--);
+		color: #3b82f6;
+		background: rgb(59 130 246 / 10%);
 	}
 
-	&:hover:not(.added) .text {
-		translate: 0 -2px;
-	}
+	&.selected {
+		font-weight: 500;
+		color: #10b981;
+		background: rgb(16 185 129 / 20%);
 
-	&:active:not(.added) .text {
-		translate: 0;
-	}
-
-	&:active {
-		scale: 1.1;
-	}
-
-	&.added {
-		background-color: var(--colors-border-success-subtle);
+		&:hover {
+			background: rgb(16 185 129 / 30%);
+		}
 	}
 }
 
@@ -104,7 +108,92 @@
 	width: $space-md;
 	font-size: $font-lg;
 	font-weight: 800;
-	background-color: var(--colors-background-neutrals);
+}
+
+.savedWordList {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.savedWord {
+	position: relative;
+	display: flex;
+	gap: 0.75rem;
+	align-items: center;
+	padding: 0.5rem;
+	background: rgb(16 185 129 / 10%);
+	border: 1px solid rgb(16 185 129 / 30%);
+	border-radius: 0.25rem;
+}
+
+.savedWordText {
+	color: #10b981;
+}
+
+.removeSavedWordBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #b91048;
+	cursor: pointer;
+}
+
+.translateWordBtn {
+	position: absolute;
+	top: -10px;
+	left: 50%;
+	border: 1px solid #3b82f6;
+}
+
+.wordsContainer {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.wordContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.learningWord {
+	position: relative;
+	display: flex;
+	gap: 0.5rem;
+}
+
+.selectedWords {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.controls {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.translateBtn {
+	display: flex;
+	gap: 0.375rem;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem 0.75rem;
+	margin-left: auto;
+	color: #fff;
+	cursor: pointer;
+	background: linear-gradient(to right, #3b82f6, #9333ea);
+	border-radius: 0.375rem;
+	transition: all 0.2s ease;
+
+	svg {
+		width: 1rem;
+		height: 1rem;
+	}
+
+	&:hover {
+		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%);
+		transform: translateY(-1px);
+	}
 }
 
 .wordsJoinContainer {
@@ -114,10 +203,23 @@
 }
 
 .wordToJoin {
-	width: fit-content;
-	padding: 1rem;
+	padding: 0.25rem 0.5rem;
 	font-size: 1rem;
-	border: 1px solid #cdd;
+	font-weight: 500;
+	color: black;
+	border: 1px solid #ccc;
+	border-radius: 0.375rem;
+	transition: background 0.2s ease;
+
+	&:hover {
+		background: rgb(16 185 129 / 10%);
+	}
+}
+
+.wordToJoin.selected {
+	color: #10b981;
+	background: rgb(16 185 129 / 10%);
+	border: 1px solid rgb(16 185 129 / 30%);
 }
 
 .wordsJoinControls {
@@ -125,7 +227,49 @@
 	gap: 0.5rem;
 }
 
-.selectedWords {
+button.control {
+	width: fit-content;
+	padding: 0.5rem 1rem;
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: #fff;
+	cursor: pointer;
+	border: none;
+	border-radius: 0.375rem;
+	transition: all 0.2s ease;
+}
+
+button.control.join {
+	background: #f59e0b;
+
+	&:hover {
+		background: rgb(196 126 8);
+	}
+}
+
+button.control.cancel {
+	background: #f59e0b;
+
+	&:hover {
+		background: rgb(196 126 8);
+	}
+}
+
+button.control.save {
+	background: #10b981;
+
+	&:hover {
+		background: rgb(12 138 96);
+	}
+}
+
+button.control:disabled {
+	pointer-events: none;
+	opacity: 50%;
+}
+
+.joinWordsPanel {
 	display: flex;
+	flex-flow: column nowrap;
 	gap: 1rem;
 }

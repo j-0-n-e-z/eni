@@ -41,7 +41,7 @@ export const Profile = () => {
 		error: isLearnedWordsError
 	} = useGetWordsByUserIdQuery(displayUser?.id ?? '', { skip: !displayUser })
 
-	const { learningWords } = useAppSelector(selectLearningWords)
+	const learningWords = useAppSelector(state => selectLearningWords(state))
 
 	const isLoading =
 		isMeLoading || isMeFetching || isUserLoading || isUserFetcing

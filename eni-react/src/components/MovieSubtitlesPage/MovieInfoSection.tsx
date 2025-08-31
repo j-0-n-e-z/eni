@@ -53,7 +53,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 						>
 							{isShowOriginalTitle
 								? (movie.nameOriginal ?? movie.nameRu)
-								: movie.nameRu}
+								: movie.nameRu ?? 'Отсутствует название на русском языке'}
 						</a>
 						{movie.nameOriginal && (
 							<TranslateIcon

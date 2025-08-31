@@ -1,6 +1,5 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { createSlice } from '@reduxjs/toolkit'
-import toast from 'react-hot-toast'
+import { createSelector, createSlice } from '@reduxjs/toolkit'
 
 import { type RootState } from '@/store'
 import type { Word } from '@/types'
@@ -33,16 +32,22 @@ const learningWordsSlice = createSlice({
 			state.learningWords = []
 			updateLocalStorage([])
 		},
+		addWordTranslation: (state, action: PayloadAction<{id: string, translation: string}>) => {
+			const wordToTranslate = state.learningWords.find((word) => word.id === action.payload.id)
+
+			if (!wordToTranslate) return
+
+			wordToTranslate.translation = action.payload.translation
+
+			updateLocalStorage(state.learningWords)
+		},
 		addLearningWord: (state, action: PayloadAction<Word>) => {
 			const wordToAdd = action.payload
 			const isAlreadyAdded = Boolean(
 				state.learningWords.find((word) => word.id === wordToAdd.id)
 			)
 
-			if (isAlreadyAdded) {
-				toast(`Слово "${wordToAdd.text}" уже добавлено`, { icon: '👀' })
-				return
-			}
+			if (isAlreadyAdded) return
 
 			state.learningWords.push(wordToAdd)
 
@@ -57,8 +62,36 @@ const learningWordsSlice = createSlice({
 	}
 })
 
-export const selectLearningWords = (state: RootState) => state.learningWordsReducer
+export const selectLearningWords = (state: RootState) =>
+	state.learningWordsReducer.learningWords
 
-export const { clearLearningWords, addLearningWord, removeLearningWord } = learningWordsSlice.actions
+export const selectLearningWordsByTimecode = createSelector(
+	[
+		(state: RootState) => state.learningWordsReducer.learningWords,
+		(state: RootState, timecode: string) => timecode
+	],
+	(learningWords, timecode) =>
+		learningWords.filter(
+			(word) => word.from.subtitleTimecode === timecode && !word.isJoined
+		)
+)
+
+export const selectLearningJoinedWordsByTimecode = createSelector(
+	[
+		(state: RootState) => state.learningWordsReducer.learningWords,
+		(state: RootState, timecode: string) => timecode
+	],
+	(learningWords, timecode) =>
+		learningWords.filter(
+			(word) => word.from.subtitleTimecode === timecode && word.isJoined
+		)
+)
+
+export const {
+	clearLearningWords,
+	addLearningWord,
+	removeLearningWord,
+	addWordTranslation
+} = learningWordsSlice.actions
 
 export const learningWordsReducer = learningWordsSlice.reducer

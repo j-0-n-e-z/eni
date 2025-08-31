@@ -1,19 +1,23 @@
 import cn from 'classnames'
 import { useEffect, useMemo, useRef, useState, type FC } from 'react'
+import toast from 'react-hot-toast'
 import { useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '@/app/index'
 import { SubtitleWord } from '@/components'
+import { CancelIcon, TranslateIcon } from '@/icons'
 import {
 	addLearningWord,
+	addWordTranslation,
 	removeLearningWord,
-	selectLearningWords
+	selectLearningJoinedWordsByTimecode,
+	selectLearningWordsByTimecode
 } from '@/store'
+import { useLazyTranslateQuery } from '@/store/api'
 import type { PureSubtitle, Word } from '@/types'
-import { getUniqueWordsByTimecode } from '@/utils/helpers/getUniqueWords'
 
-import { JoinWordsPanel } from './JoinWordsPanel'
 import styles from './Subtitles.module.scss'
+import { JoinWordsPanel } from './WordsPanel'
 
 interface SubtitleProps {
 	subtitle: PureSubtitle
@@ -31,78 +35,131 @@ export const Subtitle: FC<SubtitleProps> = ({
 	movieId
 }) => {
 	const dispatch = useAppDispatch()
-	const { learningWords } = useAppSelector(selectLearningWords)
+	const learningWords = useAppSelector((state) =>
+		selectLearningWordsByTimecode(state, subtitle.timecode)
+	)
+	const learningJoinedWords = useAppSelector((state) =>
+		selectLearningJoinedWordsByTimecode(state, subtitle.timecode)
+	)
 	const [searchParams] = useSearchParams()
 	const lookupTarget = useRef<HTMLLIElement>(null)
-	const [isJoiningWords, setIsJoiningWords] = useState(false)
-	const [joinedWords, setJoinedWords] = useState<Word[] | null>(null)
+	const [wordsToJoin, setWordsToJoin] = useState<Word[]>([])
+	const [triggerTranslate, { error, isLoading }] = useLazyTranslateQuery()
+	const [selectedWords, setSelectedWords] = useState<Word[]>([])
+	const [subtitleTranslation, setSubtitleTranslation] = useState('')
 
 	const timecode = searchParams.get('timecode')
 	const isLookedUpSubtitle = subtitle.timecode === timecode
 	const words = useMemo(() => subtitle.text.split(' '), [subtitle.text])
+	const hasWordsToSave =
+		selectedWords.length > 0 || Boolean(wordsToJoin && wordsToJoin.length > 1)
 
-	const [selectedWords, setSelectedWords] = useState<Word[]>(() =>
-		getUniqueWordsByTimecode(learningWords, subtitle.timecode)
-	)
-
-	const selectWord = (word: Word) => {
-		dispatch(addLearningWord(word))
-		setSelectedWords((prevWords) => {
-			if (prevWords.find((w) => w.id === word.id)) return prevWords
-			return [...prevWords, word]
-		})
-	}
-
-	const unselectWord = (wordId: string) => {
-		dispatch(removeLearningWord(wordId))
-		setSelectedWords((prevWords) => prevWords.filter((w) => w.id !== wordId))
-	}
-
-	const toggleWordToJoinedWords = (word: Word) => {
-		setJoinedWords((prev) => {
-			if (!prev) return [word]
-
-			const existingWord = prev.find((w) => w.id === word.id)
-			if (existingWord) return prev.filter((w) => w.id !== existingWord.id)
-
+	const toggleSelectedWord = (word: Word) => {
+		setSelectedWords((prev) => {
+			if (prev.find((w) => w.id === word.id))
+				return prev.filter((w) => w.id !== word.id)
 			return [...prev, word]
 		})
 	}
 
-	const cancelJoiningWords = () => {
-		setIsJoiningWords(false)
-		setJoinedWords(null)
+	const toggleWordToJoin = (word: Word) => {
+		setWordsToJoin((prev) => {
+			if (prev.find((w) => w.id === word.id))
+				return prev.filter((w) => w.id !== word.id)
+			return [...prev, word]
+		})
 	}
 
-	const saveJoinedWord = () => {
-		if (joinedWords) {
+	const saveSingleWords = () => {
+		selectedWords.forEach((selectedWord) => {
+			if (!learningWords.find((w) => w.id === selectedWord.id)) {
+				dispatch(addLearningWord(selectedWord))
+				toast.success(`Слово "${selectedWord.text}" сохранено`)
+			} else {
+				toast(`Слово "${selectedWord.text}" уже добавлено`, { icon: '👀' })
+			}
+		})
+	}
+
+	const saveJoinedWords = () => {
+		if (wordsToJoin.length < 2) return
+
+		const joinedWordText = wordsToJoin.map((word) => word.text).join(' ')
+		const existingJoinedWord = learningJoinedWords.find(
+			(word) => word.text === joinedWordText
+		)
+
+		if (existingJoinedWord) {
+			toast(`Слово "${joinedWordText}" уже добавлено`, { icon: '👀' })
+			return
+		}
+
+		dispatch(
+			addLearningWord({
+				id: `joined_${wordsToJoin.map((word) => word.id).join('_')}`,
+				text: joinedWordText,
+				from: wordsToJoin[0].from,
+				words: wordsToJoin,
+				isJoined: true,
+				isLearned: false,
+				isFavorite: false
+			})
+		)
+
+		toast.success(`Слово "${joinedWordText}" сохранено`)
+		setWordsToJoin([])
+	}
+
+	const removeJoinedWord = (word: Word) => {
+		dispatch(removeLearningWord(word.id))
+		toast(`Слово "${word.text}" удалено`, {
+			icon: '🗑️'
+		})
+	}
+
+	const removeWord = (word: Word) => {
+		dispatch(removeLearningWord(word.id))
+		toast(`Слово "${word.text}" удалено`, {
+			icon: '🗑️'
+		})
+	}
+
+	const translateSubtitle = async (subtitleText: string) => {
+		try {
+			const subtitleTranslation = await triggerTranslate(subtitleText).unwrap()
+			setSubtitleTranslation(subtitleTranslation[0].text)
+		} catch (e) {
+			toast.error('Произошла ошибка при переводе субтитра', {
+				id: 'translateSubtitleError'
+			})
+		}
+	}
+
+	const translateWord = async (word: Word) => {
+		try {
+			const wordTranslation = await triggerTranslate(word.text).unwrap()
 			dispatch(
-				addLearningWord({
-					id: `joined_${joinedWords.map((w) => w.id).join('_')}`,
-					text: joinedWords.map((w) => w.text).join(' '),
-					from: joinedWords[0].from,
-					words: joinedWords,
-					isJoined: true,
-					isLearned: false,
-					isFavorite: false
+				addWordTranslation({
+					id: word.id,
+					translation: wordTranslation[0].text
 				})
 			)
-			setJoinedWords(null)
-			setIsJoiningWords(false)
+		} catch (e) {
+			toast.error('Произошла ошибка при переводе слова', {
+				id: 'translateWordError'
+			})
 		}
 	}
 
 	useEffect(() => {
-		let timer: NodeJS.Timeout
+		if (!isLookedUpSubtitle || !lookupTarget.current) return
 
-		if (isLookedUpSubtitle && lookupTarget.current) {
-			timer = setTimeout(() => {
-				lookupTarget.current?.scrollIntoView({
-					behavior: 'smooth',
-					block: 'center'
-				})
-			}, 200)
-		}
+		const timer = setTimeout(() => {
+			lookupTarget.current?.scrollIntoView({
+				behavior: 'smooth',
+				block: 'center'
+			})
+		}, 200)
 
 		return () => clearTimeout(timer)
 	}, [])
@@ -115,53 +172,121 @@ export const Subtitle: FC<SubtitleProps> = ({
 			})}
 		>
 			<span className={styles.timecode}>{subtitle.timecode}</span>
-			<ul className={styles.words}>
-				{words.map((wordText, i) => {
-					const id = `${i}#${subtitle.timecode}#${fileId}`
 
-					const punctuationMatch = wordText.match(PUNCTUATION)
+			<div className={styles.subtitleWordsContainer}>
+				<ul className={styles.subtitleWordList}>
+					{words.map((wordText, i) => {
+						const id = `${i}#${subtitle.timecode}#${fileId}`
 
-					const word: Word = {
-						id,
-						text: punctuationMatch ? punctuationMatch[2] : wordText,
-						from: {
-							fileId,
-							movieId,
-							page,
-							subtitleWordIndex: i,
-							subtitleTimecode: subtitle.timecode
-						},
-						isLearned: false,
-						isFavorite: false,
-						isJoined: false
-					}
+						const punctuationMatch = wordText.match(PUNCTUATION)
 
-					return (
-						<SubtitleWord
-							key={id}
-							after={punctuationMatch ? punctuationMatch[3] : undefined}
-							before={punctuationMatch ? punctuationMatch[1] : undefined}
-							isSelected={Boolean(selectedWords.find((w) => w.id === id))}
-							selectWord={() => selectWord(word)}
-							unselectWord={() => unselectWord(id)}
-							word={word}
-						/>
-					)
-				})}
-			</ul>
+						const word: Word = {
+							id,
+							text: punctuationMatch ? punctuationMatch[2] : wordText,
+							from: {
+								fileId,
+								movieId,
+								page,
+								subtitleWordIndex: i,
+								subtitleTimecode: subtitle.timecode
+							},
+							isLearned: false,
+							isFavorite: false,
+							isJoined: false
+						}
 
-			{!isJoiningWords && selectedWords.length > 1 && (
-				<button onClick={() => setIsJoiningWords(true)}>Join</button>
-			)}
-			{isJoiningWords && (
-				<JoinWordsPanel
-					joinedWords={joinedWords}
-					selectedWords={selectedWords}
-					onAddWord={toggleWordToJoinedWords}
-					onCancel={cancelJoiningWords}
-					onSave={saveJoinedWord}
-				/>
-			)}
+						return (
+							<SubtitleWord
+								key={id}
+								after={punctuationMatch ? punctuationMatch[3] : undefined}
+								before={punctuationMatch ? punctuationMatch[1] : undefined}
+								isSelected={Boolean(selectedWords.find((w) => w.id === id))}
+								toggleSelectedWord={() => toggleSelectedWord(word)}
+								word={word}
+							/>
+						)
+					})}
+				</ul>
+
+				{subtitleTranslation && <p>{subtitleTranslation}</p>}
+
+				{learningJoinedWords.length > 0 && (
+					<ul className={styles.savedWordList}>
+						{learningJoinedWords.map((word) => (
+							<li key={word.id} className={styles.savedWord}>
+								<div className={styles.wordContainer}>
+									<span className={styles.savedWordText}>{word.text}</span>
+									{word.translation && <span>{word.translation}</span>}
+								</div>
+								{!word.translation && (
+									<button
+										aria-label='translate joined word'
+										className={styles.translateWordBtn}
+										onClick={() => translateWord(word)}
+									>
+										<TranslateIcon />
+									</button>
+								)}
+								<button
+									aria-label='remove joined word'
+									className={styles.removeSavedWordBtn}
+									onClick={() => removeJoinedWord(word)}
+								>
+									<CancelIcon />
+								</button>
+							</li>
+						))}
+					</ul>
+				)}
+
+				{learningWords.length > 0 && (
+					<ul className={styles.savedWordList}>
+						{learningWords.map((word) => (
+							<li key={word.id} className={styles.savedWord}>
+								<div className={styles.wordContainer}>
+									<span className={styles.savedWordText}>{word.text}</span>
+									{word.translation && <span>{word.translation}</span>}
+								</div>
+								{!word.translation && (
+									<button
+										aria-label='translate word'
+										className={styles.translateWordBtn}
+										onClick={() => translateWord(word)}
+									>
+										<TranslateIcon />
+									</button>
+								)}
+								<button
+									aria-label='remove joined word'
+									className={styles.removeSavedWordBtn}
+									onClick={() => removeWord(word)}
+								>
+									<CancelIcon />
+								</button>
+							</li>
+						))}
+					</ul>
+				)}
+
+				{selectedWords.length > 0 && (
+					<JoinWordsPanel
+						hasWordsToSave={hasWordsToSave}
+						saveJoinedWords={saveJoinedWords}
+						saveSingleWords={saveSingleWords}
+						selectedWords={selectedWords}
+						toggleWordToJoin={toggleWordToJoin}
+						wordsToJoin={wordsToJoin}
+					/>
+				)}
+			</div>
+
+			<button
+				aria-label='translate'
+				className={styles.translateBtn}
+				onClick={() => translateSubtitle(subtitle.text)}
+			>
+				<TranslateIcon />
+			</button>
 		</li>
 	)
 }

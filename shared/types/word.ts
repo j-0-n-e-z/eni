@@ -12,4 +12,5 @@ export interface Word {
 	isFavorite: boolean
 	isJoined: boolean
 	words?: Word[]
+	translation?: string
 }

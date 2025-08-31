@@ -70,12 +70,12 @@ export const SearchResults: FC<SearchResultsProps> = ({
 								</div>
 							)}
 							<img
-								alt={`${movie.nameEn} Cover`}
+								alt={`${movie.nameEn || movie.nameRu} Cover`}
 								className={styles.cover}
 								src={movie.posterUrlPreview}
 							/>
 							<div className={styles.details}>
-								<h3 className={styles.title}>{movie.nameEn}</h3>
+								<h3 className={styles.title}>{movie.nameEn || movie.nameRu}</h3>
 								<span className={styles.year}>{movie.year}</span>
 							</div>
 						</Link>

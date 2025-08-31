@@ -17,7 +17,7 @@ import { useGetMeQuery, useLogoutMutation } from '@/store/api'
 import styles from './SidePanel.module.scss'
 
 export const SidePanel = () => {
-	const { learningWords } = useAppSelector(selectLearningWords)
+	const learningWords = useAppSelector(selectLearningWords)
 	const { data: me, isLoading: isMeLoading } = useGetMeQuery()
 	const [
 		logout,

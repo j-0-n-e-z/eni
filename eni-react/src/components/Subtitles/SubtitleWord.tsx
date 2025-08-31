@@ -9,8 +9,7 @@ interface SubtitleWordProps {
 	after?: string
 	word: Word
 	isSelected: boolean
-	selectWord: () => void
-	unselectWord: () => void
+	toggleSelectedWord: () => void
 }
 
 export const SubtitleWord = ({
@@ -18,17 +17,16 @@ export const SubtitleWord = ({
 	after,
 	isSelected,
 	word,
-	unselectWord,
-	selectWord
+	toggleSelectedWord
 }: SubtitleWordProps) => (
 	<>
 		{before && <li className={styles.punctuation}>{before}</li>}
 		<li>
 			<button
 				className={cn(styles.word, {
-					[styles.added]: isSelected
+					[styles.selected]: isSelected
 				})}
-				onClick={isSelected ? unselectWord : selectWord}
+				onClick={toggleSelectedWord}
 			>
 				<span className={styles.text}>{word.text}</span>
 			</button>

@@ -114,7 +114,12 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 						))}
 					</div>
 				)}
-				{translations && (
+				{word.translation && (
+					<div className={styles.translation}>
+						{word.translation}
+					</div>
+				)}
+				{!word.translation && translations && (
 					<div className={styles.translations}>
 						{translations.map((tr, i) => (
 							<div key={i} className={styles.translation}>
@@ -126,12 +131,14 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 			</div>
 			<button onClick={goToWord}>Go to word</button>
 			<div className={styles.wordActions}>
-				<button
-					className={cn(styles.actionButton, styles.translateButton)}
-					onClick={translate}
-				>
-					<TranslateIcon />
-				</button>
+				{!word.translation && (
+					<button
+						className={cn(styles.actionButton, styles.translateButton)}
+						onClick={translate}
+					>
+						<TranslateIcon />
+					</button>
+				)}
 				{isMyPage && (
 					<>
 						{!isLearned && (
