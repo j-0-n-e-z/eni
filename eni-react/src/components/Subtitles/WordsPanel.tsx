@@ -6,7 +6,7 @@ import type { Word } from '@/types'
 
 import styles from './Subtitles.module.scss'
 
-interface JoinWordsPanelProps {
+interface WordsPanelProps {
 	selectedWords: Word[]
 	wordsToJoin: Word[]
 	toggleWordToJoin: (word: Word) => void
@@ -15,7 +15,7 @@ interface JoinWordsPanelProps {
 	hasWordsToSave: boolean
 }
 
-export const JoinWordsPanel: FC<JoinWordsPanelProps> = ({
+export const WordsPanel: FC<WordsPanelProps> = ({
 	selectedWords,
 	wordsToJoin,
 	toggleWordToJoin,

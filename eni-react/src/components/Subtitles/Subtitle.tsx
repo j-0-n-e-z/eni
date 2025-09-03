@@ -1,11 +1,10 @@
 import cn from 'classnames'
-import { useEffect, useMemo, useRef, useState, type FC } from 'react'
+import { useEffect, useRef, useState, type FC } from 'react'
 import toast from 'react-hot-toast'
 import { useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '@/app/index'
-import { SubtitleWord } from '@/components'
-import { CancelIcon, TranslateIcon } from '@/icons'
+import { TranslateIcon } from '@/icons'
 import {
 	addLearningWord,
 	addWordTranslation,
@@ -16,8 +15,10 @@ import {
 import { useLazyTranslateQuery } from '@/store/api'
 import type { PureSubtitle, Word } from '@/types'
 
+import { SavedWords } from './SavedWords'
+import { SubtitleWords } from './SubtitleWords'
 import styles from './Subtitles.module.scss'
-import { JoinWordsPanel } from './WordsPanel'
+import { WordsPanel } from './WordsPanel'
 
 interface SubtitleProps {
 	subtitle: PureSubtitle
@@ -25,8 +26,6 @@ interface SubtitleProps {
 	fileId: number
 	movieId: number
 }
-
-const PUNCTUATION = /([^\w]*)(\w+'?\w+)([^\w]*)/
 
 export const Subtitle: FC<SubtitleProps> = ({
 	subtitle,
@@ -50,7 +49,7 @@ export const Subtitle: FC<SubtitleProps> = ({
 
 	const timecode = searchParams.get('timecode')
 	const isLookedUpSubtitle = subtitle.timecode === timecode
-	const words = useMemo(() => subtitle.text.split(' '), [subtitle.text])
+
 	const hasWordsToSave =
 		selectedWords.length > 0 || Boolean(wordsToJoin && wordsToJoin.length > 1)
 
@@ -174,102 +173,35 @@ export const Subtitle: FC<SubtitleProps> = ({
 			<span className={styles.timecode}>{subtitle.timecode}</span>
 
 			<div className={styles.subtitleWordsContainer}>
-				<ul className={styles.subtitleWordList}>
-					{words.map((wordText, i) => {
-						const id = `${i}#${subtitle.timecode}#${fileId}`
-
-						const punctuationMatch = wordText.match(PUNCTUATION)
-
-						const word: Word = {
-							id,
-							text: punctuationMatch ? punctuationMatch[2] : wordText,
-							from: {
-								fileId,
-								movieId,
-								page,
-								subtitleWordIndex: i,
-								subtitleTimecode: subtitle.timecode
-							},
-							isLearned: false,
-							isFavorite: false,
-							isJoined: false
-						}
-
-						return (
-							<SubtitleWord
-								key={id}
-								after={punctuationMatch ? punctuationMatch[3] : undefined}
-								before={punctuationMatch ? punctuationMatch[1] : undefined}
-								isSelected={Boolean(selectedWords.find((w) => w.id === id))}
-								toggleSelectedWord={() => toggleSelectedWord(word)}
-								word={word}
-							/>
-						)
-					})}
-				</ul>
+				<SubtitleWords
+					fileId={fileId}
+					movieId={movieId}
+					page={page}
+					selectedWords={selectedWords}
+					subtitle={subtitle}
+					toggleSelectedWord={toggleSelectedWord}
+				/>
 
 				{subtitleTranslation && <p>{subtitleTranslation}</p>}
 
 				{learningJoinedWords.length > 0 && (
-					<ul className={styles.savedWordList}>
-						{learningJoinedWords.map((word) => (
-							<li key={word.id} className={styles.savedWord}>
-								<div className={styles.wordContainer}>
-									<span className={styles.savedWordText}>{word.text}</span>
-									{word.translation && <span>{word.translation}</span>}
-								</div>
-								{!word.translation && (
-									<button
-										aria-label='translate joined word'
-										className={styles.translateWordBtn}
-										onClick={() => translateWord(word)}
-									>
-										<TranslateIcon />
-									</button>
-								)}
-								<button
-									aria-label='remove joined word'
-									className={styles.removeSavedWordBtn}
-									onClick={() => removeJoinedWord(word)}
-								>
-									<CancelIcon />
-								</button>
-							</li>
-						))}
-					</ul>
+					<SavedWords
+						removeWord={removeJoinedWord}
+						translateWord={translateWord}
+						words={learningJoinedWords}
+					/>
 				)}
 
 				{learningWords.length > 0 && (
-					<ul className={styles.savedWordList}>
-						{learningWords.map((word) => (
-							<li key={word.id} className={styles.savedWord}>
-								<div className={styles.wordContainer}>
-									<span className={styles.savedWordText}>{word.text}</span>
-									{word.translation && <span>{word.translation}</span>}
-								</div>
-								{!word.translation && (
-									<button
-										aria-label='translate word'
-										className={styles.translateWordBtn}
-										onClick={() => translateWord(word)}
-									>
-										<TranslateIcon />
-									</button>
-								)}
-								<button
-									aria-label='remove joined word'
-									className={styles.removeSavedWordBtn}
-									onClick={() => removeWord(word)}
-								>
-									<CancelIcon />
-								</button>
-							</li>
-						))}
-					</ul>
+					<SavedWords
+						removeWord={removeWord}
+						translateWord={translateWord}
+						words={learningWords}
+					/>
 				)}
 
 				{selectedWords.length > 0 && (
-					<JoinWordsPanel
+					<WordsPanel
 						hasWordsToSave={hasWordsToSave}
 						saveJoinedWords={saveJoinedWords}
 						saveSingleWords={saveSingleWords}
