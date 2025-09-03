@@ -22,7 +22,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
 
 	if (pageCount < 1) return null
 
-	const handleGoToPage = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handlePageNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const pageNumber = Number(e.target.value)
 
 		if (Number.isNaN(pageNumber) || pageNumber === 0) {
@@ -92,7 +92,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
 				max={pageCount}
 				min={1}
 				value={currentPage}
-				onChange={handleGoToPage}
+				onChange={handlePageNumberChange}
 				onKeyDown={(e) => e.key === 'Enter' && goToPage(currentPage)}
 			/>
 		</div>
