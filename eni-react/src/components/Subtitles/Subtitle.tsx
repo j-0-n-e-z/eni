@@ -47,8 +47,8 @@ export const Subtitle: FC<SubtitleProps> = ({
 	const [selectedWords, setSelectedWords] = useState<Word[]>([])
 	const [subtitleTranslation, setSubtitleTranslation] = useState('')
 
-	const timecode = searchParams.get('timecode')
-	const isLookedUpSubtitle = subtitle.timecode === timecode
+	const searchTimecode = searchParams.get('timecode')
+	const isLookedUpSubtitle = subtitle.timecode === searchTimecode
 
 	const hasWordsToSave =
 		selectedWords.length > 0 || Boolean(wordsToJoin && wordsToJoin.length > 1)

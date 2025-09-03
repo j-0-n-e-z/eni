@@ -31,10 +31,10 @@ export const SubtitleWords: FC<SubtitleWordProps> = ({
 		<ul className={styles.subtitleWordList}>
 			{words.map((wordText, i) => {
 				const id = `${i}#${subtitle.timecode}#${fileId}`
-
 				const punctuationMatch = wordText.match(PUNCTUATION)
 				const before = punctuationMatch ? punctuationMatch[1] : undefined
 				const after = punctuationMatch ? punctuationMatch[3] : undefined
+				const isSelected = Boolean(selectedWords.find((w) => w.id === id))
 
 				const word: Word = {
 					id,
@@ -51,7 +51,6 @@ export const SubtitleWords: FC<SubtitleWordProps> = ({
 					isJoined: false
 				}
 
-				const isSelected = Boolean(selectedWords.find((w) => w.id === id))
 
 				return (
 					<Fragment key={id}>
