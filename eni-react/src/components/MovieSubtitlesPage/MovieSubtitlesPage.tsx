@@ -23,9 +23,6 @@ export const MovieSubtitlesPage: FC = () => {
 		skip: !movieId
 	})
 
-	
-		console.log(movie);
-
 	useEffect(() => {
 		if (movie && pickedMovieSubtitle) {
 			navigate(
@@ -44,7 +41,8 @@ export const MovieSubtitlesPage: FC = () => {
 
 	const contextValue: MovieSubtitlesContext = {
 		pickMovieSubtitle: setPickedMovieSubtitle,
-		imdbId: movie.imdbId
+		imdbId: movie.imdbId,
+		movieName: movie.nameOriginal ?? movie.nameEn
 	}
 
 	return (

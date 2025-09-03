@@ -5,16 +5,23 @@ import { fetchSrtFile, parseSrt } from '@/utils'
 import type { OSMovieSubtitle, SubtitlesInfo } from '../types'
 
 export class SubtitleService {
-	async findMovieSubtitlesByImdbId(imdbId: string) {
+	async findMovieSubtitles(query: string) {
+		const params: Record<string, string> = {
+			type: 'movie',
+			languages: 'en',
+			order_by: 'points'
+		}
+
+		if (query.startsWith('tt')) {
+			params.imdb_id = query
+		} else {
+			params.query = query
+		}
+
 		const response = await openSubtitlesApi.get<{ data: OSMovieSubtitle[] }>(
 			`/subtitles`,
 			{
-				params: {
-					imdb_id: imdbId,
-					type: 'movie',
-					languages: 'en',
-					order_by: 'points'
-				}
+				params
 			}
 		)
 

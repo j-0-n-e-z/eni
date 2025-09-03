@@ -8,9 +8,9 @@ export const subtitleApi = createApi({
 	reducerPath: 'subtitleApi',
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
-		getMovieSubtitlesByImdbId: build.query<MovieSubtitle[], string | null>({
-			query: (imdbId) => ({
-				url: `movie-subtitles/${imdbId}`
+		getMovieSubtitles: build.query<MovieSubtitle[], string | null>({
+			query: (query) => ({
+				url: `movie-subtitles/${query}`
 			})
 		}),
 		getSubtitleByFileId: build.query<PureSubtitle[], number>({
@@ -23,7 +23,7 @@ export const subtitleApi = createApi({
 })
 
 export const {
-	useGetMovieSubtitlesByImdbIdQuery,
+	useGetMovieSubtitlesQuery,
 	useGetSubtitleByFileIdQuery,
 	useLazyGetSubtitleByFileIdQuery
 } = subtitleApi

@@ -9,9 +9,10 @@ const subtitlesRouter = express.Router()
 const subtitleController = new SubtitleController(new SubtitleService())
 
 subtitlesRouter.get(
-	'/movie-subtitles/:imdbId',
-	asyncHandler(subtitleController.getSubtitlesByImdbId)
+	'/movie-subtitles/:query',
+	asyncHandler(subtitleController.getMovieSubtitles)
 )
+
 subtitlesRouter.post(
 	'/subtitles/:fileId',
 	asyncHandler(subtitleController.getSubtitlesByFileId)

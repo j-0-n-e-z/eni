@@ -4,19 +4,20 @@ import { useOutletContext } from 'react-router-dom'
 import { EmptyState, MovieSubtitle } from '@/components'
 import type { MovieSubtitlesContext } from '@/frontend-types'
 import { SubtitleIcon } from '@/icons'
-import { useGetMovieSubtitlesByImdbIdQuery } from '@/store/api'
+import { useGetMovieSubtitlesQuery } from '@/store/api'
 
 import styles from './MovieSubtitlesPicker.module.scss'
 
 export const MovieSubtitlesPicker: FC = () => {
-	const { imdbId, pickMovieSubtitle } =
+	const { imdbId, movieName, pickMovieSubtitle } =
 		useOutletContext<MovieSubtitlesContext>()
+	const query = imdbId || movieName
 	const {
 		data: movieSubtitles,
 		error: movieSubtitlesError,
 		isLoading: isMovieSubtitlesLoading
-	} = useGetMovieSubtitlesByImdbIdQuery(imdbId || '', {
-		skip: !imdbId
+	} = useGetMovieSubtitlesQuery(query || '', {
+		skip: !query
 	})
 
 	if (isMovieSubtitlesLoading) return <div>...Загрузка вариантов субтитров</div>

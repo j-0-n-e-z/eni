@@ -6,11 +6,10 @@ import type { MovieSubtitle } from '@/shared-types'
 export class SubtitleController {
 	constructor(private readonly subtitleService: SubtitleService) {}
 
-	getSubtitlesByImdbId = async (req: Request, res: Response) => {
-		const { imdbId } = req.params
+	getMovieSubtitles = async (req: Request, res: Response) => {
+		const { query } = req.params
 
-		const movieSubtitles =
-			await this.subtitleService.findMovieSubtitlesByImdbId(imdbId)
+		const movieSubtitles = await this.subtitleService.findMovieSubtitles(query)
 
 		const movieSubtitleMap = new Map<number, MovieSubtitle>()
 
