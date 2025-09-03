@@ -1,8 +1,8 @@
 import { useEffect, useState, type FC } from 'react'
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 import { useGetMovieByKinopoiskIdQuery } from '@/store/api'
-import type { MovieSubtitle, Word } from '@/types'
+import type { MovieSubtitle } from '@/types'
 
 import type { MovieSubtitlesContext } from '../../types'
 
@@ -11,11 +11,9 @@ import styles from './MovieSubtitlesPage.module.scss'
 
 export const MovieSubtitlesPage: FC = () => {
 	const { movieId } = useParams()
-	const location = useLocation()
 	const navigate = useNavigate()
 	const [pickedMovieSubtitle, setPickedMovieSubtitle] =
 		useState<MovieSubtitle | null>(null)
-	const lookupWord = (location?.state as { lookupWord?: Word })?.lookupWord
 
 	const {
 		data: movie,
@@ -47,8 +45,7 @@ export const MovieSubtitlesPage: FC = () => {
 
 	const contextValue: MovieSubtitlesContext = {
 		pickMovieSubtitle: setPickedMovieSubtitle,
-		imdbId: movie.imdbId,
-		lookupWord
+		imdbId: movie.imdbId
 	}
 
 	return (

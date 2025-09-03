@@ -12,6 +12,7 @@ export const Subtitles: FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
 	const { movieId, fileId } = useParams()
 	const [currentPage, setCurrentPage] = useState(1)
+	
 	const subtitlesStart = (currentPage - 1) * SUBTITLES_PER_PAGE
 
 	const {
@@ -22,7 +23,7 @@ export const Subtitles: FC = () => {
 		skip: !fileId
 	})
 
-	const onPageChange = (page: number) => {
+	const goToPage = (page: number) => {
 		setCurrentPage(page)
 		searchParams.delete('timecode')
 		searchParams.set('page', page.toString())
@@ -45,9 +46,9 @@ export const Subtitles: FC = () => {
 			<div className={styles.controlPanel}>
 				<Paginator
 					currentPage={currentPage}
+					goToPage={goToPage}
 					itemsLength={subtitles.length}
 					itemsPerPage={SUBTITLES_PER_PAGE}
-					onPageChange={onPageChange}
 				/>
 			</div>
 			<ul className={styles.subtitles}>

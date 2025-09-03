@@ -17,17 +17,32 @@
 }
 
 .wordInfo {
+	display: flex;
 	flex: 1;
+	gap: 1rem;
+	align-items: center;
 }
 
 .word {
+	flex: 1;
 	font-weight: 500;
 	color: $text-primary;
+}
+
+.translationContainer {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 0.25rem;
 }
 
 .translation {
 	font-size: 0.875rem;
 	color: $text-secondary;
+}
+
+.translationPos {
+	font-weight: 600;
 }
 
 .wordActions {

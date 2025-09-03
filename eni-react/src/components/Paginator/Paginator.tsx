@@ -9,18 +9,34 @@ interface PaginatorProps {
 	currentPage: number
 	itemsLength: number
 	itemsPerPage: number
-	onPageChange: (page: number) => void
+	goToPage: (page: number) => void
 }
 
 export const Paginator: React.FC<PaginatorProps> = ({
 	currentPage,
 	itemsLength,
 	itemsPerPage,
-	onPageChange
+	goToPage
 }) => {
 	const pageCount = Math.ceil(itemsLength / itemsPerPage)
 
-	if (pageCount <= 1) return null
+	if (pageCount < 1) return null
+
+	const handleGoToPage = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const pageNumber = Number(e.target.value)
+
+		if (Number.isNaN(pageNumber) || pageNumber === 0) {
+			goToPage(1)
+			return
+		}
+
+		if (pageNumber > pageCount) {
+			goToPage(pageCount)
+			return
+		}
+
+		goToPage(pageNumber)
+	}
 
 	return (
 		<div className={styles.paginator}>
@@ -30,7 +46,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
 					aria-label='previous page'
 					className={styles.prevBtn}
 					disabled={currentPage === 1}
-					onClick={() => onPageChange(currentPage - 1)}
+					onClick={() => goToPage(currentPage - 1)}
 				>
 					<ArrowIcon className={styles.prevIcon} />
 				</button>
@@ -50,7 +66,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
 									? `current page ${page}`
 									: `go to page ${page}`
 							}
-							onClick={() => onPageChange(page)}
+							onClick={() => goToPage(page)}
 						>
 							{page}
 						</button>
@@ -62,11 +78,23 @@ export const Paginator: React.FC<PaginatorProps> = ({
 					aria-label='next page'
 					className={styles.nextBtn}
 					disabled={currentPage === pageCount}
-					onClick={() => onPageChange(currentPage + 1)}
+					onClick={() => goToPage(currentPage + 1)}
 				>
 					<ArrowIcon className={styles.nextIcon} />
 				</button>
 			</div>
+			<input
+				aria-label='go to page'
+				className={styles.goToPageInput}
+				id='goToPageInput'
+				inputMode='numeric'
+				list='goToPageInputList'
+				max={pageCount}
+				min={1}
+				value={currentPage}
+				onChange={handleGoToPage}
+				onKeyDown={(e) => e.key === 'Enter' && goToPage(currentPage)}
+			/>
 		</div>
 	)
 }

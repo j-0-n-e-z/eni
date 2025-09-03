@@ -4,10 +4,10 @@ import toast from 'react-hot-toast'
 import { useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '@/app/index'
+import { SavedWords, SubtitleWords, WordsPanel } from '@/components'
 import { TranslateIcon } from '@/icons'
 import {
 	addLearningWord,
-	addWordTranslation,
 	removeLearningWord,
 	selectLearningJoinedWordsByTimecode,
 	selectLearningWordsByTimecode
@@ -15,10 +15,7 @@ import {
 import { useLazyTranslateQuery } from '@/store/api'
 import type { PureSubtitle, Word } from '@/types'
 
-import { SavedWords } from './SavedWords'
-import { SubtitleWords } from './SubtitleWords'
 import styles from './Subtitles.module.scss'
-import { WordsPanel } from './WordsPanel'
 
 interface SubtitleProps {
 	subtitle: PureSubtitle
@@ -42,16 +39,22 @@ export const Subtitle: FC<SubtitleProps> = ({
 	)
 	const [searchParams] = useSearchParams()
 	const lookupTarget = useRef<HTMLLIElement>(null)
-	const [wordsToJoin, setWordsToJoin] = useState<Word[]>([])
-	const [triggerTranslate, { error, isLoading }] = useLazyTranslateQuery()
+	const [
+		triggerSubtitleTranslate,
+		{
+			data: subtitleTranslation,
+			error: subtitleTranslationError,
+			isLoading: isSubtitleTranslationLoading
+		}
+	] = useLazyTranslateQuery()
+
 	const [selectedWords, setSelectedWords] = useState<Word[]>([])
-	const [subtitleTranslation, setSubtitleTranslation] = useState('')
+	const [wordsToJoin, setWordsToJoin] = useState<Word[]>([])
 
 	const searchTimecode = searchParams.get('timecode')
 	const isLookedUpSubtitle = subtitle.timecode === searchTimecode
 
-	const hasWordsToSave =
-		selectedWords.length > 0 || Boolean(wordsToJoin && wordsToJoin.length > 1)
+	const hasWordsToSave = selectedWords.length > 0 || wordsToJoin.length > 1
 
 	const toggleSelectedWord = (word: Word) => {
 		setSelectedWords((prev) => {
@@ -62,6 +65,8 @@ export const Subtitle: FC<SubtitleProps> = ({
 	}
 
 	const toggleWordToJoin = (word: Word) => {
+		if (selectedWords.length < 2) return
+
 		setWordsToJoin((prev) => {
 			if (prev.find((w) => w.id === word.id))
 				return prev.filter((w) => w.id !== word.id)
@@ -125,27 +130,10 @@ export const Subtitle: FC<SubtitleProps> = ({
 
 	const translateSubtitle = async (subtitleText: string) => {
 		try {
-			const subtitleTranslation = await triggerTranslate(subtitleText).unwrap()
-			setSubtitleTranslation(subtitleTranslation[0].text)
+			await triggerSubtitleTranslate(subtitleText).unwrap()
 		} catch (e) {
 			toast.error('Произошла ошибка при переводе субтитра', {
 				id: 'translateSubtitleError'
-			})
-		}
-	}
-
-	const translateWord = async (word: Word) => {
-		try {
-			const wordTranslation = await triggerTranslate(word.text).unwrap()
-			dispatch(
-				addWordTranslation({
-					id: word.id,
-					translation: wordTranslation[0].text
-				})
-			)
-		} catch (e) {
-			toast.error('Произошла ошибка при переводе слова', {
-				id: 'translateWordError'
 			})
 		}
 	}
@@ -162,6 +150,17 @@ export const Subtitle: FC<SubtitleProps> = ({
 
 		return () => clearTimeout(timer)
 	}, [])
+
+	const renderSubtitleTranslation = () => {
+		if (isSubtitleTranslationLoading) return <p>Translation loading...</p>
+
+		if (subtitleTranslationError)
+			return <p>{JSON.stringify(subtitleTranslationError)})</p>
+
+		if (subtitleTranslation) return <p>{subtitleTranslation[0].text}</p>
+
+		return null
+	}
 
 	return (
 		<li
@@ -182,22 +181,17 @@ export const Subtitle: FC<SubtitleProps> = ({
 					toggleSelectedWord={toggleSelectedWord}
 				/>
 
-				{subtitleTranslation && <p>{subtitleTranslation}</p>}
+				{renderSubtitleTranslation()}
 
 				{learningJoinedWords.length > 0 && (
 					<SavedWords
 						removeWord={removeJoinedWord}
-						translateWord={translateWord}
 						words={learningJoinedWords}
 					/>
 				)}
 
 				{learningWords.length > 0 && (
-					<SavedWords
-						removeWord={removeWord}
-						translateWord={translateWord}
-						words={learningWords}
-					/>
+					<SavedWords removeWord={removeWord} words={learningWords} />
 				)}
 
 				{selectedWords.length > 0 && (
@@ -213,7 +207,7 @@ export const Subtitle: FC<SubtitleProps> = ({
 			</div>
 
 			<button
-				aria-label='translate'
+				aria-label='translate subtitle'
 				className={styles.translateBtn}
 				onClick={() => translateSubtitle(subtitle.text)}
 			>

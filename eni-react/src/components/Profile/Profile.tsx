@@ -63,7 +63,7 @@ export const Profile = () => {
 		}
 	}, [me, isLoading, username])
 
-	// user is loaded only after me
+	// user is fetched only after me
 	useEffect(() => {
 		if (user) {
 			setDisplayUser(user)

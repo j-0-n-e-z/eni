@@ -26,8 +26,6 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 	const budget = boxOffice?.items.find((item) => item.type === 'BUDGET')
 	const boxOfficeWorld = boxOffice?.items.find((item) => item.type === 'WORLD')
 
-	console.log(boxOffice)
-
 	const toggleShowOriginalTitle = () => setIsShowOriginalTitle((p) => !p)
 
 	useEffect(() => {

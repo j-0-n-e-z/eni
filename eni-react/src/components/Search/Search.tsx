@@ -17,11 +17,56 @@ export const Search: FC = () => {
 	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 500)
 	const inputRef = useRef<HTMLInputElement>(null)
 	const historyMovies = useAppSelector(selectMoviesFromHistory)
-	const [triggerSearch, { data: movies, isFetching, error, reset }] =
+	const [triggerSearch, { data: movies, isLoading, error, reset }] =
 		useLazySearchMoviesQuery()
 
-	function render() {
-		if (isFetching) return <div>Загрузка...</div>
+	function clearInput() {
+		cancelDebounce()
+		searchParams.delete('query')
+		setSearchParams(searchParams)
+		setMovieTitle('')
+		reset()
+		inputRef.current?.focus()
+	}
+
+	function searchMovies() {
+		if (movieTitle) {
+			cancelDebounce()
+			searchParams.set('query', movieTitle)
+			setSearchParams(searchParams)
+			triggerSearch(movieTitle)
+		}
+	}
+
+	function onSearchInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+		if (e.key === 'Enter') {
+			searchMovies()
+		}
+	}
+
+	useEffect(() => {
+		if (!debouncedMovieTitle) {
+			reset()
+			return
+		}
+
+		if (!isLoading) {
+			searchParams.set('query', debouncedMovieTitle)
+			setSearchParams(searchParams)
+			triggerSearch(debouncedMovieTitle)
+		}
+	}, [debouncedMovieTitle])
+
+	useEffect(() => {
+		const query = searchParams.get('query')
+		if (query) {
+			triggerSearch(query)
+		}
+	}, [searchParams])
+
+	
+	function renderSearchResults() {
+		if (isLoading) return <div>Загрузка...</div>
 
 		if (error) return <div>JSON.stringify(error)</div>
 
@@ -56,49 +101,6 @@ export const Search: FC = () => {
 		return null
 	}
 
-	function clearInput() {
-		cancelDebounce()
-		searchParams.delete('query')
-		setSearchParams(searchParams)
-		setMovieTitle('')
-		reset()
-		inputRef.current?.focus()
-	}
-
-	function searchMovies() {
-		if (movieTitle) {
-			cancelDebounce()
-			searchParams.set('query', movieTitle)
-			setSearchParams(searchParams)
-			triggerSearch(movieTitle)
-		}
-	}
-
-	function onSearchInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-		if (e.key === 'Enter') {
-			searchMovies()
-		}
-	}
-
-	useEffect(() => {
-		if (!debouncedMovieTitle) {
-			reset()
-			return
-		}
-
-		if (!isFetching) {
-			searchParams.set('query', debouncedMovieTitle)
-			setSearchParams(searchParams)
-			triggerSearch(debouncedMovieTitle)
-		}
-	}, [debouncedMovieTitle])
-
-	useEffect(() => {
-		const query = searchParams.get('query')
-		if (query) {
-			triggerSearch(query)
-		}
-	}, [searchParams])
 
 	return (
 		<div className={styles.searchPage}>
@@ -125,7 +127,7 @@ export const Search: FC = () => {
 				</label>
 			</div>
 
-			<div className={styles.searchResultsContainer}>{render()}</div>
+			<div className={styles.searchResultsContainer}>{renderSearchResults()}</div>
 		</div>
 	)
 }

@@ -3,6 +3,7 @@
 
 .paginator {
 	display: flex;
+	gap: 1rem;
 }
 
 .buttons {
@@ -15,7 +16,6 @@
 .paginator button {
 	@extend %button-base;
 
-	min-width: 0;
 	aspect-ratio: 1;
 	padding: $space-sm;
 }
@@ -49,4 +49,13 @@
 	cursor: default;
 	background: transparent;
 	border: none;
+}
+
+.goToPageInput {
+	width: 4rem;
+	padding: 0.5rem;
+	font-size: $font-lg;
+	text-align: center;
+	border: 2px solid #e5e7eb;
+	border-radius: $space-md;
 }
