@@ -23,6 +23,9 @@ export const MovieSubtitlesPage: FC = () => {
 		skip: !movieId
 	})
 
+	
+		console.log(movie);
+
 	useEffect(() => {
 		if (movie && pickedMovieSubtitle) {
 			navigate(
@@ -38,10 +41,6 @@ export const MovieSubtitlesPage: FC = () => {
 	if (movieError) return <div>{JSON.stringify(movieError)}</div>
 
 	if (!movie) return <div>Нет данных о фильме</div>
-
-	if (!movie.imdbId) {
-		return <div>Не удалось загрузить субтитры, отсутствует imdbId</div>
-	}
 
 	const contextValue: MovieSubtitlesContext = {
 		pickMovieSubtitle: setPickedMovieSubtitle,

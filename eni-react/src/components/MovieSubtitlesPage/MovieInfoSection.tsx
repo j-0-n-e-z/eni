@@ -26,11 +26,9 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 	const budget = boxOffice?.items.find((item) => item.type === 'BUDGET')
 	const boxOfficeWorld = boxOffice?.items.find((item) => item.type === 'WORLD')
 
-	const toggleShowOriginalTitle = () => setIsShowOriginalTitle((p) => !p)
-
 	useEffect(() => {
 		if (boxOfficeError)
-			toast.error('Faild to load budget and box office', { id: 'boxOffice' })
+			toast.error('Faild to load budget and box office', { id: 'boxOfficeError' })
 	}, [boxOfficeError])
 
 	return (
@@ -51,12 +49,12 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 						>
 							{isShowOriginalTitle
 								? (movie.nameOriginal ?? movie.nameRu)
-								: movie.nameRu ?? 'Отсутствует название на русском языке'}
+								: (movie.nameRu ?? 'Отсутствует название на русском языке')}
 						</a>
 						{movie.nameOriginal && (
 							<TranslateIcon
 								className={styles.translateTitleIcon}
-								onClick={toggleShowOriginalTitle}
+								onClick={() => setIsShowOriginalTitle((p) => !p)}
 							/>
 						)}
 					</h2>
@@ -92,7 +90,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 									<div className={styles.metaItem}>
 										<span className={styles.metaLabel}>Бюджет:</span>
 										<span className={cn(styles.metaValue, styles.budget)}>
-											{formatMoney(budget.amount, budget.currencyCode || 'USD')}
+											{formatMoney(budget.amount, budget.currencyCode)}
 										</span>
 									</div>
 								)}
@@ -102,7 +100,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 										<span className={cn(styles.metaValue, styles.boxOffice)}>
 											{formatMoney(
 												boxOfficeWorld.amount,
-												boxOfficeWorld.currencyCode || 'USD'
+												boxOfficeWorld.currencyCode
 											)}
 										</span>
 									</div>

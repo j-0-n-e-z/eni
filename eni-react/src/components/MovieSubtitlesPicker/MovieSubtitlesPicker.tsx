@@ -1,10 +1,11 @@
 import type { FC } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
+import { EmptyState, MovieSubtitle } from '@/components'
 import type { MovieSubtitlesContext } from '@/frontend-types'
+import { SubtitleIcon } from '@/icons'
 import { useGetMovieSubtitlesByImdbIdQuery } from '@/store/api'
 
-import { MovieSubtitle } from './MovieSubtitle'
 import styles from './MovieSubtitlesPicker.module.scss'
 
 export const MovieSubtitlesPicker: FC = () => {
@@ -23,7 +24,14 @@ export const MovieSubtitlesPicker: FC = () => {
 	if (movieSubtitlesError)
 		return <div>Error: {JSON.stringify(movieSubtitlesError)}</div>
 
-	if (!movieSubtitles?.length) return <div>Варианты субтитров не найдены</div>
+	if (!movieSubtitles?.length)
+		return (
+			<EmptyState
+				description='Варианты субтитров не найдены'
+				header='Не найдено'
+				icon={<SubtitleIcon />}
+			/>
+		)
 
 	return (
 		<div className={styles.movieSubsPicker}>
