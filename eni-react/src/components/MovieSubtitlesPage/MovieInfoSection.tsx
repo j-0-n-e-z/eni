@@ -90,7 +90,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 									<div className={styles.metaItem}>
 										<span className={styles.metaLabel}>Бюджет:</span>
 										<span className={cn(styles.metaValue, styles.budget)}>
-											{formatMoney(budget.amount, budget.currencyCode)}
+											{formatMoney(budget.amount, budget.currencyCode || 'USD')}
 										</span>
 									</div>
 								)}
@@ -100,7 +100,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 										<span className={cn(styles.metaValue, styles.boxOffice)}>
 											{formatMoney(
 												boxOfficeWorld.amount,
-												boxOfficeWorld.currencyCode
+												boxOfficeWorld.currencyCode || 'USD'
 											)}
 										</span>
 									</div>

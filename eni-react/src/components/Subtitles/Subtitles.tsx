@@ -42,7 +42,7 @@ export const Subtitles: FC = () => {
 	if (!subtitles?.length) return <div>Субтитры не найдены</div>
 
 	return (
-		<section className={styles.subtitlesSection}>
+		<>
 			<div className={styles.controlPanel}>
 				<Paginator
 					currentPage={currentPage}
@@ -64,6 +64,6 @@ export const Subtitles: FC = () => {
 						/>
 					))}
 			</ul>
-		</section>
+		</>
 	)
 }

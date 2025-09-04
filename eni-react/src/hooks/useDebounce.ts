@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
-export function useDebounce<T>(value: T, delay: number) {
-	const [debouncedValue, setDebouncedValue] = useState<T>(value)
+export function useDebounce(value: string, delay: number) {
+	const [debouncedValue, setDebouncedValue] = useState<string>(value)
 	const debounceTimer = useRef<NodeJS.Timeout>(null)
 
 	function cancelDebounce() {
@@ -14,7 +14,7 @@ export function useDebounce<T>(value: T, delay: number) {
 		cancelDebounce()
 
 		debounceTimer.current = setTimeout(() => {
-			setDebouncedValue(value)
+			setDebouncedValue(value.trim())
 		}, delay)
 
 		return () => {

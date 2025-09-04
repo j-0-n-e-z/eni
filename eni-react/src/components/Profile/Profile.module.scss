@@ -1,16 +1,14 @@
 @use '../../styles/_colors2' as *;
 @use '../../styles/variables' as *;
+@use '../../styles/_sharedStyles' as *;
 
 .profilePage {
+	@extend %container;
+
 	display: flex;
 	flex-direction: column;
 	gap: $space-xxl;
-	width: 100%;
-	max-width: 1480px;
-	height: 100vh;
 	padding: 1.5rem;
-	margin: 0 auto;
-	background: $bg-gradient-light;
 }
 
 .profileHeader {

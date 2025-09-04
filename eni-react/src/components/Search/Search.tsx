@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 import React, { useEffect, useRef, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useAppSelector } from '@/app/hooks'
 import { EmptyState, SearchResults } from '@/components'
@@ -12,29 +12,49 @@ import { useLazySearchMoviesQuery } from '@/store/api'
 import styles from './Search.module.scss'
 
 export const Search: FC = () => {
-	const [searchParams, setSearchParams] = useSearchParams()
-	const [movieTitle, setMovieTitle] = useState('')
+	const [searchParams] = useSearchParams()
+	const [movieTitle, setMovieTitle] = useState(searchParams.get('query') ?? '')
 	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 500)
 	const inputRef = useRef<HTMLInputElement>(null)
 	const historyMovies = useAppSelector(selectMoviesFromHistory)
 	const [triggerSearch, { data: movies, isLoading, error, reset }] =
 		useLazySearchMoviesQuery()
+	const navigate = useNavigate()
+
+	useEffect(() => {
+		if (debouncedMovieTitle) {
+			navigate(`/search?query=${debouncedMovieTitle}`)
+		} else {
+			navigate('/search')
+		}
+	}, [debouncedMovieTitle])
+
+	useEffect(() => {
+		const query = searchParams.get('query') ?? ''
+
+		if (!query) {
+			setMovieTitle('')
+			reset()
+			return
+		}
+
+		triggerSearch(query)
+	}, [searchParams])
 
 	function clearInput() {
 		cancelDebounce()
-		searchParams.delete('query')
-		setSearchParams(searchParams)
-		setMovieTitle('')
 		reset()
+		setMovieTitle('')
+		navigate('/search')
 		inputRef.current?.focus()
 	}
 
 	function searchMovies() {
-		if (movieTitle) {
+		const movieTitleTrimmed = movieTitle.trim()
+
+		if (movieTitleTrimmed) {
 			cancelDebounce()
-			searchParams.set('query', movieTitle)
-			setSearchParams(searchParams)
-			triggerSearch(movieTitle)
+			triggerSearch(movieTitleTrimmed)
 		}
 	}
 
@@ -44,27 +64,6 @@ export const Search: FC = () => {
 		}
 	}
 
-	useEffect(() => {
-		if (!debouncedMovieTitle) {
-			reset()
-			return
-		}
-
-		if (!isLoading) {
-			searchParams.set('query', debouncedMovieTitle)
-			setSearchParams(searchParams)
-			triggerSearch(debouncedMovieTitle)
-		}
-	}, [debouncedMovieTitle])
-
-	useEffect(() => {
-		const query = searchParams.get('query')
-		if (query) {
-			triggerSearch(query)
-		}
-	}, [searchParams])
-
-	
 	function renderSearchResults() {
 		if (isLoading) return <div>Загрузка...</div>
 
@@ -101,7 +100,6 @@ export const Search: FC = () => {
 		return null
 	}
 
-
 	return (
 		<div className={styles.searchPage}>
 			<div className={styles.searchContainer}>
@@ -127,7 +125,9 @@ export const Search: FC = () => {
 				</label>
 			</div>
 
-			<div className={styles.searchResultsContainer}>{renderSearchResults()}</div>
+			<div className={styles.searchResultsContainer}>
+				{renderSearchResults()}
+			</div>
 		</div>
 	)
 }
