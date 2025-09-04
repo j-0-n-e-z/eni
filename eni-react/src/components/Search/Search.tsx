@@ -1,5 +1,7 @@
 import type { FC } from 'react'
 import React, { useEffect, useRef, useState } from 'react'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useAppSelector } from '@/app/hooks'
@@ -15,11 +17,12 @@ export const Search: FC = () => {
 	const [searchParams] = useSearchParams()
 	const [movieTitle, setMovieTitle] = useState(searchParams.get('query') ?? '')
 	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 500)
-	const inputRef = useRef<HTMLInputElement>(null)
 	const historyMovies = useAppSelector(selectMoviesFromHistory)
 	const [triggerSearch, { data: movies, isLoading, error, reset }] =
-		useLazySearchMoviesQuery()
+	useLazySearchMoviesQuery()
 	const navigate = useNavigate()
+	const inputRef = useRef<HTMLInputElement>(null)
+	const queryRef = useRef<ReturnType<typeof triggerSearch> | null>(null)
 
 	useEffect(() => {
 		if (debouncedMovieTitle) {
@@ -33,15 +36,19 @@ export const Search: FC = () => {
 		const query = searchParams.get('query') ?? ''
 
 		if (!query) {
+			queryRef.current?.abort()
+			queryRef.current = null
 			setMovieTitle('')
 			reset()
 			return
 		}
 
-		triggerSearch(query)
+		queryRef.current = triggerSearch(query)
 	}, [searchParams])
 
 	function clearInput() {
+		queryRef.current?.abort()
+		queryRef.current = null
 		cancelDebounce()
 		reset()
 		setMovieTitle('')
@@ -54,7 +61,7 @@ export const Search: FC = () => {
 
 		if (movieTitleTrimmed) {
 			cancelDebounce()
-			triggerSearch(movieTitleTrimmed)
+			queryRef.current = triggerSearch(movieTitleTrimmed)
 		}
 	}
 
@@ -65,7 +72,12 @@ export const Search: FC = () => {
 	}
 
 	function renderSearchResults() {
-		if (isLoading) return <div>Загрузка...</div>
+		if (isLoading)
+			return (
+				<div>
+					<Skeleton className={styles.movieCard} />
+				</div>
+			)
 
 		if (error) return <div>JSON.stringify(error)</div>
 
