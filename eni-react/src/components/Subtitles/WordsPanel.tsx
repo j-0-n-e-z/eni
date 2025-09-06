@@ -56,7 +56,7 @@ export const WordsPanel: FC<WordsPanelProps> = ({
 							className={cn(styles.control, styles.save)}
 							onClick={saveSingleWords}
 						>
-							Save word(-s)
+							Save word{selectedWords.length > 1 ? 's' : ''}
 						</button>
 					)}
 				</div>

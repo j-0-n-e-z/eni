@@ -3,7 +3,7 @@ import { useEffect, useState, type FC } from 'react'
 import toast from 'react-hot-toast'
 
 import { DarkSkeleton } from '@/components'
-import { ImdbIcon, TranslateIcon } from '@/icons'
+import { ArrowIcon, ImdbIcon, TranslateIcon } from '@/icons'
 import { useGetMovieBoxOfficeByKinopoiskIdQuery } from '@/store/api'
 import type { KinopoiskMovie } from '@/types'
 import { formatMinutesToHours, formatMoney, formatRating } from '@/utils'
@@ -23,6 +23,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 		skip: !movie.kinopoiskId
 	})
 	const [isShowOriginalTitle, setIsShowOriginalTitle] = useState(true)
+	const [isMovieInfoHidden, setIsMovieInfoHidden] = useState(false)
 
 	const budget = boxOffice?.items.find((item) => item.type === 'BUDGET')
 	const boxOfficeWorld = boxOffice?.items.find((item) => item.type === 'WORLD')
@@ -34,15 +35,23 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 			})
 	}, [boxOfficeError])
 
+	const toggleHideMovieInfo = () => {
+		setIsMovieInfoHidden((p) => !p)
+	}
+
 	return (
-		<section className={styles.movieSection}>
+		<section
+			className={cn(styles.movieInfoSection, {
+				[styles.hidden]: isMovieInfoHidden
+			})}
+		>
 			<div className={styles.heroContainer}>
 				<img
 					alt={`${movie.nameOriginal} Cover`}
 					className={styles.cover}
 					src={movie.posterUrl}
 				/>
-				<div className={styles.details}>
+				<div className={styles.movieInfoWrapper}>
 					<h2 className={styles.titleWrapper}>
 						<a
 							className={styles.titleLink}
@@ -62,105 +71,113 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 						)}
 					</h2>
 
-					{movie.slogan && <p className={styles.slogan}>{movie.slogan}</p>}
+					<div className={styles.details}>
+						{movie.slogan && <p className={styles.slogan}>{movie.slogan}</p>}
+						{movie.filmLength && (
+							<span className={styles.duration}>
+								{formatMinutesToHours(movie.filmLength)}
+							</span>
+						)}
+						<div className={styles.movieMeta}>
+							<div className={styles.metaItem}>
+								<span className={styles.metaLabel}>Год:</span>
+								<span className={styles.metaValue}>{movie.year}</span>
+							</div>
 
-					{movie.filmLength && (
-						<span className={styles.duration}>
-							{formatMinutesToHours(movie.filmLength)}
-						</span>
-					)}
+							{movie.ratingMpaa && (
+								<div className={styles.metaItem}>
+									<span className={styles.metaLabel}>Возраст: </span>
+									<span className={cn(styles.metaValue, styles.mpaa)}>
+										{formatRating(movie.ratingMpaa)}
+									</span>
+								</div>
+							)}
 
-					<div className={styles.movieMeta}>
-						<div className={styles.metaItem}>
-							<span className={styles.metaLabel}>Год:</span>
-							<span className={styles.metaValue}>{movie.year}</span>
+							{movie.ratingImdb && (
+								<div className={styles.metaItem}>
+									<span className={styles.metaLabel}>Рейтинг: </span>
+									<a
+										className={cn(styles.metaValue, styles.imdb)}
+										href={`https://www.imdb.com/title/${movie.imdbId}`}
+										rel='noopener noreferrer'
+										target='_blank'
+									>
+										{movie.ratingImdb.toFixed(1)}
+										<ImdbIcon className={styles.imdbLogo} />
+									</a>
+								</div>
+							)}
+
+							{movie.countries && (
+								<div className={styles.metaItem}>
+									<span className={styles.metaLabel}>Страны: </span>
+									<span className={styles.metaValue}>
+										{movie.countries.map(({ country }) => country).join(', ')}
+									</span>
+								</div>
+							)}
+
+							{isBoxOfficeFetching ? (
+								<>
+									<DarkSkeleton width='10rem' />
+									<DarkSkeleton width='10rem' />
+								</>
+							) : (
+								<>
+									{budget && (
+										<div className={styles.metaItem}>
+											<span className={styles.metaLabel}>Бюджет:</span>
+											<span className={cn(styles.metaValue, styles.budget)}>
+												{formatMoney(
+													budget.amount,
+													budget.currencyCode || 'USD'
+												)}
+											</span>
+										</div>
+									)}
+									{boxOfficeWorld && (
+										<div className={styles.metaItem}>
+											<span className={styles.metaLabel}>Сборы:</span>
+											<span className={cn(styles.metaValue, styles.boxOffice)}>
+												{formatMoney(
+													boxOfficeWorld.amount,
+													boxOfficeWorld.currencyCode || 'USD'
+												)}
+											</span>
+										</div>
+									)}
+								</>
+							)}
 						</div>
-
-						{movie.ratingMpaa && (
-							<div className={styles.metaItem}>
-								<span className={styles.metaLabel}>Возраст: </span>
-								<span className={cn(styles.metaValue, styles.mpaa)}>
-									{formatRating(movie.ratingMpaa)}
-								</span>
-							</div>
+						{movie.genres && (
+							<ul className={styles.genres}>
+								{movie.genres.map(({ genre }) => (
+									<li key={genre} className={styles.genre}>
+										{genre}
+									</li>
+								))}
+							</ul>
 						)}
-
-						{movie.ratingImdb && (
-							<div className={styles.metaItem}>
-								<span className={styles.metaLabel}>Рейтинг: </span>
-								<a
-									className={cn(styles.metaValue, styles.imdb)}
-									href={`https://www.imdb.com/title/${movie.imdbId}`}
-									rel='noopener noreferrer'
-									target='_blank'
-								>
-									{movie.ratingImdb.toFixed(1)}
-									<ImdbIcon className={styles.imdbLogo} />
-								</a>
-							</div>
+						{movie.shortDescription && (
+							<p className={styles.description}>{movie.shortDescription}</p>
 						)}
-
-						{movie.countries && (
-							<div className={styles.metaItem}>
-								<span className={styles.metaLabel}>Страны: </span>
-								<span className={styles.metaValue}>
-									{movie.countries.map(({ country }) => country).join(', ')}
-								</span>
-							</div>
-						)}
-
-						{isBoxOfficeFetching ? (
-							<>
-								<DarkSkeleton width='10rem' />
-								<DarkSkeleton width='10rem' />
-							</>
-						) : (
-							<>
-								{budget && (
-									<div className={styles.metaItem}>
-										<span className={styles.metaLabel}>Бюджет:</span>
-										<span className={cn(styles.metaValue, styles.budget)}>
-											{formatMoney(budget.amount, budget.currencyCode || 'USD')}
-										</span>
-									</div>
-								)}
-								{boxOfficeWorld && (
-									<div className={styles.metaItem}>
-										<span className={styles.metaLabel}>Сборы:</span>
-										<span className={cn(styles.metaValue, styles.boxOffice)}>
-											{formatMoney(
-												boxOfficeWorld.amount,
-												boxOfficeWorld.currencyCode || 'USD'
-											)}
-										</span>
-									</div>
-								)}
-							</>
+						{movie.productionStatus && (
+							<span>
+								<b>Production Status: </b>
+								{movie.productionStatus}
+							</span>
 						)}
 					</div>
-
-					{movie.genres && (
-						<ul className={styles.genres}>
-							{movie.genres.map(({ genre }) => (
-								<li key={genre} className={styles.genre}>
-									{genre}
-								</li>
-							))}
-						</ul>
-					)}
-
-					{movie.shortDescription && (
-						<p className={styles.description}>{movie.shortDescription}</p>
-					)}
-
-					{movie.productionStatus && (
-						<span>
-							<b>Production Status: </b>
-							{movie.productionStatus}
-						</span>
-					)}
 				</div>
 			</div>
+
+			<button
+				aria-label={`${isMovieInfoHidden ? 'show' : 'hide'} movie info`}
+				className={styles.toggleMovieInfoBtn}
+				onClick={toggleHideMovieInfo}
+			>
+				<ArrowIcon/>
+			</button>
 		</section>
 	)
 }

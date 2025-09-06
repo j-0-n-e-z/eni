@@ -65,11 +65,12 @@ export const SavedWords: FC<SavedWordsProps> = ({ words, removeWord }) => {
 	}
 
 	const renderWordTranslation = (word: Word) => {
-		if (!word.translation) return null
-
 		if (isWordDefinitionLoading || isWordTranslationLoading) return <Skeleton />
 
-		if (word.translation.includes('\n') || word.translation.includes(': ')) {
+		if (
+			word.translation &&
+			(word.translation.includes('\n') || word.translation.includes(': '))
+		) {
 			return word.translation.split('\n').map((def) => {
 				const [pos, tr] = def.split(': ')
 				return (
