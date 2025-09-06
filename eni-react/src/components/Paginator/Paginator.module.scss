@@ -6,14 +6,14 @@
 	gap: 1rem;
 }
 
-.buttons {
+.pageButtonsContainer {
 	display: grid;
 	grid-auto-columns: min-content;
 	grid-auto-flow: column;
 	column-gap: $space-sm;
 }
 
-.paginator button {
+.pageButton {
 	@extend %button-base;
 
 	aspect-ratio: 1;

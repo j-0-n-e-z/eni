@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 import { useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '@/app/index'
-import { SavedWords, SubtitleWords, WordsPanel } from '@/components'
+import { SavedWords, Skeleton, SubtitleWords, WordsPanel } from '@/components'
 import { TranslateIcon } from '@/icons'
 import {
 	addLearningWord,
@@ -152,7 +152,7 @@ export const Subtitle: FC<SubtitleProps> = ({
 	}, [])
 
 	const renderSubtitleTranslation = () => {
-		if (isSubtitleTranslationLoading) return <p>Translation loading...</p>
+		if (isSubtitleTranslationLoading) return <Skeleton/>
 
 		if (subtitleTranslationError)
 			return <p>{JSON.stringify(subtitleTranslationError)})</p>

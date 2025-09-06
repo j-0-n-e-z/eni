@@ -1,3 +1,4 @@
+import cn from 'classnames'
 import React from 'react'
 
 import { ArrowIcon } from '@/icons'
@@ -40,7 +41,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
 
 	return (
 		<div className={styles.paginator}>
-			<div className={styles.buttons}>
+			<div className={styles.pageButtonsContainer}>
 				<button
 					aria-disabled={currentPage === 1}
 					aria-label='previous page'
@@ -53,19 +54,25 @@ export const Paginator: React.FC<PaginatorProps> = ({
 
 				{generatePages(pageCount, currentPage).map((page, index) =>
 					page === '...' ? (
-						<button key={index} disabled className={styles.ellipsis}>
+						<button
+							key={index}
+							disabled
+							className={cn(styles.pageButton, styles.ellipsis)}
+						>
 							...
 						</button>
 					) : (
 						<button
 							key={index}
 							aria-current={currentPage === page ? 'page' : undefined}
-							className={currentPage === page ? styles.active : ''}
 							aria-label={
 								currentPage === page
 									? `current page ${page}`
 									: `go to page ${page}`
 							}
+							className={cn(styles.pageButton, {
+								[styles.active]: currentPage === page
+							})}
 							onClick={() => goToPage(page)}
 						>
 							{page}
@@ -76,7 +83,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
 				<button
 					aria-disabled={currentPage === pageCount}
 					aria-label='next page'
-					className={styles.nextBtn}
+					className={cn(styles.pageButton, styles.nextBtn)}
 					disabled={currentPage === pageCount}
 					onClick={() => goToPage(currentPage + 1)}
 				>

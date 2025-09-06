@@ -17,7 +17,6 @@ import { store } from '@/store'
 import { App } from './App'
 import { ProtectedRoute } from './ProtectedRoute'
 
-// TODO: add error pages
 const router = createBrowserRouter([
 	{
 		path: '/',

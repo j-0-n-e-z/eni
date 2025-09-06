@@ -23,11 +23,11 @@ export const WordsSection: FC<WordsSectionProps> = ({
 	icon,
 	isLearned
 }) => (
-	<section className={styles.section}>
-		<div className={styles.sectionHeader}>
-			<h3 className={styles.sectionTitle}>
+	<section className={styles.wordsSection}>
+		<div className={styles.wordsSectionHeader}>
+			<h3 className={styles.wordsSectionTitleWrapper}>
 				{icon}
-				<span>{title}</span>
+				{title}
 			</h3>
 			<span className={styles.badge}>{words.length}</span>
 		</div>

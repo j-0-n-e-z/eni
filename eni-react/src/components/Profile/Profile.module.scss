@@ -97,7 +97,7 @@
 	color: $text-tertiary;
 }
 
-.section {
+.wordsSection {
 	padding: 1.5rem;
 	background: $card-bg;
 	border: 1px solid $card-border;
@@ -105,14 +105,14 @@
 	box-shadow: $shadow-sm;
 }
 
-.sectionHeader {
+.wordsSectionHeader {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	margin-bottom: 1.5rem;
 }
 
-.sectionTitle {
+.wordsSectionTitleWrapper {
 	display: flex;
 	gap: 0.5rem;
 	align-items: center;
@@ -121,7 +121,7 @@
 	color: $text-primary;
 }
 
-.sectionTitle svg {
+.wordsSectionTitleWrapper svg {
 	width: 1.25rem;
 	height: 1.25rem;
 	color: $brand-primary;

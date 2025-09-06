@@ -1,6 +1,7 @@
 import { useEffect, useState, type FC } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
+import { MovieSubtitlesPageSkeleton } from '@/components'
 import { useGetMovieByKinopoiskIdQuery } from '@/store/api'
 import type { MovieSubtitle } from '@/types'
 
@@ -33,7 +34,7 @@ export const MovieSubtitlesPage: FC = () => {
 
 	if (Number.isNaN(movieId)) return <div>Отсутствует id фильма</div>
 
-	if (isMovieLoading) return <div>...Загрузка</div>
+	if (isMovieLoading) return <MovieSubtitlesPageSkeleton />
 
 	if (movieError) return <div>{JSON.stringify(movieError)}</div>
 

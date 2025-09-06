@@ -1,12 +1,13 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
+import { FullScreenLoader } from '@/components'
 import { useGetMeQuery } from '@/store/api'
 
 export const ProtectedRoute = () => {
-	const { isLoading, isSuccess } = useGetMeQuery()
+	const { isSuccess, isFetching } = useGetMeQuery()
 	const location = useLocation()
 
-	if (isLoading) return <div>ЗАГРУЗКА ProtectedRoute</div>
+	if (isFetching) return <FullScreenLoader />
 
 	return isSuccess ? (
 		<Outlet />

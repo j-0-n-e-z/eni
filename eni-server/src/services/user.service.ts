@@ -39,7 +39,7 @@ export class UserService {
 		return user
 	}
 
-	private async create(
+	private async createUser(
 		{
 			username,
 			email,
@@ -75,7 +75,7 @@ export class UserService {
 				)
 			}
 
-			const user = await this.create(
+			const user = await this.createUser(
 				{
 					username,
 					email,

@@ -2,6 +2,7 @@ import type { FC } from 'react'
 import toast from 'react-hot-toast'
 
 import { useAppDispatch } from '@/app/index'
+import { Skeleton } from '@/components'
 import { CancelIcon, TranslateIcon } from '@/icons'
 import { addWordTranslation } from '@/store'
 import type { BackendError } from '@/store/api'
@@ -66,7 +67,7 @@ export const SavedWords: FC<SavedWordsProps> = ({ words, removeWord }) => {
 	const renderWordTranslation = (word: Word) => {
 		if (!word.translation) return null
 
-		if (isWordDefinitionLoading || isWordTranslationLoading) return 'Loading...'
+		if (isWordDefinitionLoading || isWordTranslationLoading) return <Skeleton />
 
 		if (word.translation.includes('\n') || word.translation.includes(': ')) {
 			return word.translation.split('\n').map((def) => {

@@ -2,6 +2,7 @@ import cn from 'classnames'
 import { Link, useLocation } from 'react-router-dom'
 
 import { useAppSelector } from '@/app/index'
+import { SidePanelSkeleton } from '@/components'
 import {
 	BookIcon,
 	BrainIcon,
@@ -29,13 +30,8 @@ export const SidePanel = () => {
 		[styles.active]: location.pathname === path
 	})
 
-	if (isMeLoading)
-		return (
-			<div style={{ position: 'fixed', top: 0, left: 0 }}>
-				SidePanel Loading...
-			</div>
-		)
-	if (isLogoutLoading) return <div>Loggin out...</div>
+	if (isMeLoading || isLogoutLoading) return <SidePanelSkeleton />
+
 	if (isLogoutError)
 		return <div>Could not log out: {JSON.stringify(error)}</div>
 

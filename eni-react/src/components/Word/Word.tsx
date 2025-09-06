@@ -4,6 +4,7 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch } from '@/app/index'
+import { Skeleton } from '@/components'
 import { BrainIcon, TranslateIcon, TrashIcon } from '@/icons'
 import { addWordTranslation, removeLearningWord } from '@/store'
 import type { BackendError } from '@/store/api'
@@ -25,9 +26,9 @@ interface MyWordProps {
 }
 
 export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
-	const [triggerTranslate, { isLoading: isTranslationLoading }] =
+	const [triggerTranslate, { isFetching: isTranslationFetching }] =
 		useLazyTranslateQuery()
-	const [triggerGetDefinition, { isLoading: isDefinitionLoading }] =
+	const [triggerGetDefinition, { isFetching: isDefinitionFetching }] =
 		useLazyGetDifinitionQuery()
 	const [triggerSaveWord] = useSaveWordMutation()
 	const [triggerDeleteWord] = useDeleteWordMutation()
@@ -120,11 +121,9 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 	}
 
 	const renderWordTranslation = () => {
-		if (!word.translation) return null
+		if (isTranslationFetching || isDefinitionFetching) return <Skeleton width='15rem'/>
 
-		if (isTranslationLoading || isDefinitionLoading) return 'Loading...'
-
-		if (word.translation.includes('\n') || word.translation.includes(': ')) {
+		if (word.translation && (word.translation.includes('\n') || word.translation.includes(': '))) {
 			return word.translation.split('\n').map((def) => {
 				const [pos, tr] = def.split(': ')
 				return (

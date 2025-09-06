@@ -12,7 +12,7 @@ export class SubtitleService {
 			order_by: 'points'
 		}
 
-		if (query.startsWith('tt')) {
+		if (/tt\d+/.test(query)) {
 			params.imdb_id = query
 		} else {
 			params.query = query

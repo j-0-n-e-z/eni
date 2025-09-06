@@ -2,7 +2,7 @@ import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 
-import { Paginator, Subtitle } from '@/components'
+import { Paginator, Subtitle, SubtitlesSkeleton } from '@/components'
 import { useGetSubtitleByFileIdQuery } from '@/store/api'
 import { SUBTITLES_PER_PAGE } from '@/utils'
 
@@ -35,7 +35,7 @@ export const Subtitles: FC = () => {
 		setCurrentPage(page)
 	}, [searchParams])
 
-	if (isSubtitlesLoading) return <div>...Загрузка субтитров</div>
+	if (isSubtitlesLoading) return <SubtitlesSkeleton/>
 
 	if (subtitlesError) return <div>{JSON.stringify(subtitlesError)}</div>
 

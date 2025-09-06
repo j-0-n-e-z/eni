@@ -2,6 +2,7 @@ import cn from 'classnames'
 import { useEffect, useState, type FC } from 'react'
 import toast from 'react-hot-toast'
 
+import { DarkSkeleton } from '@/components'
 import { ImdbIcon, TranslateIcon } from '@/icons'
 import { useGetMovieBoxOfficeByKinopoiskIdQuery } from '@/store/api'
 import type { KinopoiskMovie } from '@/types'
@@ -17,7 +18,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 	const {
 		data: boxOffice,
 		error: boxOfficeError,
-		isLoading: isBoxOfficeLoading
+		isFetching: isBoxOfficeFetching
 	} = useGetMovieBoxOfficeByKinopoiskIdQuery(movie.kinopoiskId, {
 		skip: !movie.kinopoiskId
 	})
@@ -28,7 +29,9 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 
 	useEffect(() => {
 		if (boxOfficeError)
-			toast.error('Faild to load budget and box office', { id: 'boxOfficeError' })
+			toast.error('Faild to load budget and box office', {
+				id: 'boxOfficeError'
+			})
 	}, [boxOfficeError])
 
 	return (
@@ -82,32 +85,6 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 							</div>
 						)}
 
-						{isBoxOfficeLoading ? (
-							<div>...Загрузка бокс-офиса</div>
-						) : (
-							<>
-								{budget && (
-									<div className={styles.metaItem}>
-										<span className={styles.metaLabel}>Бюджет:</span>
-										<span className={cn(styles.metaValue, styles.budget)}>
-											{formatMoney(budget.amount, budget.currencyCode || 'USD')}
-										</span>
-									</div>
-								)}
-								{boxOfficeWorld && (
-									<div className={styles.metaItem}>
-										<span className={styles.metaLabel}>Сборы:</span>
-										<span className={cn(styles.metaValue, styles.boxOffice)}>
-											{formatMoney(
-												boxOfficeWorld.amount,
-												boxOfficeWorld.currencyCode || 'USD'
-											)}
-										</span>
-									</div>
-								)}
-							</>
-						)}
-
 						{movie.ratingImdb && (
 							<div className={styles.metaItem}>
 								<span className={styles.metaLabel}>Рейтинг: </span>
@@ -130,6 +107,35 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 									{movie.countries.map(({ country }) => country).join(', ')}
 								</span>
 							</div>
+						)}
+
+						{isBoxOfficeFetching ? (
+							<>
+								<DarkSkeleton width='10rem' />
+								<DarkSkeleton width='10rem' />
+							</>
+						) : (
+							<>
+								{budget && (
+									<div className={styles.metaItem}>
+										<span className={styles.metaLabel}>Бюджет:</span>
+										<span className={cn(styles.metaValue, styles.budget)}>
+											{formatMoney(budget.amount, budget.currencyCode || 'USD')}
+										</span>
+									</div>
+								)}
+								{boxOfficeWorld && (
+									<div className={styles.metaItem}>
+										<span className={styles.metaLabel}>Сборы:</span>
+										<span className={cn(styles.metaValue, styles.boxOffice)}>
+											{formatMoney(
+												boxOfficeWorld.amount,
+												boxOfficeWorld.currencyCode || 'USD'
+											)}
+										</span>
+									</div>
+								)}
+							</>
 						)}
 					</div>
 
