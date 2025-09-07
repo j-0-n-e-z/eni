@@ -1,6 +1,5 @@
+@use '@styles' as *;
 @use 'sass:color';
-@use '../../styles/_colors' as *;
-@use '../../styles/variables' as *;
 
 .wordItem {
 	display: flex;

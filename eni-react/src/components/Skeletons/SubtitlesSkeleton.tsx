@@ -7,7 +7,7 @@ export const SubtitlesSkeleton = () => (
 	<div>
 		<div className={styles.controlPanel}>
 			<div className={paginatorStyles.paginator}>
-				<div className={paginatorStyles.pageButtonsContainer}>
+				<div className={paginatorStyles.pageBtnsContainer}>
 					{Array.from({ length: 7 }).map((_, i) => (
 						<Skeleton
 							key={`sk_pageBtn_${i}`}

@@ -1,6 +1,4 @@
-@use '../../styles/_variables.scss' as *;
-@use '../../styles/_colors.scss' as *;
-@use '../../styles/_sharedStyles.scss' as *;
+@use '@styles' as *;
 
 .authPage {
 	display: flex;
@@ -25,16 +23,14 @@
 }
 
 .logoContainer {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	@include center-flex;
+
 	margin-bottom: 1.5rem;
 }
 
 .logoIconWrapper {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	@include center-flex;
+
 	width: 3rem;
 	height: 3rem;
 	background: $gradient-primary;

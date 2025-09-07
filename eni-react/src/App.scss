@@ -1,7 +1,4 @@
-@use './styles/_colors.scss' as *;
-@use './styles/_colors.scss' as *;
-@use './styles/_variables.scss' as *;
-@use 'sass:meta';
+@use '@styles' as *;
 
 body {
 	width: 100vw;
@@ -58,7 +55,8 @@ a {
 button,
 a {
 	&:focus-visible {
-		outline: 2px dashed $interactive-focus-ring;
+		outline: 2px dashed $interactive-hover;
+		outline-offset: .25rem;
 	}
 
 	&:focus:not(:focus-visible) {

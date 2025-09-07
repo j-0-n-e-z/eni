@@ -1,6 +1,4 @@
-@use '../../styles/_variables.scss' as *;
-@use '../../styles/_colors.scss' as *;
-@use '../../styles/animations.scss' as *;
+@use '@styles' as *;
 
 .sidepanel {
 	position: fixed;
@@ -10,7 +8,7 @@
 	width: 80px;
 	height: 100vh;
 	overflow-x: hidden;
-	background: linear-gradient(to bottom, #0f172a, #1e293b, #0f172a);
+	background: $bg-gradient-dark;
 	backdrop-filter: blur(24px);
 	transition:
 		width 0.5s ease,
@@ -18,7 +16,7 @@
 
 	&:hover {
 		width: 220px;
-		box-shadow: 0 0 $space-xxl #1e293b;
+		box-shadow: 0 0 $space-xxl $bg-dark-secondary;
 	}
 }
 
@@ -65,7 +63,7 @@
 	align-items: center;
 	width: 100%;
 	padding: $space-lg $space-xxl;
-	border-bottom: 1px solid rgb(255 255 255 / 10%);
+	border-bottom: 1px solid $overlay-white;
 	transition: gap 0.2s ease;
 }
 
@@ -139,11 +137,11 @@
 }
 
 .navLink.active {
-	background: rgb(255 255 255 / 15%);
+	background: $overlay-white-15;
 }
 
 .navLink:hover {
-	background: rgb(255 255 255 / 10%);
+	background: $overlay-white;
 }
 
 .words {
@@ -151,12 +149,11 @@
 }
 
 .wordsCount {
+	@include center-flex;
+
 	position: absolute;
 	right: 32px;
 	bottom: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	width: fit-content;
 	height: 18px;
 	padding: 6px;
@@ -171,7 +168,7 @@
 .bottomNavigation {
 	padding: $space-md $space-sm;
 	color: $text-white;
-	border-top: 1px solid rgb(255 255 255 / 10%);
+	border-top: 1px solid $overlay-white;
 	transition: margin-left 0.2s ease;
 }
 
@@ -204,9 +201,9 @@
 }
 
 .login.active {
-	background: rgb(255 255 255 / 15%);
+	background: $overlay-white-15;
 }
 
 .login:hover {
-	background: rgb(255 255 255 / 10%);
+	background: $overlay-white;
 }

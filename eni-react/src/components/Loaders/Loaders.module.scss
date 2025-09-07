@@ -1,5 +1,4 @@
-@use '../../styles/_variables.scss' as *;
-@use '../../styles/_colors.scss' as *;
+@use '@styles' as *;
 
 .fsLoaderContainer {
 	display: grid;

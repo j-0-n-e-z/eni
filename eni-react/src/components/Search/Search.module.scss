@@ -1,9 +1,7 @@
-@use '../../styles/_variables.scss' as *;
-@use '../../styles/_colors.scss' as *;
-@use '../../styles/sharedStyles.scss' as *;
+@use '@styles' as *;
 
 .searchPage {
-	@extend %container;
+	@include container;
 
 	display: flex;
 	flex-direction: column;
@@ -41,9 +39,8 @@
 }
 
 .searchBtn {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	@include center-flex;
+
 	height: 100%;
 	cursor: pointer;
 }
@@ -69,9 +66,8 @@
 }
 
 .clearBtn {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	@include center-flex;
+
 	width: 40px;
 	height: 100%;
 	padding: 0;
@@ -100,6 +96,10 @@
 	font-size: $font-xxl;
 	color: $text-primary;
 	text-align: center;
+
+	.deleteBtn {
+		background-color: $bg-brand-light;
+	}
 }
 
 .searchResultList {
@@ -181,15 +181,15 @@
 }
 
 .deleteBtn {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	@include center-flex;
+
 	width: 40px;
 	height: 40px;
 	cursor: pointer;
 	background-color: $overlay-dark;
 	border: 2px solid $border-medium;
 	border-radius: 8px;
+	transition: background-color .15s ease;
 
 	&:hover {
 		background-color: $error;

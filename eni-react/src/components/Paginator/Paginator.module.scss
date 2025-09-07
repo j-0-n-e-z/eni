@@ -1,20 +1,18 @@
-@use '../../styles/_variables.scss' as *;
-@use '../../styles/_sharedStyles.scss' as *;
-@use '../../styles/_colors.scss' as *;
+@use '@styles' as *;
 
 .paginator {
 	display: flex;
 	gap: 1rem;
 }
 
-.pageButtonsContainer {
+.pageBtnsContainer {
 	display: grid;
 	grid-auto-columns: min-content;
 	grid-auto-flow: column;
 	column-gap: $space-sm;
 }
 
-.pageButton {
+.pageBtn {
 	@extend %button-base;
 
 	aspect-ratio: 1;
@@ -57,6 +55,6 @@
 	padding: 0.5rem;
 	font-size: $font-lg;
 	text-align: center;
-	border: 2px solid #e5e7eb;
+	border: 2px solid $border-light;
 	border-radius: $space-md;
 }

@@ -1,11 +1,9 @@
+@use '@styles' as *;
 @use 'sass:color';
-@use '../../styles/_variables.scss' as *;
-@use '../../styles/_colors.scss' as *;
 
 .header {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	@include center-flex;
+
 	margin: 20px 0;
 	font-size: $font-xl;
 }
@@ -131,9 +129,8 @@
 }
 
 .removeSavedWordBtn {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	@include center-flex;
+
 	color: $error;
 	cursor: pointer;
 }

@@ -1,5 +1,5 @@
-@use './_variables.scss' as *;
-@use './_colors.scss' as *;
+@use 'variables' as *;
+@use 'colors' as *;
 
 %container {
 	width: 100%;

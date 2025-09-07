@@ -41,7 +41,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
 
 	return (
 		<div className={styles.paginator}>
-			<div className={styles.pageButtonsContainer}>
+			<div className={styles.pageBtnsContainer}>
 				<button
 					aria-disabled={currentPage === 1}
 					aria-label='previous page'
@@ -57,7 +57,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
 						<button
 							key={index}
 							disabled
-							className={cn(styles.pageButton, styles.ellipsis)}
+							className={cn(styles.pageBtn, styles.ellipsis)}
 						>
 							...
 						</button>
@@ -70,7 +70,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
 									? `current page ${page}`
 									: `go to page ${page}`
 							}
-							className={cn(styles.pageButton, {
+							className={cn(styles.pageBtn, {
 								[styles.active]: currentPage === page
 							})}
 							onClick={() => goToPage(page)}
@@ -83,7 +83,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
 				<button
 					aria-disabled={currentPage === pageCount}
 					aria-label='next page'
-					className={cn(styles.pageButton, styles.nextBtn)}
+					className={cn(styles.pageBtn, styles.nextBtn)}
 					disabled={currentPage === pageCount}
 					onClick={() => goToPage(currentPage + 1)}
 				>

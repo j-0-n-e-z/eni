@@ -1,9 +1,7 @@
-@use '../../styles/_colors' as *;
-@use '../../styles/variables' as *;
-@use '../../styles/_sharedStyles' as *;
+@use '@styles' as *;
 
 .profilePage {
-	@extend %container;
+	@include container;
 
 	display: flex;
 	flex-direction: column;
@@ -28,10 +26,9 @@
 }
 
 .avatar {
+	@include center-flex;
+
 	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	width: 5rem;
 	height: 5rem;
 	margin-bottom: 1.5rem;
