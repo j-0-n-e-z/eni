@@ -25,22 +25,9 @@ const initialState: WordsState = {
 }
 
 const learningWordsSlice = createSlice({
-	name: 'learningWords',
 	initialState,
+	name: 'learningWords',
 	reducers: {
-		clearLearningWords: (state) => {
-			state.learningWords = []
-			updateLocalStorage([])
-		},
-		addWordTranslation: (state, action: PayloadAction<{id: string, translation: string}>) => {
-			const wordToTranslate = state.learningWords.find((word) => word.id === action.payload.id)
-
-			if (!wordToTranslate) return
-
-			wordToTranslate.translation = action.payload.translation
-
-			updateLocalStorage(state.learningWords)
-		},
 		addLearningWord: (state, action: PayloadAction<Word>) => {
 			const wordToAdd = action.payload
 			const isAlreadyAdded = Boolean(
@@ -52,6 +39,24 @@ const learningWordsSlice = createSlice({
 			state.learningWords.push(wordToAdd)
 
 			updateLocalStorage(state.learningWords)
+		},
+		addWordTranslation: (
+			state,
+			action: PayloadAction<{ id: string; translation: string }>
+		) => {
+			const wordToTranslate = state.learningWords.find(
+				(word) => word.id === action.payload.id
+			)
+
+			if (!wordToTranslate) return
+
+			wordToTranslate.translation = action.payload.translation
+
+			updateLocalStorage(state.learningWords)
+		},
+		clearLearningWords: (state) => {
+			state.learningWords = []
+			updateLocalStorage([])
 		},
 		removeLearningWord: (state, action: PayloadAction<string>) => {
 			state.learningWords = state.learningWords.filter(

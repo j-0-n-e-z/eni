@@ -112,6 +112,11 @@
 .searchResultItem {
 	display: flex;
 	justify-content: center;
+	opacity: 0%;
+}
+
+.searchResultItem.inView {
+	animation: fadeIn 0.3s ease-in forwards;
 }
 
 .movieCard {
@@ -189,7 +194,7 @@
 	background-color: $overlay-dark;
 	border: 2px solid $border-medium;
 	border-radius: 8px;
-	transition: background-color .15s ease;
+	transition: background-color 0.15s ease;
 
 	&:hover {
 		background-color: $error;

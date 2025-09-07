@@ -176,7 +176,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 				className={styles.toggleMovieInfoBtn}
 				onClick={toggleHideMovieInfo}
 			>
-				<ArrowIcon/>
+				<ArrowIcon />
 			</button>
 		</section>
 	)

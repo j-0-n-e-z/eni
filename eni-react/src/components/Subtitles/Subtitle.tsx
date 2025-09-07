@@ -100,13 +100,13 @@ export const Subtitle: FC<SubtitleProps> = ({
 
 		dispatch(
 			addLearningWord({
-				id: `joined_${wordsToJoin.map((word) => word.id).join('_')}`,
-				text: joinedWordText,
 				from: wordsToJoin[0].from,
-				words: wordsToJoin,
+				id: `joined_${wordsToJoin.map((word) => word.id).join('_')}`,
+				isFavorite: false,
 				isJoined: true,
 				isLearned: false,
-				isFavorite: false
+				text: joinedWordText,
+				words: wordsToJoin
 			})
 		)
 
@@ -152,7 +152,7 @@ export const Subtitle: FC<SubtitleProps> = ({
 	}, [])
 
 	const renderSubtitleTranslation = () => {
-		if (isSubtitleTranslationLoading) return <Skeleton/>
+		if (isSubtitleTranslationLoading) return <Skeleton />
 
 		if (subtitleTranslationError)
 			return <p>{JSON.stringify(subtitleTranslationError)})</p>

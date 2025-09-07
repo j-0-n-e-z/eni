@@ -5,45 +5,45 @@ import type { User, Word, WordResponse } from '@/types'
 import { baseQueryWithReauth } from './authApi'
 
 export const userApi = createApi({
-	tagTypes: ['Words'],
-	reducerPath: 'userApi',
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
+		deleteWord: build.mutation<void, { userId: string; wordId: string }>({
+			invalidatesTags: [{ id: 'LIST', type: 'Words' }],
+			query: ({ userId, wordId }) => ({
+				credentials: 'include',
+				method: 'DELETE',
+				url: `/user/${userId}/word/${encodeURIComponent(wordId)}`
+			})
+		}),
 		getUserByUsername: build.query<User, string>({
 			query: (username) => ({
 				url: `user/${username}`
 			})
 		}),
-		saveWord: build.mutation<void, { userId: string; word: Word }>({
-			query: ({ userId, word }) => ({
-				url: `user/${userId}/word`,
-				method: 'POST',
-				body: { word },
-				credentials: 'include'
-			}),
-			invalidatesTags: [{ type: 'Words', id: 'LIST' }]
-		}),
-		deleteWord: build.mutation<void, { userId: string; wordId: string }>({
-			query: ({ userId, wordId }) => ({
-				url: `/user/${userId}/word/${encodeURIComponent(wordId)}`,
-				method: 'DELETE',
-				credentials: 'include'
-			}),
-			invalidatesTags: [{ type: 'Words', id: 'LIST' }]
-		}),
 		getWordsByUserId: build.query<Word[], string>({
-			query: (userId) => ({
-				url: `user/${userId}/words`
-			}),
 			providesTags: (result) =>
 				result
 					? [
-							...result.map(({ id }) => ({ type: 'Words', id })),
-							{ type: 'Words', id: 'LIST' }
+							...result.map(({ id }) => ({ id, type: 'Words' })),
+							{ id: 'LIST', type: 'Words' }
 						]
-					: [{ type: 'Words', id: 'LIST' }]
+					: [{ id: 'LIST', type: 'Words' }],
+			query: (userId) => ({
+				url: `user/${userId}/words`
+			})
+		}),
+		saveWord: build.mutation<void, { userId: string; word: Word }>({
+			invalidatesTags: [{ id: 'LIST', type: 'Words' }],
+			query: ({ userId, word }) => ({
+				body: { word },
+				credentials: 'include',
+				method: 'POST',
+				url: `user/${userId}/word`
+			})
 		})
-	})
+	}),
+	reducerPath: 'userApi',
+	tagTypes: ['Words']
 })
 
 export const {

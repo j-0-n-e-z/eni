@@ -37,20 +37,19 @@ export const SubtitleWords: FC<SubtitleWordProps> = ({
 				const isSelected = Boolean(selectedWords.find((w) => w.id === id))
 
 				const word: Word = {
-					id,
-					text: punctuationMatch ? punctuationMatch[2] : wordText,
 					from: {
 						fileId,
 						movieId,
 						page,
-						subtitleWordIndex: i,
-						subtitleTimecode: subtitle.timecode
+						subtitleTimecode: subtitle.timecode,
+						subtitleWordIndex: i
 					},
-					isLearned: false,
+					id,
 					isFavorite: false,
-					isJoined: false
+					isJoined: false,
+					isLearned: false,
+					text: punctuationMatch ? punctuationMatch[2] : wordText
 				}
-
 
 				return (
 					<Fragment key={id}>

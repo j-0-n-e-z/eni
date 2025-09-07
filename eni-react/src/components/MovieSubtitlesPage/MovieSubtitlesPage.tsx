@@ -41,9 +41,9 @@ export const MovieSubtitlesPage: FC = () => {
 	if (!movie) return <div>Нет данных о фильме</div>
 
 	const contextValue: MovieSubtitlesContext = {
-		pickMovieSubtitle: setPickedMovieSubtitle,
 		imdbId: movie.imdbId,
-		movieName: movie.nameOriginal ?? movie.nameEn
+		movieName: movie.nameOriginal ?? movie.nameEn,
+		pickMovieSubtitle: setPickedMovieSubtitle
 	}
 
 	return (

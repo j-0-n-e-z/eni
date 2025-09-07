@@ -6,18 +6,18 @@ export const translateApi = authApi.injectEndpoints({
 	endpoints: (build) => ({
 		getDifinition: build.query<SimpleYandexDefinition[], string>({
 			query: (text) => ({
-				url: 'definition',
-				method: 'POST',
 				body: { text },
-				credentials: 'include'
+				credentials: 'include',
+				method: 'POST',
+				url: 'definition'
 			})
 		}),
 		translate: build.query<YandexTranslation[], string>({
 			query: (text) => ({
-				url: 'translate',
-				method: 'POST',
 				body: { text },
-				credentials: 'include'
+				credentials: 'include',
+				method: 'POST',
+				url: 'translate'
 			})
 		})
 	})

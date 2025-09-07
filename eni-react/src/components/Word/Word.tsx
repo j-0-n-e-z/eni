@@ -121,9 +121,13 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 	}
 
 	const renderWordTranslation = () => {
-		if (isTranslationFetching || isDefinitionFetching) return <Skeleton width='15rem'/>
+		if (isTranslationFetching || isDefinitionFetching)
+			return <Skeleton width='15rem' />
 
-		if (word.translation && (word.translation.includes('\n') || word.translation.includes(': '))) {
+		if (
+			word.translation &&
+			(word.translation.includes('\n') || word.translation.includes(': '))
+		) {
 			return word.translation.split('\n').map((def) => {
 				const [pos, tr] = def.split(': ')
 				return (

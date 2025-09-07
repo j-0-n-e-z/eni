@@ -5,7 +5,6 @@ import type { MovieSubtitle, PureSubtitle } from '@/types'
 import { baseQueryWithReauth } from './authApi'
 
 export const subtitleApi = createApi({
-	reducerPath: 'subtitleApi',
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
 		getMovieSubtitles: build.query<MovieSubtitle[], string | null>({
@@ -15,11 +14,12 @@ export const subtitleApi = createApi({
 		}),
 		getSubtitleByFileId: build.query<PureSubtitle[], number>({
 			query: (fileId) => ({
-				url: `subtitles/${fileId}`,
-				method: 'POST'
+				method: 'POST',
+				url: `subtitles/${fileId}`
 			})
 		})
-	})
+	}),
+	reducerPath: 'subtitleApi'
 })
 
 export const {

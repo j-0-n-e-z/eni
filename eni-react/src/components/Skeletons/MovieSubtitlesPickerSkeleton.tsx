@@ -13,7 +13,7 @@ export const MovieSubtitlesPickerSkeleton = () => (
 			{Array.from({ length: 5 }).map((_, i) => (
 				<div
 					key={`sk_moviesubs_${i}`}
-					style={{ minHeight: 250, maxWidth: 300, width: '100%' }}
+					style={{ maxWidth: 300, minHeight: 250, width: '100%' }}
 				>
 					<Skeleton height='100%' width='100%' />
 				</div>

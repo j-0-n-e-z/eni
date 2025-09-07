@@ -70,7 +70,7 @@ export const Profile = () => {
 	const isMyPage = displayUser?.username === me?.username
 
 	function renderLearnedWords() {
-		if (isLearnedWordsFetching) return <WordsSectionSkeleton/>
+		if (isLearnedWordsFetching) return <WordsSectionSkeleton />
 
 		if (isLearnedWordsError)
 			return <div>Не удалось загрузить изученные слова</div>

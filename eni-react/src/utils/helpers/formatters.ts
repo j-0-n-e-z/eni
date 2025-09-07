@@ -1,15 +1,15 @@
 export const USDFormatter = new Intl.NumberFormat('en-US', {
-	style: 'currency',
 	currency: 'USD',
+	maximumFractionDigits: 1,
 	minimumFractionDigits: 0,
-	maximumFractionDigits: 1
+	style: 'currency'
 })
 
 export const NumberFormatter = new Intl.NumberFormat('en-US')
 
 export const DateFormatter = new Intl.DateTimeFormat('en-US', {
-	month: 'short',
 	day: 'numeric',
+	month: 'short',
 	year: 'numeric'
 })
 
@@ -24,10 +24,10 @@ export const formatMinutesToHours = (totalMinutes: number) => {
 
 export function formatMoney(amount: number, currency: string) {
 	const USDFormatter = new Intl.NumberFormat('en-US', {
-		style: 'currency',
 		currency,
+		maximumFractionDigits: 1,
 		minimumFractionDigits: 0,
-		maximumFractionDigits: 1
+		style: 'currency'
 	})
 
 	if (amount >= 1_000_000_000) {

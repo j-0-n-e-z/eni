@@ -12,7 +12,7 @@ export const Subtitles: FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
 	const { movieId, fileId } = useParams()
 	const [currentPage, setCurrentPage] = useState(1)
-	
+
 	const subtitlesStart = (currentPage - 1) * SUBTITLES_PER_PAGE
 
 	const {
@@ -35,7 +35,7 @@ export const Subtitles: FC = () => {
 		setCurrentPage(page)
 	}, [searchParams])
 
-	if (isSubtitlesLoading) return <SubtitlesSkeleton/>
+	if (isSubtitlesLoading) return <SubtitlesSkeleton />
 
 	if (subtitlesError) return <div>{JSON.stringify(subtitlesError)}</div>
 

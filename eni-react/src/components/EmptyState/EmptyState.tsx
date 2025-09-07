@@ -15,7 +15,7 @@ export const EmptyState: FC<EmptyStateProps> = ({
 	description
 }) => (
 	<div className={styles.emptyState}>
-    {icon}
+		{icon}
 		<h2 className={styles.header}>{header}</h2>
 		<p className={styles.description}>{description}</p>
 	</div>

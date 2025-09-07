@@ -27,12 +27,18 @@ const initialState: SearchHistoryState = {
 }
 
 const searchHistorySlice = createSlice({
-	name: 'searchHistory',
 	initialState,
+	name: 'searchHistory',
 	reducers: {
 		clearMovieHistory: (state) => {
 			state.historyMovies = []
 			updateHistory([])
+		},
+		removeMovieFromHistory: (state, action: PayloadAction<number>) => {
+			state.historyMovies = state.historyMovies.filter(
+				(movie) => movie.filmId !== action.payload
+			)
+			updateHistory(state.historyMovies)
 		},
 		upsertMovieInHistory: (
 			state,
@@ -52,12 +58,6 @@ const searchHistorySlice = createSlice({
 					)
 				]
 			}
-			updateHistory(state.historyMovies)
-		},
-		removeMovieFromHistory: (state, action: PayloadAction<number>) => {
-			state.historyMovies = state.historyMovies.filter(
-				(movie) => movie.filmId !== action.payload
-			)
 			updateHistory(state.historyMovies)
 		}
 	}

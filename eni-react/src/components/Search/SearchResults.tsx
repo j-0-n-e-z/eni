@@ -1,6 +1,5 @@
 import type { FC } from 'react'
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import { useAppDispatch } from '@/app/hooks'
 import {
@@ -11,6 +10,7 @@ import {
 import type { BaseKinoposikMovie } from '@/types'
 
 import { DeleteButton } from './DeleteButton'
+import { MovieCard } from './MovieCard'
 import styles from './Search.module.scss'
 
 interface SearchResultsProps {
@@ -27,12 +27,12 @@ export const SearchResults: FC<SearchResultsProps> = ({
 	const addToSearchHistory = (movie: BaseKinoposikMovie) => {
 		dispatch(
 			upsertMovieInHistory({
-				year: movie.year,
-				posterUrlPreview: movie.posterUrlPreview,
 				filmId: movie.filmId,
 				nameEn: movie.nameEn,
 				nameRu: movie.nameRu,
-				type: movie.type
+				posterUrlPreview: movie.posterUrlPreview,
+				type: movie.type,
+				year: movie.year
 			})
 		)
 	}
@@ -56,30 +56,13 @@ export const SearchResults: FC<SearchResultsProps> = ({
 			</h2>
 			<ul className={styles.searchResultList}>
 				{movies.map((movie) => (
-					<li key={movie.filmId} className={styles.searchResultItem}>
-						<Link
-							className={styles.movieCard}
-							to={`/movie/${movie.filmId}`}
-							onClick={() => addToSearchHistory(movie)}
-						>
-							{isHistory && (
-								<div className={styles.deleteBtnWrapper}>
-									<DeleteButton
-										onClick={(e) => handleDeleteMovieBtnClick(e, movie.filmId)}
-									/>
-								</div>
-							)}
-							<img
-								alt={`${movie.nameEn || movie.nameRu} Cover`}
-								className={styles.cover}
-								src={movie.posterUrlPreview}
-							/>
-							<div className={styles.details}>
-								<h3 className={styles.title}>{movie.nameEn || movie.nameRu}</h3>
-								<span className={styles.year}>{movie.year}</span>
-							</div>
-						</Link>
-					</li>
+					<MovieCard
+						key={movie.filmId}
+						addToSearchHistory={addToSearchHistory}
+						handleDeleteMovieBtnClick={handleDeleteMovieBtnClick}
+						isHistory={isHistory}
+						movie={movie}
+					/>
 				))}
 			</ul>
 		</>

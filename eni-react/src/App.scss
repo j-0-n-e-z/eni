@@ -56,7 +56,7 @@ button,
 a {
 	&:focus-visible {
 		outline: 2px dashed $interactive-hover;
-		outline-offset: .25rem;
+		outline-offset: 0.25rem;
 	}
 
 	&:focus:not(:focus-visible) {

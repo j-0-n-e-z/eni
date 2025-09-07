@@ -4,17 +4,17 @@ import { api } from './api'
 
 export const movieApi = api.injectEndpoints({
 	endpoints: (build) => ({
-		searchMovies: build.query<KinopoiskSearchMovie[], string>({
-			query: (keyword) => ({
-				url: 'movies',
-				params: { keyword }
-			}),
+		getMovieBoxOfficeByKinopoiskId: build.query<BoxOffice, number>({
+			query: (id) => `movie/${id}/box_office`
 		}),
 		getMovieByKinopoiskId: build.query<KinopoiskMovie, number>({
 			query: (id) => `movie/${id}`
 		}),
-		getMovieBoxOfficeByKinopoiskId: build.query<BoxOffice, number>({
-			query: (id) => `movie/${id}/box_office`
+		searchMovies: build.query<KinopoiskSearchMovie[], string>({
+			query: (keyword) => ({
+				params: { keyword },
+				url: 'movies'
+			})
 		})
 	})
 })

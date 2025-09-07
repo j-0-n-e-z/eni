@@ -21,7 +21,7 @@ export const baseQueryWithReauth: BaseQueryFn<
 		result.error.data?.error.message === 'Access token expired'
 	) {
 		const refreshResult = await baseQuery(
-			{ url: 'refresh', method: 'POST', credentials: 'include' },
+			{ credentials: 'include', method: 'POST', url: 'refresh' },
 			api,
 			extraOptions
 		)
@@ -37,43 +37,29 @@ export const baseQueryWithReauth: BaseQueryFn<
 }
 
 export const authApi = createApi({
-	tagTypes: ['Me'],
-	reducerPath: 'authApi',
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
 		getMe: build.query<User, void>({
+			providesTags: ['Me'],
 			query: () => ({
-				url: 'user/me',
 				credentials: 'include',
 				headers: {
 					'Cache-Control': 'no-cache',
 					Pragma: 'no-cache'
-				}
-			}),
-			providesTags: ['Me']
-		}),
-		signup: build.mutation<void, Omit<SignupCredentials, 'confirmPassword'>>({
-			query: (credentials) => ({
-				url: 'signup',
-				method: 'POST',
-				body: credentials
+				},
+				url: 'user/me'
 			})
 		}),
 		login: build.mutation<User, LoginCredentials>({
+			invalidatesTags: ['Me'],
 			query: (credentials) => ({
-				url: 'login',
-				method: 'POST',
 				body: credentials,
-				credentials: 'include'
-			}),
-			invalidatesTags: ['Me']
+				credentials: 'include',
+				method: 'POST',
+				url: 'login'
+			})
 		}),
 		logout: build.mutation<void, void>({
-			query: () => ({
-				url: 'logout',
-				method: 'POST',
-				credentials: 'include'
-			}),
 			async onQueryStarted(_, { dispatch, queryFulfilled }) {
 				try {
 					await queryFulfilled
@@ -81,9 +67,23 @@ export const authApi = createApi({
 				} catch (error) {
 					console.log(error)
 				}
-			}
+			},
+			query: () => ({
+				credentials: 'include',
+				method: 'POST',
+				url: 'logout'
+			})
+		}),
+		signup: build.mutation<void, Omit<SignupCredentials, 'confirmPassword'>>({
+			query: (credentials) => ({
+				body: credentials,
+				method: 'POST',
+				url: 'signup'
+			})
 		})
-	})
+	}),
+	reducerPath: 'authApi',
+	tagTypes: ['Me']
 })
 
 export const {
