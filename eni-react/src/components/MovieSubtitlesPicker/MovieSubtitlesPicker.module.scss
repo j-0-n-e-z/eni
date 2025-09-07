@@ -1,5 +1,5 @@
 @use '../../styles/_variables.scss' as *;
-@use '../../styles/_colors2.scss' as *;
+@use '../../styles/_colors.scss' as *;
 
 .movieSubsPicker {
 	display: flex;
@@ -25,15 +25,15 @@
 	width: 100%;
 	max-width: 300px;
 	padding: $space-lg;
-	background: #fff;
-	border: 1px solid #e5e7eb;
+	background: $bg-primary;
+	border: 1px solid $border-light;
 	border-radius: 1rem;
-	box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%);
+	box-shadow: 0 1px 3px 0 $overlay-light;
 	transition: 0.3s ease;
 
 	&:hover {
-		border-color: #d1d5db;
-		box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%);
+		border-color: $border-medium;
+		box-shadow: 0 10px 15px -3px $overlay-light;
 		transform: translateY(-2px);
 	}
 }
@@ -52,13 +52,13 @@
 
 .metaLabel {
 	font-size: 0.875rem;
-	color: #475569;
+	color: $text-secondary;
 }
 
 .metaValue {
 	font-size: 0.875rem;
 	font-weight: 500;
-	color: #1e293b;
+	color: $text-primary;
 	text-wrap: nowrap;
 }
 
@@ -75,7 +75,7 @@
 .star {
 	width: 1rem;
 	height: 1rem;
-	color: gray;
+	color: $text-muted;
 
 	&.filled {
 		color: $brand-accent;
@@ -96,7 +96,7 @@
 	padding: 0.75rem 1rem;
 	font-size: $font-lg;
 	font-weight: 500;
-	color: #fff;
+	color: $text-white;
 	cursor: pointer;
 	background: $brand-accent;
 	border: none;
@@ -104,7 +104,7 @@
 	transition: all 0.2s ease;
 
 	&:hover {
-		background: #059669;
+		background: $gradient-green;
 		transform: translateY(-1px);
 	}
 }

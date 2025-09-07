@@ -1,5 +1,6 @@
 @use '../../styles/_variables.scss' as *;
 @use '../../styles/_sharedStyles.scss' as *;
+@use '../../styles/_colors.scss' as *;
 
 .paginator {
 	display: flex;
@@ -36,13 +37,13 @@
 }
 
 .paginator button:disabled {
-	background-color: var(--colors-background-neutrals-disabled);
+	background-color: $bg-tertiary;
 	opacity: 50%;
 }
 
 .paginator button.active {
-	color: var(--colors-text-neutrals-inverted);
-	background-color: var(--colors-background-primary-prominent);
+	color: $text-white;
+	background-color: $brand-prominent;
 }
 
 .paginator button.ellipsis {

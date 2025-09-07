@@ -1,4 +1,5 @@
 @use '../../styles/_variables.scss' as *;
+@use '../../styles/_colors.scss' as *;
 @use '../../styles/animations.scss' as *;
 
 .sidepanel {
@@ -55,7 +56,7 @@
 	flex-shrink: 0;
 	width: 24px;
 	height: 24px;
-	color: var(--colors-text-neutrals-inverted);
+	color: $text-white;
 }
 
 .topArea {
@@ -72,15 +73,15 @@
 	flex-shrink: 0;
 	width: 30px;
 	height: 30px;
-	color: var(--colors-text-neutrals-inverted);
+	color: $text-white;
 }
 
 .topTitle {
 	width: 0;
 	font-size: 30px;
 	font-weight: 900;
-	color: var(--colors-text-neutrals-inverted);
-	text-decoration: var(--colors-background-primary-prominent) wavy underline;
+	color: $text-white;
+	text-decoration: $brand-prominent wavy underline;
 	opacity: 0%;
 	transition:
 		opacity 0.2s ease,
@@ -89,7 +90,7 @@
 		color 0.2s linear;
 
 	&:hover {
-		color: var(--colors-text-neutrals-inverted-subtle);
+		color: $text-light;
 	}
 }
 
@@ -97,7 +98,7 @@
 	padding: $space-md $space-sm;
 	font-size: $font-lg;
 	font-weight: 600;
-	color: var(--colors-text-neutrals-inverted);
+	color: $text-white;
 	text-transform: uppercase;
 	letter-spacing: 0.6px;
 	transition: color 0.1s ease-in-out;
@@ -161,15 +162,15 @@
 	padding: 6px;
 	font-size: $font-md;
 	font-weight: 600;
-	color: var(--colors-text-neutrals-inverted);
-	background-color: var(--colors-background-primary-prominent);
+	color: $text-white;
+	background-color: $brand-prominent;
 	border-radius: 20%;
 	translate: 50% 50%;
 }
 
 .bottomNavigation {
 	padding: $space-md $space-sm;
-	color: var(--colors-text-neutrals-inverted);
+	color: $text-white;
 	border-top: 1px solid rgb(255 255 255 / 10%);
 	transition: margin-left 0.2s ease;
 }

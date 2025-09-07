@@ -1,5 +1,5 @@
 @use '../../styles/_variables.scss' as *;
-@use '../../styles/_colors2.scss' as *;
+@use '../../styles/_colors.scss' as *;
 @use '../../styles/sharedStyles.scss' as *;
 
 .searchPage {
@@ -25,10 +25,10 @@
 	max-width: 800px;
 	padding: $space-sm 0 $space-sm $space-sm;
 	cursor: text;
-	background: #fff;
-	border: 2px solid #e5e7eb;
+	background: $bg-primary;
+	border: 2px solid $border-light;
 	border-radius: $space-md;
-	box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%);
+	box-shadow: 0 1px 3px 0 $overlay-light;
 	transition: border 0.1s linear;
 
 	&:has(input:focus) {
@@ -37,7 +37,7 @@
 }
 
 .inputContainer svg {
-	color: var(--colors-border-neutrals-text);
+	color: $text-primary;
 }
 
 .searchBtn {
@@ -60,7 +60,7 @@
 	font-size: $font-lg;
 
 	&::placeholder {
-		color: var(--colors-text-neutrals-placeholder);
+		color: $text-placeholder;
 	}
 
 	&::-webkit-clear-button {
@@ -98,7 +98,7 @@
 	align-items: center;
 	justify-content: center;
 	font-size: $font-xxl;
-	color: var(--color-black);
+	color: $text-primary;
 	text-align: center;
 }
 
@@ -122,17 +122,17 @@
 	max-width: 320px;
 	max-height: 570px;
 	overflow: hidden;
-	color: var(--colors-text-neutrals);
+	color: $text-primary;
 	text-decoration: none;
-	background-color: var(--colors-background-neutrals-subtle);
+	background-color: $bg-primary;
 	border-radius: $space-xl;
-	box-shadow: 2px 2px 5px var(--colors-background-neutrals-control);
+	box-shadow: 2px 2px 5px $overlay-medium;
 	transition:
 		transform 0.3s ease,
 		background-color 0.2s ease;
 
 	&:hover {
-		background-color: var(--colors-background-neutrals-subtle-hover);
+		background-color: $bg-secondary;
 		transform: translateY(-$space-sm);
 	}
 }
@@ -164,7 +164,7 @@
 
 .year {
 	font-size: $font-lg;
-	color: var(--colors-text-neutrals-subtle);
+	color: $text-tertiary;
 }
 
 .rating {
@@ -187,17 +187,17 @@
 	width: 40px;
 	height: 40px;
 	cursor: pointer;
-	background-color: rgb(0 0 0 / 61.6%);
-	border: 2px solid #ccc;
+	background-color: $overlay-dark;
+	border: 2px solid $border-medium;
 	border-radius: 8px;
 
 	&:hover {
-		background-color: #ed3838;
+		background-color: $error;
 	}
 }
 
 .deleteBtnIcon {
 	width: 16px;
 	height: 16px;
-	color: #ccc;
+	color: $text-muted;
 }

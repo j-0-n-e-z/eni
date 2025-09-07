@@ -1,11 +1,7 @@
 @use './styles/_colors.scss' as *;
-@use './styles/_colors2.scss' as *;
+@use './styles/_colors.scss' as *;
 @use './styles/_variables.scss' as *;
 @use 'sass:meta';
-
-:root {
-	@include generate-color-vars($colors);
-}
 
 body {
 	width: 100vw;
@@ -62,7 +58,7 @@ a {
 button,
 a {
 	&:focus-visible {
-		outline: 2px dashed var(--colors-border-focus-middle);
+		outline: 2px dashed $interactive-focus-ring;
 	}
 
 	&:focus:not(:focus-visible) {
@@ -99,6 +95,6 @@ svg {
 }
 
 // no idea why br is added to skeleton
-.react-loading-skeleton + br { 
+.react-loading-skeleton + br {
 	display: none;
 }

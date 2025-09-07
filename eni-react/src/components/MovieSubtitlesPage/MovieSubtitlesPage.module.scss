@@ -1,5 +1,6 @@
 @use 'sass:color';
 @use '../../styles/_variables.scss' as *;
+@use '../../styles/_colors.scss' as *;
 @use '../../styles/_sharedStyles.scss' as *;
 
 .movieInfoSection {
@@ -7,8 +8,8 @@
 	flex-direction: column;
 	padding: 2rem $space-xxl 0;
 	overflow: hidden;
-	color: #fff;
-	background-color: #0f172a;
+	color: $text-white;
+	background-color: $bg-dark;
 	transition: gap 0.2s ease;
 }
 
@@ -82,14 +83,14 @@
 	transition: color 0.2s linear;
 
 	&:hover {
-		color: color.adjust(#fff, $lightness: -20%);
+		color: color.adjust($text-white, $lightness: -20%);
 	}
 }
 
 .translateTitleIcon {
 	width: 2rem;
 	height: 2rem;
-	color: #cbd5e1;
+	color: $text-light;
 	cursor: pointer;
 	transition: all 0.2s ease;
 
@@ -101,12 +102,12 @@
 .slogan {
 	font-size: 1.125rem;
 	font-style: italic;
-	color: #cbd5e1;
+	color: $text-light;
 }
 
 .duration {
 	font-weight: 500;
-	color: #fff;
+	color: $text-white;
 }
 
 .movieMeta {
@@ -125,23 +126,23 @@
 
 .metaLabel {
 	min-width: 80px;
-	color: #cbd5e1;
+	color: $text-light;
 }
 
 .metaValue {
 	font-weight: 500;
-	color: #fff;
+	color: $text-white;
 
 	&.budget,
 	&.boxOffice {
 		font-weight: 600;
-		color: #10b981;
+		color: $success;
 	}
 
 	&.mpaa {
 		padding: 0.4rem;
 		cursor: default;
-		background-color: color.adjust(#0e1829, $lightness: 30%);
+		background-color: color.adjust($bg-dark, $lightness: 30%);
 		border-radius: 10px;
 	}
 }
@@ -168,7 +169,7 @@
 	padding: 0.375rem 0.75rem;
 	font-size: 0.875rem;
 	font-weight: 500;
-	color: #fff;
+	color: $text-white;
 	background: rgb(255 255 255 / 10%);
 	border-radius: 1rem;
 }
@@ -176,7 +177,7 @@
 .description {
 	font-size: 1rem;
 	line-height: 1.6;
-	color: #cbd5e1;
+	color: $text-light;
 }
 
 .toggleMovieInfoBtn {
