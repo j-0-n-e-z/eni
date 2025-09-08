@@ -2,11 +2,12 @@ import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 
-import { Paginator, Subtitle, SubtitlesSkeleton } from '@/components'
+import { Paginator, Subtitle } from '@/components'
 import { useGetSubtitleByFileIdQuery } from '@/store/api'
-import { SUBTITLES_PER_PAGE } from '@/utils'
+import { getErrorMessage, SUBTITLES_PER_PAGE } from '@/utils'
 
 import styles from './Subtitles.module.scss'
+import { SubtitlesSkeleton } from './SubtitlesSkeleton'
 
 export const Subtitles: FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
@@ -37,7 +38,7 @@ export const Subtitles: FC = () => {
 
 	if (isSubtitlesLoading) return <SubtitlesSkeleton />
 
-	if (subtitlesError) return <div>{JSON.stringify(subtitlesError)}</div>
+	if (subtitlesError) return <div>{getErrorMessage(subtitlesError)}</div>
 
 	if (!subtitles?.length) return <div>Субтитры не найдены</div>
 

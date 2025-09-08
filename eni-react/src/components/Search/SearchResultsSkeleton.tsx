@@ -1,6 +1,6 @@
-import styles from '../Search/Search.module.scss'
+import { Skeleton } from '@/components'
 
-import { Skeleton } from './Skeleton'
+import styles from './Search.module.scss'
 
 export const SearchResultsSkeleton = () => (
 	<div className={styles.searchResultsContainer}>
@@ -9,8 +9,8 @@ export const SearchResultsSkeleton = () => (
 		</h2>
 		<ul className={styles.searchResultList}>
 			{Array.from({ length: 5 }).map((_, i) => (
-				<li key={`sk_search_${i}`} className={styles.searchResultItem}>
-					<div className={styles.movieCard}>
+				<li key={`sk_search_${i}`}>
+					<div className={styles.movieCard} style={{ pointerEvents: 'none' }}>
 						<Skeleton className={styles.cover} />
 						<div className={styles.details}>
 							<Skeleton />

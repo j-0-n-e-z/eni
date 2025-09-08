@@ -116,3 +116,9 @@ interface Translation {
 	text: string
 	detectedLanguageCode: string
 }
+
+export type ApiServiceName =
+	| 'Kinopoisk'
+	| 'OpenSubtitles'
+	| 'Yandex.Translate'
+	| 'Yandex.Dictionary'

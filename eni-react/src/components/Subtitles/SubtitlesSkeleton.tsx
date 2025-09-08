@@ -1,7 +1,8 @@
-import paginatorStyles from '../Paginator/Paginator.module.scss'
-import styles from '../Subtitles/Subtitles.module.scss'
+import { Skeleton } from '@/components'
 
-import { Skeleton } from './Skeleton'
+import paginatorStyles from '../Paginator/Paginator.module.scss'
+
+import styles from './Subtitles.module.scss'
 
 export const SubtitlesSkeleton = () => (
 	<div>

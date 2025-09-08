@@ -1,16 +1,17 @@
 import type { FC } from 'react'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useAppSelector } from '@/app/hooks'
-import { EmptyState, SearchResults, SearchResultsSkeleton } from '@/components'
+import { EmptyState, SearchResults, ErrorDisplay } from '@/components'
 import { useDebounce } from '@/hooks'
 import { CancelIcon, MovieIcon, SearchIcon } from '@/icons'
 import { selectMoviesFromHistory } from '@/store'
 import { useLazySearchMoviesQuery } from '@/store/api'
 
 import styles from './Search.module.scss'
+import { SearchResultsSkeleton } from './SearchResultsSkeleton'
 
 export const Search: FC = () => {
 	const [searchParams] = useSearchParams()
@@ -69,16 +70,10 @@ export const Search: FC = () => {
 		}
 	}
 
-	function onSearchInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-		if (e.key === 'Enter') {
-			searchMovies()
-		}
-	}
-
 	function renderSearchResults() {
 		if (isSearchFetching) return <SearchResultsSkeleton />
 
-		if (searchError) return <div>JSON.stringify(searchError)</div>
+		if (searchError) return <ErrorDisplay error={searchError} />
 
 		if (!movies && !historyMovies.length)
 			return (
@@ -99,6 +94,7 @@ export const Search: FC = () => {
 			)
 
 		if (movies && movies.length) {
+			console.log(movies)
 			const moviesSortedByVotesCount = [...movies].sort(
 				(a, b) => b.ratingVoteCount - a.ratingVoteCount
 			)
@@ -127,7 +123,7 @@ export const Search: FC = () => {
 						type='search'
 						value={movieTitle}
 						onChange={(e) => setMovieTitle(e.target.value)}
-						onKeyDown={onSearchInputKeyDown}
+						onKeyDown={(e) => e.key === 'Enter' && searchMovies()}
 					/>
 
 					<button className={styles.clearBtn} onClick={clearInput}>

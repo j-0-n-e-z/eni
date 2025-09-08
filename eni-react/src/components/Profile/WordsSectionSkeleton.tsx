@@ -1,6 +1,6 @@
-import styles from '../Profile/Profile.module.scss'
+import { Skeleton } from '@/components'
 
-import { Skeleton } from './Skeleton'
+import styles from './Profile.module.scss'
 
 export const WordsSectionSkeleton = () => (
 	<section className={styles.wordsSection}>

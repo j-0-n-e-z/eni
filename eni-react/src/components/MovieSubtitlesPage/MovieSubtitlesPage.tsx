@@ -1,7 +1,7 @@
 import { useEffect, useState, type FC } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
-import { MovieSubtitlesPageSkeleton } from '@/components'
+import { ErrorDisplay } from '@/components'
 import { useGetMovieByKinopoiskIdQuery } from '@/store/api'
 import type { MovieSubtitle } from '@/types'
 
@@ -9,6 +9,7 @@ import type { MovieSubtitlesContext } from '../../types'
 
 import { MovieInfoSection } from './MovieInfoSection'
 import styles from './MovieSubtitlesPage.module.scss'
+import { MovieSubtitlesPageSkeleton } from './MovieSubtitlesPageSkeleton'
 
 export const MovieSubtitlesPage: FC = () => {
 	const { movieId } = useParams()
@@ -36,7 +37,7 @@ export const MovieSubtitlesPage: FC = () => {
 
 	if (isMovieLoading) return <MovieSubtitlesPageSkeleton />
 
-	if (movieError) return <div>{JSON.stringify(movieError)}</div>
+	if (movieError) return <ErrorDisplay error={movieError} />
 
 	if (!movie) return <div>Нет данных о фильме</div>
 

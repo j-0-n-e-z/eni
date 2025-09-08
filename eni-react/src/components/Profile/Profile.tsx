@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { useAppSelector } from '@/app/index'
-import { ProfileSkeleton, WordsSectionSkeleton } from '@/components'
+import { ErrorDisplay } from '@/components'
 import { BookIcon, BrainIcon, ProfileIcon } from '@/icons'
 import { selectLearningWords } from '@/store'
 import {
@@ -13,7 +13,9 @@ import {
 import type { User } from '@/types'
 
 import styles from './Profile.module.scss'
+import { ProfileSkeleton } from './ProfileSkeleton'
 import { WordsSection } from './WordsSection'
+import { WordsSectionSkeleton } from './WordsSectionSkeleton'
 
 export const Profile = () => {
 	const { username } = useParams()
@@ -44,7 +46,7 @@ export const Profile = () => {
 	useEffect(() => {
 		if (!username || isProfileLoading || userError) return
 
-		if (me && me.username === username.replaceAll('%20', ' ')) {
+		if (me && me.username === decodeURIComponent(username)) {
 			setDisplayUser(me)
 			userReset() // in case user had error
 			return
@@ -52,7 +54,7 @@ export const Profile = () => {
 
 		if (
 			(!me && !user) ||
-			(!user && me && me.username !== username.replaceAll('%20', ' '))
+			(!user && me && me.username !== decodeURIComponent(username))
 		) {
 			triggerGetUserByUsername(username)
 		}
@@ -65,7 +67,7 @@ export const Profile = () => {
 		}
 	}, [user])
 
-	if (userError) return <div>{JSON.stringify(userError)}</div>
+	if (userError) return <ErrorDisplay error={userError} />
 
 	const isMyPage = displayUser?.username === me?.username
 

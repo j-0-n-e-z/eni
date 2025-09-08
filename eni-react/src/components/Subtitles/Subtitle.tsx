@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '@/app/index'
 import { SavedWords, Skeleton, SubtitleWords, WordsPanel } from '@/components'
-import { TranslateIcon } from '@/icons'
+import { ErrorIcon, TranslateIcon } from '@/icons'
 import {
 	addLearningWord,
 	removeLearningWord,
@@ -14,6 +14,7 @@ import {
 } from '@/store'
 import { useLazyTranslateQuery } from '@/store/api'
 import type { PureSubtitle, Word } from '@/types'
+import { getErrorMessage } from '@/utils'
 
 import styles from './Subtitles.module.scss'
 
@@ -44,7 +45,7 @@ export const Subtitle: FC<SubtitleProps> = ({
 		{
 			data: subtitleTranslation,
 			error: subtitleTranslationError,
-			isLoading: isSubtitleTranslationLoading
+			isFetching: isSubtitleTranslationFetching
 		}
 	] = useLazyTranslateQuery()
 
@@ -152,12 +153,22 @@ export const Subtitle: FC<SubtitleProps> = ({
 	}, [])
 
 	const renderSubtitleTranslation = () => {
-		if (isSubtitleTranslationLoading) return <Skeleton />
+		if (isSubtitleTranslationFetching) return <Skeleton />
 
 		if (subtitleTranslationError)
-			return <p>{JSON.stringify(subtitleTranslationError)})</p>
+			return (
+				<p className={cn(styles.subtitleTranslation, styles.error)}>
+					<ErrorIcon />
+					{getErrorMessage(subtitleTranslationError)}
+				</p>
+			)
 
-		if (subtitleTranslation) return <p>{subtitleTranslation[0].text}</p>
+		if (subtitleTranslation)
+			return (
+				<p className={styles.subtitleTranslation}>
+					{subtitleTranslation[0].text}
+				</p>
+			)
 
 		return null
 	}
@@ -172,6 +183,8 @@ export const Subtitle: FC<SubtitleProps> = ({
 			<span className={styles.timecode}>{subtitle.timecode}</span>
 
 			<div className={styles.subtitleWordsContainer}>
+				{renderSubtitleTranslation()}
+
 				<SubtitleWords
 					fileId={fileId}
 					movieId={movieId}
@@ -180,8 +193,6 @@ export const Subtitle: FC<SubtitleProps> = ({
 					subtitle={subtitle}
 					toggleSelectedWord={toggleSelectedWord}
 				/>
-
-				{renderSubtitleTranslation()}
 
 				{learningJoinedWords.length > 0 && (
 					<SavedWords

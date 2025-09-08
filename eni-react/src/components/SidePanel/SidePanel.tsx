@@ -1,8 +1,9 @@
 import cn from 'classnames'
+import { useEffect } from 'react'
+import toast from 'react-hot-toast'
 import { Link, useLocation } from 'react-router-dom'
 
 import { useAppSelector } from '@/app/index'
-import { SidePanelSkeleton } from '@/components'
 import {
 	BookIcon,
 	BrainIcon,
@@ -14,26 +15,27 @@ import {
 } from '@/icons'
 import { selectLearningWords } from '@/store'
 import { useGetMeQuery, useLogoutMutation } from '@/store/api'
+import { getErrorMessage } from '@/utils'
 
 import styles from './SidePanel.module.scss'
+import { SidePanelSkeleton } from './SidePanelSkeleton'
 
 export const SidePanel = () => {
 	const learningWords = useAppSelector(selectLearningWords)
 	const { data: me, isLoading: isMeLoading } = useGetMeQuery()
-	const [
-		logout,
-		{ isLoading: isLogoutLoading, isError: isLogoutError, error }
-	] = useLogoutMutation()
+	const [logout, { isLoading: isLogoutLoading, error: logoutError }] =
+		useLogoutMutation()
 	const location = useLocation()
 
 	const setActiveIf = (path: string) => ({
 		[styles.active]: location.pathname === path
 	})
 
-	if (isMeLoading || isLogoutLoading) return <SidePanelSkeleton />
+	useEffect(() => {
+		if (logoutError) toast.error(getErrorMessage(logoutError))
+	}, [logoutError])
 
-	if (isLogoutError)
-		return <div>Could not log out: {JSON.stringify(error)}</div>
+	if (isMeLoading || isLogoutLoading) return <SidePanelSkeleton />
 
 	return (
 		<aside className={styles.sidepanel}>

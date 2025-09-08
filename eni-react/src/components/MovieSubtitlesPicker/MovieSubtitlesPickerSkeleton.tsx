@@ -1,6 +1,6 @@
-import styles from '../MovieSubtitlesPicker/MovieSubtitlesPicker.module.scss'
+import { Skeleton } from '@/components'
 
-import { Skeleton } from './Skeleton'
+import styles from './MovieSubtitlesPicker.module.scss'
 
 export const MovieSubtitlesPickerSkeleton = () => (
 	<div className={styles.movieSubsPicker}>

@@ -4,13 +4,13 @@ body {
 	width: 100vw;
 	min-width: 320px;
 	min-height: 100vh;
-	padding-left: 80px;
 	margin: 0;
 	overflow-x: hidden;
 	font-family: 'Exo 2', Arial, sans-serif;
 }
 
 #root {
+	padding-left: 80px;
 	background: $bg-gradient-light;
 }
 

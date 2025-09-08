@@ -21,6 +21,7 @@ module.exports = {
 		project: 'tsconfig.json'
 	},
 	rules: {
+		'consistent-return': 0,
 		'@typescript-eslint/unbound-method': 0,
 		'class-methods-use-this': 0,
 		'no-plusplus': 0,

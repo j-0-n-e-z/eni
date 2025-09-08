@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import type { AxiosError } from 'axios'
 import axios from 'axios'
 import type { NextFunction, Request, Response } from 'express'
 import jwt, { JsonWebTokenError } from 'jsonwebtoken'
 
+import type { ApiServiceName } from '@/types'
 import {
 	ApiError,
 	AuthenticationError,
@@ -11,6 +13,7 @@ import {
 	TokenExpiredError,
 	ValidationError
 } from '@/utils'
+import { getErrorCodeByStatusCode } from '@/utils/errors/ErrorCodes'
 
 export class ErrorHandler {
 	constructor(private readonly logger: (error: Error) => void) {}
@@ -95,31 +98,61 @@ export class ErrorHandler {
 	private handleAxiosError(error: AxiosError): ApiError {
 		const apiServiceName = this.getApiServiceName(error)
 
-		if (apiServiceName.includes('opensubtitle')) {
+		if (error.response?.status && apiServiceName) {
+			const statusCode = error.response.status
+
+			const apiServiceErrorMessages: Record<
+				ApiServiceName,
+				Record<number, string>
+			> = {
+				Kinopoisk: {
+					400: 'Bad request to Kinopoisk',
+					404: 'Movie not found',
+					429: 'Kinopoisk rate limit exceeded',
+					401: 'Kinopoisk authentication failed'
+				},
+				OpenSubtitles: {
+					400: 'Bad request to OpenSubtitles',
+					404: 'Subtitles not found',
+					429: 'OpenSubtitles rate limit exceeded',
+					401: 'OpenSubtitles authentication failed'
+				},
+				'Yandex.Translate': {
+					400: 'Bad request to Yandex.Translate',
+					404: 'Failed to get Yandex.Translate translation',
+					429: 'Too many request to Yandex.Translate',
+					401: 'Yandex.Translate authentication failed'
+				},
+				'Yandex.Dictionary': {
+					400: 'Bad request to Yandex Dictionary',
+					404: 'Failed to get Yandex Dictionary definition ',
+					429: 'Too many request to Yandex Dictionary',
+					401: 'Yandex Dictionary authentication failed'
+				}
+			}
+
 			return new ApiError(
-				503,
-				'Failed to load subtitles from OpenSubtitles',
-				ErrorCodes.SERVICE_UNAVAILABLE,
-				{ service: 'OpenSubtitles' }
+				statusCode,
+				apiServiceErrorMessages[apiServiceName][statusCode],
+				getErrorCodeByStatusCode(statusCode),
+				{ error }
 			)
 		}
 
-		return new ApiError(
-			error.response?.status || 503,
-			`${apiServiceName} service unavailable`,
-			ErrorCodes.SERVICE_UNAVAILABLE,
-			{
-				service: apiServiceName,
-				url: error.config?.url
-			}
-		)
+		return new ApiError(503, 'Unknown error', ErrorCodes.INTERNAL_ERROR, {
+			error
+		})
 	}
 
-	private getApiServiceName(error: AxiosError) {
+	private getApiServiceName(error: AxiosError): ApiServiceName | null {
 		const url = error.config?.baseURL || error.config?.url || ''
+		console.log(url)
 
 		if (url.includes('opensubtitle')) return 'OpenSubtitles'
+		if (url.includes('kinopoisk')) return 'Kinopoisk'
+		if (url.includes('translate.api')) return 'Yandex.Translate'
+		if (url.includes('dictionary.yandex')) return 'Yandex.Dictionary'
 
-		return 'External API'
+		return null
 	}
 }

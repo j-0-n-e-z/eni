@@ -5,6 +5,8 @@ export interface BaseKinoposikMovie {
 	nameRu: string | null
 	nameEn: string | null
 	type: FilmType
+	ratingKinopoisk: number | null
+	ratingImdb: number | null
 }
 
 export interface KinopoiskSearchMovie extends BaseKinoposikMovie {

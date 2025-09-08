@@ -57,7 +57,7 @@ export const MovieSubtitle: FC<MovieSubtitleProps> = ({
 				className={styles.pickMovieSubBtn}
 				onClick={() => pickMovieSubtitle(movieSubtitle)}
 			>
-				Выбрать
+				Загрузить
 			</button>
 		</li>
 	)

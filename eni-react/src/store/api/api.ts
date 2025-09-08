@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query/react'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
@@ -25,17 +28,37 @@ export const api = createApi({
 			const { error } = result
 
 			if (error.data?.error) {
-				return {
+				const backendError: BackendError = {
 					data: {
 						error: {
 							code: error.data.error.code,
 							details: error.data.error.details,
-							message: error.data.error.message
+							message: error.data.error.message,
+							statusCode: error.status
 						}
 					},
 					status: error.status
-				} as BackendError
+				}
+
+				return { error: backendError }
 			}
+
+			const backendError: BackendError = {
+				data: error.data
+					? {
+							error: {
+								code: 'UNKNOWN_ERROR',
+								details: error.data,
+								message:
+									typeof error.data === 'string' ? error.data : 'Unknown error',
+								statusCode: error.status
+							}
+						}
+					: undefined,
+				status: error.status
+			}
+
+			return { error: backendError }
 		}
 
 		return result

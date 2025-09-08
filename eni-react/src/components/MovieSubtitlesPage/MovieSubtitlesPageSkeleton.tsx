@@ -1,6 +1,6 @@
 import { DarkSkeleton } from '@/components'
 
-import styles from '../MovieSubtitlesPage/MovieSubtitlesPage.module.scss'
+import styles from './MovieSubtitlesPage.module.scss'
 
 export const MovieSubtitlesPageSkeleton = () => (
 	<section

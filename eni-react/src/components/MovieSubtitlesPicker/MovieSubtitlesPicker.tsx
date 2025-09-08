@@ -1,16 +1,13 @@
 import type { FC } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
-import {
-	EmptyState,
-	MovieSubtitle,
-	MovieSubtitlesPickerSkeleton
-} from '@/components'
+import { EmptyState, ErrorDisplay, MovieSubtitle } from '@/components'
 import type { MovieSubtitlesContext } from '@/frontend-types'
 import { SubtitleIcon } from '@/icons'
 import { useGetMovieSubtitlesQuery } from '@/store/api'
 
 import styles from './MovieSubtitlesPicker.module.scss'
+import { MovieSubtitlesPickerSkeleton } from './MovieSubtitlesPickerSkeleton'
 
 export const MovieSubtitlesPicker: FC = () => {
 	const { imdbId, movieName, pickMovieSubtitle } =
@@ -26,8 +23,7 @@ export const MovieSubtitlesPicker: FC = () => {
 
 	if (isMovieSubtitlesLoading) return <MovieSubtitlesPickerSkeleton />
 
-	if (movieSubtitlesError)
-		return <div>Error: {JSON.stringify(movieSubtitlesError)}</div>
+	if (movieSubtitlesError) return <ErrorDisplay error={movieSubtitlesError} />
 
 	if (!movieSubtitles?.length)
 		return (
