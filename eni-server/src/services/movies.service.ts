@@ -1,5 +1,6 @@
 import { kinopoiskApiV2_1, kinopoiskApiV2_2 } from '@/api'
 import type { BoxOffice, KinopoiskMovie } from '@/shared-types'
+import { convertNullStrings } from '@/utils/helpers/formatNullStrings'
 
 import type { KinopoiskSearchResponse } from '../types'
 
@@ -12,7 +13,7 @@ export class MovieService {
 			{ params }
 		)
 
-		return response.data.films
+		return response.data.films.map(convertNullStrings)
 	}
 
 	async getKinopoiskMovieById(id: number) {

@@ -162,6 +162,22 @@
 	padding: $space-lg;
 }
 
+.detailsRow {
+	display: flex;
+	justify-content: space-between;
+}
+
+.rating {
+	font-size: 1rem;
+	font-weight: 600;
+}
+
+.duration {
+	font-size: 1rem;
+	font-style: italic;
+	color: $text-tertiary;
+}
+
 .title {
 	font-size: $font-lg;
 	font-weight: 700;
@@ -170,11 +186,6 @@
 .year {
 	font-size: $font-lg;
 	color: $text-tertiary;
-}
-
-.rating {
-	margin-top: auto;
-	font-size: $font-lg;
 }
 
 .deleteBtnWrapper {

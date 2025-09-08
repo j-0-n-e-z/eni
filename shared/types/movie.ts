@@ -5,16 +5,14 @@ export interface BaseKinoposikMovie {
 	nameRu: string | null
 	nameEn: string | null
 	type: FilmType
-	ratingKinopoisk: number | null
-	ratingImdb: number | null
+	filmLength?: string
+	rating: string | null
 }
 
 export interface KinopoiskSearchMovie extends BaseKinoposikMovie {
 	description?: string
-	filmLength: string
 	countries: { country: string }[]
 	genres: { genre: string }[]
-	rating: string | null
 	ratingVoteCount: number
 	posterUrl: string
 }

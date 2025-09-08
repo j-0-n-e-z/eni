@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer'
 import { Link } from 'react-router-dom'
 
 import type { BaseKinoposikMovie } from '@/types'
+import { formatDurationStrToHours } from '@/utils'
 
 import { DeleteButton } from './DeleteButton'
 import styles from './Search.module.scss'
@@ -53,8 +54,20 @@ export const MovieCard: FC<MovieCardProps> = ({
 					src={movie.posterUrlPreview}
 				/>
 				<div className={styles.details}>
-					<h3 className={styles.title}>{movie.nameEn || movie.nameRu}</h3>
-					<span className={styles.year}>{movie.year}</span>
+					<div className={styles.detailsRow}>
+						<h3 className={styles.title}>{movie.nameEn || movie.nameRu}</h3>
+						{movie.rating && (
+							<div className={styles.rating}>{movie.rating}</div>
+						)}
+					</div>
+					<div className={styles.detailsRow}>
+						<span className={styles.year}>{movie.year}</span>
+						{movie.filmLength && (
+							<span className={styles.duration}>
+								{formatDurationStrToHours(movie.filmLength)}
+							</span>
+						)}
+					</div>
 				</div>
 			</Link>
 		</li>

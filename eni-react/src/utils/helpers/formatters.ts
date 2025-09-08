@@ -19,7 +19,19 @@ export const formatMinutesToHours = (totalMinutes: number) => {
 
 	if (!hours) return `${minutes}m`
 
+	if (!minutes) return `${hours}h`
+
 	return `${hours}h ${minutes}m`
+}
+
+export const formatDurationStrToHours = (duration: string) => {
+	const [hours, minutes] = duration.split(':')
+
+	if (hours === '00') return `${parseInt(minutes)}m`
+
+	if (minutes === '00') return `${parseInt(hours)}h`
+
+	return `${parseInt(hours)}h ${parseInt(minutes)}m`
 }
 
 export function formatMoney(amount: number, currency: string) {

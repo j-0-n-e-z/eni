@@ -28,9 +28,11 @@ export const SearchResults: FC<SearchResultsProps> = ({
 		dispatch(
 			upsertMovieInHistory({
 				filmId: movie.filmId,
+				filmLength: movie.filmLength,
 				nameEn: movie.nameEn,
 				nameRu: movie.nameRu,
 				posterUrlPreview: movie.posterUrlPreview,
+				rating: movie.rating,
 				type: movie.type,
 				year: movie.year
 			})
