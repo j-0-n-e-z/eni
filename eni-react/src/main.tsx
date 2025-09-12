@@ -21,6 +21,18 @@ import { App } from './App'
 import { ErrorBoundary } from './ErrorBoundary'
 import { ProtectedRoute } from './ProtectedRoute'
 
+function tryFixBrokenUrl() {
+	const { pathname, search, hash, origin } = window.location
+	
+	if (pathname.includes('//')) {
+		const fixedPathname = pathname.replace(/\/+/g, '/')
+		const fixedUrl = origin + fixedPathname + search + hash
+		window.history.replaceState(null, '', fixedUrl)
+	}
+}
+
+tryFixBrokenUrl()
+
 const router = createBrowserRouter([
 	{
 		path: '/',
