@@ -16,7 +16,7 @@ import { SearchResultsSkeleton } from './SearchResultsSkeleton'
 export const Search: FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
 	const [movieTitle, setMovieTitle] = useState(searchParams.get('query') ?? '')
-	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 300)
+	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 500)
 	const historyMovies = useAppSelector(selectMoviesFromHistory)
 	const [
 		triggerSearch,
@@ -36,6 +36,8 @@ export const Search: FC = () => {
 				setSearchParams({ query: debouncedMovieTitle })
 			}
 			searchQueryRef.current = triggerSearch(debouncedMovieTitle)
+		} else {
+			setSearchParams({})
 		}
 	}, [debouncedMovieTitle])
 
@@ -45,11 +47,10 @@ export const Search: FC = () => {
 		if (!query) {
 			searchQueryRef.current?.abort()
 			searchQueryRef.current = null
-			searchReset()
 			return
 		}
 
-		if (movieTitle !== query) {
+		if (movieTitle.trim() !== query) {
 			setMovieTitle(query)
 		}
 	}, [searchParams])
@@ -60,7 +61,6 @@ export const Search: FC = () => {
 		cancelDebounce()
 		searchReset()
 		setMovieTitle('')
-		setSearchParams({})
 		inputRef.current?.focus()
 	}
 
@@ -70,7 +70,7 @@ export const Search: FC = () => {
 		if (movieTitleTrimmed) {
 			cancelDebounce()
 			setSearchParams({ query: movieTitleTrimmed })
-			searchQueryRef.current = triggerSearch(debouncedMovieTitle)
+			searchQueryRef.current = triggerSearch(movieTitleTrimmed)
 		}
 	}
 
