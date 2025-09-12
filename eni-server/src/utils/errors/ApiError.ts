@@ -1,4 +1,12 @@
-export class ApiError extends Error {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export interface BackendError {
+	statusCode: number
+	message: string
+	code: string
+	details?: any
+}
+
+export class ApiError extends Error implements BackendError {
 	constructor(
 		public statusCode: number,
 		public message: string,
@@ -10,7 +18,3 @@ export class ApiError extends Error {
 	}
 }
 
-export type BackendError = Pick<
-	InstanceType<typeof ApiError>,
-	'statusCode' | 'message' | 'code' | 'details'
->

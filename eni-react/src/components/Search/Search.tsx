@@ -94,7 +94,6 @@ export const Search: FC = () => {
 			)
 
 		if (movies && movies.length) {
-			console.log(movies)
 			const moviesSortedByVotesCount = [...movies].sort(
 				(a, b) => b.ratingVoteCount - a.ratingVoteCount
 			)

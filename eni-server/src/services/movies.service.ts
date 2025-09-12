@@ -1,6 +1,6 @@
 import { kinopoiskApiV2_1, kinopoiskApiV2_2 } from '@/api'
 import type { BoxOffice, KinopoiskMovie } from '@/shared-types'
-import { convertNullStrings } from '@/utils/helpers/formatNullStrings'
+import { convertNullStrings } from '@/utils/helpers/convertNullStrings'
 
 import type { KinopoiskSearchResponse } from '../types'
 
