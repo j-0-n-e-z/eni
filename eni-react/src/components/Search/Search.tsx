@@ -1,10 +1,10 @@
 import type { FC } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import { useAppSelector } from '@/app/hooks'
-import { EmptyState, SearchResults, ErrorDisplay } from '@/components'
+import { EmptyState, ErrorDisplay, SearchResults } from '@/components'
 import { useDebounce } from '@/hooks'
 import { CancelIcon, MovieIcon, SearchIcon } from '@/icons'
 import { selectMoviesFromHistory } from '@/store'
@@ -14,9 +14,9 @@ import styles from './Search.module.scss'
 import { SearchResultsSkeleton } from './SearchResultsSkeleton'
 
 export const Search: FC = () => {
-	const [searchParams] = useSearchParams()
+	const [searchParams, setSearchParams] = useSearchParams()
 	const [movieTitle, setMovieTitle] = useState(searchParams.get('query') ?? '')
-	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 500)
+	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 300)
 	const historyMovies = useAppSelector(selectMoviesFromHistory)
 	const [
 		triggerSearch,
@@ -27,15 +27,15 @@ export const Search: FC = () => {
 			reset: searchReset
 		}
 	] = useLazySearchMoviesQuery()
-	const navigate = useNavigate()
 	const inputRef = useRef<HTMLInputElement>(null)
 	const searchQueryRef = useRef<ReturnType<typeof triggerSearch> | null>(null)
 
 	useEffect(() => {
 		if (debouncedMovieTitle) {
-			navigate(`/search?query=${debouncedMovieTitle}`)
-		} else {
-			navigate('/search')
+			if (searchParams.get('query') !== debouncedMovieTitle) {
+				setSearchParams({ query: debouncedMovieTitle })
+			}
+			searchQueryRef.current = triggerSearch(debouncedMovieTitle)
 		}
 	}, [debouncedMovieTitle])
 
@@ -49,7 +49,9 @@ export const Search: FC = () => {
 			return
 		}
 
-		searchQueryRef.current = triggerSearch(query)
+		if (movieTitle !== query) {
+			setMovieTitle(query)
+		}
 	}, [searchParams])
 
 	function clearInput() {
@@ -58,6 +60,7 @@ export const Search: FC = () => {
 		cancelDebounce()
 		searchReset()
 		setMovieTitle('')
+		setSearchParams({})
 		inputRef.current?.focus()
 	}
 
@@ -66,7 +69,8 @@ export const Search: FC = () => {
 
 		if (movieTitleTrimmed) {
 			cancelDebounce()
-			searchQueryRef.current = triggerSearch(movieTitleTrimmed)
+			setSearchParams({ query: movieTitleTrimmed })
+			searchQueryRef.current = triggerSearch(debouncedMovieTitle)
 		}
 	}
 
