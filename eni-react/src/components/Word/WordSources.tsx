@@ -16,7 +16,7 @@ import type { Word, WordSource } from '@/types'
 import s from './Word.module.scss'
 
 interface WordSourcesProps {
-	myId: string
+	myId?: string
 	word: Word
 	mySources: WordSource[]
 }
@@ -42,7 +42,7 @@ export const WordSources: FC<WordSourcesProps> = ({
 
 	async function deleteWordSource(wordSource: WordSource) {
 		try {
-			if (!isDeleteWordSourceFetching) {
+			if (!isDeleteWordSourceFetching && myId) {
 				await triggerDeleteWordSource({
 					userId: myId,
 					wordSource,
@@ -79,19 +79,22 @@ export const WordSources: FC<WordSourcesProps> = ({
 					<li
 						key={source.id}
 						className={cn(s.wordSource, { [s.mySource]: isMySources })}
-						// onClick={() => goToWord(source)}
 					>
-						<img alt='poster' className={s.poster} src={source.posterUrl} />
-						<div className={s.sourceInfo}>
-							<div className={s.movieName}>{source.movieName}</div>
-							<div className={s.timecode}>{source.subtitleTimecode}</div>
+						<div onClick={() => goToWord(source)}>
+							<img alt='poster' className={s.poster} src={source.posterUrl} />
+							<div className={s.sourceInfo}>
+								<div className={s.movieName}>{source.movieName}</div>
+								<div className={s.timecode}>{source.subtitleTimecode}</div>
+							</div>
 						</div>
-						<button
-							aria-label='delete word source'
-							onClick={() => deleteWordSource(source)}
-						>
-							<TrashIcon />
-						</button>
+						{myId && (
+							<button
+								aria-label='delete word source'
+								onClick={() => deleteWordSource(source)}
+							>
+								<TrashIcon />
+							</button>
+						)}
 					</li>
 				))}
 			</ul>
