@@ -34,7 +34,8 @@ export const SubtitleWords: FC<SubtitleWordProps> = ({
 					movieName,
 					page,
 					posterUrl,
-					subtitleTimecode
+					subtitleTimecode,
+					sentence
 				} = subtitleSource
 				const wordId = `${i}#${subtitle.timecode}#${fileId}`
 				const punctuationMatch = wordText.match(PUNCTUATION)
@@ -55,6 +56,7 @@ export const SubtitleWords: FC<SubtitleWordProps> = ({
 							movieName,
 							page,
 							posterUrl,
+							sentence,
 							subtitleTimecode,
 							subtitleWordIndex: i
 						}

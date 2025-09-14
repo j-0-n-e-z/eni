@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express'
 
 import type { WordService } from '@/services/word.service'
-import type { Word } from '@/shared-types'
+import type { Word, WordSource } from '@/shared-types'
 import { ApiError, ErrorCodes } from '@/utils'
 
 export class WordController {
@@ -42,16 +42,29 @@ export class WordController {
 
 		await this.wordService.saveWord(userId, word)
 
-		return res.json({
+		res.json({
 			message: `Word '${word.text}' has been successfully saved`
 		})
 	}
 
-	deleteWord = async (req: Request, res: Response) => {
-		const { userId, wordId } = req.params
+	deleteUserWord = async (req: Request, res: Response) => {
+		const { userId } = req.params
+		const { wordText } = req.body as { wordText: string }
 
-		await this.wordService.deleteWord(userId, wordId)
+		await this.wordService.deleteUserWord(userId, wordText)
 
-		return res.json({ message: 'Word deleted' })
+		res.json({ message: 'Word was successfully deleted' })
+	}
+
+	deleteUserWordSource = async (req: Request, res: Response) => {
+		const { userId } = req.params
+		const { wordSource, wordText } = req.body as {
+			wordSource: WordSource
+			wordText: string
+		}
+
+		await this.wordService.deleteUserWordSource(userId, wordText, wordSource)
+
+		res.json({ message: 'Word source was successfully deleted' })
 	}
 }

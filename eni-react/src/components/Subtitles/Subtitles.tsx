@@ -88,6 +88,7 @@ export const Subtitles: FC = () => {
 								movieName,
 								page: currentPage,
 								posterUrl,
+								sentence: subtitle.text,
 								subtitleTimecode: subtitle.timecode
 							}}
 						/>

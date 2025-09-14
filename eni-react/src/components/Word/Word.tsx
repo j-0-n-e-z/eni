@@ -33,7 +33,6 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 		useLazyGetDifinitionQuery()
 	const [triggerSaveWord] = useSaveWordMutation()
 	const [triggerDeleteWord] = useDeleteWordMutation()
-	const navigate = useNavigate()
 	const dispatch = useAppDispatch()
 	const [isOpenedSourcesModal, setIsOpenedSourcesModal] = useState(false)
 
@@ -78,7 +77,7 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 
 			await triggerDeleteWord({
 				userId: myId,
-				wordId: word.id
+				wordText: word.text
 			}).unwrap()
 		} catch (e) {
 			toast.error('Произошла ошибка при удалении слова', {
@@ -142,7 +141,7 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 			</button>
 			{isOpenedSourcesModal && (
 				<Modal closeModalHandler={() => setIsOpenedSourcesModal(false)}>
-					<WordSources mySources={word.mySources} word={word} />
+					<WordSources mySources={word.mySources} word={word} myId={myId} />
 				</Modal>
 			)}
 			<div className={styles.wordActions}>

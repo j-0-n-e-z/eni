@@ -11,26 +11,55 @@ export class WordService {
 		private readonly translateService: TranslateService
 	) {}
 
-	// TODO: remove from source or remove at all
-	async deleteWord(userId: string, wordText: string) {
+	async deleteUserWord(userId: string, wordText: string) {
 		await this.prisma.userWord.delete({
 			where: { userId_text: { userId, text: wordText } }
+		})
+	}
+
+	async deleteUserWordSource(
+		userId: string,
+		wordText: string,
+		wordSource: WordSource
+	) {
+		const userWord = await this.prisma.userWord.findUnique({
+			where: { userId_text: { userId, text: wordText } }
+		})
+
+		if (!userWord)
+			throw new ApiError(
+				404,
+				`User with id "${userId}" was not found`,
+				ErrorCodes.NOT_FOUND
+			)
+
+		const userWordSources = JSON.parse(
+			userWord.mySources as string
+		) as WordSource[]
+
+		if (
+			userWordSources.length === 1 &&
+			userWordSources[0].id === wordSource.id
+		) {
+			await this.prisma.userWord.delete({
+				where: { userId_text: { userId, text: wordText } }
+			})
+			return
+		}
+
+		await this.prisma.userWord.update({
+			where: { userId_text: { userId, text: wordText } },
+			data: {
+				mySources: JSON.stringify(
+					userWordSources.filter((s) => s.id !== wordSource.id)
+				)
+			}
 		})
 	}
 
 	async getWordsByUserId(userId: string) {
 		const userWords = await this.findWordsByUserId(userId)
 		return userWords.map(this.mapUserWordToWord)
-	}
-
-	async saveWord(userId: string, word: Word) {
-		const translatedWord = await this.translateWord(word)
-
-		await this.saveToWords(translatedWord)
-
-		const userWord = await this.saveToUserWords(userId, translatedWord)
-
-		return userWord
 	}
 
 	async translateWord(word: Word): Promise<TranslatedWord> {
@@ -120,13 +149,7 @@ export class WordService {
 				(source) => !existingWordSources.find((s) => s.id === source.id)
 			)
 
-			if (newWordSources.length === 0) {
-				throw new ApiError(
-					409,
-					`All given sources have already been added`,
-					ErrorCodes.RECORD_ALREADY_EXISTS
-				)
-			}
+			if (newWordSources.length === 0) return
 
 			const updatedWord = await this.prisma.word.update({
 				where: { text: word.text },
@@ -148,6 +171,16 @@ export class WordService {
 		})
 
 		return newWord
+	}
+
+	async saveWord(userId: string, word: Word) {
+		const translatedWord = await this.translateWord(word)
+
+		await this.saveToWords(translatedWord)
+
+		const userWord = await this.saveToUserWords(userId, translatedWord)
+
+		return userWord
 	}
 
 	private async findWordsByUserId(userId: string) {

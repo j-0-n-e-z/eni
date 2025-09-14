@@ -13,6 +13,7 @@ export interface WordSource {
 	id: string
 	movieName: string
 	posterUrl: string
+	sentence: string
 	movieId: number
 	fileId: number
 	page: number

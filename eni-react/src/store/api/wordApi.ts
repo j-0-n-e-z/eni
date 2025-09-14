@@ -7,12 +7,25 @@ import { baseQueryWithReauth } from './authApi'
 export const wordApi = createApi({
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
-		deleteWord: build.mutation<void, { userId: string; wordId: string }>({
+		deleteWord: build.mutation<void, { userId: string; wordText: string }>({
 			invalidatesTags: [{ id: 'LIST', type: 'Words' }],
-			query: ({ userId, wordId }) => ({
+			query: ({ userId, wordText }) => ({
+				body: { wordText },
 				credentials: 'include',
 				method: 'DELETE',
-				url: `/user/${userId}/word/${encodeURIComponent(wordId)}`
+				url: `/user/${userId}/word`
+			})
+		}),
+		deleteWordSource: build.mutation<
+			void,
+			{ userId: string; wordText: string; wordSource: WordSource }
+		>({
+			invalidatesTags: [{ id: 'LIST', type: 'Words' }],
+			query: ({ userId, wordText, wordSource }) => ({
+				body: { wordSource, wordText },
+				credentials: 'include',
+				method: 'DELETE',
+				url: `/user/${userId}/wordSource`
 			})
 		}),
 		getMoreWordSources: build.query<WordSource[], string>({
@@ -52,5 +65,6 @@ export const {
 	useGetWordsByUserIdQuery,
 	useLazyGetWordsByUserIdQuery,
 	useDeleteWordMutation,
+	useDeleteWordSourceMutation,
 	useLazyGetMoreWordSourcesQuery
 } = wordApi

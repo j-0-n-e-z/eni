@@ -25,10 +25,10 @@ export const Login = () => {
 
 		try {
 			await login({ email, password, rememberMe }).unwrap()
-		} catch (error) {
-			const err = error as BackendError
-			setError(err.data?.error.details.field as 'email' | 'password', {
-				message: err.data?.error.message
+		} catch (e) {
+			const error = e as BackendError
+			setError(error.data?.error.details.field as 'email' | 'password', {
+				message: error.data?.error.message
 			})
 		}
 	}

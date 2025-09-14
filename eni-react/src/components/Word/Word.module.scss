@@ -82,19 +82,33 @@
 }
 
 .wordSourcesContainer {
+	position: relative;
 	display: flex;
 	flex-direction: column;
-	gap: 1rem;
+	align-items: center;
+	height: 100%;
+	max-height: 664px;
+	overflow-y: auto;
 }
 
 .wordSourcesHeader {
+	position: sticky;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding-bottom: 1rem;
 	text-align: center;
+	background-color: $bg-primary;
 }
 
 .wordSourceList {
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
+
+	&:not(:first-of-type) {
+		margin-top: 0.5rem;
+	}
 }
 
 .wordSource {
@@ -128,6 +142,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
+	align-items: start;
 }
 
 .movieName {
@@ -137,4 +152,10 @@
 .timecode {
 	font-size: 0.8rem;
 	font-style: italic;
+}
+
+.loadMoreBtn {
+	@extend %button-base;
+
+	margin-top: 1rem;
 }

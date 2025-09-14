@@ -19,9 +19,15 @@ wordRouter.post(
 )
 
 wordRouter.delete(
-	'/user/:userId/word/:wordId',
+	'/user/:userId/wordSource',
 	authMiddleware.protectByAccessToken,
-	asyncHandler(wordController.deleteWord)
+	asyncHandler(wordController.deleteUserWordSource)
+)
+
+wordRouter.delete(
+	'/user/:userId/word',
+	authMiddleware.protectByAccessToken,
+	asyncHandler(wordController.deleteUserWord)
 )
 
 wordRouter.get(

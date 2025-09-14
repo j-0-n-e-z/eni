@@ -1,20 +1,31 @@
 import cn from 'classnames'
 import type { FC } from 'react'
+import toast from 'react-hot-toast'
 import Skeleton from 'react-loading-skeleton'
 import { useNavigate } from 'react-router-dom'
 
 import { ErrorDisplay } from '@/components'
-import { useLazyGetMoreWordSourcesQuery } from '@/store/api'
+import { TrashIcon } from '@/icons'
+import type { BackendError } from '@/store/api'
+import {
+	useDeleteWordSourceMutation,
+	useLazyGetMoreWordSourcesQuery
+} from '@/store/api'
 import type { Word, WordSource } from '@/types'
 
 import s from './Word.module.scss'
 
 interface WordSourcesProps {
+	myId: string
 	word: Word
 	mySources: WordSource[]
 }
 
-export const WordSources: FC<WordSourcesProps> = ({ word, mySources }) => {
+export const WordSources: FC<WordSourcesProps> = ({
+	word,
+	mySources,
+	myId
+}) => {
 	const navigate = useNavigate()
 	const [
 		triggerGetMoreWordSources,
@@ -24,33 +35,63 @@ export const WordSources: FC<WordSourcesProps> = ({ word, mySources }) => {
 			error: moreSourcesError
 		}
 	] = useLazyGetMoreWordSourcesQuery()
+	const [
+		triggerDeleteWordSource,
+		{ isFetching: isDeleteWordSourceFetching, error: deleteWordSourceError }
+	] = useDeleteWordSourceMutation()
+
+	async function deleteWordSource(wordSource: WordSource) {
+		try {
+			if (!isDeleteWordSourceFetching) {
+				await triggerDeleteWordSource({
+					userId: myId,
+					wordSource,
+					wordText: word.text
+				}).unwrap()
+			}
+		} catch (e) {
+			const error = e as BackendError
+			toast.error(
+				error.data?.error.message ?? 'Произошла ошибка при удалении слова',
+				{
+					id: `deleteWordSource${wordSource.id}`
+				}
+			)
+		}
+	}
+
+	function goToWord({ movieId, fileId, page, subtitleTimecode }: WordSource) {
+		navigate(
+			`/movie/${movieId}/subtitles/${fileId}?page=${page}&timecode=${subtitleTimecode}`,
+			{
+				state: { lookupWord: word }
+			}
+		)
+	}
 
 	function renderSourceList(
 		sources: WordSource[],
 		isMySources: boolean = false
 	) {
-		function goToWord({ movieId, fileId, page, subtitleTimecode }: WordSource) {
-			navigate(
-				`/movie/${movieId}/subtitles/${fileId}?page=${page}&timecode=${subtitleTimecode}`,
-				{
-					state: { lookupWord: word }
-				}
-			)
-		}
-
 		return (
 			<ul className={s.wordSourceList}>
 				{sources.map((source) => (
 					<li
 						key={source.id}
 						className={cn(s.wordSource, { [s.mySource]: isMySources })}
-						onClick={() => goToWord(source)}
+						// onClick={() => goToWord(source)}
 					>
 						<img alt='poster' className={s.poster} src={source.posterUrl} />
 						<div className={s.sourceInfo}>
 							<div className={s.movieName}>{source.movieName}</div>
 							<div className={s.timecode}>{source.subtitleTimecode}</div>
 						</div>
+						<button
+							aria-label='delete word source'
+							onClick={() => deleteWordSource(source)}
+						>
+							<TrashIcon />
+						</button>
 					</li>
 				))}
 			</ul>
@@ -86,9 +127,14 @@ export const WordSources: FC<WordSourcesProps> = ({ word, mySources }) => {
 
 			{renderMoreSources()}
 
-			<button onClick={() => triggerGetMoreWordSources(word.text)}>
-				Load additional sources
-			</button>
+			{!moreSources && (
+				<button
+					className={s.loadMoreBtn}
+					onClick={() => triggerGetMoreWordSources(word.text)}
+				>
+					Load additional sources
+				</button>
+			)}
 		</div>
 	)
 }
