@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
 
 import { UserDto } from '@/dtos'
-import type { Word } from '@/shared-types'
 import {
 	ApiError,
 	AuthenticationError,
@@ -200,71 +199,5 @@ export class UserService {
 
 	async deleteUser(userId: string) {
 		await this.prisma.user.delete({ where: { id: userId } })
-	}
-
-	async saveWord(userId: string, word: Word) {
-		await this.prisma.word.upsert({
-			where: { id: word.id },
-			create: { text: word.text, id: word.id },
-			update: {}
-		})
-
-		const userWord = await this.prisma.userWord.create({
-			data: {
-				userId,
-				wordId: word.id,
-				...word.from,
-				isFavorite: false,
-				isLearned: false
-			}
-		})
-
-		return userWord
-	}
-
-	async deleteWord(userId: string, wordId: string) {
-		await this.prisma.userWord.delete({
-			where: { userId_wordId: { userId, wordId } }
-		})
-	}
-
-	private async findWordsByUserId(userId: string) {
-		return this.prisma.userWord.findMany({
-			where: { userId },
-			select: {
-				movieId: true,
-				fileId: true,
-				page: true,
-				subtitleWordIndex: true,
-				subtitleTimecode: true,
-				isFavorite: true,
-				isLearned: true,
-				word: true
-			}
-		})
-	}
-
-	async getWordsByUserId(userId: string) {
-		const userWords = await this.findWordsByUserId(userId)
-		return userWords.map(this.mapUserWordToWord)
-	}
-
-	private mapUserWordToWord(
-		userWord: Awaited<ReturnType<typeof this.findWordsByUserId>>[number]
-	): Word {
-		return {
-			id: userWord.word.id,
-			text: userWord.word.text,
-			from: {
-				fileId: userWord.fileId,
-				page: userWord.page,
-				subtitleTimecode: userWord.subtitleTimecode,
-				subtitleWordIndex: userWord.subtitleWordIndex,
-				movieId: userWord.movieId
-			},
-			isLearned: userWord.isLearned,
-			isFavorite: userWord.isFavorite,
-			isJoined: false
-		}
 	}
 }

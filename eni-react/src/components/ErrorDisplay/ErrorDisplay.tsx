@@ -13,7 +13,7 @@ interface ErrorDisplayProps {
 export const ErrorDisplay: FC<ErrorDisplayProps> = ({ error }) => (
 	<EmptyState
 		description={getErrorMessage(error)}
-		header='Error'
+		header='Error occured'
 		icon={<ErrorIcon />}
 	/>
 )

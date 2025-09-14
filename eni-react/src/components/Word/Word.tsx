@@ -1,12 +1,12 @@
 import cn from 'classnames'
-import type { FC } from 'react'
+import { useState, type FC } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch } from '@/app/index'
-import { Skeleton } from '@/components'
+import { Modal, Skeleton } from '@/components'
 import { BrainIcon, TranslateIcon, TrashIcon } from '@/icons'
-import { addWordTranslation, removeLearningWord } from '@/store'
+import { addWordTranslation, removeSavedWord } from '@/store'
 import type { BackendError } from '@/store/api'
 import {
 	useDeleteWordMutation,
@@ -17,6 +17,7 @@ import {
 import type { Word as IWord } from '@/types'
 
 import styles from './Word.module.scss'
+import { WordSources } from './WordSources'
 
 interface MyWordProps {
 	word: IWord
@@ -34,6 +35,7 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 	const [triggerDeleteWord] = useDeleteWordMutation()
 	const navigate = useNavigate()
 	const dispatch = useAppDispatch()
+	const [isOpenedSourcesModal, setIsOpenedSourcesModal] = useState(false)
 
 	const translateWord = async () => {
 		try {
@@ -53,10 +55,7 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 
 		try {
 			const definition = await triggerGetDefinition(word.text).unwrap()
-			const translation = definition
-				.map((def) => `${def.pos}: ${def.tr}`)
-				.join('\n')
-			dispatch(addWordTranslation({ id: word.id, translation }))
+			dispatch(addWordTranslation({ id: word.id, translation: definition }))
 		} catch (e) {
 			const backendError = e as BackendError
 			if (backendError.status === 404) {
@@ -70,7 +69,7 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 	}
 
 	const deleteWordFromLearning = () => {
-		dispatch(removeLearningWord(word.id))
+		dispatch(removeSavedWord({ sources: word.mySources, wordText: word.text }))
 	}
 
 	const deleteWordFromLearned = async () => {
@@ -97,27 +96,16 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 				word
 			}).unwrap()
 
+			deleteWordFromLearning()
+
 			toast.success('Слово сохранено', {
 				id: 'saveWordSuccess'
 			})
-
-			deleteWordFromLearning()
 		} catch (e) {
 			toast.error('Произошла ошибка при сохранении слова', {
 				id: 'saveWordError'
 			})
 		}
-	}
-
-	const goToWord = () => {
-		const { movieId, fileId, page, subtitleTimecode } = word.from
-
-		navigate(
-			`/movie/${movieId}/subtitles/${fileId}?page=${page}&timecode=${subtitleTimecode}`,
-			{
-				state: { lookupWord: word }
-			}
-		)
 	}
 
 	const renderWordTranslation = () => {
@@ -149,7 +137,14 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 					{renderWordTranslation()}
 				</div>
 			</div>
-			<button onClick={goToWord}>Go to word</button>
+			<button onClick={() => setIsOpenedSourcesModal(true)}>
+				Go to word ({word.mySources.length})
+			</button>
+			{isOpenedSourcesModal && (
+				<Modal closeModalHandler={() => setIsOpenedSourcesModal(false)}>
+					<WordSources mySources={word.mySources} word={word} />
+				</Modal>
+			)}
 			<div className={styles.wordActions}>
 				{!word.translation && (
 					<button

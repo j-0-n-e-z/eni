@@ -7,36 +7,35 @@ import { useAppDispatch, useAppSelector } from '@/app/index'
 import { SavedWords, Skeleton, SubtitleWords, WordsPanel } from '@/components'
 import { ErrorIcon, TranslateIcon } from '@/icons'
 import {
-	addLearningWord,
-	removeLearningWord,
-	selectLearningJoinedWordsByTimecode,
-	selectLearningWordsByTimecode
+	addSavedWord,
+	removeSavedWord,
+	selectSavedWordsByTimecode
 } from '@/store'
 import { useLazyTranslateQuery } from '@/store/api'
 import type { PureSubtitle, Word } from '@/types'
 import { getErrorMessage } from '@/utils'
 
+import type { SubtitleSource } from '../../types'
+
 import styles from './Subtitles.module.scss'
 
 interface SubtitleProps {
 	subtitle: PureSubtitle
-	page: number
-	fileId: number
-	movieId: number
+	subtitleSource: SubtitleSource
 }
 
-export const Subtitle: FC<SubtitleProps> = ({
-	subtitle,
-	page,
-	fileId,
-	movieId
-}) => {
+export const Subtitle: FC<SubtitleProps> = ({ subtitle, subtitleSource }) => {
 	const dispatch = useAppDispatch()
-	const learningWords = useAppSelector((state) =>
-		selectLearningWordsByTimecode(state, subtitle.timecode)
+	const savedWords = useAppSelector((state) =>
+		selectSavedWordsByTimecode(state, subtitle.timecode, subtitleSource.movieId)
 	)
-	const learningJoinedWords = useAppSelector((state) =>
-		selectLearningJoinedWordsByTimecode(state, subtitle.timecode)
+	const savedJoinedWords = useAppSelector((state) =>
+		selectSavedWordsByTimecode(
+			state,
+			subtitle.timecode,
+			subtitleSource.movieId,
+			true
+		)
 	)
 	const [searchParams] = useSearchParams()
 	const lookupTarget = useRef<HTMLLIElement>(null)
@@ -77,12 +76,8 @@ export const Subtitle: FC<SubtitleProps> = ({
 
 	const saveSingleWords = () => {
 		selectedWords.forEach((selectedWord) => {
-			if (!learningWords.find((w) => w.id === selectedWord.id)) {
-				dispatch(addLearningWord(selectedWord))
-				toast.success(`Слово "${selectedWord.text}" сохранено`)
-			} else {
-				toast(`Слово "${selectedWord.text}" уже добавлено`, { icon: '👀' })
-			}
+			dispatch(addSavedWord(selectedWord))
+			toast.success(`Слово "${selectedWord.text}" сохранено`)
 		})
 	}
 
@@ -90,24 +85,15 @@ export const Subtitle: FC<SubtitleProps> = ({
 		if (wordsToJoin.length < 2) return
 
 		const joinedWordText = wordsToJoin.map((word) => word.text).join(' ')
-		const existingJoinedWord = learningJoinedWords.find(
-			(word) => word.text === joinedWordText
-		)
-
-		if (existingJoinedWord) {
-			toast(`Слово "${joinedWordText}" уже добавлено`, { icon: '👀' })
-			return
-		}
 
 		dispatch(
-			addLearningWord({
-				from: wordsToJoin[0].from,
+			addSavedWord({
 				id: `joined_${wordsToJoin.map((word) => word.id).join('_')}`,
 				isFavorite: false,
 				isJoined: true,
 				isLearned: false,
-				text: joinedWordText,
-				words: wordsToJoin
+				mySources: wordsToJoin.flatMap((w) => w.mySources),
+				text: joinedWordText
 			})
 		)
 
@@ -116,14 +102,14 @@ export const Subtitle: FC<SubtitleProps> = ({
 	}
 
 	const removeJoinedWord = (word: Word) => {
-		dispatch(removeLearningWord(word.id))
+		dispatch(removeSavedWord({ sources: word.mySources, wordText: word.text }))
 		toast(`Слово "${word.text}" удалено`, {
 			icon: '🗑️'
 		})
 	}
 
 	const removeWord = (word: Word) => {
-		dispatch(removeLearningWord(word.id))
+		dispatch(removeSavedWord({ sources: word.mySources, wordText: word.text }))
 		toast(`Слово "${word.text}" удалено`, {
 			icon: '🗑️'
 		})
@@ -186,23 +172,18 @@ export const Subtitle: FC<SubtitleProps> = ({
 				{renderSubtitleTranslation()}
 
 				<SubtitleWords
-					fileId={fileId}
-					movieId={movieId}
-					page={page}
 					selectedWords={selectedWords}
 					subtitle={subtitle}
+					subtitleSource={subtitleSource}
 					toggleSelectedWord={toggleSelectedWord}
 				/>
 
-				{learningJoinedWords.length > 0 && (
-					<SavedWords
-						removeWord={removeJoinedWord}
-						words={learningJoinedWords}
-					/>
+				{savedJoinedWords.length > 0 && (
+					<SavedWords removeWord={removeJoinedWord} words={savedJoinedWords} />
 				)}
 
-				{learningWords.length > 0 && (
-					<SavedWords removeWord={removeWord} words={learningWords} />
+				{savedWords.length > 0 && (
+					<SavedWords removeWord={removeWord} words={savedWords} />
 				)}
 
 				{selectedWords.length > 0 && (

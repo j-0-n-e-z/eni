@@ -1,10 +1,10 @@
-import type { SimpleYandexDefinition, YandexTranslation } from '@/types'
+import type { YandexTranslation } from '@/types'
 
 import { authApi } from './authApi'
 
 export const translateApi = authApi.injectEndpoints({
 	endpoints: (build) => ({
-		getDifinition: build.query<SimpleYandexDefinition[], string>({
+		getDifinition: build.query<string, string>({
 			query: (text) => ({
 				body: { text },
 				credentials: 'include',

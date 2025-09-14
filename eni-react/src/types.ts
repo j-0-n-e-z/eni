@@ -1,13 +1,10 @@
-import type { MovieSubtitle, Word } from '@/types'
+import type { MovieSubtitle, WordSource } from '@/types'
 
 export interface MovieSubtitlesContext {
 	pickMovieSubtitle: (movieSubtitle: MovieSubtitle) => void
 	imdbId: string | null
-	movieName: string | null
+	movieName: string
+	posterUrl: string 
 }
 
-export interface WordsCombination {
-	id: string
-	text: string
-	words: Word[]
-}
+export type SubtitleSource = Omit<WordSource, 'subtitleWordIndex' | 'id'>

@@ -13,7 +13,7 @@ import {
 	SearchIcon,
 	SettingsIcon
 } from '@/icons'
-import { selectLearningWords } from '@/store'
+import { selectSavedWords } from '@/store'
 import { useGetMeQuery, useLogoutMutation } from '@/store/api'
 import { getErrorMessage } from '@/utils'
 
@@ -21,7 +21,7 @@ import styles from './SidePanel.module.scss'
 import { SidePanelSkeleton } from './SidePanelSkeleton'
 
 export const SidePanel = () => {
-	const learningWords = useAppSelector(selectLearningWords)
+	const savedWords = useAppSelector(selectSavedWords)
 	const { data: me, isLoading: isMeLoading } = useGetMeQuery()
 	const [logout, { isLoading: isLogoutLoading, error: logoutError }] =
 		useLogoutMutation()
@@ -69,9 +69,9 @@ export const SidePanel = () => {
 							>
 								<BookIcon className={styles.bookIcon} />
 								<span className={styles.navLinkText}>Words</span>
-								{learningWords.length > 0 && (
+								{savedWords.length > 0 && (
 									<div className={styles.wordsCount}>
-										{learningWords.length}
+										{savedWords.length}
 									</div>
 								)}
 							</Link>

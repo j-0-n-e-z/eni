@@ -2,7 +2,6 @@ import type { Request, Response } from 'express'
 
 import { UserDto } from '@/dtos'
 import type { UserService } from '@/services'
-import type { Word } from '@/shared-types'
 import { ApiError, AuthenticationError, ErrorCodes } from '@/utils'
 
 import { REFRESH_TOKEN } from '../utils/constants'
@@ -38,36 +37,5 @@ export class UserController {
 		const user = await this.userService.getMe(refreshToken)
 
 		res.json(new UserDto(user))
-	}
-
-	getWordsByUserId = async (req: Request, res: Response) => {
-		const { userId } = req.params
-
-		const words = await this.userService.getWordsByUserId(userId)
-
-		if (!words || !words.length) {
-			throw new ApiError(404, 'Words not found', ErrorCodes.NOT_FOUND)
-		}
-
-		res.json(words)
-	}
-
-	saveWord = async (req: Request, res: Response) => {
-		const { userId } = req.params
-		const { word } = req.body as {
-			word: Word
-		}
-
-		const userWord = await this.userService.saveWord(userId, word)
-
-		return res.json(userWord)
-	}
-
-	deleteWord = async (req: Request, res: Response) => {
-		const { userId, wordId } = req.params
-
-		await this.userService.deleteWord(userId, wordId)
-
-		return res.json({ message: 'Word deleted' })
 	}
 }

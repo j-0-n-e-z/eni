@@ -107,27 +107,33 @@ export class ErrorHandler {
 			> = {
 				Kinopoisk: {
 					400: 'Bad request to Kinopoisk',
+					401: 'Kinopoisk authentication failed',
+					402:
+						(error.response?.data as Error).message ??
+						'You have reached kinopoisk quota',
 					404: 'Movie not found',
-					429: 'Kinopoisk rate limit exceeded',
-					401: 'Kinopoisk authentication failed'
+					429: 'Kinopoisk rate limit exceeded'
 				},
 				OpenSubtitles: {
 					400: 'Bad request to OpenSubtitles',
+					401: 'OpenSubtitles authentication failed',
+					402: 'You have reached OpenSubtitles quota',
 					404: 'Subtitles not found',
-					429: 'OpenSubtitles rate limit exceeded',
-					401: 'OpenSubtitles authentication failed'
+					429: 'OpenSubtitles rate limit exceeded'
 				},
 				'Yandex.Translate': {
 					400: 'Bad request to Yandex.Translate',
+					401: 'Yandex.Translate authentication failed',
+					402: 'You have reached Yandex.Translate quota',
 					404: 'Failed to get Yandex.Translate translation',
-					429: 'Too many request to Yandex.Translate',
-					401: 'Yandex.Translate authentication failed'
+					429: 'Too many request to Yandex.Translate'
 				},
 				'Yandex.Dictionary': {
 					400: 'Bad request to Yandex Dictionary',
+					401: 'Yandex Dictionary authentication failed',
+					402: 'You have reached Yandex Dictionary quota',
 					404: 'Failed to get Yandex Dictionary definition ',
-					429: 'Too many request to Yandex Dictionary',
-					401: 'Yandex Dictionary authentication failed'
+					429: 'Too many request to Yandex Dictionary'
 				}
 			}
 

@@ -8,9 +8,10 @@ import { asyncHandler, gmailTransporter, prisma } from '@/utils'
 const userRouter = express.Router()
 
 const tokenService = new TokenService(prisma)
+const mailService = new MailService(gmailTransporter)
 
 const userController = new UserController(
-	new UserService(prisma, tokenService, new MailService(gmailTransporter))
+	new UserService(prisma, tokenService, mailService)
 )
 
 userRouter.get(
@@ -25,22 +26,5 @@ userRouter.get(
 )
 
 userRouter.get('/users', asyncHandler(userController.getUsers))
-
-userRouter.post(
-	'/user/:userId/word',
-	authMiddleware.protectByAccessToken,
-	asyncHandler(userController.saveWord)
-)
-
-userRouter.delete(
-	'/user/:userId/word/:wordId',
-	authMiddleware.protectByAccessToken,
-	asyncHandler(userController.deleteWord)
-)
-
-userRouter.get(
-	'/user/:userId/words',
-	asyncHandler(userController.getWordsByUserId)
-)
 
 export { userRouter }

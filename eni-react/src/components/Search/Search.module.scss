@@ -125,7 +125,7 @@
 	flex-direction: column;
 	width: 100%;
 	max-width: 320px;
-	max-height: 570px;
+	max-height: 580px;
 	overflow: hidden;
 	color: $text-primary;
 	text-decoration: none;
@@ -164,6 +164,7 @@
 
 .detailsRow {
 	display: flex;
+	gap: 1rem;
 	justify-content: space-between;
 }
 

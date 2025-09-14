@@ -47,11 +47,7 @@ export const SavedWords: FC<SavedWordsProps> = ({ words, removeWord }) => {
 
 		try {
 			const definition = await triggerGetWordDefinition(word.text).unwrap()
-			const translation = definition
-				.map((def) => `${def.pos}: ${def.tr}`)
-				.join('\n')
-
-			dispatch(addWordTranslation({ id: word.id, translation }))
+			dispatch(addWordTranslation({ id: word.id, translation: definition }))
 		} catch (e) {
 			const backendError = e as BackendError
 			if (backendError.status === 404) {

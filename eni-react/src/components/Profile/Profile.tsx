@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { useAppSelector } from '@/app/index'
 import { ErrorDisplay } from '@/components'
 import { BookIcon, BrainIcon, ProfileIcon } from '@/icons'
-import { selectLearningWords } from '@/store'
+import { selectSavedWords } from '@/store'
 import {
 	useGetMeQuery,
 	useGetWordsByUserIdQuery,
@@ -39,7 +39,7 @@ export const Profile = () => {
 		error: isLearnedWordsError
 	} = useGetWordsByUserIdQuery(displayUser?.id ?? '', { skip: !displayUser })
 
-	const learningWords = useAppSelector((state) => selectLearningWords(state))
+	const savedWords = useAppSelector((state) => selectSavedWords(state))
 
 	const isProfileLoading = isMeFetching || isUserFetcing
 
@@ -83,7 +83,7 @@ export const Profile = () => {
 					isLearned
 					icon={<BookIcon />}
 					isMyPage={isMyPage}
-					me={me}
+					myId={me?.id}
 					title='Изучено'
 					words={learnedWords}
 				/>
@@ -107,7 +107,7 @@ export const Profile = () => {
 							<p className={styles.email}>{displayUser.email}</p>
 							<div className={styles.stats}>
 								<div className={styles.stat}>
-									<span className={styles.number}>{learningWords.length}</span>
+									<span className={styles.number}>{savedWords.length}</span>
 									<span className={styles.label}>Изучаю</span>
 								</div>
 								<div className={styles.stat}>
@@ -118,7 +118,7 @@ export const Profile = () => {
 								</div>
 								<div className={styles.stat}>
 									<span className={styles.number}>
-										{(learnedWords?.length ?? 0) + learningWords.length}
+										{(learnedWords?.length ?? 0) + savedWords.length}
 									</span>
 									<span className={styles.label}>Всего слов</span>
 								</div>
@@ -128,13 +128,13 @@ export const Profile = () => {
 				</section>
 			)}
 
-			{isMyPage && learningWords.length > 0 && (
+			{isMyPage && me && savedWords.length > 0 && (
 				<WordsSection
 					icon={<BrainIcon />}
 					isMyPage={isMyPage}
-					me={me}
+					myId={me.id}
 					title='Изучить'
-					words={learningWords}
+					words={savedWords}
 				/>
 			)}
 

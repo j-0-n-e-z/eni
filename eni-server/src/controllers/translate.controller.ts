@@ -11,18 +11,21 @@ export class TranslateController {
 
 		const definitions = await this.translateService.findDefinition(text)
 
-		if (definitions.length === 0) {
-			throw new ApiError(404, 'Definition not found', ErrorCodes.NOT_FOUND)
+		if (this.translateService.isDefinitionsEmpty(definitions)) {
+			throw new ApiError(404, 'Definition was not found', ErrorCodes.NOT_FOUND)
 		}
 
-		res.status(200).json(definitions)
+		const definitionsAsString =
+			this.translateService.convertDefinitionsToString(definitions)
+
+		res.status(200).json(definitionsAsString)
 	}
 
 	translate = async (req: Request, res: Response) => {
 		const { text } = req.body as { text: string }
 
-		const response = await this.translateService.translate(text)
+		const translations = await this.translateService.translate(text)
 
-		res.status(200).json(response.translations)
+		res.status(200).json(translations)
 	}
 }

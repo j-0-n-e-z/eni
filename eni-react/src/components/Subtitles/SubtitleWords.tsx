@@ -4,13 +4,13 @@ import { Fragment, useMemo } from 'react'
 
 import type { PureSubtitle, Word } from '@/types'
 
+import type { SubtitleSource } from '../../types'
+
 import styles from './Subtitles.module.scss'
 
 interface SubtitleWordProps {
 	toggleSelectedWord: (word: Word) => void
-	fileId: number
-	movieId: number
-	page: number
+	subtitleSource: SubtitleSource
 	subtitle: PureSubtitle
 	selectedWords: Word[]
 }
@@ -20,39 +20,50 @@ const PUNCTUATION = /([^\w]*)(\w+'?\w+)([^\w]*)/
 export const SubtitleWords: FC<SubtitleWordProps> = ({
 	subtitle,
 	toggleSelectedWord,
-	fileId,
-	page,
 	selectedWords,
-	movieId
+	subtitleSource
 }) => {
 	const words = useMemo(() => subtitle.text.split(' '), [subtitle.text])
 
 	return (
 		<ul className={styles.subtitleWordList}>
 			{words.map((wordText, i) => {
-				const id = `${i}#${subtitle.timecode}#${fileId}`
+				const {
+					fileId,
+					movieId,
+					movieName,
+					page,
+					posterUrl,
+					subtitleTimecode
+				} = subtitleSource
+				const wordId = `${i}#${subtitle.timecode}#${fileId}`
 				const punctuationMatch = wordText.match(PUNCTUATION)
 				const before = punctuationMatch ? punctuationMatch[1] : undefined
 				const after = punctuationMatch ? punctuationMatch[3] : undefined
-				const isSelected = Boolean(selectedWords.find((w) => w.id === id))
+				const isSelected = Boolean(selectedWords.find((w) => w.id === wordId))
 
 				const word: Word = {
-					from: {
-						fileId,
-						movieId,
-						page,
-						subtitleTimecode: subtitle.timecode,
-						subtitleWordIndex: i
-					},
-					id,
+					id: wordId,
 					isFavorite: false,
 					isJoined: false,
 					isLearned: false,
+					mySources: [
+						{
+							fileId,
+							id: `${movieId}_${fileId}_${page}_${subtitle.timecode.replace(' --> ', '_')}_${i}`,
+							movieId,
+							movieName,
+							page,
+							posterUrl,
+							subtitleTimecode,
+							subtitleWordIndex: i
+						}
+					],
 					text: punctuationMatch ? punctuationMatch[2] : wordText
 				}
 
 				return (
-					<Fragment key={id}>
+					<Fragment key={wordId}>
 						{before && <li className={styles.punctuation}>{before}</li>}
 						<li>
 							<button

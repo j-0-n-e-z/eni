@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 
-import type { Word as IWord, User } from '@/types'
+import type { Word as IWord } from '@/types'
 
 import { Word } from '../Word/Word'
 
@@ -12,12 +12,12 @@ interface WordsSectionProps {
 	words: IWord[]
 	isMyPage: boolean
 	isLearned?: boolean
-	me?: User
+	myId: string | undefined
 }
 
 export const WordsSection: FC<WordsSectionProps> = ({
 	isMyPage,
-	me,
+	myId,
 	words,
 	title,
 	icon,
@@ -38,7 +38,7 @@ export const WordsSection: FC<WordsSectionProps> = ({
 					key={`learn${word.id}`}
 					isLearned={Boolean(isLearned)}
 					isMyPage={isMyPage}
-					myId={me?.id}
+					myId={myId}
 					word={word}
 				/>
 			))}

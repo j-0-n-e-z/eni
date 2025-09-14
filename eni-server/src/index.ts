@@ -10,7 +10,8 @@ import {
 	movieRouter,
 	subtitlesRouter,
 	translateRouter,
-	userRouter
+	userRouter,
+	wordRouter
 } from '@/routes'
 import { prisma } from '@/utils'
 
@@ -38,6 +39,7 @@ app.use('/api', subtitlesRouter)
 app.use('/api', authRouter)
 app.use('/api', userRouter)
 app.use('/api', translateRouter)
+app.use('/api', wordRouter)
 
 const logger = (error: Error) => console.error(error)
 app.use(new ErrorHandler(logger).handle)

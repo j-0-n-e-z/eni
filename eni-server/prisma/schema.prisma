@@ -29,24 +29,21 @@ model Token {
 }
 
 model Word {
-  id        String     @id()
-  userWords UserWord[]
-  text      String     @unique
+  id          String     @id()
+  userWords   UserWord[]
+  text        String     @unique
+  translation String
+  sources     Json
 }
 
 model UserWord {
-  userId            String
-  user              User    @relation(fields: [userId], references: [id])
-  wordId            String
-  word              Word    @relation(fields: [wordId], references: [id])
-  fileId            Int
-  page              Int
-  subtitleTimecode  String
-  subtitleWordIndex Int
-  movieId           Int
-  isLearned         Boolean
-  isFavorite        Boolean
+  userId     String
+  user       User    @relation(fields: [userId], references: [id])
+  text   String
+  mySources  Json
+  word       Word    @relation(fields: [text], references: [text])
+  isLearned  Boolean
+  isFavorite Boolean
 
-  @@id([userId, wordId])
-  @@unique([userId, wordId])
+  @@id([userId, text])
 }

@@ -1,0 +1,28 @@
+@use '@styles' as *;
+
+.modalContainer {
+	@include center-flex;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 9999;
+	width: 100vw;
+	height: 100vh;
+	background-color: $overlay-light;
+}
+
+.modal {
+	position: relative;
+	max-width: 50%;
+	max-height: 80%;
+	padding: 2rem;
+	background-color: $bg-primary;
+	border-radius: 1rem;
+}
+
+.modalCloseBtn {
+	position: absolute;
+	top: 0.75rem;
+	right: 0.75rem;
+}

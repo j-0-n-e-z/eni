@@ -80,3 +80,61 @@
 	width: 1rem;
 	height: 1rem;
 }
+
+.wordSourcesContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.wordSourcesHeader {
+	text-align: center;
+}
+
+.wordSourceList {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.wordSource {
+	display: flex;
+	gap: 1rem;
+	padding: 1rem;
+	color: $text-primary;
+	cursor: pointer;
+	background-color: $bg-tertiary;
+	border-radius: 1rem;
+	transition: background-color 0.1s ease;
+
+	&:hover {
+		background-color: color.adjust($bg-tertiary, $lightness: -15%);
+	}
+}
+
+.wordSource.mySource {
+	background-color: $bg-success-light;
+
+	&:hover {
+		background-color: color.adjust($bg-success-light, $lightness: -10%);
+	}
+}
+
+.poster {
+	max-height: 10rem;
+}
+
+.sourceInfo {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.movieName {
+	font-weight: 600;
+}
+
+.timecode {
+	font-size: 0.8rem;
+	font-style: italic;
+}

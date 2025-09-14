@@ -1,7 +1,8 @@
 import { useEffect, useState, type FC } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
-import { ErrorDisplay } from '@/components'
+import { EmptyState, ErrorDisplay } from '@/components'
+import { EmptyIcon } from '@/icons'
 import { useGetMovieByKinopoiskIdQuery } from '@/store/api'
 import type { MovieSubtitle } from '@/types'
 
@@ -33,18 +34,33 @@ export const MovieSubtitlesPage: FC = () => {
 		}
 	}, [pickedMovieSubtitle])
 
-	if (Number.isNaN(movieId)) return <div>Отсутствует id фильма</div>
+	if (Number.isNaN(movieId))
+		return (
+			<EmptyState
+				description='Отсутствует id фильма'
+				header='Упс...'
+				icon={<EmptyIcon />}
+			/>
+		)
 
 	if (isMovieLoading) return <MovieSubtitlesPageSkeleton />
 
 	if (movieError) return <ErrorDisplay error={movieError} />
 
-	if (!movie) return <div>Нет данных о фильме</div>
+	if (!movie)
+		return (
+			<EmptyState
+				description='Нет данных о фильме'
+				header='Упс...'
+				icon={<EmptyIcon />}
+			/>
+		)
 
 	const contextValue: MovieSubtitlesContext = {
 		imdbId: movie.imdbId,
 		movieName: movie.nameOriginal ?? movie.nameEn,
-		pickMovieSubtitle: setPickedMovieSubtitle
+		pickMovieSubtitle: setPickedMovieSubtitle,
+		posterUrl: movie.posterUrlPreview
 	}
 
 	return (
