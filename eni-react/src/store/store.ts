@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import { savedWordsReducer, searchHistoryReducer } from '@/store'
+import { searchHistoryReducer } from '@/store'
 import { api, authApi, subtitleApi, userApi, wordApi } from '@/store/api'
 
 export const store = configureStore({
@@ -17,7 +17,6 @@ export const store = configureStore({
 		[userApi.reducerPath]: userApi.reducer,
 		[wordApi.reducerPath]: wordApi.reducer,
 		[subtitleApi.reducerPath]: subtitleApi.reducer,
-		savedWordsReducer,
 		searchHistoryReducer
 	}
 })

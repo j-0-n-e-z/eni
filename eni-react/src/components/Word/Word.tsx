@@ -1,19 +1,10 @@
 import cn from 'classnames'
 import { useState, type FC } from 'react'
 import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
 
-import { useAppDispatch } from '@/app/index'
-import { Modal, Skeleton } from '@/components'
-import { BrainIcon, TranslateIcon, TrashIcon } from '@/icons'
-import { addWordTranslation, removeSavedWord } from '@/store'
-import type { BackendError } from '@/store/api'
-import {
-	useDeleteWordMutation,
-	useLazyGetDifinitionQuery,
-	useLazyTranslateQuery,
-	useSaveWordMutation
-} from '@/store/api'
+import { Modal } from '@/components'
+import { BrainIcon, TrashIcon } from '@/icons'
+import { useDeleteWordMutation, useSaveWordMutation } from '@/store/api'
 import type { Word as IWord } from '@/types'
 
 import styles from './Word.module.scss'
@@ -27,51 +18,11 @@ interface MyWordProps {
 }
 
 export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
-	const [triggerTranslate, { isFetching: isTranslationFetching }] =
-		useLazyTranslateQuery()
-	const [triggerGetDefinition, { isFetching: isDefinitionFetching }] =
-		useLazyGetDifinitionQuery()
 	const [triggerSaveWord] = useSaveWordMutation()
 	const [triggerDeleteWord] = useDeleteWordMutation()
-	const dispatch = useAppDispatch()
 	const [isOpenedSourcesModal, setIsOpenedSourcesModal] = useState(false)
 
-	const translateWord = async () => {
-		try {
-			const {
-				0: { text: translation }
-			} = await triggerTranslate(word.text).unwrap()
-			dispatch(addWordTranslation({ id: word.id, translation }))
-		} catch (e) {
-			toast.error('Произошла ошибка при переводе слова', {
-				id: 'translateWordError'
-			})
-		}
-	}
-
-	const getWordDefinition = async () => {
-		if (word.translation) return
-
-		try {
-			const definition = await triggerGetDefinition(word.text).unwrap()
-			dispatch(addWordTranslation({ id: word.id, translation: definition }))
-		} catch (e) {
-			const backendError = e as BackendError
-			if (backendError.status === 404) {
-				translateWord()
-			} else {
-				toast.error('Произошла ошибка при получении определения слова', {
-					id: 'getWordDefinitionError'
-				})
-			}
-		}
-	}
-
-	const deleteWordFromLearning = () => {
-		dispatch(removeSavedWord({ sources: word.mySources, wordText: word.text }))
-	}
-
-	const deleteWordFromLearned = async () => {
+	const deleteFromSaved = async () => {
 		try {
 			if (!myId) return
 
@@ -95,8 +46,6 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 				word
 			}).unwrap()
 
-			deleteWordFromLearning()
-
 			toast.success('Слово сохранено', {
 				id: 'saveWordSuccess'
 			})
@@ -108,9 +57,6 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 	}
 
 	const renderWordTranslation = () => {
-		if (isTranslationFetching || isDefinitionFetching)
-			return <Skeleton width='15rem' />
-
 		if (
 			word.translation &&
 			(word.translation.includes('\n') || word.translation.includes(': '))
@@ -141,18 +87,10 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 			</button>
 			{isOpenedSourcesModal && (
 				<Modal closeModalHandler={() => setIsOpenedSourcesModal(false)}>
-					<WordSources mySources={word.mySources} word={word} myId={myId} />
+					<WordSources myId={myId} mySources={word.mySources} word={word} />
 				</Modal>
 			)}
 			<div className={styles.wordActions}>
-				{!word.translation && (
-					<button
-						className={cn(styles.actionButton, styles.translateButton)}
-						onClick={getWordDefinition}
-					>
-						<TranslateIcon />
-					</button>
-				)}
 				{isMyPage && (
 					<>
 						{!isLearned && (
@@ -167,9 +105,7 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 						<button
 							aria-label='delete word'
 							className={cn(styles.actionButton, styles.deleteButton)}
-							onClick={
-								isLearned ? deleteWordFromLearned : deleteWordFromLearning
-							}
+							onClick={deleteFromSaved}
 						>
 							<TrashIcon />
 						</button>

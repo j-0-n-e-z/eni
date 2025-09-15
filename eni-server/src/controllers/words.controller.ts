@@ -12,10 +12,6 @@ export class WordController {
 
 		const words = await this.wordService.getWordsByUserId(userId)
 
-		if (!words || !words.length) {
-			throw new ApiError(404, 'Words were not found', ErrorCodes.NOT_FOUND)
-		}
-
 		res.json(words)
 	}
 

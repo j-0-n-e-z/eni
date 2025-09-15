@@ -34,12 +34,13 @@ model Word {
   text        String     @unique
   translation String
   sources     Json
+  isJoined    Boolean
 }
 
 model UserWord {
   userId     String
   user       User    @relation(fields: [userId], references: [id])
-  text   String
+  text       String
   mySources  Json
   word       Word    @relation(fields: [text], references: [text])
   isLearned  Boolean

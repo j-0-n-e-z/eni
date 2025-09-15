@@ -1,4 +1,4 @@
-import type { YandexTranslation } from '@/types'
+import { Word, type YandexTranslation } from '@/types'
 
 import { authApi } from './authApi'
 

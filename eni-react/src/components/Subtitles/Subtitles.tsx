@@ -2,9 +2,14 @@ import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { useOutletContext, useParams, useSearchParams } from 'react-router-dom'
 
-import { ErrorDisplay, Paginator, Subtitle } from '@/components'
+import { EmptyState, ErrorDisplay, Paginator, Subtitle } from '@/components'
 import { useDebounce } from '@/hooks'
-import { useGetSubtitleByFileIdQuery } from '@/store/api'
+import { EmptyIcon } from '@/icons'
+import {
+	useGetMeQuery,
+	useGetSubtitleByFileIdQuery,
+	useGetWordsByUserIdQuery
+} from '@/store/api'
 import { SUBTITLES_PER_PAGE } from '@/utils'
 
 import type { MovieSubtitlesContext } from '../../types'
@@ -21,12 +26,17 @@ export const Subtitles: FC = () => {
 	const [debouncedSearchedWord] = useDebounce(searchedWord, 500)
 	const subtitlesStart = (currentPage - 1) * SUBTITLES_PER_PAGE
 
+	const { data: me } = useGetMeQuery()
 	const {
 		data: subtitles,
 		isLoading: isSubtitlesLoading,
 		error: subtitlesError
 	} = useGetSubtitleByFileIdQuery(Number(fileId), {
 		skip: !fileId
+	})
+
+	const { data: words } = useGetWordsByUserIdQuery(me?.id || '', {
+		skip: !me?.id
 	})
 
 	useEffect(() => {
@@ -58,7 +68,14 @@ export const Subtitles: FC = () => {
 
 	if (subtitlesError) return <ErrorDisplay error={subtitlesError} />
 
-	if (!subtitles?.length) return <div>Субтитры не найдены</div>
+	if (!subtitles?.length)
+		return (
+			<EmptyState
+				description='Субтитры не найдены'
+				header='Пусто'
+				icon={<EmptyIcon />}
+			/>
+		)
 
 	return (
 		<>
@@ -81,7 +98,13 @@ export const Subtitles: FC = () => {
 					.map((subtitle) => (
 						<Subtitle
 							key={subtitle.timecode}
+							myId={me?.id}
 							subtitle={subtitle}
+							savedWords={words?.filter((w) =>
+								w.mySources.some(
+									(s) => s.subtitleTimecode === subtitle.timecode
+								)
+							)}
 							subtitleSource={{
 								fileId: Number(fileId),
 								movieId: Number(movieId),

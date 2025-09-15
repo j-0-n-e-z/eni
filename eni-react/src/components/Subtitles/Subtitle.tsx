@@ -1,17 +1,16 @@
 import cn from 'classnames'
-import { useEffect, useRef, useState, type FC } from 'react'
+import { useEffect, useRef, type FC } from 'react'
 import toast from 'react-hot-toast'
 import { useSearchParams } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from '@/app/index'
 import { SavedWords, Skeleton, SubtitleWords, WordsPanel } from '@/components'
+import { useWordSelection } from '@/hooks/useWordSelection'
 import { ErrorIcon, TranslateIcon } from '@/icons'
 import {
-	addSavedWord,
-	removeSavedWord,
-	selectSavedWordsByTimecode
-} from '@/store'
-import { useLazyTranslateQuery } from '@/store/api'
+	useDeleteWordSourceMutation,
+	useLazyTranslateQuery,
+	useSaveWordMutation
+} from '@/store/api'
 import type { PureSubtitle, Word } from '@/types'
 import { getErrorMessage } from '@/utils'
 
@@ -20,25 +19,21 @@ import type { SubtitleSource } from '../../types'
 import styles from './Subtitles.module.scss'
 
 interface SubtitleProps {
+	myId: string | undefined
 	subtitle: PureSubtitle
 	subtitleSource: SubtitleSource
+	savedWords: Word[] | undefined
 }
 
-export const Subtitle: FC<SubtitleProps> = ({ subtitle, subtitleSource }) => {
-	const dispatch = useAppDispatch()
-	const savedWords = useAppSelector((state) =>
-		selectSavedWordsByTimecode(state, subtitle.timecode, subtitleSource.movieId)
-	)
-	const savedJoinedWords = useAppSelector((state) =>
-		selectSavedWordsByTimecode(
-			state,
-			subtitle.timecode,
-			subtitleSource.movieId,
-			true
-		)
-	)
+export const Subtitle: FC<SubtitleProps> = ({
+	myId,
+	savedWords,
+	subtitle,
+	subtitleSource
+}) => {
+	const savedJoinedWords = savedWords?.filter((w) => w.isJoined)
+	const savedSingleWords = savedWords?.filter((w) => !w.isJoined)
 	const [searchParams] = useSearchParams()
-	const lookupTarget = useRef<HTMLLIElement>(null)
 	const [
 		triggerSubtitleTranslate,
 		{
@@ -47,69 +42,71 @@ export const Subtitle: FC<SubtitleProps> = ({ subtitle, subtitleSource }) => {
 			isFetching: isSubtitleTranslationFetching
 		}
 	] = useLazyTranslateQuery()
+	const [saveWord] = useSaveWordMutation()
+	const [deleteWordSource] = useDeleteWordSourceMutation()
 
-	const [selectedWords, setSelectedWords] = useState<Word[]>([])
-	const [wordsToJoin, setWordsToJoin] = useState<Word[]>([])
+	const {
+		selectedWords,
+		toggleSelectedWord,
+		toggleWordToJoin,
+		clearWordsToJoin,
+		wordsToJoin
+	} = useWordSelection()
 
-	const searchTimecode = searchParams.get('timecode')
-	const isLookedUpSubtitle = subtitle.timecode === searchTimecode
+	const isLookedUpSubtitle = subtitle.timecode === searchParams.get('timecode')
+	const lookupTarget = useRef<HTMLLIElement>(null)
 
 	const hasWordsToSave = selectedWords.length > 0 || wordsToJoin.length > 1
 
-	const toggleSelectedWord = (word: Word) => {
-		setSelectedWords((prev) => {
-			if (prev.find((w) => w.id === word.id))
-				return prev.filter((w) => w.id !== word.id)
-			return [...prev, word]
-		})
-	}
-
-	const toggleWordToJoin = (word: Word) => {
-		if (selectedWords.length < 2) return
-
-		setWordsToJoin((prev) => {
-			if (prev.find((w) => w.id === word.id))
-				return prev.filter((w) => w.id !== word.id)
-			return [...prev, word]
-		})
-	}
-
 	const saveSingleWords = () => {
+		if (!myId) return
+
 		selectedWords.forEach((selectedWord) => {
-			dispatch(addSavedWord(selectedWord))
+			saveWord({ userId: myId, word: selectedWord })
 			toast.success(`Слово "${selectedWord.text}" сохранено`)
 		})
 	}
 
 	const saveJoinedWords = () => {
-		if (wordsToJoin.length < 2) return
+		if (wordsToJoin.length < 2 || !myId) return
 
 		const joinedWordText = wordsToJoin.map((word) => word.text).join(' ')
 
-		dispatch(
-			addSavedWord({
+		saveWord({
+			userId: myId,
+			word: {
 				id: `joined_${wordsToJoin.map((word) => word.id).join('_')}`,
 				isFavorite: false,
 				isJoined: true,
 				isLearned: false,
-				mySources: wordsToJoin.flatMap((w) => w.mySources),
+				mySources: wordsToJoin[0].mySources,
 				text: joinedWordText
-			})
-		)
+			}
+		})
 
 		toast.success(`Слово "${joinedWordText}" сохранено`)
-		setWordsToJoin([])
-	}
-
-	const removeJoinedWord = (word: Word) => {
-		dispatch(removeSavedWord({ sources: word.mySources, wordText: word.text }))
-		toast(`Слово "${word.text}" удалено`, {
-			icon: '🗑️'
-		})
+		clearWordsToJoin()
 	}
 
 	const removeWord = (word: Word) => {
-		dispatch(removeSavedWord({ sources: word.mySources, wordText: word.text }))
+		if (!myId) return
+
+		const source = word.mySources.find(
+			(s) => s.subtitleTimecode === subtitleSource.subtitleTimecode
+		)
+
+		if (source) {
+			deleteWordSource({
+				userId: myId,
+				wordSource: {
+					...subtitleSource,
+					id: source.id,
+					subtitleWordIndex: source.subtitleWordIndex
+				},
+				wordText: word.text
+			})
+		}
+
 		toast(`Слово "${word.text}" удалено`, {
 			icon: '🗑️'
 		})
@@ -136,7 +133,7 @@ export const Subtitle: FC<SubtitleProps> = ({ subtitle, subtitleSource }) => {
 		}, 200)
 
 		return () => clearTimeout(timer)
-	}, [])
+	}, [isLookedUpSubtitle])
 
 	const renderSubtitleTranslation = () => {
 		if (isSubtitleTranslationFetching) return <Skeleton />
@@ -178,12 +175,12 @@ export const Subtitle: FC<SubtitleProps> = ({ subtitle, subtitleSource }) => {
 					toggleSelectedWord={toggleSelectedWord}
 				/>
 
-				{savedJoinedWords.length > 0 && (
-					<SavedWords removeWord={removeJoinedWord} words={savedJoinedWords} />
+				{savedJoinedWords && savedJoinedWords.length > 0 && (
+					<SavedWords removeWord={removeWord} words={savedJoinedWords} />
 				)}
 
-				{savedWords.length > 0 && (
-					<SavedWords removeWord={removeWord} words={savedWords} />
+				{savedSingleWords && savedSingleWords.length > 0 && (
+					<SavedWords removeWord={removeWord} words={savedSingleWords} />
 				)}
 
 				{selectedWords.length > 0 && (

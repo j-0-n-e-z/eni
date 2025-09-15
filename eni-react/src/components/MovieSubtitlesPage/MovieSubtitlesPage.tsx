@@ -58,7 +58,7 @@ export const MovieSubtitlesPage: FC = () => {
 
 	const contextValue: MovieSubtitlesContext = {
 		imdbId: movie.imdbId,
-		movieName: movie.nameOriginal ?? movie.nameEn,
+		movieName: movie.nameOriginal ?? movie.nameEn ?? 'No title',
 		pickMovieSubtitle: setPickedMovieSubtitle,
 		posterUrl: movie.posterUrlPreview
 	}

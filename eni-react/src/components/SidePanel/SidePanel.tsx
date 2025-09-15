@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { Link, useLocation } from 'react-router-dom'
 
-import { useAppSelector } from '@/app/index'
 import {
 	BookIcon,
 	BrainIcon,
@@ -13,16 +12,21 @@ import {
 	SearchIcon,
 	SettingsIcon
 } from '@/icons'
-import { selectSavedWords } from '@/store'
-import { useGetMeQuery, useLogoutMutation } from '@/store/api'
+import {
+	useGetMeQuery,
+	useGetWordsByUserIdQuery,
+	useLogoutMutation
+} from '@/store/api'
 import { getErrorMessage } from '@/utils'
 
 import styles from './SidePanel.module.scss'
 import { SidePanelSkeleton } from './SidePanelSkeleton'
 
 export const SidePanel = () => {
-	const savedWords = useAppSelector(selectSavedWords)
 	const { data: me, isLoading: isMeLoading } = useGetMeQuery()
+	const { data: savedWords } = useGetWordsByUserIdQuery(me?.id ?? '', {
+		skip: !me?.id
+	})
 	const [logout, { isLoading: isLogoutLoading, error: logoutError }] =
 		useLogoutMutation()
 	const location = useLocation()
@@ -69,10 +73,8 @@ export const SidePanel = () => {
 							>
 								<BookIcon className={styles.bookIcon} />
 								<span className={styles.navLinkText}>Words</span>
-								{savedWords.length > 0 && (
-									<div className={styles.wordsCount}>
-										{savedWords.length}
-									</div>
+								{savedWords && savedWords.length > 0 && (
+									<div className={styles.wordsCount}>{savedWords.length}</div>
 								)}
 							</Link>
 						</li>

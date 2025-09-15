@@ -80,11 +80,12 @@ export const WordSources: FC<WordSourcesProps> = ({
 						key={source.id}
 						className={cn(s.wordSource, { [s.mySource]: isMySources })}
 					>
-						<div onClick={() => goToWord(source)}>
+						<div className={s.sourceHero} onClick={() => goToWord(source)}>
 							<img alt='poster' className={s.poster} src={source.posterUrl} />
 							<div className={s.sourceInfo}>
 								<div className={s.movieName}>{source.movieName}</div>
 								<div className={s.timecode}>{source.subtitleTimecode}</div>
+								<p>{source.sentence}</p>
 							</div>
 						</div>
 						{myId && (

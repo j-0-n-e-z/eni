@@ -1,12 +1,6 @@
 import type { FC } from 'react'
-import toast from 'react-hot-toast'
 
-import { useAppDispatch } from '@/app/index'
-import { Skeleton } from '@/components'
-import { CancelIcon, TranslateIcon } from '@/icons'
-import { addWordTranslation } from '@/store'
-import type { BackendError } from '@/store/api'
-import { useLazyGetDifinitionQuery, useLazyTranslateQuery } from '@/store/api'
+import { CancelIcon } from '@/icons'
 import type { Word } from '@/types'
 
 import styles from './Subtitles.module.scss'
@@ -17,52 +11,7 @@ interface SavedWordsProps {
 }
 
 export const SavedWords: FC<SavedWordsProps> = ({ words, removeWord }) => {
-	const dispatch = useAppDispatch()
-	const [triggerWordTranslate, { isLoading: isWordTranslationLoading }] =
-		useLazyTranslateQuery()
-	const [triggerGetWordDefinition, { isLoading: isWordDefinitionLoading }] =
-		useLazyGetDifinitionQuery()
-
-	const translateWord = async (word: Word) => {
-		try {
-			const {
-				0: { text: wordTranslation }
-			} = await triggerWordTranslate(word.text).unwrap()
-
-			dispatch(
-				addWordTranslation({
-					id: word.id,
-					translation: wordTranslation
-				})
-			)
-		} catch (e) {
-			toast.error(`Произошла ошибка при переводе слова`, {
-				id: 'translateWordError'
-			})
-		}
-	}
-
-	const getWordDefinition = async (word: Word) => {
-		if (word.translation) return
-
-		try {
-			const definition = await triggerGetWordDefinition(word.text).unwrap()
-			dispatch(addWordTranslation({ id: word.id, translation: definition }))
-		} catch (e) {
-			const backendError = e as BackendError
-			if (backendError.status === 404) {
-				translateWord(word)
-			} else {
-				toast.error('Произошла ошибка при получении определения слова', {
-					id: 'getWordDefinitionError'
-				})
-			}
-		}
-	}
-
 	const renderWordTranslation = (word: Word) => {
-		if (isWordDefinitionLoading || isWordTranslationLoading) return <Skeleton />
-
 		if (
 			word.translation &&
 			(word.translation.includes('\n') || word.translation.includes(': '))
@@ -88,15 +37,6 @@ export const SavedWords: FC<SavedWordsProps> = ({ words, removeWord }) => {
 						<span className={styles.savedWordText}>{word.text}</span>
 						{renderWordTranslation(word)}
 					</div>
-					{!word.translation && (
-						<button
-							aria-label='translate joined word'
-							className={styles.translateWordBtn}
-							onClick={() => getWordDefinition(word)}
-						>
-							<TranslateIcon />
-						</button>
-					)}
 					<button
 						aria-label='remove joined word'
 						className={styles.removeSavedWordBtn}

@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useAppSelector } from '@/app/index'
 import { ErrorDisplay } from '@/components'
-import { BookIcon, BrainIcon, ProfileIcon } from '@/icons'
-import { selectSavedWords } from '@/store'
+import { BookIcon, ProfileIcon } from '@/icons'
 import {
 	useGetMeQuery,
 	useGetWordsByUserIdQuery,
@@ -34,12 +32,10 @@ export const Profile = () => {
 	] = useLazyGetUserByUsernameQuery()
 
 	const {
-		data: learnedWords,
-		isFetching: isLearnedWordsFetching,
-		error: isLearnedWordsError
+		data: savedWords,
+		isFetching: isSavedWordsFetching,
+		error: isSavedWordsError
 	} = useGetWordsByUserIdQuery(displayUser?.id ?? '', { skip: !displayUser })
-
-	const savedWords = useAppSelector((state) => selectSavedWords(state))
 
 	const isProfileLoading = isMeFetching || isUserFetcing
 
@@ -72,12 +68,12 @@ export const Profile = () => {
 	const isMyPage = displayUser?.username === me?.username
 
 	function renderLearnedWords() {
-		if (isLearnedWordsFetching) return <WordsSectionSkeleton />
+		if (isSavedWordsFetching) return <WordsSectionSkeleton />
 
-		if (isLearnedWordsError)
+		if (isSavedWordsError)
 			return <div>Не удалось загрузить изученные слова</div>
 
-		if (learnedWords?.length)
+		if (savedWords?.length)
 			return (
 				<WordsSection
 					isLearned
@@ -85,7 +81,7 @@ export const Profile = () => {
 					isMyPage={isMyPage}
 					myId={me?.id}
 					title='Изучено'
-					words={learnedWords}
+					words={savedWords}
 				/>
 			)
 
@@ -107,18 +103,18 @@ export const Profile = () => {
 							<p className={styles.email}>{displayUser.email}</p>
 							<div className={styles.stats}>
 								<div className={styles.stat}>
-									<span className={styles.number}>{savedWords.length}</span>
+									<span className={styles.number}>{savedWords?.length}</span>
 									<span className={styles.label}>Изучаю</span>
 								</div>
 								<div className={styles.stat}>
 									<span className={styles.number}>
-										{learnedWords?.length ?? 0}
+										{savedWords?.length ?? 0}
 									</span>
 									<span className={styles.label}>Изучено</span>
 								</div>
 								<div className={styles.stat}>
 									<span className={styles.number}>
-										{(learnedWords?.length ?? 0) + savedWords.length}
+										{savedWords?.length ?? 0}
 									</span>
 									<span className={styles.label}>Всего слов</span>
 								</div>
@@ -126,16 +122,6 @@ export const Profile = () => {
 						</div>
 					</div>
 				</section>
-			)}
-
-			{isMyPage && me && savedWords.length > 0 && (
-				<WordsSection
-					icon={<BrainIcon />}
-					isMyPage={isMyPage}
-					myId={me.id}
-					title='Изучить'
-					words={savedWords}
-				/>
 			)}
 
 			{renderLearnedWords()}

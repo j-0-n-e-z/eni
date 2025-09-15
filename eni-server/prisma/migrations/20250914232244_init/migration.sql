@@ -24,6 +24,7 @@ CREATE TABLE "Word" (
     "text" TEXT NOT NULL,
     "translation" TEXT NOT NULL,
     "sources" JSONB NOT NULL,
+    "isJoined" BOOLEAN NOT NULL,
 
     CONSTRAINT "Word_pkey" PRIMARY KEY ("id")
 );

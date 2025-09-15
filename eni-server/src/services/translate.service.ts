@@ -34,7 +34,7 @@ export class TranslateService {
 	}
 
 	isDefinitionsEmpty(defs: Definition[]) {
-		return Boolean(defs.filter((def) => def.pos).length)
+		return !defs.filter((def) => def.pos).length
 	}
 
 	convertDefinitionsToString(defs: Definition[]) {

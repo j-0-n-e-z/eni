@@ -54,6 +54,14 @@ export const wordApi = createApi({
 				method: 'POST',
 				url: `user/${userId}/word`
 			})
+		}),
+		translateWord: build.mutation<Word, { userId: string; wordText: string }>({
+			query: ({ userId, wordText }) => ({
+				body: { userId, wordText },
+				credentials: 'include',
+				method: 'POST',
+				url: `/user/${userId}/word/translate`
+			})
 		})
 	}),
 	reducerPath: 'wordApi',
@@ -66,5 +74,6 @@ export const {
 	useLazyGetWordsByUserIdQuery,
 	useDeleteWordMutation,
 	useDeleteWordSourceMutation,
-	useLazyGetMoreWordSourcesQuery
+	useLazyGetMoreWordSourcesQuery,
+	useTranslateWordMutation
 } = wordApi

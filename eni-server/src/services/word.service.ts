@@ -1,6 +1,7 @@
 import type { PrismaClient } from '@prisma/client'
+import type { JsonValue } from '@prisma/client/runtime/library'
 
-import type { TranslatedWord, Word, WordSource } from '@/shared-types'
+import type { Word, WordSource } from '@/shared-types'
 import { ApiError, ErrorCodes } from '@/utils'
 
 import type { TranslateService } from './translate.service'
@@ -11,7 +12,26 @@ export class WordService {
 		private readonly translateService: TranslateService
 	) {}
 
+	private parseWordSources(sources: JsonValue): WordSource[] {
+		try {
+			return JSON.parse(sources as string) as WordSource[]
+		} catch {
+			return []
+		}
+	}
+
 	async deleteUserWord(userId: string, wordText: string) {
+		const userWord = await this.prisma.userWord.findUnique({
+			where: { userId_text: { userId, text: wordText } }
+		})
+
+		if (!userWord)
+			throw new ApiError(
+				404,
+				`User with id "${userId} was not found"`,
+				ErrorCodes.NOT_FOUND
+			)
+
 		await this.prisma.userWord.delete({
 			where: { userId_text: { userId, text: wordText } }
 		})
@@ -33,9 +53,7 @@ export class WordService {
 				ErrorCodes.NOT_FOUND
 			)
 
-		const userWordSources = JSON.parse(
-			userWord.mySources as string
-		) as WordSource[]
+		const userWordSources = this.parseWordSources(userWord.mySources)
 
 		if (
 			userWordSources.length === 1 &&
@@ -57,51 +75,40 @@ export class WordService {
 		})
 	}
 
-	async getWordsByUserId(userId: string) {
-		const userWords = await this.findWordsByUserId(userId)
-		return userWords.map(this.mapUserWordToWord)
-	}
+	async translateWord(wordText: string) {
+		const definitions = await this.translateService.findDefinition(wordText)
 
-	async translateWord(word: Word): Promise<TranslatedWord> {
-		if (!word.translation) {
-			const definitions = await this.translateService.findDefinition(word.text)
+		console.log('DEFINITIONS', definitions)
 
-			if (this.translateService.isDefinitionsEmpty(definitions)) {
-				const {
-					0: { text: translation }
-				} = await this.translateService.translate(word.text)
+		if (this.translateService.isDefinitionsEmpty(definitions)) {
+			const translations = await this.translateService.translate(wordText)
 
-				word.translation = translation
+			console.log('TRANSLATIONS',translations);
 
-				return word as TranslatedWord
-			}
-
-			word.translation =
-				this.translateService.convertDefinitionsToString(definitions)
+			return translations[0].text
 		}
 
-		return word as TranslatedWord
+		return this.translateService.convertDefinitionsToString(definitions)
 	}
 
 	async getMoreWordSources(wordText: string) {
 		return this.prisma.word.findUnique({ where: { text: wordText } })
 	}
 
-	private async saveToUserWords(userId: string, word: TranslatedWord) {
-		const existingUserWord = await this.prisma.userWord.findUnique({
+	private async saveToUserWords(userId: string, word: Word) {
+		const userWord = await this.prisma.userWord.findUnique({
 			where: { userId_text: { userId, text: word.text } }
 		})
 
-		if (existingUserWord) {
-			const existingMyWordSources = JSON.parse(
-				existingUserWord.mySources as string
-			) as WordSource[]
+		if (userWord) {
+			const userWordSources = this.parseWordSources(userWord.mySources)
 
-			const newMyWordSources = word.mySources.filter(
-				(source) => !existingMyWordSources.find((s) => s.id === source.id)
+			const userWordSourceIds = new Set(userWordSources.map((s) => s.id))
+			const newWordSources = word.mySources.filter(
+				(source) => !userWordSourceIds.has(source.id)
 			)
 
-			if (newMyWordSources.length === 0) {
+			if (newWordSources.length === 0) {
 				throw new ApiError(
 					409,
 					`All given sources have already been added`,
@@ -112,17 +119,14 @@ export class WordService {
 			const updatedUserWord = await this.prisma.userWord.update({
 				where: { userId_text: { userId, text: word.text } },
 				data: {
-					mySources: JSON.stringify([
-						...existingMyWordSources,
-						...newMyWordSources
-					])
+					mySources: JSON.stringify([...userWordSources, ...newWordSources])
 				}
 			})
 
 			return updatedUserWord
 		}
 
-		const userWord = await this.prisma.userWord.create({
+		const newUserWord = await this.prisma.userWord.create({
 			data: {
 				userId,
 				text: word.text,
@@ -132,21 +136,20 @@ export class WordService {
 			}
 		})
 
-		return userWord
+		return newUserWord
 	}
 
-	private async saveToWords(word: TranslatedWord) {
-		const existingWord = await this.prisma.word.findUnique({
+	private async saveToWords(word: Word) {
+		const wordDb = await this.prisma.word.findUnique({
 			where: { text: word.text }
 		})
 
-		if (existingWord) {
-			const existingWordSources = JSON.parse(
-				existingWord.sources as string
-			) as WordSource[]
+		if (wordDb) {
+			const wordDbSources = this.parseWordSources(wordDb.sources)
 
+			const wordDbSourceIds = new Set(wordDbSources.map((s) => s.id))
 			const newWordSources = word.mySources.filter(
-				(source) => !existingWordSources.find((s) => s.id === source.id)
+				(source) => !wordDbSourceIds.has(source.id)
 			)
 
 			if (newWordSources.length === 0) return
@@ -154,18 +157,21 @@ export class WordService {
 			const updatedWord = await this.prisma.word.update({
 				where: { text: word.text },
 				data: {
-					sources: JSON.stringify([...existingWordSources, ...newWordSources])
+					sources: JSON.stringify([...wordDbSources, ...newWordSources])
 				}
 			})
 
 			return updatedWord
 		}
 
+		const translation = await this.translateWord(word.text)
+
 		const newWord = await this.prisma.word.create({
 			data: {
-				translation: word.translation,
+				translation,
 				text: word.text,
 				id: word.id,
+				isJoined: word.isJoined,
 				sources: JSON.stringify(word.mySources)
 			}
 		})
@@ -174,11 +180,9 @@ export class WordService {
 	}
 
 	async saveWord(userId: string, word: Word) {
-		const translatedWord = await this.translateWord(word)
+		await this.saveToWords(word)
 
-		await this.saveToWords(translatedWord)
-
-		const userWord = await this.saveToUserWords(userId, translatedWord)
+		const userWord = await this.saveToUserWords(userId, word)
 
 		return userWord
 	}
@@ -201,11 +205,17 @@ export class WordService {
 		return {
 			id: userWord.word.id,
 			text: userWord.word.text,
-			mySources: JSON.parse(userWord.mySources as string) as WordSource[],
-			sources: JSON.parse(userWord.word.sources as string) as WordSource[],
+			translation: userWord.word.translation,
+			mySources: this.parseWordSources(userWord.mySources),
+			sources: this.parseWordSources(userWord.word.sources),
 			isLearned: userWord.isLearned,
 			isFavorite: userWord.isFavorite,
-			isJoined: false
+			isJoined: userWord.word.isJoined
 		}
+	}
+
+	async getWordsByUserId(userId: string) {
+		const userWords = await this.findWordsByUserId(userId)
+		return userWords.map(this.mapUserWordToWord.bind(this))
 	}
 }
