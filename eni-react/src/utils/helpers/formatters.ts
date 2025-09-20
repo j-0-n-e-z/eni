@@ -1,9 +1,16 @@
-export const USDFormatter = new Intl.NumberFormat('en-US', {
+export const originalUSDFormatter = new Intl.NumberFormat('en-US', {
 	currency: 'USD',
 	maximumFractionDigits: 1,
 	minimumFractionDigits: 0,
 	style: 'currency'
 })
+
+export const USDFormatter = {
+	format(amount: number, fallback: string = '$0') {
+		if (!Number.isFinite(amount)) return fallback
+		return originalUSDFormatter.format(amount)
+	}
+}
 
 export const NumberFormatter = new Intl.NumberFormat('en-US')
 
@@ -25,36 +32,53 @@ export const formatMinutesToHours = (totalMinutes: number) => {
 }
 
 export const formatDurationStrToHours = (duration: string) => {
-	const [hours, minutes] = duration.split(':')
-
-	if (hours === '00') return `${parseInt(minutes)}m`
-
-	if (minutes === '00') return `${parseInt(hours)}h`
-
-	return `${parseInt(hours)}h ${parseInt(minutes)}m`
+	const [hours, minutes] = duration.split(':').map(Number)
+	return formatMinutesToHours(hours * 60 + minutes)
 }
 
 export function formatMoney(amount: number, currency: string) {
-	const USDFormatter = new Intl.NumberFormat('en-US', {
-		currency,
-		maximumFractionDigits: 1,
-		minimumFractionDigits: 0,
-		style: 'currency'
-	})
+	let currencyFormatter:
+		| Intl.NumberFormat
+		| { format: (amount: number) => string }
+
+	try {
+		currencyFormatter = new Intl.NumberFormat('en-US', {
+			currency,
+			currencyDisplay: 'symbol',
+			maximumFractionDigits: 1,
+			minimumFractionDigits: 0,
+			style: 'currency'
+		})
+	} catch {
+		currencyFormatter = {
+			format: (amount: number) =>
+				`${currency} ${NumberFormatter.format(amount)}`
+		}
+	}
 
 	if (amount >= 1_000_000_000) {
-		const billions = amount / 1_000_000_000
-		return `${USDFormatter.format(billions)} billion`
+		const billions = +(amount / 1_000_000_000).toFixed(2)
+		return `${currencyFormatter.format(billions)} billion`
 	}
 
 	if (amount >= 1_000_000) {
-		const millions = amount / 1_000_000
-		return `${USDFormatter.format(millions)} million`
+		const millions = +(amount / 1_000_000).toFixed(2)
+		return `${currencyFormatter.format(millions)} million`
 	}
 
-	return USDFormatter.format(amount)
+	return currencyFormatter.format(amount).replace(String.fromCharCode(160), ' ')
 }
 
 export function formatRating(mpaaRating: string) {
 	return mpaaRating.toUpperCase().replace(/([A-Z])(\d)/, '$1-$2')
+}
+
+export function formatAgeLimit(ageLimit: string) {
+	const ageNumbers = ageLimit.match(/\d+/)
+
+	if (ageNumbers) {
+		return `${ageNumbers[0]}+`
+	}
+
+	return '0+'
 }
