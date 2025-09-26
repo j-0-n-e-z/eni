@@ -1,9 +1,7 @@
-import { SkeletonTheme, type SkeletonProps } from 'react-loading-skeleton'
-
-import { Skeleton } from './Skeleton'
+import type { SkeletonProps } from 'react-loading-skeleton'
+import ReactLoadingSkeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export const DarkSkeleton = (props: SkeletonProps) => (
-	<SkeletonTheme baseColor='#1e293b' highlightColor='#2e3f5aff'>
-		<Skeleton {...props} />
-	</SkeletonTheme>
+  <ReactLoadingSkeleton {...props} containerClassName='flex1' baseColor='#2d3846' highlightColor='#364252'/>
 )

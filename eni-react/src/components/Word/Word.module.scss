@@ -6,12 +6,12 @@
 	align-items: center;
 	justify-content: space-between;
 	padding: 0.75rem 1rem;
-	background: $bg-secondary;
+	background: var(--bg-tertiary);
 	border-radius: 0.5rem;
 	transition: all 0.2s ease;
 
-	&:hover {
-		background: color.adjust($bg-secondary, $lightness: -3%);
+	@include desktop-hover {
+		filter: brightness(var(--brightness-hover));
 	}
 }
 
@@ -20,24 +20,30 @@
 	flex: 1;
 	gap: 1rem;
 	align-items: center;
+
+	@include respond-to('md') {
+		flex-direction: column;
+		align-items: start;
+	}
 }
 
 .word {
 	flex: 1;
 	font-weight: 500;
-	color: $text-primary;
+	color: var(--text-primary);
+	text-wrap: nowrap;
 }
 
 .translationContainer {
 	display: flex;
-	flex: 5;
+	flex: 3;
 	flex-direction: column;
 	gap: 0.25rem;
 }
 
 .translation {
 	font-size: 0.875rem;
-	color: $text-secondary;
+	color: var(--text-secondary);
 }
 
 .translationPos {
@@ -51,44 +57,37 @@
 
 .actionButton {
 	padding: 0.375rem;
-	color: $text-tertiary;
 	cursor: pointer;
 	background: none;
 	border: none;
-	border-radius: 0.375rem;
-	transition: all 0.2s ease;
 
-	&:hover {
-		color: $text-secondary;
-		background: $bg-tertiary;
+	svg {
+		width: 1rem;
+		height: 1rem;
+		color: var(--text-tertiary);
+		transition: all 0.2s ease;
+	}
+
+	@include desktop-hover {
+		&.appearanceButton svg {
+			color: var(--success);
+		}
+
+		&.deleteButton svg {
+			color: var(--error);
+		}
 	}
 }
 
-.actionButton.translateButton:hover {
-	color: $success;
-}
-
-.actionButton.saveButton:hover {
-	color: $warning;
-}
-
-.actionButton.deleteButton:hover {
-	color: $error;
-}
-
-.actionButton svg {
-	width: 1rem;
-	height: 1rem;
-}
-
 .wordSourcesContainer {
-	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	height: 100%;
-	max-height: 664px;
 	overflow-y: auto;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
 }
 
 .wordSourcesHeader {
@@ -97,50 +96,111 @@
 	left: 0;
 	width: 100%;
 	padding-bottom: 1rem;
+	color: var(--text-primary);
 	text-align: center;
-	background-color: $bg-primary;
+	background-color: var(--bg-secondary);
+
+	&::before {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		width: 1rem;
+		height: 1rem;
+		content: '';
+		background-color: var(--bg-secondary);
+		clip-path: path('M0,0 L0,16 C0,16 0,0 16,0 Z');
+	}
+
+	&::after {
+		position: absolute;
+		top: 100%;
+		right: 0;
+		width: 1rem;
+		height: 1rem;
+		content: '';
+		background-color: var(--bg-secondary);
+		clip-path: path('M16,0 L16,16 C16,16 16,0 0,0 Z');
+	}
 }
 
 .wordSourceList {
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
+	width: 100%;
 
 	&:not(:first-of-type) {
 		margin-top: 0.5rem;
 	}
 }
 
+.additionalSources {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	margin-top: 1rem;
+}
+
+.noAdditionalSourcesMsg {
+	color: var(--text-primary);
+}
+
 .wordSource {
 	display: flex;
 	gap: 1rem;
+	align-items: center;
 	padding: 1rem;
-	color: $text-primary;
-	cursor: pointer;
-	background-color: $bg-tertiary;
+	color: var(--text-primary);
+	background-color: var(--bg-tertiary);
 	border-radius: 1rem;
-	transition: background-color 0.1s ease;
+	transition: filter 0.2s ease;
 
-	&:hover {
-		background-color: color.adjust($bg-tertiary, $lightness: -15%);
+	@include desktop-hover {
+		filter: brightness(var(--brightness-hover));
 	}
 }
 
 .wordSource.mySource {
-	background-color: $bg-success-light;
+	background-color: var(--bg-success-light);
 
-	&:hover {
-		background-color: color.adjust($bg-success-light, $lightness: -10%);
+	@include desktop-hover {
+		filter: brightness(var(--brightness-hover));
+	}
+
+	svg {
+		color: $text-muted;
+		cursor: pointer;
+	}
+
+	.deleteMySourceBtn {
+		@include desktop-hover {
+			svg {
+				color: var(--error);
+			}
+		}
 	}
 }
 
 .sourceHero {
 	display: flex;
 	gap: 1rem;
+	width: 100%;
+	cursor: pointer;
+
+	@include respond-to('md') {
+		flex-direction: column;
+		align-items: start;
+	}
 }
 
 .poster {
-	max-height: 10rem;
+	display: block;
+	width: 10rem;
+	min-width: 10rem;
+	aspect-ratio: 2/3;
+	overflow: hidden;
+	border-radius: 1rem;
 }
 
 .sourceInfo {
@@ -148,9 +208,11 @@
 	flex-direction: column;
 	gap: 1rem;
 	align-items: start;
+	text-align: start;
 }
 
 .movieName {
+	font-size: 1.5rem;
 	font-weight: 600;
 }
 
@@ -159,8 +221,10 @@
 	font-style: italic;
 }
 
+.sentence {
+	font-size: 1.25rem;
+}
+
 .loadMoreBtn {
 	@extend %button-base;
-
-	margin-top: 1rem;
 }

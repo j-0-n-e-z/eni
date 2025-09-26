@@ -5,7 +5,7 @@
 
 	display: flex;
 	flex-direction: column;
-	gap: $space-md;
+	gap: 0.75rem;
 	min-height: 100vh;
 	padding: 1.5rem;
 }
@@ -17,16 +17,16 @@
 
 .inputContainer {
 	display: flex;
-	gap: $space-sm;
+	gap: 0.5rem;
 	align-items: center;
 	width: 100%;
 	max-width: 800px;
-	padding: $space-sm 0 $space-sm $space-sm;
+	padding: 0.5rem 0 0.5rem 0.5rem;
 	cursor: text;
-	background: $bg-primary;
-	border: 2px solid $border-light;
-	border-radius: $space-md;
-	box-shadow: 0 1px 3px 0 $overlay-light;
+	background: var(--bg-secondary);
+	border: 2px solid var(--border-light);
+	border-radius: 0.75rem;
+	box-shadow: 0 1px 3px 0 var(--overlay-light);
 	transition: border 0.1s linear;
 
 	&:has(input:focus) {
@@ -35,7 +35,7 @@
 }
 
 .inputContainer svg {
-	color: $text-primary;
+	color: var(--text-primary);
 }
 
 .searchBtn {
@@ -52,12 +52,14 @@
 }
 
 .searchInput {
-	width: 93%;
-	padding: $space-xs 0;
-	font-size: $font-lg;
+	display: block;
+	width: 100%;
+	padding: 0.25rem 0;
+	font-size: 1rem;
+	color: var(--text-primary);
 
 	&::placeholder {
-		color: $text-placeholder;
+		color: var(--text-placeholder);
 	}
 
 	&::-webkit-clear-button {
@@ -83,36 +85,37 @@
 	display: flex;
 	flex: 1;
 	flex-direction: column;
-	gap: $space-lg;
+	gap: 1rem;
 	justify-content: start;
 	width: 100%;
 }
 
 .header {
 	display: flex;
-	gap: $space-md;
+	gap: 0.75rem;
 	align-items: center;
 	justify-content: center;
-	font-size: $font-xxl;
-	color: $text-primary;
+	font-size: 1.5rem;
+	color: var(--text-primary);
 	text-align: center;
-
-	.deleteBtn {
-		background-color: $bg-brand-light;
-	}
 }
 
 .searchResultList {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-	gap: $space-lg;
-	align-items: stretch;
+	gap: 1.5rem 1rem;
 }
 
 .searchResultItem {
 	display: flex;
 	justify-content: center;
 	opacity: 0%;
+
+	// без :global SCSS думает, что .react-loading-skeleton тоже "модульный" и выпиливает его
+	/* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+	&:has(:global(.react-loading-skeleton)) {
+		opacity: 100%;
+	}
 }
 
 .searchResultItem.inView {
@@ -125,25 +128,34 @@
 	flex-direction: column;
 	width: 100%;
 	max-width: 320px;
-	max-height: 580px;
 	overflow: hidden;
-	color: $text-primary;
+	color: var(--text-primary);
 	text-decoration: none;
-	background-color: $bg-primary;
-	border-radius: $space-xl;
-	box-shadow: 2px 2px 5px $overlay-medium;
+	background-color: var(--bg-secondary);
+	border-radius: 1.25rem;
 	transition:
 		transform 0.3s ease,
 		background-color 0.2s ease;
 
-	&:hover {
-		background-color: $bg-secondary;
-		transform: translateY(-$space-sm);
-	}
-}
+	@include desktop-hover {
+		background-color: var(--bg-secondary);
+		transform: translateY(-0.5rem);
 
-.movieCard:hover .deleteBtnWrapper {
-	opacity: 100%;
+		.deleteBtn {
+			opacity: 100%;
+		}
+	}
+
+	[data-theme='light'] & {
+		box-shadow: 2px 2px 5px var(--overlay-medium);
+	}
+
+	.deleteBtn {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		opacity: 0%;
+	}
 }
 
 .cover {
@@ -157,9 +169,11 @@
 .details {
 	display: flex;
 	flex-direction: column;
-	gap: $space-sm;
+	gap: 0.5rem;
+	justify-content: space-between;
 	height: 100%;
-	padding: $space-lg;
+	padding: 1rem;
+	background-color: var(--bg-secondary);
 }
 
 .detailsRow {
@@ -176,25 +190,17 @@
 .duration {
 	font-size: 1rem;
 	font-style: italic;
-	color: $text-tertiary;
+	color: var(--text-tertiary);
 }
 
 .title {
-	font-size: $font-lg;
+	font-size: 1rem;
 	font-weight: 700;
 }
 
 .year {
-	font-size: $font-lg;
-	color: $text-tertiary;
-}
-
-.deleteBtnWrapper {
-	position: absolute;
-	top: 10px;
-	left: 10px;
-	opacity: 0%;
-	transition: opacity 0.2s ease;
+	font-size: 1rem;
+	color: var(--text-tertiary);
 }
 
 .deleteBtn {
@@ -203,18 +209,20 @@
 	width: 40px;
 	height: 40px;
 	cursor: pointer;
-	background-color: $overlay-dark;
-	border: 2px solid $border-medium;
+	background-color: var(--overlay-medium);
+	border: 2px solid var(--border-light);
 	border-radius: 8px;
-	transition: background-color 0.15s ease;
+	transition:
+		opacity 0.2s ease,
+		background-color 0.15s ease;
 
-	&:hover {
-		background-color: $error;
+	@include desktop-hover {
+		background-color: var(--error);
 	}
 }
 
 .deleteBtnIcon {
 	width: 16px;
 	height: 16px;
-	color: $text-muted;
+	color: $text-light;
 }

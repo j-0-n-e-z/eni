@@ -8,7 +8,9 @@ export const MovieSubtitlesPageSkeleton = () => (
 		style={{ paddingBottom: '2rem' }}
 	>
 		<div className={styles.heroContainer}>
-			<DarkSkeleton containerClassName={styles.cover} height='100%' />
+			<div className={styles.cover}>
+				<DarkSkeleton className={styles.coverImg} width='300px' />
+			</div>
 			<div className={styles.movieInfoWrapper}>
 				<DarkSkeleton
 					containerClassName={styles.titleWrapper}

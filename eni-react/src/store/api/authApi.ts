@@ -1,40 +1,10 @@
-import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query/react'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 import type { LoginCredentials } from '@/schemas/login.schemas'
 import type { SignupCredentials } from '@/schemas/signup.schemas'
 import type { User } from '@/types'
 
-import type { BackendError } from './api'
-import { baseQuery } from './api'
-
-export const baseQueryWithReauth: BaseQueryFn<
-	string | FetchArgs,
-	unknown,
-	BackendError
-> = async (args, api, extraOptions) => {
-	let result = await baseQuery(args, api, extraOptions)
-
-	if (
-		result.error &&
-		result.error.status === 401 &&
-		result.error.data?.error.message === 'Access token expired'
-	) {
-		const refreshResult = await baseQuery(
-			{ credentials: 'include', method: 'POST', url: 'refresh' },
-			api,
-			extraOptions
-		)
-
-		if (refreshResult.data) {
-			result = await baseQuery(args, api, extraOptions)
-		} else {
-			console.log('Faild to make a request: ', args)
-		}
-	}
-
-	return result
-}
+import { baseQueryWithReauth } from './baseQueries/baseQueryWithReauth'
 
 export const authApi = createApi({
 	baseQuery: baseQueryWithReauth,

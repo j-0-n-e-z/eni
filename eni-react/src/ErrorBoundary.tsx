@@ -11,6 +11,8 @@ import './App.scss'
 export const ErrorBoundary: FC = () => {
 	const error = useRouteError() as Error
 
+	console.log(error);
+
 	return (
 		<>
 			<SidePanel />

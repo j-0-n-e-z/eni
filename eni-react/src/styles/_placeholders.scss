@@ -1,5 +1,4 @@
-@use 'variables' as *;
-@use 'colors' as *;
+@use 'mixins' as *;
 
 %container {
 	width: 100%;
@@ -11,49 +10,27 @@
 %button-base {
 	display: block;
 	width: fit-content;
-	padding: $space-md;
-	font-size: $font-lg;
-	color: $text-primary;
+	padding: 0.75rem;
+	font-size: 1rem;
+	color: var(--text-primary);
 	text-decoration: none;
 	cursor: pointer;
-	background-color: $bg-primary;
-	border: 1px solid $border-light;
-	border-radius: $space-sm;
+	background-color: var(--bg-muted);
+	border: 1px solid var(--border-light);
+	border-radius: 0.5rem;
 	transition:
 		color 0.1s linear,
 		background-color 0.1s linear;
 
-	&:hover {
-		background-color: $bg-tertiary;
-	}
-
-	&:focus-visible {
-		background-color: $bg-tertiary;
+	@include desktop-hover {
+		background-color: var(--bg-primary);
 	}
 }
 
 %input-base {
 	width: 100%;
-	padding: $space-md;
-	font-size: $font-lg;
-	border: 1px solid $border-dark;
-	border-radius: $space-md;
-}
-
-%round-button-base {
-	all: unset;
-	top: -15px;
-	box-sizing: border-box;
-	width: 75px;
-	height: 75px;
-	padding: $space-sm;
-	border-radius: 50%;
-	opacity: 50%;
-	transition:
-		translate 0.1s linear,
-		opacity 0.15s ease;
-
-	&:hover:not(:disabled) {
-		opacity: 80%;
-	}
+	padding: 0.75rem;
+	font-size: 1rem;
+	border: 1px solid var(--border-dark);
+	border-radius: 0.75rem;
 }

@@ -2,15 +2,16 @@ import type { FC } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import { EmptyState, ErrorDisplay, MovieSubtitle } from '@/components'
-import type { MovieSubtitlesContext } from '@/frontend-types'
 import { SubtitleIcon } from '@/icons'
 import { useGetMovieSubtitlesQuery } from '@/store/api'
+
+import type { MovieSubtitlesContext } from '../../frontend-types'
 
 import styles from './MovieSubtitlesPicker.module.scss'
 import { MovieSubtitlesPickerSkeleton } from './MovieSubtitlesPickerSkeleton'
 
 export const MovieSubtitlesPicker: FC = () => {
-	const { imdbId, movieName, pickMovieSubtitle } =
+	const { imdbId, movieName } =
 		useOutletContext<MovieSubtitlesContext>()
 	const query = imdbId || movieName
 	const {
@@ -42,7 +43,6 @@ export const MovieSubtitlesPicker: FC = () => {
 					<MovieSubtitle
 						key={movieSubtitle.id}
 						movieSubtitle={movieSubtitle}
-						pickMovieSubtitle={pickMovieSubtitle}
 					/>
 				))}
 			</ul>

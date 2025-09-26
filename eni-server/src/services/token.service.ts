@@ -12,7 +12,7 @@ export class TokenService {
 		return jwt.sign(
 			{ id: user.id, email: user.email },
 			process.env.JWT_ACCESS_SECRET as string,
-			{ expiresIn: '5s' }
+			{ expiresIn: '15m' }
 		)
 	}
 

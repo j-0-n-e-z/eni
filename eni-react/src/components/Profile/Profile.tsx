@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { ErrorDisplay } from '@/components'
+import { EmptyState, ErrorDisplay } from '@/components'
 import { BookIcon, ProfileIcon } from '@/icons'
 import {
 	useGetMeQuery,
@@ -67,7 +67,7 @@ export const Profile = () => {
 
 	const isMyPage = displayUser?.username === me?.username
 
-	function renderLearnedWords() {
+	function renderSavedWords() {
 		if (isSavedWordsFetching) return <WordsSectionSkeleton />
 
 		if (isSavedWordsError)
@@ -85,7 +85,13 @@ export const Profile = () => {
 				/>
 			)
 
-		return null
+		return (
+			<EmptyState
+				description='Добавьте слова из какого-нибудь фильма'
+				header='Пока пусто'
+				icon={<BookIcon />}
+			/>
+		)
 	}
 
 	return (
@@ -95,23 +101,15 @@ export const Profile = () => {
 			) : (
 				<section className={styles.profileHeader}>
 					<div className={styles.headerContent}>
-						<div className={styles.avatar}>
-							<ProfileIcon />
+						<div className={styles.avatarContainer}>
+							<div className={styles.avatar}>
+								<ProfileIcon />
+							</div>
 						</div>
 						<div className={styles.userInfo}>
 							<h2 className={styles.username}>{displayUser.username}</h2>
 							<p className={styles.email}>{displayUser.email}</p>
 							<div className={styles.stats}>
-								<div className={styles.stat}>
-									<span className={styles.number}>{savedWords?.length}</span>
-									<span className={styles.label}>Изучаю</span>
-								</div>
-								<div className={styles.stat}>
-									<span className={styles.number}>
-										{savedWords?.length ?? 0}
-									</span>
-									<span className={styles.label}>Изучено</span>
-								</div>
 								<div className={styles.stat}>
 									<span className={styles.number}>
 										{savedWords?.length ?? 0}
@@ -124,7 +122,7 @@ export const Profile = () => {
 				</section>
 			)}
 
-			{renderLearnedWords()}
+			{renderSavedWords()}
 		</div>
 	)
 }

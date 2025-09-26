@@ -14,7 +14,7 @@ import {
 import type { PureSubtitle, Word } from '@/types'
 import { getErrorMessage } from '@/utils'
 
-import type { SubtitleSource } from '../../types'
+import type { SubtitleSource } from '../../frontend-types'
 
 import styles from './Subtitles.module.scss'
 
@@ -72,7 +72,7 @@ export const Subtitle: FC<SubtitleProps> = ({
 
 		const joinedWordText = wordsToJoin.map((word) => word.text).join(' ')
 
-		saveWord({
+		const joinedWord = {
 			userId: myId,
 			word: {
 				id: `joined_${wordsToJoin.map((word) => word.id).join('_')}`,
@@ -82,7 +82,9 @@ export const Subtitle: FC<SubtitleProps> = ({
 				mySources: wordsToJoin[0].mySources,
 				text: joinedWordText
 			}
-		})
+		}
+
+		saveWord(joinedWord)
 
 		toast.success(`Слово "${joinedWordText}" сохранено`)
 		clearWordsToJoin()
@@ -136,7 +138,7 @@ export const Subtitle: FC<SubtitleProps> = ({
 	}, [isLookedUpSubtitle])
 
 	const renderSubtitleTranslation = () => {
-		if (isSubtitleTranslationFetching) return <Skeleton />
+		if (isSubtitleTranslationFetching) return <Skeleton width='20rem' />
 
 		if (subtitleTranslationError)
 			return (
@@ -165,43 +167,45 @@ export const Subtitle: FC<SubtitleProps> = ({
 		>
 			<span className={styles.timecode}>{subtitle.timecode}</span>
 
-			<div className={styles.subtitleWordsContainer}>
-				{renderSubtitleTranslation()}
+			<div className={styles.subtitleControls}>
+				<div className={styles.subtitleWordsContainer}>
+					{renderSubtitleTranslation()}
 
-				<SubtitleWords
-					selectedWords={selectedWords}
-					subtitle={subtitle}
-					subtitleSource={subtitleSource}
-					toggleSelectedWord={toggleSelectedWord}
-				/>
-
-				{savedJoinedWords && savedJoinedWords.length > 0 && (
-					<SavedWords removeWord={removeWord} words={savedJoinedWords} />
-				)}
-
-				{savedSingleWords && savedSingleWords.length > 0 && (
-					<SavedWords removeWord={removeWord} words={savedSingleWords} />
-				)}
-
-				{selectedWords.length > 0 && (
-					<WordsPanel
-						hasWordsToSave={hasWordsToSave}
-						saveJoinedWords={saveJoinedWords}
-						saveSingleWords={saveSingleWords}
+					<SubtitleWords
 						selectedWords={selectedWords}
-						toggleWordToJoin={toggleWordToJoin}
-						wordsToJoin={wordsToJoin}
+						subtitle={subtitle}
+						subtitleSource={subtitleSource}
+						toggleSelectedWord={toggleSelectedWord}
 					/>
-				)}
-			</div>
 
-			<button
-				aria-label='translate subtitle'
-				className={styles.translateBtn}
-				onClick={() => translateSubtitle(subtitle.text)}
-			>
-				<TranslateIcon />
-			</button>
+					{savedJoinedWords && savedJoinedWords.length > 0 && (
+						<SavedWords removeWord={removeWord} words={savedJoinedWords} />
+					)}
+
+					{savedSingleWords && savedSingleWords.length > 0 && (
+						<SavedWords removeWord={removeWord} words={savedSingleWords} />
+					)}
+
+					{selectedWords.length > 0 && (
+						<WordsPanel
+							hasWordsToSave={hasWordsToSave}
+							saveJoinedWords={saveJoinedWords}
+							saveSingleWords={saveSingleWords}
+							selectedWords={selectedWords}
+							toggleWordToJoin={toggleWordToJoin}
+							wordsToJoin={wordsToJoin}
+						/>
+					)}
+				</div>
+
+				<button
+					aria-label='translate subtitle'
+					className={styles.translateBtn}
+					onClick={() => translateSubtitle(subtitle.text)}
+				>
+					<TranslateIcon />
+				</button>
+			</div>
 		</li>
 	)
 }

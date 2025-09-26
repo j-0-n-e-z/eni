@@ -1,3 +1,5 @@
+@use 'colors' as *;
+
 @keyframes fadeIn {
 	from {
 		opacity: 0%;
@@ -15,5 +17,18 @@
 
 	to {
 		transform: scale(1);
+	}
+}
+
+@keyframes highlight {
+	0%,
+	40%,
+	80% {
+		background-color: var(--bg-muted);
+	}
+
+	20%,
+	60% {
+		background-color: var(--interactive-focus);
 	}
 }

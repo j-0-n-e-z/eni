@@ -3,26 +3,40 @@
 .modalContainer {
 	@include center-flex;
 
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: 9999;
 	width: 100vw;
 	height: 100vh;
-	background-color: $overlay-light;
+	background-color: var(--overlay-light);
+	animation: fadeIn 0.3s ease forwards;
 }
 
 .modal {
-	position: relative;
-	max-width: 50%;
+	display: flex;
+	flex-direction: column;
+	max-width: 80%;
 	max-height: 80%;
 	padding: 2rem;
-	background-color: $bg-primary;
+	background-color: var(--bg-secondary);
+	border: 1px solid var(--border-light);
 	border-radius: 1rem;
+	animation: scaleIn 0.3s ease forwards;
+
+	@include respond-to('md') {
+		max-width: 90%;
+	}
 }
 
 .modalCloseBtn {
 	position: absolute;
 	top: 0.75rem;
 	right: 0.75rem;
+	padding: 0.25rem;
+	cursor: pointer;
+
+	svg {
+		color: var(--text-primary);
+	}
 }

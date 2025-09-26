@@ -3,7 +3,7 @@ import { useState, type FC } from 'react'
 import toast from 'react-hot-toast'
 
 import { Modal } from '@/components'
-import { BrainIcon, TrashIcon } from '@/icons'
+import { BrainIcon, EyeIcon, TrashIcon } from '@/icons'
 import { useDeleteWordMutation, useSaveWordMutation } from '@/store/api'
 import type { Word as IWord } from '@/types'
 
@@ -20,7 +20,7 @@ interface MyWordProps {
 export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 	const [triggerSaveWord] = useSaveWordMutation()
 	const [triggerDeleteWord] = useDeleteWordMutation()
-	const [isOpenedSourcesModal, setIsOpenedSourcesModal] = useState(false)
+	const [isSourcesModalOpen, setIsSourcesModalOpen] = useState(false)
 
 	const deleteFromSaved = async () => {
 		try {
@@ -57,11 +57,13 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 	}
 
 	const renderWordTranslation = () => {
+		const { translation } = word
+
 		if (
-			word.translation &&
-			(word.translation.includes('\n') || word.translation.includes(': '))
+			translation &&
+			(translation.includes('\n') || translation.includes(': '))
 		) {
-			return word.translation.split('\n').map((def) => {
+			return translation.split('\n').map((def) => {
 				const [pos, tr] = def.split(': ')
 				return (
 					<div key={pos} className={styles.translation}>
@@ -82,11 +84,12 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 					{renderWordTranslation()}
 				</div>
 			</div>
-			<button onClick={() => setIsOpenedSourcesModal(true)}>
-				Go to word ({word.mySources.length})
-			</button>
-			{isOpenedSourcesModal && (
-				<Modal closeModalHandler={() => setIsOpenedSourcesModal(false)}>
+
+			{isSourcesModalOpen && (
+				<Modal
+					closeModalHandler={() => setIsSourcesModalOpen(false)}
+					isOpen={isSourcesModalOpen}
+				>
 					<WordSources myId={myId} mySources={word.mySources} word={word} />
 				</Modal>
 			)}
@@ -102,6 +105,13 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 								<BrainIcon />
 							</button>
 						)}
+						<button
+							aria-label='look appearances'
+							className={cn(styles.actionButton, styles.appearanceButton)}
+							onClick={() => setIsSourcesModalOpen(true)}
+						>
+							<EyeIcon />
+						</button>
 						<button
 							aria-label='delete word'
 							className={cn(styles.actionButton, styles.deleteButton)}

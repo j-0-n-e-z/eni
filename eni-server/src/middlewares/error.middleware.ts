@@ -24,7 +24,7 @@ export class ErrorHandler {
 
 		const apiError = this.normalizeError(error)
 
-		console.log(apiError)
+		// console.log(apiError)
 
 		res.status(apiError.statusCode).json({
 			success: false,
@@ -119,21 +119,24 @@ export class ErrorHandler {
 					401: 'OpenSubtitles authentication failed',
 					402: 'You have reached OpenSubtitles quota',
 					404: 'Subtitles not found',
-					429: 'OpenSubtitles rate limit exceeded'
+					429: 'OpenSubtitles rate limit exceeded',
+					503: 'OpenSubtitles are unavailable right now'
 				},
 				'Yandex.Translate': {
 					400: 'Bad request to Yandex.Translate',
 					401: 'Yandex.Translate authentication failed',
 					402: 'You have reached Yandex.Translate quota',
 					404: 'Failed to get Yandex.Translate translation',
-					429: 'Too many request to Yandex.Translate'
+					429: 'Too many request to Yandex.Translate',
+					503: 'Yandex.Translate is unavailable right now'
 				},
 				'Yandex.Dictionary': {
 					400: 'Bad request to Yandex Dictionary',
 					401: 'Yandex Dictionary authentication failed',
 					402: 'You have reached Yandex Dictionary quota',
 					404: 'Failed to get Yandex Dictionary definition ',
-					429: 'Too many request to Yandex Dictionary'
+					429: 'Too many request to Yandex Dictionary',
+					503: 'Yandex.Dictionary is unavailable right now'
 				}
 			}
 
@@ -152,7 +155,6 @@ export class ErrorHandler {
 
 	private getApiServiceName(error: AxiosError): ApiServiceName | null {
 		const url = error.config?.baseURL || error.config?.url || ''
-		console.log(url)
 
 		if (url.includes('opensubtitle')) return 'OpenSubtitles'
 		if (url.includes('kinopoisk')) return 'Kinopoisk'

@@ -1,0 +1,44 @@
+import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query/react'
+import toast from 'react-hot-toast'
+
+import type { BackendError } from '../../../frontend-types'
+
+import { baseQueryWithErrorHandling } from './baseQueryWithErrorHandling'
+
+export const baseQueryWithReauth: BaseQueryFn<
+	string | FetchArgs,
+	unknown,
+	BackendError
+> = async (args, api, extraOptions) => {
+	let result = await baseQueryWithErrorHandling(args, api, extraOptions)
+
+	console.log(result)
+
+	if (
+		result.error &&
+		result.error.status === 401 &&
+		result.error.data?.error.message === 'Access token expired'
+	) {
+		const refreshResult = await baseQueryWithErrorHandling(
+			{ credentials: 'include', method: 'POST', url: 'refresh' },
+			api,
+			extraOptions
+		)
+
+		if (refreshResult.error) {
+			toast.error(
+				refreshResult.error.data?.error.message || 'Something went wrong'
+			)
+
+			return refreshResult
+		}
+
+		if (refreshResult.data) {
+			result = await baseQueryWithErrorHandling(args, api, extraOptions)
+		} else {
+			console.log('Faild to make a request: ', args)
+		}
+	}
+
+	return result
+}

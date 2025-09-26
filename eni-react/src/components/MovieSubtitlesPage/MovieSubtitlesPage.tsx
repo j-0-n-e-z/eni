@@ -1,38 +1,31 @@
-import { useEffect, useState, type FC } from 'react'
+import { type FC } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 import { EmptyState, ErrorDisplay } from '@/components'
 import { EmptyIcon } from '@/icons'
 import { useGetMovieByKinopoiskIdQuery } from '@/store/api'
-import type { MovieSubtitle } from '@/types'
 
-import type { MovieSubtitlesContext } from '../../types'
+import type { MovieSubtitlesContext } from '../../frontend-types'
 
 import { MovieInfoSection } from './MovieInfoSection'
 import styles from './MovieSubtitlesPage.module.scss'
 import { MovieSubtitlesPageSkeleton } from './MovieSubtitlesPageSkeleton'
 
 export const MovieSubtitlesPage: FC = () => {
-	const { movieId } = useParams()
+	const { movieId: movieIdFromUrl } = useParams()
+	const movieId = Number(movieIdFromUrl)
 	const navigate = useNavigate()
-	const [pickedMovieSubtitle, setPickedMovieSubtitle] =
-		useState<MovieSubtitle | null>(null)
-
 	const {
 		data: movie,
 		error: movieError,
 		isLoading: isMovieLoading
-	} = useGetMovieByKinopoiskIdQuery(Number(movieId), {
-		skip: !movieId
+	} = useGetMovieByKinopoiskIdQuery(movieId, {
+		skip: Number.isNaN(movieId)
 	})
 
-	useEffect(() => {
-		if (movie && pickedMovieSubtitle) {
-			navigate(
-				`/movie/${movie.kinopoiskId}/subtitles/${pickedMovieSubtitle.subtitles.file_id}?page=1`
-			)
-		}
-	}, [pickedMovieSubtitle])
+	function goToMovieSubtitles(kinopoiskId: number, subtitlesFileId: number) {
+		navigate(`/movie/${kinopoiskId}/subtitles/${subtitlesFileId}?page=1`)
+	}
 
 	if (Number.isNaN(movieId))
 		return (
@@ -56,10 +49,11 @@ export const MovieSubtitlesPage: FC = () => {
 			/>
 		)
 
-	const contextValue: MovieSubtitlesContext = {
+	const movieSubtitlesContext: MovieSubtitlesContext = {
+		goToMovieSubtitles,
 		imdbId: movie.imdbId,
+		movieKinopoiskId: movie.kinopoiskId,
 		movieName: movie.nameOriginal ?? movie.nameEn ?? 'No title',
-		pickMovieSubtitle: setPickedMovieSubtitle,
 		posterUrl: movie.posterUrlPreview
 	}
 
@@ -67,7 +61,7 @@ export const MovieSubtitlesPage: FC = () => {
 		<>
 			<MovieInfoSection movie={movie} />
 			<section className={styles.subtitlesSection}>
-				<Outlet context={contextValue} />
+				<Outlet context={movieSubtitlesContext} />
 			</section>
 		</>
 	)

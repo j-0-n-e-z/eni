@@ -1,3 +1,6 @@
+@use './_variables.scss' as *;
+@use 'sass:map';
+
 @mixin center-flex {
 	display: flex;
 	align-items: center;
@@ -9,4 +12,42 @@
 	max-width: $max-width;
 	height: 100%;
 	margin: 0 auto;
+}
+
+@mixin respond-to($breakpoint) {
+	@if map.has-key($breakpoints, $breakpoint) {
+		$value: map.get($breakpoints, $breakpoint);
+
+		@media (max-width: $value) {
+			@content;
+		}
+	} @else {
+		@warn "Unknown breakpoint `#{$breakpoint}`";
+	}
+}
+
+@mixin desktop {
+	@media (hover: hover) and (pointer: fine) {
+		@content;
+	}
+}
+
+@mixin desktop-hover {
+	@media (hover: hover) and (pointer: fine) {
+		&:hover {
+			@content;
+		}
+	}
+}
+
+@mixin mobile {
+	@media (hover: none) and (pointer: coarse) {
+		@content;
+	}
+}
+
+@mixin dark-theme {
+	@media (prefers-color-scheme: dark) {
+		@content;
+	}
 }

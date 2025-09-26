@@ -7,6 +7,7 @@ import styles from './Paginator.module.scss'
 import { generatePages } from './generatePages'
 
 interface PaginatorProps {
+	isDisabled: boolean
 	currentPage: number
 	itemsLength: number
 	itemsPerPage: number
@@ -17,7 +18,8 @@ export const Paginator: React.FC<PaginatorProps> = ({
 	currentPage,
 	itemsLength,
 	itemsPerPage,
-	goToPage
+	goToPage,
+	isDisabled
 }) => {
 	const pageCount = Math.ceil(itemsLength / itemsPerPage)
 
@@ -40,12 +42,12 @@ export const Paginator: React.FC<PaginatorProps> = ({
 	}
 
 	return (
-		<div className={styles.paginator}>
+		<div className={cn(styles.paginator, { [styles.disabled]: isDisabled })}>
 			<div className={styles.pageBtnsContainer}>
 				<button
 					aria-disabled={currentPage === 1}
 					aria-label='previous page'
-					className={styles.prevBtn}
+					className={styles.pageBtn}
 					disabled={currentPage === 1}
 					onClick={() => goToPage(currentPage - 1)}
 				>
@@ -83,13 +85,14 @@ export const Paginator: React.FC<PaginatorProps> = ({
 				<button
 					aria-disabled={currentPage === pageCount}
 					aria-label='next page'
-					className={cn(styles.pageBtn, styles.nextBtn)}
+					className={styles.pageBtn}
 					disabled={currentPage === pageCount}
 					onClick={() => goToPage(currentPage + 1)}
 				>
 					<ArrowIcon className={styles.nextIcon} />
 				</button>
 			</div>
+			
 			<input
 				aria-label='go to page'
 				className={styles.goToPageInput}

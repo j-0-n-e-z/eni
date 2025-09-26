@@ -4,25 +4,34 @@
 	@include container;
 
 	display: flex;
+	flex: 1;
 	flex-direction: column;
-	gap: $space-xxl;
+	gap: 1.5rem;
 	padding: 1.5rem;
 }
 
 .profileHeader {
 	padding: 2rem;
-	background: $card-bg;
-	border: 1px solid $card-border;
+	background: var(--bg-secondary);
+	border: 1px solid var(--border-medium);
 	border-radius: 1.5rem;
-	box-shadow: $shadow-md;
+	box-shadow: var(--shadow-md);
 }
 
 .headerContent {
 	display: flex;
-	flex-direction: row;
-	gap: $space-xxl;
-	align-items: start;
+	gap: 1.5rem;
 	text-align: left;
+
+	@include respond-to('md') {
+		flex-direction: column;
+		text-align: center;
+	}
+}
+
+.avatarContainer {
+	display: flex;
+	justify-content: center;
 }
 
 .avatar {
@@ -31,8 +40,7 @@
 	position: relative;
 	width: 5rem;
 	height: 5rem;
-	margin-bottom: 1.5rem;
-	background: $bg-gradient-light;
+	background: var(--bg-gradient-light);
 	border: 3px solid $brand-primary;
 	border-radius: 50%;
 }
@@ -40,7 +48,7 @@
 .avatar svg {
 	width: 2.5rem;
 	height: 2.5rem;
-	color: $text-tertiary;
+	color: var(--text-tertiary);
 }
 
 .avatar::after {
@@ -50,7 +58,7 @@
 	width: 1.25rem;
 	height: 1.25rem;
 	content: '';
-	background: $success;
+	background: var(--success);
 	border: 3px solid $card-bg;
 	border-radius: 50%;
 }
@@ -63,13 +71,13 @@
 	margin-bottom: 0.5rem;
 	font-size: 1.5rem;
 	font-weight: bold;
-	color: $text-primary;
+	color: var(--text-primary);
 }
 
 .email {
 	margin-bottom: 1rem;
 	font-size: 1rem;
-	color: $text-secondary;
+	color: var(--text-secondary);
 }
 
 .stats {
@@ -91,15 +99,15 @@
 
 .label {
 	font-size: 0.875rem;
-	color: $text-tertiary;
+	color: var(--text-tertiary);
 }
 
 .wordsSection {
 	padding: 1.5rem;
-	background: $card-bg;
-	border: 1px solid $card-border;
+	background: var(--bg-secondary);
+	border: 1px solid var(--border-medium);
 	border-radius: 1rem;
-	box-shadow: $shadow-sm;
+	box-shadow: var(--shadow-sm);
 }
 
 .wordsSectionHeader {
@@ -115,7 +123,7 @@
 	align-items: center;
 	font-size: 1.25rem;
 	font-weight: 600;
-	color: $text-primary;
+	color: var(--text-primary);
 }
 
 .wordsSectionTitleWrapper svg {
@@ -128,13 +136,13 @@
 	padding: 0.25rem 0.75rem;
 	font-size: 0.75rem;
 	font-weight: 500;
-	color: $text-secondary;
-	background: $bg-secondary;
+	color: var(--text-secondary);
+	background: var(--bg-secondary);
 	border-radius: 1rem;
 }
 
 .wordsList {
 	display: flex;
 	flex-direction: column;
-	gap: $space-md;
+	gap: 0.75rem;
 }

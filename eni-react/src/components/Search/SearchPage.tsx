@@ -13,7 +13,7 @@ import { useLazySearchMoviesQuery } from '@/store/api'
 import styles from './Search.module.scss'
 import { SearchResultsSkeleton } from './SearchResultsSkeleton'
 
-export const Search: FC = () => {
+export const SearchPage: FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
 	const [movieTitle, setMovieTitle] = useState(searchParams.get('query') ?? '')
 	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 500)
@@ -54,6 +54,8 @@ export const Search: FC = () => {
 			setMovieTitle(query)
 		}
 	}, [searchParams])
+
+	useEffect(() => () => searchQueryRef.current?.abort(), [])
 
 	function clearInput() {
 		searchQueryRef.current?.abort()

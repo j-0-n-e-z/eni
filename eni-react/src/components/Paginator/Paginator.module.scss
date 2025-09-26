@@ -3,20 +3,55 @@
 .paginator {
 	display: flex;
 	gap: 1rem;
+
+	@include respond-to('sm') {
+		gap: 0.2rem;
+	}
+}
+
+.paginator.disabled {
+	button,
+	input {
+		pointer-events: none;
+		background-color: var(--bg-tertiary);
+		opacity: 50%;
+	}
 }
 
 .pageBtnsContainer {
 	display: grid;
-	grid-auto-columns: min-content;
 	grid-auto-flow: column;
-	column-gap: $space-sm;
+	column-gap: 0.5rem;
+
+	@include respond-to('sm') {
+		column-gap: 0.3rem;
+	}
 }
 
 .pageBtn {
 	@extend %button-base;
+	@include center-flex;
 
 	aspect-ratio: 1;
-	padding: $space-sm;
+	padding: 0.5rem;
+	font-size: 1rem;
+
+	@include respond-to('lg') {
+		padding: 0.25rem;
+		font-size: 0.8rem;
+	}
+
+	@include respond-to('sm') {
+		padding: 0.1rem;
+		font-size: 0.75rem;
+
+		.prevIcon,
+		.nextIcon {
+			width: 10px;
+			height: 10px;
+			margin-top: 0;
+		}
+	}
 }
 
 .prevIcon,
@@ -35,7 +70,7 @@
 }
 
 .paginator button:disabled {
-	background-color: $bg-tertiary;
+	background-color: var(--bg-tertiary);
 	opacity: 50%;
 }
 
@@ -45,16 +80,29 @@
 }
 
 .paginator button.ellipsis {
+	aspect-ratio: unset;
 	cursor: default;
 	background: transparent;
 	border: none;
 }
 
 .goToPageInput {
-	width: 4rem;
+	display: block;
+	width: 3rem;
 	padding: 0.5rem;
-	font-size: $font-lg;
+	font-size: 1rem;
+	color: var(--text-primary);
 	text-align: center;
-	border: 2px solid $border-light;
-	border-radius: $space-md;
+	border: 2px solid var(--border-light);
+	border-radius: 0.75rem;
+
+	@include respond-to('lg') {
+		font-size: 0.8rem;
+	}
+
+	@include respond-to('sm') {
+		max-width: 3rem;
+		padding: 0;
+		font-size: 0.75rem;
+	}
 }

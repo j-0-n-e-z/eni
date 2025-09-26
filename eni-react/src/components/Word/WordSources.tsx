@@ -40,6 +40,8 @@ export const WordSources: FC<WordSourcesProps> = ({
 		{ isFetching: isDeleteWordSourceFetching, error: deleteWordSourceError }
 	] = useDeleteWordSourceMutation()
 
+	console.log(word)
+
 	async function deleteWordSource(wordSource: WordSource) {
 		try {
 			if (!isDeleteWordSourceFetching && myId) {
@@ -80,17 +82,17 @@ export const WordSources: FC<WordSourcesProps> = ({
 						key={source.id}
 						className={cn(s.wordSource, { [s.mySource]: isMySources })}
 					>
-						<div className={s.sourceHero} onClick={() => goToWord(source)}>
+						<button className={s.sourceHero} onClick={() => goToWord(source)}>
 							<img alt='poster' className={s.poster} src={source.posterUrl} />
 							<div className={s.sourceInfo}>
-								<div className={s.movieName}>{source.movieName}</div>
-								<div className={s.timecode}>{source.subtitleTimecode}</div>
-								<p>{source.sentence}</p>
+								<h3 className={s.movieName}>{source.movieName}</h3>
+								<p className={s.sentence}>{source.sentence}</p>
 							</div>
-						</div>
-						{myId && (
+						</button>
+						{isMySources && (
 							<button
-								aria-label='delete word source'
+								aria-label='delete my word source'
+								className={s.deleteMySourceBtn}
 								onClick={() => deleteWordSource(source)}
 							>
 								<TrashIcon />
@@ -103,42 +105,43 @@ export const WordSources: FC<WordSourcesProps> = ({
 	}
 
 	function renderMoreSources() {
-		if (isMoreSourcesFetching) return <Skeleton />
+		if (isMoreSourcesFetching)
+			return <Skeleton containerClassName='flex1 center' width='50%' />
 
-		if (moreSourcesError) return <ErrorDisplay error={moreSourcesError} />
-
-		if (moreSources) {
-			const moreSourcesWithoutMySources = moreSources.filter(
-				(source) => !mySources.find((s) => s.id === source.id)
-			)
-
-			if (moreSourcesWithoutMySources.length === 0)
-				return <p>No additional sources found</p>
-
-			return renderSourceList(moreSourcesWithoutMySources)
-		}
-
-		return null
-	}
-
-	return (
-		<div className={s.wordSourcesContainer}>
-			<h3 className={s.wordSourcesHeader}>
-				Sources for word &quot;{word.text}&quot;
-			</h3>
-
-			{renderSourceList(mySources, true)}
-
-			{renderMoreSources()}
-
-			{!moreSources && (
+		if (!moreSources)
+			return (
 				<button
 					className={s.loadMoreBtn}
 					onClick={() => triggerGetMoreWordSources(word.text)}
 				>
 					Load additional sources
 				</button>
-			)}
-		</div>
+			)
+
+		if (moreSourcesError) return <ErrorDisplay error={moreSourcesError} />
+
+		const moreSourcesWithoutMySources = moreSources.filter(
+			(source) => !mySources.find((s) => s.id === source.id)
+		)
+
+		if (moreSourcesWithoutMySources.length === 0)
+			return (
+				<p className={s.noAdditionalSourcesMsg}>No additional sources found</p>
+			)
+
+		return renderSourceList(moreSourcesWithoutMySources)
+	}
+
+	return (
+		<>
+			<h3 className={s.wordSourcesHeader}>
+				Sources for word &quot;{word.text}&quot;
+			</h3>
+			<div className={s.wordSourcesContainer}>
+				{renderSourceList(mySources, true)}
+
+				<div className={s.additionalSources}>{renderMoreSources()}</div>
+			</div>
+		</>
 	)
 }

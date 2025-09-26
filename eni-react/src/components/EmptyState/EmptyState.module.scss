@@ -4,23 +4,23 @@
 	display: flex;
 	flex: 1;
 	flex-direction: column;
-	gap: $space-md;
+	gap: 0.75rem;
 	align-items: center;
 	justify-content: center;
-	color: $text-tertiary;
+	color: var(--text-tertiary);
 	text-align: center;
 
 	svg {
 		width: 5rem;
 		height: 5rem;
-		color: $text-muted;
+		color: var(--text-muted);
 	}
 
 	.header {
 		margin-bottom: 0.5rem;
 		font-size: 1.25rem;
 		font-weight: 600;
-		color: $text-secondary;
+		color: var(--text-secondary);
 	}
 
 	.description {

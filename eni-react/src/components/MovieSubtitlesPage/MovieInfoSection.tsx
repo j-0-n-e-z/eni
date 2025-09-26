@@ -1,8 +1,9 @@
 import cn from 'classnames'
 import { useEffect, useState, type FC } from 'react'
 import toast from 'react-hot-toast'
+import { Link } from 'react-router-dom'
 
-import { DarkSkeleton } from '@/components'
+import { Skeleton } from '@/components'
 import { ArrowIcon, ImdbIcon, TranslateIcon } from '@/icons'
 import { useGetMovieBoxOfficeByKinopoiskIdQuery } from '@/store/api'
 import type { KinopoiskMovie } from '@/types'
@@ -45,18 +46,17 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 				[styles.hidden]: isMovieInfoHidden
 			})}
 		>
-			<h2 className={styles.toggledTitleWrapper}>
+			<h2 className={styles.toggleTitleWrapper}>
 				<div className={styles.toggleTitle}>
-					<a
+					<Link
 						className={styles.titleLink}
-						href={`https://www.imdb.com/title/${movie.imdbId}`}
-						rel='noopener noreferrer'
 						target='_blank'
+						to={`https://www.imdb.com/title/${movie.imdbId}`}
 					>
 						{isShowOriginalTitle
 							? (movie.nameOriginal ?? movie.nameRu)
 							: (movie.nameRu ?? 'Отсутствует название на русском языке')}
-					</a>
+					</Link>
 					{movie.nameOriginal && (
 						<TranslateIcon
 							className={styles.translateTitleIcon}
@@ -67,9 +67,15 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 			</h2>
 			<div className={styles.toggleInfo}>
 				<div className={styles.heroContainer}>
-					<div className={styles.cover}>
-						<img alt={`${movie.nameOriginal} Cover`} src={movie.posterUrl} />
-					</div>
+					<Link target='_blank' to={movie.webUrl}>
+						<div className={styles.cover}>
+							<img
+								alt={`${movie.nameOriginal} Cover`}
+								className={styles.coverImg}
+								src={movie.posterUrl}
+							/>
+						</div>
+					</Link>
 					<div className={styles.movieInfoWrapper}>
 						<h2 className={styles.titleWrapper}>
 							<a
@@ -138,8 +144,8 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 
 								{isBoxOfficeFetching ? (
 									<>
-										<DarkSkeleton width='10rem' />
-										<DarkSkeleton width='10rem' />
+										<Skeleton width='10rem' />
+										<Skeleton width='10rem' />
 									</>
 								) : (
 									<>
@@ -149,7 +155,7 @@ export const MovieInfoSection: FC<MovieInfoSectionProps> = ({ movie }) => {
 												<span className={cn(styles.metaValue, styles.budget)}>
 													{formatMoney(
 														budget.amount,
-														budget.currencyCode || 'USD'
+														budget.currencyCode || budget.symbol || 'USD'
 													)}
 												</span>
 											</div>

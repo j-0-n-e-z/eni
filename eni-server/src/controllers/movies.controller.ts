@@ -1,12 +1,13 @@
 import type { Request, Response } from 'express'
 
 import type { MovieService } from '@/services'
+import type { SearchMoviesParams } from '@/types'
 
 export class MovieController {
 	constructor(private readonly movieService: MovieService) {}
 
 	searchMovies = async (req: Request, res: Response) => {
-		const query = req.query as Record<string, string>
+		const query = req.query as unknown as SearchMoviesParams
 
 		const movies = await this.movieService.searchKinopoiskMovies(query)
 

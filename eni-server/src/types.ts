@@ -122,3 +122,7 @@ export type ApiServiceName =
 	| 'OpenSubtitles'
 	| 'Yandex.Translate'
 	| 'Yandex.Dictionary'
+
+export interface SearchMoviesParams {
+	keyword: string
+}

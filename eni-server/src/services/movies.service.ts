@@ -1,16 +1,22 @@
+import type { AxiosRequestConfig } from 'axios'
+
 import { kinopoiskApiV2_1, kinopoiskApiV2_2 } from '@/api'
 import type { BoxOffice, KinopoiskMovie } from '@/shared-types'
 import { convertNullStrings } from '@/utils/helpers/convertNullStrings'
 
-import type { KinopoiskSearchResponse } from '../types'
+import type { KinopoiskSearchResponse, SearchMoviesParams } from '../types'
 
 export class MovieService {
-	async searchKinopoiskMovies(queryParams: Record<string, string>) {
-		const params = { ...queryParams }
-
+	async searchKinopoiskMovies(
+		params: SearchMoviesParams,
+		config?: AxiosRequestConfig
+	) {
 		const response = await kinopoiskApiV2_1.get<KinopoiskSearchResponse>(
 			`/search-by-keyword`,
-			{ params }
+			{
+				params,
+				...config
+			}
 		)
 
 		return response.data.films.map(convertNullStrings)

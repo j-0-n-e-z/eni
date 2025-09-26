@@ -1,21 +1,23 @@
 import cn from 'classnames'
 import type { FC } from 'react'
+import { useOutletContext } from 'react-router-dom'
 
 import { StarIcon } from '@/icons'
 import type { MovieSubtitle as IMovieSubtitle } from '@/types'
-import { NumberFormatter, DateFormatter } from '@/utils'
+import { DateFormatter, NumberFormatter } from '@/utils'
+
+import type { MovieSubtitlesContext } from '../../frontend-types'
 
 import styles from './MovieSubtitlesPicker.module.scss'
 
 interface MovieSubtitleProps {
 	movieSubtitle: IMovieSubtitle
-	pickMovieSubtitle: (movieSubtitle: IMovieSubtitle) => void
 }
 
-export const MovieSubtitle: FC<MovieSubtitleProps> = ({
-	movieSubtitle,
-	pickMovieSubtitle
-}) => {
+export const MovieSubtitle: FC<MovieSubtitleProps> = ({ movieSubtitle }) => {
+	const { goToMovieSubtitles, movieKinopoiskId } =
+		useOutletContext<MovieSubtitlesContext>()
+
 	const ratingStars = Array.from({ length: 10 }).map((_, i) => (
 		<StarIcon
 			key={i}
@@ -55,7 +57,9 @@ export const MovieSubtitle: FC<MovieSubtitleProps> = ({
 
 			<button
 				className={styles.pickMovieSubBtn}
-				onClick={() => pickMovieSubtitle(movieSubtitle)}
+				onClick={() =>
+					goToMovieSubtitles(movieKinopoiskId, movieSubtitle.subtitles.file_id)
+				}
 			>
 				Загрузить
 			</button>

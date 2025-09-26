@@ -141,9 +141,9 @@ export class UserService {
 
 		if (!user) {
 			throw new ApiError(
-				404,
-				'User with given refresh token not found',
-				ErrorCodes.NOT_FOUND
+				401,
+				'Could not authorize you, log in again',
+				ErrorCodes.UNAUTHORIZED
 			)
 		}
 

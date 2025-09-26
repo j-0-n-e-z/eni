@@ -26,7 +26,7 @@ export const MovieCard: FC<MovieCardProps> = ({
 	isHistory
 }) => {
 	const { ref, inView } = useInView({
-		threshold: 0.3,
+		threshold: 0.2,
 		triggerOnce: true
 	})
 
@@ -42,11 +42,9 @@ export const MovieCard: FC<MovieCardProps> = ({
 				onClick={() => addToSearchHistory(movie)}
 			>
 				{isHistory && (
-					<div className={styles.deleteBtnWrapper}>
-						<DeleteButton
-							onClick={(e) => handleDeleteMovieBtnClick(e, movie.filmId)}
-						/>
-					</div>
+					<DeleteButton
+						onClick={(e) => handleDeleteMovieBtnClick(e, movie.filmId)}
+					/>
 				)}
 				<img
 					alt={`${movie.nameEn || movie.nameRu} Cover`}

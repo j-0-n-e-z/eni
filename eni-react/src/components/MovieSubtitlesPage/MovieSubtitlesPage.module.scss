@@ -4,8 +4,7 @@
 .movieInfoSection {
 	display: grid;
 	grid-template-rows: auto 1fr;
-	padding: 2rem $space-xxl 0;
-	color: $text-white;
+	padding: 2rem 1.5rem 0;
 	background-color: $bg-dark;
 	transition: grid-template-rows 0.5s ease;
 }
@@ -14,9 +13,15 @@
 	overflow: hidden;
 	opacity: 100%;
 	transition: opacity 0.5s ease;
+
+	@include respond-to('md') {
+		transition: opacity 0.2s ease;
+	}
 }
 
-.toggledTitleWrapper {
+.toggleTitleWrapper {
+	@extend %container;
+
 	display: grid;
 	grid-template-rows: 0fr;
 	transition: grid-template-rows 0.5s ease;
@@ -24,10 +29,15 @@
 
 .toggleTitle {
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
 	overflow: hidden;
 	opacity: 0%;
 	transition: opacity 0.5s ease;
+
+	@include respond-to('md') {
+		transition: opacity 0.1s ease;
+	}
 }
 
 .heroContainer {
@@ -51,7 +61,7 @@
 .movieInfoSection.hidden {
 	grid-template-rows: auto 0fr;
 
-	.toggledTitleWrapper {
+	.toggleTitleWrapper {
 		grid-template-rows: 1fr;
 	}
 
@@ -71,20 +81,28 @@
 .cover {
 	max-height: 450px;
 	overflow: hidden;
-	border-radius: $space-lg;
-	transition: opacity 0.3s ease;
+	border-radius: 1rem;
 
-	img {
+	@include desktop-hover {
+		.coverImg {
+			scale: 1.1;
+		}
+	}
+
+	.coverImg {
 		display: block;
 		max-width: 300px;
 		aspect-ratio: 2/3;
 		object-fit: cover;
+		transition:
+			opacity 0.3s ease,
+			scale 0.2s ease;
 	}
 
 	@include respond-to('lg') {
 		margin: auto 0;
 
-		img {
+		.coverImg {
 			max-width: 200px;
 			object-fit: contain;
 		}
@@ -110,29 +128,38 @@
 	align-items: center;
 	justify-content: space-between;
 	margin-bottom: 1rem;
+
+	@include respond-to('md') {
+		justify-content: center;
+	}
 }
 
 .titleLink {
 	font-size: 2.5rem;
-	transition: color 0.2s linear;
+	color: $text-white;
+	transition: color 0.1s linear;
 
-	&:hover {
-		color: color.adjust($text-white, $lightness: -20%);
+	@include desktop-hover {
+		color: $text-light;
 	}
 
 	@include respond-to('lg') {
-		font-size: 2rem;
+		font-size: 1.4rem;
 	}
 
 	@include respond-to('md') {
-		font-size: 1.75rem;
+		font-size: 1.25rem;
+	}
+
+	@include respond-to('sm') {
+		font-size: 1.25rem;
 	}
 }
 
 .translateTitleIcon {
 	width: 2rem;
 	height: 2rem;
-	color: $text-light;
+	color: $text-tertiary;
 	cursor: pointer;
 	transition: all 0.2s ease;
 
@@ -144,7 +171,15 @@
 .slogan {
 	font-size: 1.125rem;
 	font-style: italic;
-	color: $text-light;
+	color: $text-muted;
+
+	@include respond-to('lg') {
+		font-size: 1rem;
+	}
+
+	@include respond-to('sm') {
+		font-size: 0.8rem;
+	}
 }
 
 .duration {
@@ -158,7 +193,7 @@
 	grid-auto-rows: 1fr;
 	row-gap: 1rem;
 
-	@include respond-to('lg') {
+	@include respond-to('sm') {
 		grid-template-columns: 1fr;
 		row-gap: 0.5rem;
 	}
@@ -166,37 +201,38 @@
 
 .metaItem {
 	display: flex;
-	gap: $space-sm;
+	gap: 0.5rem;
 	align-items: center;
 	height: 100%;
 }
 
 .metaLabel {
 	min-width: 80px;
-	color: $text-light;
+	color: $text-muted;
 }
 
 .metaValue {
 	font-weight: 500;
-	color: $text-white;
+	color: $text-light;
 
 	&.budget,
 	&.boxOffice {
 		font-weight: 600;
-		color: $success;
+		color: var(--success);
 	}
 
 	&.mpaa {
 		padding: 0.4rem;
+		color: $text-white;
 		cursor: default;
-		background-color: color.adjust($bg-dark, $lightness: 30%);
+		background-color: $brand-accent;
 		border-radius: 10px;
 	}
 }
 
 .imdb {
 	display: flex;
-	gap: $space-sm;
+	gap: 0.5rem;
 	align-items: end;
 }
 
@@ -208,7 +244,7 @@
 .genres {
 	display: flex;
 	flex-wrap: wrap;
-	gap: $space-sm;
+	gap: 0.5rem;
 	margin-bottom: 0.5rem;
 }
 
@@ -217,7 +253,7 @@
 	font-size: 0.875rem;
 	font-weight: 500;
 	color: $text-white;
-	background: $overlay-white;
+	background: $interactive-focus;
 	border-radius: 1rem;
 }
 
@@ -231,11 +267,12 @@
 	@include center-flex;
 
 	z-index: 10;
+	color: $text-light;
 	cursor: pointer;
 
 	@include desktop-hover {
 		svg {
-			translate: 0 (-$space-sm);
+			translate: 0 -0.25rem;
 		}
 	}
 
@@ -248,10 +285,14 @@
 }
 
 .subtitlesSection {
-	@include container;
+	@extend %container;
 
 	display: flex;
 	flex: 1;
 	flex-direction: column;
 	padding: 1rem 1.5rem 1.5rem;
+
+	@include respond-to('sm') {
+		padding: 1rem;
+	}
 }

@@ -4,7 +4,7 @@ import { Fragment, useMemo } from 'react'
 
 import type { PureSubtitle, Word } from '@/types'
 
-import type { SubtitleSource } from '../../types'
+import type { SubtitleSource } from '../../frontend-types'
 
 import styles from './Subtitles.module.scss'
 
@@ -37,7 +37,7 @@ export const SubtitleWords: FC<SubtitleWordProps> = ({
 					subtitleTimecode,
 					sentence
 				} = subtitleSource
-				const wordId = `${i}#${subtitle.timecode}#${fileId}`
+				const wordId = `${movieId}_${fileId}_${page}_${subtitle.timecode.replace(' --> ', '_')}_${i}`
 				const punctuationMatch = wordText.match(PUNCTUATION)
 				const before = punctuationMatch ? punctuationMatch[1] : undefined
 				const after = punctuationMatch ? punctuationMatch[3] : undefined
@@ -51,7 +51,7 @@ export const SubtitleWords: FC<SubtitleWordProps> = ({
 					mySources: [
 						{
 							fileId,
-							id: `${movieId}_${fileId}_${page}_${subtitle.timecode.replace(' --> ', '_')}_${i}`,
+							id: wordId,
 							movieId,
 							movieName,
 							page,

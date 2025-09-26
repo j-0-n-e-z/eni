@@ -1,8 +1,11 @@
-import { Word, type YandexTranslation } from '@/types'
+import { createApi } from '@reduxjs/toolkit/query/react'
 
-import { authApi } from './authApi'
+import { type YandexTranslation } from '@/types'
 
-export const translateApi = authApi.injectEndpoints({
+import { baseQueryWithReauth } from './baseQueries/baseQueryWithReauth'
+
+export const translateApi = createApi({
+	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
 		getDifinition: build.query<string, string>({
 			query: (text) => ({
@@ -20,7 +23,8 @@ export const translateApi = authApi.injectEndpoints({
 				url: 'translate'
 			})
 		})
-	})
+	}),
+	reducerPath: 'translateApi'
 })
 
 export const { useLazyGetDifinitionQuery, useLazyTranslateQuery } = translateApi

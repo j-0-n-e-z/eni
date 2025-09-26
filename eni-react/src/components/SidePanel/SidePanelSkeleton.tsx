@@ -1,9 +1,7 @@
-import { DarkSkeleton } from '@/components'
+import { DarkSkeleton } from '../Skeletons/DarkSkeleton'
+
+import styles from './SidePanel.module.scss'
 
 export const SidePanelSkeleton = () => (
-	<DarkSkeleton
-		height='100vh'
-		style={{ left: 0, position: 'fixed', top: 0 }}
-		width='80px'
-	/>
+	<DarkSkeleton className={styles.sidepanel} />
 )

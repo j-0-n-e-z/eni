@@ -1,5 +1,11 @@
 @use '@styles' as *;
 
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
 body {
 	width: 100vw;
 	min-width: 320px;
@@ -10,12 +16,13 @@ body {
 }
 
 #root {
+	position: relative;
 	padding-left: 80px;
 	background: $bg-gradient-light;
-}
 
-* {
-	box-sizing: border-box;
+	@include respond-to('md') {
+		padding-left: 0;
+	}
 }
 
 h1,
@@ -79,6 +86,7 @@ svg {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
+	background-color: var(--bg-primary);
 }
 
 .visually-hidden {
@@ -92,7 +100,263 @@ svg {
 	border: 0;
 }
 
-// no idea why br is added to skeleton
 .react-loading-skeleton + br {
 	display: none;
+}
+
+.flex1 {
+	flex: 1;
+	width: 100%;
+}
+
+.center {
+	@include center-flex;
+}
+
+.round {
+	.react-loading-skeleton {
+		border-radius: 1rem;
+	}
+}
+
+// theme colors
+:root {
+	--brightness-hover: #{$brightness-hover-light};
+
+	// Brand Gradients
+	--gradient-primary: #{$gradient-primary};
+	--gradient-blue-cyan: #{$gradient-blue-cyan};
+	--gradient-purple-pink: #{$gradient-purple-pink};
+	--gradient-green: #{$gradient-green};
+
+	// Background Colors
+	--bg-primary: #{$bg-primary};
+	--bg-secondary: #{$bg-secondary};
+	--bg-tertiary: #{$bg-tertiary};
+	--bg-muted: #{$bg-muted};
+	--bg-dark: #{$bg-dark};
+	--bg-dark-secondary: #{$bg-dark-secondary};
+	--bg-dark-tertiary: #{$bg-dark-tertiary};
+	--bg-brand-light: #{$bg-brand-light};
+	--bg-success-light: #{$bg-success-light};
+
+	// Background Gradients
+	--bg-gradient-light: #{$bg-gradient-light};
+	--bg-gradient-dark: #{$bg-gradient-dark};
+
+	// Text Colors
+	--text-primary: #{$text-primary};
+	--text-secondary: #{$text-secondary};
+	--text-tertiary: #{$text-tertiary};
+	--text-muted: #{$text-muted};
+	--text-placeholder: #{$text-placeholder};
+	--text-light: #{$text-light};
+	--text-white: #{$text-white};
+
+	// Border Colors
+	--border-light: #{$border-light};
+	--border-medium: #{$border-medium};
+	--border-dark: #{$border-dark};
+	--border-white-10: #{$border-white-10};
+	--border-white-15: #{$border-white-15};
+	--border-success: #{$border-success};
+
+	// Interactive Colors
+	--interactive-primary: #{$interactive-primary};
+	--interactive-secondary: #{$interactive-secondary};
+	--interactive-hover: #{$interactive-hover};
+	--interactive-focus: #{$interactive-focus};
+	--interactive-focus-ring: #{$interactive-focus-ring};
+
+	// State Colors
+	--success: #{$success};
+	--warning: #{$warning};
+	--error: #{$error};
+	--info: #{$info};
+
+	// Overlay Colors
+	--overlay-light: #{$overlay-light};
+	--overlay-medium: #{$overlay-medium};
+	--overlay-dark: #{$overlay-dark};
+	--overlay-white: #{$overlay-white};
+	--overlay-white-15: #{$overlay-white-15};
+
+	// Social Brand Colors
+	--social-google: #{$social-google};
+	--social-github: #{$social-github};
+	--social-twitter: #{$social-twitter};
+	--social-facebook: #{$social-facebook};
+
+	// Shadow Colors
+	--shadow-sm: #{$shadow-sm};
+	--shadow-md: #{$shadow-md};
+	--shadow-lg: #{$shadow-lg};
+	--shadow-xl: #{$shadow-xl};
+	--shadow-brand: #{$shadow-brand};
+
+	// Blob Colors
+	--blob-blue: #{$blob-blue};
+	--blob-purple: #{$blob-purple};
+	--blob-pink: #{$blob-pink};
+
+	// Backdrop Effects
+	--backdrop-blur: #{$backdrop-blur};
+	--backdrop-blur-sm: #{$backdrop-blur-sm};
+
+	// Form Colors
+	--form-bg: #{$form-bg};
+	--form-border: #{$form-border};
+	--form-border-focus: #{$form-border-focus};
+	--form-text: #{$form-text};
+	--form-placeholder: #{$form-placeholder};
+	--form-error: #{$form-error};
+
+	// Button Colors
+	--btn-primary-bg: #{$btn-primary-bg};
+	--btn-primary-text: #{$btn-primary-text};
+	--btn-primary-hover-shadow: #{$btn-primary-hover-shadow};
+	--btn-secondary-bg: #{$btn-secondary-bg};
+	--btn-secondary-text: #{$btn-secondary-text};
+	--btn-secondary-border: #{$btn-secondary-border};
+	--btn-secondary-hover-border: #{$btn-secondary-hover-border};
+	--btn-secondary-hover-bg: #{$btn-secondary-hover-bg};
+
+	// Navigation Colors
+	--nav-bg: #{$nav-bg};
+	--nav-text: #{$nav-text};
+	--nav-text-muted: #{$nav-text-muted};
+	--nav-hover-bg: #{$nav-hover-bg};
+	--nav-active-bg: #{$nav-active-bg};
+	--nav-border: #{$nav-border};
+
+	// Card Colors
+	--card-bg: #{$card-bg};
+	--card-border: #{$card-border};
+	--card-hover-border: #{$card-hover-border};
+	--card-shadow: #{$card-shadow};
+	--card-hover-shadow: #{$card-hover-shadow};
+
+	// Logo Colors
+	--logo-bg: #{$logo-bg};
+	--logo-text: #{$logo-text};
+}
+
+[data-theme='dark'] {
+	.react-loading-skeleton {
+		--base-color: #{$skeleton-dark-base-color};
+		--highlight-color: #{$skeleton-dark-highlight-color};
+	}
+
+	--brightness-hover: #{$brightness-hover-dark};
+
+	// Background Colors
+	--bg-primary: #{$bg-dark-secondary};
+	--bg-secondary: #{$bg-dark-tertiary};
+	--bg-tertiary: #243142;
+	--bg-muted: #334155;
+	--bg-dark: #{$bg-primary};
+	--bg-dark-secondary: #{$bg-secondary};
+	--bg-dark-tertiary: #{$bg-tertiary};
+	--bg-brand-light: rgb(59 130 246 / 20%);
+	--bg-success-light: rgb(16 185 129 / 30%);
+
+	// Background Gradients
+	--bg-gradient-light: #{$bg-gradient-dark};
+	--bg-gradient-dark: #{$bg-gradient-light};
+
+	// Text Colors
+	--text-primary: #{$text-white};
+	--text-secondary: #{$text-light};
+	--text-tertiary: #{$text-muted};
+	--text-muted: #{$text-tertiary};
+	--text-placeholder: #{$text-tertiary};
+	--text-light: #{$text-secondary};
+	--text-white: #{$text-primary};
+
+	// Border Colors
+	--border-light: #{$border-white-10};
+	--border-medium: #{$border-white-15};
+	--border-dark: #64748b;
+	--border-white-10: #{$border-light};
+	--border-white-15: #{$border-medium};
+	--border-success: rgb(16 185 129 / 40%);
+
+	// Interactive Colors
+	--interactive-primary: #60a5fa;
+	--interactive-secondary: #a855f7;
+	--interactive-hover: #3b82f6;
+	--interactive-focus: rgb(59 130 246 / 20%);
+	--interactive-focus-ring: rgb(59 130 246 / 40%);
+
+	// State Colors
+	--success: #34d399;
+	--warning: #fbbf24;
+	--error: #f87171;
+	--info: #60a5fa;
+
+	// Overlay Colors
+	--overlay-light: rgb(255 255 255 / 10%);
+	--overlay-medium: rgb(255 255 255 / 25%);
+	--overlay-dark: rgb(255 255 255 / 50%);
+	--overlay-white: rgb(0 0 0 / 10%);
+	--overlay-white-15: rgb(0 0 0 / 15%);
+
+	// Social Brand Colors
+	--social-google: #{$social-google};
+	--social-github: #{$social-github};
+	--social-twitter: #{$social-twitter};
+	--social-facebook: #{$social-facebook};
+
+	// Shadow Colors
+	--shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 30%);
+	--shadow-md: 0 4px 6px -1px rgb(0 0 0 / 30%);
+	--shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 30%);
+	--shadow-xl: 0 25px 50px -12px rgb(0 0 0 / 40%);
+	--shadow-brand: 0 4px 14px 0 rgb(59 130 246 / 60%);
+
+	// Blob Colors
+	--blob-blue: rgb(59 130 246 / 15%);
+	--blob-purple: rgb(139 92 246 / 15%);
+	--blob-pink: rgb(236 72 153 / 15%);
+
+	// Backdrop Effects
+	--backdrop-blur: #{$backdrop-blur};
+	--backdrop-blur-sm: #{$backdrop-blur-sm};
+
+	// Form Colors
+	--form-bg: #1e293b;
+	--form-border: #334155;
+	--form-border-focus: #60a5fa;
+	--form-text: #{$text-white};
+	--form-placeholder: #64748b;
+	--form-error: #f87171;
+
+	// Button Colors
+	--btn-primary-bg: #{$gradient-primary};
+	--btn-primary-text: #{$text-white};
+	--btn-primary-hover-shadow: 0 6px 20px 0 rgb(59 130 246 / 50%);
+	--btn-secondary-bg: #334155;
+	--btn-secondary-text: #{$text-white};
+	--btn-secondary-border: #475569;
+	--btn-secondary-hover-border: #64748b;
+	--btn-secondary-hover-bg: #475569;
+
+	// Navigation Colors
+	--nav-bg: #0f172a;
+	--nav-text: #{$text-white};
+	--nav-text-muted: rgb(255 255 255 / 70%);
+	--nav-hover-bg: rgb(255 255 255 / 10%);
+	--nav-active-bg: rgb(255 255 255 / 15%);
+	--nav-border: rgb(255 255 255 / 10%);
+
+	// Card Colors
+	--card-bg: #1e293b;
+	--card-border: #334155;
+	--card-hover-border: #475569;
+	--card-shadow: 0 4px 6px -1px rgb(0 0 0 / 20%);
+	--card-hover-shadow: 0 25px 50px -12px rgb(0 0 0 / 30%);
+
+	// Logo Colors
+	--logo-bg: #{$logo-bg};
+	--logo-text: #{$logo-text};
 }

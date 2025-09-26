@@ -1,22 +1,27 @@
+import { createApi } from '@reduxjs/toolkit/query/react'
+
 import type { BoxOffice, KinopoiskMovie, KinopoiskSearchMovie } from '@/types'
 
-import { api } from './api'
+import { baseQueryWithReauth } from './baseQueries/baseQueryWithReauth'
 
-export const movieApi = api.injectEndpoints({
+export const movieApi = createApi({
+	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
 		getMovieBoxOfficeByKinopoiskId: build.query<BoxOffice, number>({
-			query: (id) => `movie/${id}/box_office`
+			query: (id) => ({ credentials: 'include', url: `movie/${id}/box_office` })
 		}),
 		getMovieByKinopoiskId: build.query<KinopoiskMovie, number>({
-			query: (id) => `movie/${id}`
+			query: (id) => ({ credentials: 'include', url: `movie/${id}` })
 		}),
 		searchMovies: build.query<KinopoiskSearchMovie[], string>({
 			query: (keyword) => ({
+				credentials: 'include',
 				params: { keyword },
 				url: 'movies'
 			})
 		})
-	})
+	}),
+	reducerPath: 'movieApi'
 })
 
 export const {

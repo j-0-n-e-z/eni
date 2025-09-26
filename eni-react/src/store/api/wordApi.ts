@@ -2,7 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 
 import type { Word, WordSource } from '@/types'
 
-import { baseQueryWithReauth } from './authApi'
+import { baseQueryWithReauth } from './baseQueries/baseQueryWithReauth'
 
 export const wordApi = createApi({
 	baseQuery: baseQueryWithReauth,

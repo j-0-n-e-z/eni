@@ -18,6 +18,7 @@ export class WordController {
 	getMoreWordSources = async (req: Request, res: Response) => {
 		const { wordText } = req.params
 
+		await new Promise(res =>setTimeout(res, 15999))
 		const word = await this.wordService.getMoreWordSources(wordText)
 
 		if (!word)

@@ -11,12 +11,14 @@ export const MovieSubtitlesPickerSkeleton = () => (
 		/>
 		<ul className={styles.movieSubList}>
 			{Array.from({ length: 5 }).map((_, i) => (
-				<div
+				<Skeleton
 					key={`sk_moviesubs_${i}`}
-					style={{ maxWidth: 300, minHeight: 250, width: '100%' }}
-				>
-					<Skeleton height='100%' width='100%' />
-				</div>
+					containerClassName='flex1 round'
+					style={{
+						maxWidth: 300,
+						minHeight: 250
+					}}
+				/>
 			))}
 		</ul>
 	</div>

@@ -13,7 +13,7 @@
 	width: 80px;
 	height: 40px;
 	padding: 3px;
-	color: $text-primary;
+	color: var(--text-primary);
 	background: repeating-linear-gradient(
 			90deg,
 			currentColor 0 10px,

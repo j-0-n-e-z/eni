@@ -11,7 +11,7 @@ import {
 	MovieSubtitlesPage,
 	MovieSubtitlesPicker,
 	Profile,
-	Search,
+	SearchPage,
 	Subtitles
 } from '@/components'
 import { EmptyIcon } from '@/icons'
@@ -39,11 +39,11 @@ const router = createBrowserRouter([
 		element: <App />,
 		errorElement: <ErrorBoundary />,
 		children: [
-			{ element: <Main />, index: true, errorElement: <div>ГОВНО</div> },
+			{ element: <Main />, index: true },
 			{
 				element: <ProtectedRoute />,
 				children: [
-					{ element: <Search />, path: 'search' },
+					{ element: <SearchPage />, path: 'search' },
 					{
 						element: <MovieSubtitlesPage />,
 						path: 'movie/:movieId',
@@ -51,7 +51,8 @@ const router = createBrowserRouter([
 							{ element: <MovieSubtitlesPicker />, index: true },
 							{ element: <Subtitles />, path: 'subtitles/:fileId' }
 						]
-					}
+					},
+					{ element: <div>Settings</div>, path: '/settings' }
 				]
 			},
 			{
@@ -66,7 +67,6 @@ const router = createBrowserRouter([
 				path: '/popular',
 				element: <div>Popular words</div>
 			},
-			{ element: <div>Settings</div>, path: '/settings' },
 			{ element: <div>Info</div>, path: '/info' },
 			{
 				element: (
