@@ -1,5 +1,5 @@
 {
-	"name": "eni",
+	"name": "eni-frontend",
 	"private": true,
 	"version": "0.1",
 	"type": "module",
