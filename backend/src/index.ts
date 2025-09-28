@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import axios from 'axios'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
@@ -28,20 +27,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
-app.get('/', (req, res) => {
+app.get('/health', (req, res) => {
 	res.status(200).json({ message: "It's working!" })
-})
-
-app.get('/alloha', async (req, res) => {
-	try {
-		const { kp } = req.query
-		const response = await axios.get(
-			`https://api.alloha.tv/?token=d317441359e505c343c2063edc97e7&kp=${kp?.toString()}`
-		)
-		res.json(response.data)
-	} catch (error) {
-		res.status(500).json({ error: 'Ошибка запроса к Alloha' })
-	}
 })
 
 app.use('/api', movieRouter)
