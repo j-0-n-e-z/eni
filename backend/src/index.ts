@@ -17,10 +17,20 @@ import { prisma } from '@/utils'
 
 const app = express()
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }))
+app.use(
+	cors({
+		origin: true,
+		credentials: true
+	})
+)
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
+
+app.get('/', (req, res) => {
+	res.status(200).json({ message: "It's working!" })
+})
 
 app.get('/alloha', async (req, res) => {
 	try {
@@ -44,11 +54,11 @@ app.use('/api', wordRouter)
 const logger = (error: Error) => console.error(error)
 app.use(new ErrorHandler(logger).handle)
 
-const PORT = process.env.PORT || 8080
+const PORT = Number(process.env.PORT) || 8080
 
 async function main() {
 	try {
-		app.listen(PORT, () => {
+		app.listen(PORT, '0.0.0.0', () => {
 			console.log(`[server]: Server is running at http://localhost:${PORT}`)
 		})
 	} catch (e) {

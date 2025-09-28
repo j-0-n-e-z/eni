@@ -18,6 +18,7 @@ export class SubtitleService {
 			params.query = query
 		}
 
+		
 		const response = await openSubtitlesApi.get<{ data: OSMovieSubtitle[] }>(
 			`/subtitles`,
 			{

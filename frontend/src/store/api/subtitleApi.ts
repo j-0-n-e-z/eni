@@ -9,11 +9,13 @@ export const subtitleApi = createApi({
 	endpoints: (build) => ({
 		getMovieSubtitles: build.query<MovieSubtitle[], string | null>({
 			query: (query) => ({
+				credentials: 'include',
 				url: `movie-subtitles/${query}`
 			})
 		}),
 		getSubtitleByFileId: build.query<PureSubtitle[], number>({
 			query: (fileId) => ({
+				credentials: 'include',
 				method: 'POST',
 				url: `subtitles/${fileId}`
 			})

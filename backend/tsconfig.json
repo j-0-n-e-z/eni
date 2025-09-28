@@ -4,14 +4,14 @@
 		"module": "CommonJS",
 		"resolveJsonModule": true,
 		"esModuleInterop": true,
-		"outDir": "dist",
+		"outDir": "./dist",
 		"skipLibCheck": true,
 		"strict": true,
 		"noImplicitAny": true,
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./src/*"],
-			"@/shared-types": ["../shared/types"],
+			"@/shared-types": ["../shared/types"]
 		}
 	},
 	"exclude": ["node_modules"]
