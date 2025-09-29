@@ -40,7 +40,7 @@ export class SubtitleService {
 		)
 
 		const srtUrl = response.data.link
-		const srtContent = await fetchSrtFile(srtUrl, response.data.file_name)
+		const srtContent = await fetchSrtFile(srtUrl)
 
 		return parseSrt(srtContent)
 	}
