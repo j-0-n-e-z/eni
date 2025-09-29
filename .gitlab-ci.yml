@@ -1,7 +1,7 @@
 stages:
   - build
 
-build-images:
+build-backend:
   stage: build
   image: docker:20
   services:
@@ -15,11 +15,24 @@ build-images:
     - echo "Building backend image..."
     - docker build -t $CI_REGISTRY_IMAGE/backend:latest -f backend/Dockerfile .
     - docker push $CI_REGISTRY_IMAGE/backend:latest
-    
+    - echo "Backend image pushed successfully!"
+  only:
+    - master
+
+build-frontend:
+  stage: build
+  image: docker:20
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_CERTDIR: "/certs"
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
     - echo "Building frontend image..."
     - docker build -t $CI_REGISTRY_IMAGE/frontend:latest -f frontend/Dockerfile .
     - docker push $CI_REGISTRY_IMAGE/frontend:latest
-    
-    - echo "✅ All images pushed to GitLab Container Registry!"
+    - echo "Frontend image pushed successfully!"
   only:
     - master
