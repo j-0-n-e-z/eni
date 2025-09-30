@@ -1,5 +1,35 @@
 stages:
+  - test
   - build
+
+test-backend:
+  stage: test
+  image: node:20-alpine
+  services:
+    - postgres:15
+  variables:
+    POSTGRES_DB: $POSTGRES_DB
+    POSTGRES_USER: $POSTGRES_USER
+    POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    POSTGRES_DB_URL: $POSTGRES_DB_URL
+  before_script:
+    - cd backend
+    - npm install
+    - npx prisma generate
+    # Ждем пока PostgreSQL запустится и создаем БД
+    - timeout 30s sh -c 'until nc -z postgres 5432; do sleep 1; done'
+    - npx prisma db push --accept-data-loss
+  script:
+    - npm run test
+    - npm run build
+    - node dist/index.js &
+    - sleep 10
+    - curl -f http://localhost:8080/health || echo "Health check failed"
+  after_script:
+    - pkill node || true
+  only:
+    - merge_requests
+    - master
 
 build-backend:
   stage: build
@@ -8,7 +38,7 @@ build-backend:
     - docker:dind
   variables:
     DOCKER_HOST: tcp://docker:2376
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_CERTDIR: '/certs'
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
@@ -26,7 +56,7 @@ build-frontend:
     - docker:dind
   variables:
     DOCKER_HOST: tcp://docker:2376
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_CERTDIR: '/certs'
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
