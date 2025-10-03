@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import { searchHistoryReducer } from '@/store'
+import { searchHistoryMiddleware, searchHistoryReducer } from '@/store'
 import {
 	authApi,
 	movieApi,
@@ -18,7 +18,8 @@ export const store = configureStore({
 			.concat(wordApi.middleware)
 			.concat(movieApi.middleware)
 			.concat(subtitleApi.middleware)
-			.concat(translateApi.middleware),
+			.concat(translateApi.middleware)
+			.concat(searchHistoryMiddleware),
 	reducer: {
 		[authApi.reducerPath]: authApi.reducer,
 		[userApi.reducerPath]: userApi.reducer,

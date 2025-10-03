@@ -18,10 +18,6 @@ const loadHistory = () => {
 	}
 }
 
-const updateHistory = (movies: BaseKinoposikMovie[]) => {
-	localStorage.setItem('searchHistory', JSON.stringify(movies))
-}
-
 const initialState: SearchHistoryState = {
 	historyMovies: loadHistory()
 }
@@ -32,13 +28,11 @@ const searchHistorySlice = createSlice({
 	reducers: {
 		clearMovieHistory: (state) => {
 			state.historyMovies = []
-			updateHistory([])
 		},
 		removeMovieFromHistory: (state, action: PayloadAction<number>) => {
 			state.historyMovies = state.historyMovies.filter(
 				(movie) => movie.filmId !== action.payload
 			)
-			updateHistory(state.historyMovies)
 		},
 		upsertMovieInHistory: (
 			state,
@@ -58,7 +52,6 @@ const searchHistorySlice = createSlice({
 					)
 				]
 			}
-			updateHistory(state.historyMovies)
 		}
 	}
 })
