@@ -4,11 +4,13 @@ import type { Word, WordSource } from '@/types'
 
 import { baseQueryWithReauth } from './baseQueries/baseQueryWithReauth'
 
+const WORDS_TAG = 'WORDS' as const
+
 export const wordApi = createApi({
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
 		deleteWord: build.mutation<void, { userId: string; wordText: string }>({
-			invalidatesTags: [{ id: 'LIST', type: 'Words' }],
+			invalidatesTags: [{ id: 'LIST', type: WORDS_TAG }],
 			query: ({ userId, wordText }) => ({
 				body: { wordText },
 				credentials: 'include',
@@ -20,7 +22,7 @@ export const wordApi = createApi({
 			void,
 			{ userId: string; wordText: string; wordSource: WordSource }
 		>({
-			invalidatesTags: [{ id: 'LIST', type: 'Words' }],
+			invalidatesTags: [{ id: 'LIST', type: WORDS_TAG }],
 			query: ({ userId, wordText, wordSource }) => ({
 				body: { wordSource, wordText },
 				credentials: 'include',
@@ -38,16 +40,16 @@ export const wordApi = createApi({
 			providesTags: (result) =>
 				result
 					? [
-							...result.map(({ id }) => ({ id, type: 'Words' })),
-							{ id: 'LIST', type: 'Words' }
+							...result.map(({ id }) => ({ id, type: WORDS_TAG })),
+							{ id: 'LIST', type: WORDS_TAG }
 						]
-					: [{ id: 'LIST', type: 'Words' }],
+					: [{ id: 'LIST', type: WORDS_TAG }],
 			query: (userId) => ({
 				url: `user/${userId}/words`
 			})
 		}),
 		saveWord: build.mutation<void, { userId: string; word: Word }>({
-			invalidatesTags: [{ id: 'LIST', type: 'Words' }],
+			invalidatesTags: [{ id: 'LIST', type: WORDS_TAG }],
 			query: ({ userId, word }) => ({
 				body: { word },
 				credentials: 'include',
@@ -65,7 +67,7 @@ export const wordApi = createApi({
 		})
 	}),
 	reducerPath: 'wordApi',
-	tagTypes: ['Words']
+	tagTypes: [WORDS_TAG]
 })
 
 export const {
