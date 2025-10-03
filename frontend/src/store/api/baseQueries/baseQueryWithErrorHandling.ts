@@ -37,6 +37,7 @@ export const baseQueryWithErrorHandling: BaseQueryFn<
 				data: {
 					error: {
 						code: error.data.error.code,
+						// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 						details: error.data.error.details,
 						message: error.data.error.message,
 						statusCode: error.status

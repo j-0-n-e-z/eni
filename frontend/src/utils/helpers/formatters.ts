@@ -8,6 +8,7 @@ export const originalUSDFormatter = new Intl.NumberFormat('en-US', {
 export const USDFormatter = {
 	format(amount: number, fallback: string = '$0') {
 		if (!Number.isFinite(amount)) return fallback
+
 		return originalUSDFormatter.format(amount)
 	}
 }

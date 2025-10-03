@@ -37,10 +37,8 @@ export const WordSources: FC<WordSourcesProps> = ({
 	] = useLazyGetMoreWordSourcesQuery()
 	const [
 		triggerDeleteWordSource,
-		{ isFetching: isDeleteWordSourceFetching, error: deleteWordSourceError }
+		{ isLoading: isDeleteWordSourceFetching }
 	] = useDeleteWordSourceMutation()
-
-	console.log(word)
 
 	async function deleteWordSource(wordSource: WordSource) {
 		try {

@@ -34,6 +34,7 @@ export const Signup: FC<SignupProps> = ({ goToLogin }) => {
 			goToLogin()
 		} catch (e) {
 			const error = e as BackendError
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 			setError(error.data?.error.details.field as 'email' | 'password', {
 				message: error.data?.error.message
 			})

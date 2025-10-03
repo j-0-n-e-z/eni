@@ -31,6 +31,20 @@ test-backend:
     - merge_requests
     - master
 
+test-frontend:
+  stage: test
+  image: node:20-alpine
+  before_script:
+    - cd frontend
+    - npm install
+  script:
+    - npm run test
+    - npm run typecheck
+    - npm run build
+  only:
+    - merge_requests
+    - master
+
 build-backend:
   stage: build
   image: docker:20
@@ -47,6 +61,7 @@ build-backend:
     - docker push $CI_REGISTRY_IMAGE/backend:latest
     - echo "Backend image pushed successfully!"
   only:
+    - merge_requests
     - master
 
 build-frontend:
@@ -65,4 +80,5 @@ build-frontend:
     - docker push $CI_REGISTRY_IMAGE/frontend:latest
     - echo "Frontend image pushed successfully!"
   only:
+    - merge_requests
     - master
