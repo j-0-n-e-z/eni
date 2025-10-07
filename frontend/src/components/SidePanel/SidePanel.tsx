@@ -2,11 +2,11 @@ import { type ReactNode } from 'react'
 
 import { useSidePanelContext } from '@/hooks'
 
+import { MenuBurgerButton } from './MenuBurgerButton'
 import styles from './SidePanel.module.scss'
 import { SidePanelSkeleton } from './SidePanelSkeleton'
 import { AuthorizedItem } from './components/AuthorizedItem'
 import { BottomNavigation } from './components/BottomNavigation'
-import { MenuBurgerButton } from './components/MenuBurgerButton'
 import { NavItem } from './components/NavItem'
 import { Navigation } from './components/Navigation'
 import { TopArea } from './components/TopArea'
@@ -32,4 +32,4 @@ SidePanel.TopArea = TopArea
 SidePanel.Navigation = Navigation
 SidePanel.NavItem = NavItem
 SidePanel.BottomNavigation = BottomNavigation
-SidePanel.Authorized = AuthorizedItem
+SidePanel.AuthorizedItem = AuthorizedItem

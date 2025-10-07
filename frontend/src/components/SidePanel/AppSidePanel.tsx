@@ -34,7 +34,7 @@ export const AppSidePanel = () => {
 						to='/search'
 					/>
 
-					<SidePanel.Authorized>
+					<SidePanel.AuthorizedItem>
 						<SidePanel.NavItem
 							isToUserPath
 							isWords
@@ -44,7 +44,7 @@ export const AppSidePanel = () => {
 							text='Words'
 							to='/user'
 						/>
-					</SidePanel.Authorized>
+					</SidePanel.AuthorizedItem>
 
 					<SidePanel.NavItem
 						ariaLabel='popular words'
@@ -53,14 +53,14 @@ export const AppSidePanel = () => {
 						to='/popular'
 					/>
 
-					<SidePanel.Authorized>
+					<SidePanel.AuthorizedItem>
 						<SidePanel.NavItem
 							ariaLabel='settings'
 							icon={<SettingsIcon />}
 							text='Settings'
 							to='/settings'
 						/>
-					</SidePanel.Authorized>
+					</SidePanel.AuthorizedItem>
 
 					<SidePanel.NavItem
 						ariaLabel='app info'

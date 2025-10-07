@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 import { BurgerMenuIcon, CancelIcon } from '@/icons'
 
-import styles from '../SidePanel.module.scss'
+import styles from './SidePanel.module.scss'
 
 export const MenuBurgerButton = () => {
 	const [isOpen, setIsOpen] = useState(false)
@@ -11,7 +11,7 @@ export const MenuBurgerButton = () => {
 	return (
 		<button
 			aria-label='toggle sidepanel'
-			className={cn(styles.sidepanelMobileBtn, {
+			className={cn(styles.sidepanelToggleBtn, {
 				[styles.open]: isOpen
 			})}
 			onClick={() => setIsOpen((isOpen) => !isOpen)}

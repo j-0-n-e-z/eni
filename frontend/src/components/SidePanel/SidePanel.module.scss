@@ -63,6 +63,51 @@
 	color: $text-white;
 }
 
+@include respond-to('md') {
+	.sidepanelToggleBtn.open + .sidepanel {
+		.topArea {
+			display: none;
+		}
+
+		top: 100%;
+		display: flex;
+		flex-direction: row;
+		gap: 0;
+		width: 100%;
+		height: 80px;
+		overflow-x: auto;
+		backdrop-filter: none;
+		translate: 0 -100%;
+
+		.navList {
+			flex-flow: row nowrap;
+		}
+	}
+}
+
+.sidepanelToggleBtn {
+	position: fixed;
+	top: 0.5rem;
+	left: 0.5rem;
+	z-index: 999;
+	display: none;
+	width: 2rem;
+	height: 2rem;
+	background-color: $bg-dark;
+	border-radius: 0.25rem;
+	opacity: 80%;
+
+	svg {
+		width: 24px;
+		height: 24px;
+		color: $text-light;
+	}
+
+	@include respond-to('md') {
+		@include center-flex;
+	}
+}
+
 .topArea {
 	display: flex;
 	gap: 0;
@@ -139,6 +184,10 @@
 	transition:
 		opacity 0.1s ease-in,
 		width 0.1s ease-in;
+
+	@include mobile {
+		display: none;
+	}
 }
 
 .searchIcon path {
@@ -214,49 +263,8 @@
 	width: 0;
 	opacity: 0%;
 	transition: opacity 0.1s ease-in;
-}
 
-@include respond-to('md') {
-	.sidepanelMobileBtn.open + .sidepanel {
-		.topArea {
-			display: none;
-		}
-
-		top: 100%;
-		display: flex;
-		flex-direction: row;
-		gap: 0;
-		width: 100%;
-		height: 80px;
-		overflow-x: auto;
-		backdrop-filter: none;
-		translate: 0 -100%;
-
-		.navList {
-			flex-flow: row nowrap;
-		}
-	}
-}
-
-.sidepanelMobileBtn {
-	position: fixed;
-	top: 0.5rem;
-	left: 0.5rem;
-	z-index: 999;
-	display: none;
-	width: 2rem;
-	height: 2rem;
-	background-color: $bg-dark;
-	border-radius: 0.25rem;
-	opacity: 80%;
-
-	svg {
-		width: 24px;
-		height: 24px;
-		color: $text-light;
-	}
-
-	@include respond-to('md') {
-		@include center-flex;
+	@include mobile {
+		display: none;
 	}
 }
