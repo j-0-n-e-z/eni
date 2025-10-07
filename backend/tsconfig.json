@@ -14,5 +14,5 @@
 			"@/shared-types": ["../shared/types"]
 		}
 	},
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules", "dist", "**/*.test.ts"]
 }

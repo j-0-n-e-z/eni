@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import dotenv from 'dotenv'
 import express from 'express'
 
 import { ErrorHandler } from '@/middlewares'
@@ -14,11 +15,13 @@ import {
 } from '@/routes'
 import { prisma } from '@/utils'
 
+dotenv.config()
+
 const app = express()
 
 app.use(
 	cors({
-		origin: true,
+		origin: process.env.CORS_ORIGIN_URL,
 		credentials: true
 	})
 )

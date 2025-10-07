@@ -1,6 +1,7 @@
 stages:
   - test
   - build
+  - deploy
 
 test-backend:
   stage: test
@@ -16,15 +17,15 @@ test-backend:
     - cd backend
     - npm install
     - npx prisma generate
-    # Ждем пока PostgreSQL запустится и создаем БД
     - timeout 30s sh -c 'until nc -z postgres 5432; do sleep 1; done'
     - npx prisma db push --accept-data-loss
   script:
     - npm run test
     - npm run build
-    - node dist/index.js &
+    - npx tsx src/index.ts &
     - sleep 10
-    - curl -f http://localhost:8080/health || echo "Health check failed"
+    - apk add --no-cache curl
+    - curl -v http://localhost:8080/health || echo "Health check failed"
   after_script:
     - pkill node || true
   only:
@@ -51,15 +52,13 @@ build-backend:
   services:
     - docker:dind
   variables:
-    DOCKER_HOST: tcp://docker:2376
-    DOCKER_TLS_CERTDIR: '/certs'
+    DOCKER_TLS_CERTDIR: ''
+    DOCKER_DRIVER: overlay2
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - echo "Building backend image..."
     - docker build -t $CI_REGISTRY_IMAGE/backend:latest -f backend/Dockerfile .
     - docker push $CI_REGISTRY_IMAGE/backend:latest
-    - echo "Backend image pushed successfully!"
   only:
     - merge_requests
     - master
@@ -76,9 +75,42 @@ build-frontend:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - echo "Building frontend image..."
-    - docker build -t $CI_REGISTRY_IMAGE/frontend:latest -f frontend/Dockerfile .
+    - docker build --build-arg VITE_API_URL=$VITE_API_URL -t $CI_REGISTRY_IMAGE/frontend:latest -f frontend/Dockerfile .
     - docker push $CI_REGISTRY_IMAGE/frontend:latest
     - echo "Frontend image pushed successfully!"
+  only:
+    - merge_requests
+    - master
+
+deploy:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache openssh-client
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY_SELECTEL_BASE64" | base64 -d > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H $SELECTEL_SERVER_IP >> ~/.ssh/known_hosts
+  script:
+    - |
+      ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no root@$SELECTEL_SERVER_IP << 'EOF'
+
+      docker system prune -f
+
+      cd /opt/app
+
+      docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$ACCESS_TOKEN"
+
+      docker-compose -f docker-compose.prod.yml down
+      docker-compose -f docker-compose.prod.yml pull
+      docker-compose -f docker-compose.prod.yml up -d
+
+      sleep 10
+      docker exec app-backend-1 npx prisma db push
+
+      echo "✅ Services restarted!"
+      EOF
   only:
     - merge_requests
     - master

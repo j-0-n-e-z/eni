@@ -1,4 +1,4 @@
-FROM node:20
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -7,10 +7,10 @@ COPY ./shared/ ./shared
 
 WORKDIR /app/frontend
 
-RUN npm install
+RUN npm ci --only=production --ignore-scripts --no-cache
 
-RUN npm run build
-
+ARG VITE_API_URL
+RUN VITE_API_URL=${VITE_API_URL} npm run build
 
 EXPOSE 5173
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0"]

@@ -7,11 +7,13 @@ COPY ./shared/ ./shared
 
 WORKDIR /app/backend
 
-RUN npm install
+RUN npm ci --ignore-scripts --no-cache
 
 RUN npx prisma generate
 
 RUN npm run build
+
+RUN npm prune --production
 
 EXPOSE 8080
 CMD ["npx", "tsx", "src/index.ts"]

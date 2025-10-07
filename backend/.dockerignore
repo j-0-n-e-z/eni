@@ -1,0 +1,9 @@
+node_modules
+.git
+.cache
+dist
+*.log
+Dockerfile
+.dockerignore
+/srt
+.env

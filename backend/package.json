@@ -29,7 +29,8 @@
 		"jsonwebtoken": "^9.0.2",
 		"nodemailer": "^7.0.5",
 		"pg": "^8.16.3",
-		"uuid": "^11.1.0"
+		"uuid": "^11.1.0",
+		"dotenv": "^16.3.1"
 	},
 	"devDependencies": {
 		"@mermaid-js/mermaid-cli": "^11.9.0",
@@ -46,7 +47,6 @@
 		"@types/uuid": "^9.0.2",
 		"@typescript-eslint/eslint-plugin": "^7.18.0",
 		"@typescript-eslint/parser": "^7.18.0",
-		"dotenv": "^16.3.1",
 		"eslint": "^8.57.1",
 		"eslint-config-airbnb": "^19.0.4",
 		"eslint-config-airbnb-typescript": "^18.0.0",

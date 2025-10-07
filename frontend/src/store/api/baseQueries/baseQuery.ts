@@ -4,5 +4,5 @@ import { fetchBaseQuery } from '@reduxjs/toolkit/query'
 import type { BackendError } from '../../../frontend-types'
 
 export const baseQuery = fetchBaseQuery({
-	baseUrl: `http://localhost:8080/api`
+	baseUrl: `${import.meta.env.VITE_API_URL}/api`
 }) as BaseQueryFn<string | FetchArgs, unknown, BackendError>
