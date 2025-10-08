@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 
-import { useAppDispatch } from '@/app/hooks'
 import {
 	clearMovieHistory,
 	removeMovieFromHistory,
@@ -22,7 +22,7 @@ export const SearchResults: FC<SearchResultsProps> = ({
 	movies,
 	isHistory
 }) => {
-	const dispatch = useAppDispatch()
+	const dispatch = useDispatch()
 
 	const addToSearchHistory = (movie: BaseKinoposikMovie) => {
 		dispatch(

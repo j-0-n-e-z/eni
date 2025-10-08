@@ -1,9 +1,9 @@
 import type { FC } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router-dom'
 
-import { useAppSelector } from '@/app/hooks'
 import { EmptyState, ErrorDisplay, SearchResults } from '@/components'
 import { useDebounce } from '@/hooks'
 import { CancelIcon, MovieIcon, SearchIcon } from '@/icons'
@@ -17,7 +17,7 @@ export const SearchPage: FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
 	const [movieTitle, setMovieTitle] = useState(searchParams.get('query') ?? '')
 	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 500)
-	const historyMovies = useAppSelector(selectMoviesFromHistory)
+	const historyMovies = useSelector(selectMoviesFromHistory)
 	const [
 		triggerSearch,
 		{
