@@ -1,0 +1,151 @@
+@use '@styles' as *;
+
+.wordSourcesContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	overflow-y: auto;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+.wordSourcesHeader {
+	position: sticky;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding-bottom: 1rem;
+	color: var(--text-primary);
+	text-align: center;
+	background-color: var(--bg-secondary);
+
+	&::before {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		width: 1rem;
+		height: 1rem;
+		content: '';
+		background-color: var(--bg-secondary);
+		clip-path: path('M0,0 L0,16 C0,16 0,0 16,0 Z');
+	}
+
+	&::after {
+		position: absolute;
+		top: 100%;
+		right: 0;
+		width: 1rem;
+		height: 1rem;
+		content: '';
+		background-color: var(--bg-secondary);
+		clip-path: path('M16,0 L16,16 C16,16 16,0 0,0 Z');
+	}
+}
+
+.wordSourceList {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	width: 100%;
+
+	&:not(:first-of-type) {
+		margin-top: 0.5rem;
+	}
+}
+
+.additionalSources {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	margin-top: 1rem;
+}
+
+.noAdditionalSourcesMsg {
+	color: var(--text-primary);
+}
+
+.wordSource {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	padding: 1rem;
+	color: var(--text-primary);
+	background-color: var(--bg-tertiary);
+	border-radius: 1rem;
+	transition: filter 0.2s ease;
+
+	@include desktop-hover {
+		filter: brightness(var(--brightness-hover));
+	}
+}
+
+.wordSource.mySource {
+	background-color: var(--bg-success-light);
+
+	@include desktop-hover {
+		filter: brightness(var(--brightness-hover));
+	}
+
+	svg {
+		color: $text-muted;
+		cursor: pointer;
+	}
+
+	.deleteMySourceBtn {
+		@include desktop-hover {
+			svg {
+				color: var(--error);
+			}
+		}
+	}
+}
+
+.sourceHero {
+	display: flex;
+	gap: 1rem;
+	width: 100%;
+	cursor: pointer;
+
+	@include respond-to('md') {
+		flex-direction: column;
+		align-items: start;
+	}
+}
+
+.poster {
+	display: block;
+	width: 10rem;
+	min-width: 10rem;
+	aspect-ratio: 2/3;
+	overflow: hidden;
+	border-radius: 1rem;
+}
+
+.sourceInfo {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	align-items: start;
+	text-align: start;
+}
+
+.movieName {
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+.timecode {
+	font-size: 0.8rem;
+	font-style: italic;
+}
+
+.sentence {
+	font-size: 1.25rem;
+}
+
+.loadMoreBtn {
+	@extend %button-base;
+}

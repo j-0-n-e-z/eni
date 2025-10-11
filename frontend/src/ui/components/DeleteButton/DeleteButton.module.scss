@@ -1,0 +1,25 @@
+@use '@styles' as *;
+
+.deleteBtn {
+	@include center-flex;
+
+	width: 40px;
+	height: 40px;
+	cursor: pointer;
+	background-color: var(--overlay-medium);
+	border: 2px solid var(--border-light);
+	border-radius: 8px;
+	transition:
+		opacity 0.2s ease,
+		background-color 0.15s ease;
+
+	@include desktop-hover {
+		background-color: var(--error);
+	}
+}
+
+.deleteBtnIcon {
+	width: 16px;
+	height: 16px;
+	color: $text-light;
+}

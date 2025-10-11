@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { emailScheme, passwordScheme } from './common.schemas'
+import { emailScheme, passwordScheme } from './shared.schemas'
 
 export const signupSchema = z
 	.object({

@@ -1,0 +1,44 @@
+@use '@styles' as *;
+
+.savedWordList {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.savedWord {
+	position: relative;
+	display: flex;
+	gap: 0.75rem;
+	align-items: center;
+	padding: 0.5rem;
+	background: var(--bg-success-light);
+	border: 1px solid var(--border-success);
+	border-radius: 0.25rem;
+}
+
+.savedWordText {
+	color: var(--success);
+}
+
+.removeSavedWordBtn {
+	@include center-flex;
+
+	color: var(--error);
+	cursor: pointer;
+}
+
+.translateWordBtn {
+	position: absolute;
+	top: -10px;
+	left: 50%;
+	border: 1px solid $brand-accent;
+}
+
+.translation {
+	font-size: 0.875rem;
+	color: var(--text-secondary);
+}
+
+.translationPos {
+	font-weight: 600;
+}

@@ -47,7 +47,7 @@ describe('US number formatter', () => {
 	test('should format integers correctly', () => {
 		expect(NumberFormatter.format(0)).toBe('0')
 		expect(NumberFormatter.format(10)).toBe('10')
-		expect(NumberFormatter.format(999)).toBe('999')
+		expect(NumberFormatter.format(1999)).toBe('1,999')
 	})
 
 	test('should format decimals correctly', () => {

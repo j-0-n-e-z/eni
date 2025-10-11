@@ -1,0 +1,46 @@
+@use '@styles' as *;
+
+.subtitleWordList {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.word {
+	position: relative;
+	padding: 0.125rem 0.25rem;
+	cursor: pointer;
+	border-radius: 0.25rem;
+	transition: all 0.2s ease;
+	transition:
+		background-color 0.15s linear,
+		scale 0.2s linear;
+
+	@include desktop-hover {
+		color: $brand-primary;
+		background: var(--bg-brand-light);
+	}
+
+	&.selected {
+		font-weight: 500;
+		color: var(--success);
+		background: var(--bg-success-light);
+
+		@include desktop-hover {
+			filter: brightness(var(--brightness-hover));
+		}
+	}
+}
+
+.text {
+	font-size: 1rem;
+	font-weight: 500;
+	transition: translate 0.1s linear;
+}
+
+.punctuation {
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	width: 0.75rem;
+	font-size: 1rem;
+}

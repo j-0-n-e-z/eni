@@ -1,7 +1,7 @@
 import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query/react'
 import toast from 'react-hot-toast'
 
-import type { BackendError } from '../../../frontend-types'
+import type { BackendError } from '@/frontend-types'
 
 import { baseQueryWithErrorHandling } from './baseQueryWithErrorHandling'
 
@@ -11,8 +11,6 @@ export const baseQueryWithReauth: BaseQueryFn<
 	BackendError
 > = async (args, api, extraOptions) => {
 	let result = await baseQueryWithErrorHandling(args, api, extraOptions)
-
-	console.log(result)
 
 	if (
 		result.error &&

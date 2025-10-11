@@ -1,0 +1,105 @@
+@use '@styles' as *;
+@use 'sass:color';
+
+.header {
+	@include center-flex;
+
+	margin: 20px 0;
+	font-size: 1.25rem;
+}
+
+.controlPanel {
+	display: flex;
+	gap: 0.5rem;
+	justify-content: space-between;
+	margin-bottom: 1rem;
+
+	@include respond-to('md') {
+		flex-direction: column-reverse;
+		gap: 0.75rem;
+	}
+}
+
+.findWord {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+}
+
+.findWordControlsContainer {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.findWordInput {
+	display: block;
+	width: min-content;
+	max-width: 10rem;
+	padding: 0.5rem 1rem;
+	color: var(--text-primary);
+	border: 1px solid var(--border-dark);
+	border-radius: 1rem;
+
+	@include respond-to('lg') {
+		max-width: 7rem;
+	}
+
+	@include respond-to('md') {
+		max-width: 15rem;
+	}
+}
+
+.findWordControl {
+	svg {
+		width: 24px;
+		height: 24px;
+		color: var(--text-primary);
+		cursor: pointer;
+		transition: color 0.1s linear;
+
+		@include desktop-hover {
+			color: var(--text-secondary);
+		}
+	}
+
+	input {
+		display: none;
+
+		&:checked + svg {
+			color: var(--success);
+		}
+	}
+}
+
+.subtitles {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.wordsContainer {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.wordContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.learningWord {
+	position: relative;
+	display: flex;
+	gap: 0.5rem;
+}
+
+.selectedWords {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.controls {
+	display: flex;
+	gap: 0.5rem;
+}

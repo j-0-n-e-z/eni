@@ -2,7 +2,7 @@
 import type { WordSource } from '@/types'
 
 export interface MovieSubtitlesContext {
-	goToMovieSubtitles: (kinopoiskId: number, subtitlesFileId: number) => void
+	goToSubtitles: (kinopoiskId: number, subtitlesFileId: number) => void
 	imdbId: string | null
 	movieName: string
 	movieKinopoiskId: number
@@ -17,7 +17,7 @@ export interface BackendError {
 			statusCode: number
 			code: string
 			message: string
-			details?: any
+			details?: unknown
 		}
 	}
 	status: number

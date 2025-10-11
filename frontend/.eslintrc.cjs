@@ -1,6 +1,6 @@
 module.exports = {
 	root: true,
-	ignorePatterns: ['.eslintrc.cjs', 'vite.config.js'],
+	ignorePatterns: ['.eslintrc.cjs', 'vite.config.js', 'postcss.config.js'],
 	extends: [
 		'airbnb',
 		'airbnb/hooks',

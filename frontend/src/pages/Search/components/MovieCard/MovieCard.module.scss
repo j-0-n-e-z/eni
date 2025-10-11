@@ -1,0 +1,99 @@
+@use '@styles' as *;
+
+.searchResultItem {
+	display: flex;
+	justify-content: center;
+	opacity: 0%;
+
+	// без :global SCSS думает, что .react-loading-skeleton тоже "модульный" и выпиливает его
+	/* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+	&:has(:global(.react-loading-skeleton)) {
+		opacity: 100%;
+	}
+}
+
+.searchResultItem.inView {
+	animation: fadeIn 0.3s ease-in forwards;
+}
+
+.movieCard {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 320px;
+	overflow: hidden;
+	color: var(--text-primary);
+	text-decoration: none;
+	background-color: var(--bg-secondary);
+	border-radius: 1.25rem;
+	transition:
+		transform 0.3s ease,
+		background-color 0.2s ease;
+
+	@include desktop-hover {
+		background-color: var(--bg-secondary);
+		transform: translateY(-0.5rem);
+
+		.deleteBtn {
+			opacity: 100%;
+		}
+	}
+
+	[data-theme='light'] & {
+		box-shadow: 2px 2px 5px var(--overlay-medium);
+	}
+
+	.deleteBtn {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		opacity: 0%;
+	}
+}
+
+.cover {
+	display: block;
+	width: 100%;
+	max-width: 320px;
+	aspect-ratio: 2/3;
+	object-fit: cover;
+}
+
+.details {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	justify-content: space-between;
+	height: 100%;
+	padding: 1rem;
+	background-color: var(--bg-secondary);
+}
+
+.detailsRow {
+	display: flex;
+	gap: 1rem;
+	justify-content: space-between;
+}
+
+.rating {
+	font-size: 1rem;
+	font-weight: 600;
+}
+
+.duration {
+	font-size: 1rem;
+	font-style: italic;
+	color: var(--text-tertiary);
+}
+
+.title {
+	font-size: 1rem;
+	font-weight: 700;
+}
+
+.year {
+	font-size: 1rem;
+	color: var(--text-tertiary);
+}
+

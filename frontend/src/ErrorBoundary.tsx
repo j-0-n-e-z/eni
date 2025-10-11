@@ -2,11 +2,11 @@ import type { FC } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { useRouteError } from 'react-router-dom'
 
-import { AppSidePanel, EmptyState } from '@/components'
-
-import { EmptyIcon } from './icons'
+import { AppSidePanel } from '@/layouts/AppLayout/SidePanel'
+import { EmptyState } from '@/ui'
 
 import './App.scss'
+import { EmptyIcon } from './icons'
 
 export const ErrorBoundary: FC = () => {
 	const error = useRouteError() as Error

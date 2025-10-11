@@ -4,26 +4,20 @@ import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import {
-	Auth,
-	EmptyState,
-	Main,
-	MovieSubtitlesPage,
-	MovieSubtitlesPicker,
-	Profile,
-	SearchPage,
-	Subtitles
-} from '@/components'
 import { EmptyIcon } from '@/icons'
+import { Auth, Main, MovieSubtitles, Profile, Search } from '@/pages'
+import { MovieSubtitlesPicker } from '@/pages/MovieSubtitles/components/MovieSubtitlesPicker'
+import { Subtitles } from '@/pages/MovieSubtitles/components/Subtitles'
 import { store } from '@/store'
+import { EmptyState } from '@/ui'
 
-import { App } from './App'
 import { ErrorBoundary } from './ErrorBoundary'
-import { ProtectedRoute } from './ProtectedRoute'
+import { AppLayout } from './layouts/AppLayout'
+import { ProtectedLayout } from './layouts/ProtectedLayout'
 
-function tryFixBrokenUrl() {
+function tryFixUrl() {
 	const { pathname, search, hash, origin } = window.location
-	
+
 	if (pathname.includes('//')) {
 		const fixedPathname = pathname.replace(/\/+/g, '/')
 		const fixedUrl = origin + fixedPathname + search + hash
@@ -31,28 +25,28 @@ function tryFixBrokenUrl() {
 	}
 }
 
-tryFixBrokenUrl()
+tryFixUrl()
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <App />,
+		element: <AppLayout />,
 		errorElement: <ErrorBoundary />,
 		children: [
 			{ element: <Main />, index: true },
 			{
-				element: <ProtectedRoute />,
+				element: <ProtectedLayout />,
 				children: [
-					{ element: <SearchPage />, path: 'search' },
+					{ element: <Search />, path: 'search' },
 					{
-						element: <MovieSubtitlesPage />,
+						element: <MovieSubtitles />,
 						path: 'movie/:movieId',
 						children: [
-							{ element: <MovieSubtitlesPicker />, index: true },
+							{ element: <MovieSubtitlesPicker /> },
 							{ element: <Subtitles />, path: 'subtitles/:fileId' }
 						]
 					},
-					{ element: <div>Settings</div>, path: '/settings' }
+					{ element: <div className='test'>Settings</div>, path: '/settings' }
 				]
 			},
 			{

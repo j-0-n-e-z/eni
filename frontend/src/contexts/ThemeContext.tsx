@@ -1,27 +1,27 @@
 import type { ReactNode } from 'react'
-import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useEffect, useState } from 'react'
 
-export interface ThemeContextType {
-	theme: 'light' | 'dark'
-	toggleTheme: () => void
-}
+type Theme = 'light' | 'dark'
 
-export const ThemeContext = createContext<ThemeContextType | null>(null)
+export const ThemeContext = createContext<Theme | null>(null)
+export const ThemeToggleContext = createContext<(() => void) | null>(
+	null
+)
 
 interface ThemeProviderProps {
 	children: ReactNode
 }
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-	const [theme, setTheme] = useState<'light' | 'dark'>('light')
+	const [theme, setTheme] = useState<Theme>('light')
 
 	useEffect(() => {
-		const savedTheme = localStorage.getItem('theme') as 'light' | 'dark'
+		const savedTheme = localStorage.getItem('theme') as Theme
 		const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
 			.matches
 			? 'dark'
 			: 'light'
-
+		
 		setTheme(savedTheme || systemTheme)
 	}, [])
 
@@ -34,14 +34,11 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
 		setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
 	}, [])
 
-	const contextValue = useMemo(
-		() => ({ theme, toggleTheme }),
-		[theme, toggleTheme]
-	)
-
 	return (
-		<ThemeContext.Provider value={contextValue}>
-			{children}
+		<ThemeContext.Provider value={theme}>
+			<ThemeToggleContext.Provider value={toggleTheme}>
+				{children}
+			</ThemeToggleContext.Provider>
 		</ThemeContext.Provider>
 	)
 }

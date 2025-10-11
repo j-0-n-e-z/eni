@@ -18,7 +18,7 @@
 		"paths": {
 			"@/*": ["./src/*"],
 			"@/types": ["../shared/types"],
-			"@/frontend-types": ["./src/types"]
+			"@/frontend-types": ["./src/frontend-types"]
 		}
 	},
 	"include": ["**/*.ts", "**/*.tsx"],

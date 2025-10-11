@@ -1,7 +1,7 @@
 import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query'
 import toast from 'react-hot-toast'
 
-import type { BackendError } from '../../../frontend-types'
+import type { BackendError } from '@/frontend-types'
 
 import { baseQuery } from './baseQuery'
 
@@ -35,13 +35,7 @@ export const baseQueryWithErrorHandling: BaseQueryFn<
 		if (error.data?.error) {
 			const backendError: BackendError = {
 				data: {
-					error: {
-						code: error.data.error.code,
-						// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-						details: error.data.error.details,
-						message: error.data.error.message,
-						statusCode: error.status
-					}
+					error: error.data.error
 				},
 				status: error.status
 			}

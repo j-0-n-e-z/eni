@@ -1,0 +1,46 @@
+@use '@styles' as *;
+
+.wordsSection {
+	padding: 1.5rem;
+	background: var(--bg-secondary);
+	border: 1px solid var(--border-medium);
+	border-radius: 1rem;
+	box-shadow: var(--shadow-sm);
+}
+
+.wordsSectionHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 1.5rem;
+}
+
+.wordsSectionTitleWrapper {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: var(--text-primary);
+}
+
+.wordsSectionTitleWrapper svg {
+	width: 1.25rem;
+	height: 1.25rem;
+	color: $brand-primary;
+}
+
+.badge {
+	padding: 0.25rem 0.75rem;
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: var(--text-secondary);
+	background: var(--bg-secondary);
+	border-radius: 1rem;
+}
+
+.wordsList {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}

@@ -1,2 +1,2 @@
-export * from './SidePanelContext'
+export * from './AuthContext'
 export * from './ThemeContext'

@@ -1,6 +1,6 @@
 import type { SerializedError } from '@reduxjs/toolkit'
 
-import type { BackendError } from '@/store/api'
+import type { BackendError } from '@/frontend-types'
 
 export function getErrorMessage(
 	error: BackendError | SerializedError | undefined

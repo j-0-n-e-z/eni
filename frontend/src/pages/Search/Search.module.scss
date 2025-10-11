@@ -1,0 +1,91 @@
+@use '@styles' as *;
+
+.searchPage {
+	@include container;
+
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	min-height: 100vh;
+	padding: 1.5rem;
+}
+
+.searchContainer {
+	display: flex;
+	justify-content: center;
+}
+
+.inputContainer {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	width: 100%;
+	max-width: 800px;
+	padding: 0.5rem 0 0.5rem 0.5rem;
+	cursor: text;
+	background: var(--bg-secondary);
+	border: 2px solid var(--border-light);
+	border-radius: 0.75rem;
+	box-shadow: 0 1px 3px 0 var(--overlay-light);
+	transition: border 0.1s linear;
+
+	&:has(input:focus) {
+		border: 2px solid $brand-primary;
+	}
+}
+
+.inputContainer svg {
+	color: var(--text-primary);
+}
+
+.searchBtn {
+	@include center-flex;
+
+	height: 100%;
+	cursor: pointer;
+}
+
+.searchIcon {
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+
+.searchInput {
+	display: block;
+	width: 100%;
+	padding: 0.25rem 0;
+	font-size: 1rem;
+	color: var(--text-primary);
+
+	&::placeholder {
+		color: var(--text-placeholder);
+	}
+
+	&::-webkit-clear-button {
+		display: none;
+	}
+}
+
+.clearBtn {
+	@include center-flex;
+
+	width: 40px;
+	height: 100%;
+	padding: 0;
+	cursor: pointer;
+}
+
+.clearIcon {
+	width: 16px;
+	height: 16px;
+}
+
+.searchResultsContainer {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 1rem;
+	justify-content: start;
+	width: 100%;
+}

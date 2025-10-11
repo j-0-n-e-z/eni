@@ -1,0 +1,100 @@
+@use '@styles' as *;
+
+.movieSub {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	width: 100%;
+	max-width: 300px;
+	padding: 1rem;
+	background: var(--bg-secondary);
+	border: 1px solid var(--border-light);
+	border-radius: 1rem;
+	box-shadow: 0 1px 3px 0 var(--overlay-light);
+	transition: 0.3s ease;
+
+	@include desktop-hover {
+		border-color: var(--border-medium);
+		box-shadow: 0 10px 15px -3px var(--overlay-light);
+		transform: translateY(-2px);
+	}
+}
+
+.movieSubMeta {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.metaRow {
+	display: flex;
+	gap: 1rem;
+	justify-content: space-between;
+}
+
+.metaLabel {
+	font-size: 0.875rem;
+	color: var(--text-secondary);
+}
+
+.metaValue {
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: var(--text-primary);
+	text-wrap: nowrap;
+}
+
+.movieSubRating {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.stars {
+	margin-bottom: -5px;
+}
+
+.star {
+	width: 1rem;
+	height: 1rem;
+	color: var(--text-muted);
+
+	&.filled {
+		color: $brand-accent;
+	}
+}
+
+.rating {
+	font-size: 1.1rem;
+	font-weight: bold;
+}
+
+.pickMovieSubBtn {
+	display: flex;
+	gap: 0.75rem;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	padding: 0.75rem 1rem;
+	font-size: 1rem;
+	font-weight: 500;
+	color: $text-white;
+	cursor: pointer;
+	background: $brand-accent;
+	border: none;
+	border-radius: 0.5rem;
+	transition: all 0.2s ease;
+
+	@include desktop-hover {
+		filter: brightness(var(--brightness-hover));
+		transform: translateY(-1px);
+	}
+}
+
+.title {
+	text-wrap: nowrap;
+}
+
+.date {
+	text-wrap: nowrap;
+}

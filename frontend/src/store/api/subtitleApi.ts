@@ -13,7 +13,7 @@ export const subtitleApi = createApi({
 				url: `movie-subtitles/${query}`
 			})
 		}),
-		getSubtitleByFileId: build.query<PureSubtitle[], number>({
+		getSubtitlesByFileId: build.query<PureSubtitle[], number>({
 			query: (fileId) => ({
 				credentials: 'include',
 				method: 'POST',
@@ -26,6 +26,6 @@ export const subtitleApi = createApi({
 
 export const {
 	useGetMovieSubtitlesQuery,
-	useGetSubtitleByFileIdQuery,
-	useLazyGetSubtitleByFileIdQuery
+	useGetSubtitlesByFileIdQuery,
+	useLazyGetSubtitlesByFileIdQuery
 } = subtitleApi

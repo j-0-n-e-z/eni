@@ -1,4 +1,3 @@
-export type { BackendError } from '../../frontend-types'
 export * from './authApi'
 export * from './movieApi'
 export * from './subtitleApi'

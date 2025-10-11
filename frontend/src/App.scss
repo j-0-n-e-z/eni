@@ -25,10 +25,6 @@ body {
 	}
 }
 
-#modal-root {
-	z-index: 9999;
-}
-
 h1,
 h2,
 h3,
@@ -100,8 +96,8 @@ svg {
 	padding: 0;
 	margin: -1px;
 	overflow: hidden;
-	white-space: nowrap;
-	border: 0;
+	border: none;
+	opacity: 0%;
 }
 
 .react-loading-skeleton + br {

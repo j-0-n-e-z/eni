@@ -1,0 +1,20 @@
+@use '@styles' as *;
+@use 'sass:color';
+
+.movieSubsPicker {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	color: var(--text-primary);
+}
+
+.movieSubList {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	gap: 1rem;
+	justify-items: center;
+	width: 100%;
+}

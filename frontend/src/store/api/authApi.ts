@@ -1,16 +1,20 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import type { LoginCredentials } from '@/schemas/login.schemas'
-import type { SignupCredentials } from '@/schemas/signup.schemas'
+import type { LoginCredentials, SignupCredentials } from '@/schemas'
 import type { User } from '@/types'
 
 import { baseQueryWithReauth } from './baseQueries/baseQueryWithReauth'
+
+const ME_TAG = 'Me'
 
 export const authApi = createApi({
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
 		getMe: build.query<User, void>({
-			providesTags: ['Me'],
+			extraOptions: {
+				maxRetries: 0
+			},
+			providesTags: [ME_TAG],
 			query: () => ({
 				credentials: 'include',
 				headers: {
@@ -21,7 +25,7 @@ export const authApi = createApi({
 			})
 		}),
 		login: build.mutation<User, LoginCredentials>({
-			invalidatesTags: ['Me'],
+			invalidatesTags: [ME_TAG],
 			query: (credentials) => ({
 				body: credentials,
 				credentials: 'include',
@@ -53,7 +57,7 @@ export const authApi = createApi({
 		})
 	}),
 	reducerPath: 'authApi',
-	tagTypes: ['Me']
+	tagTypes: [ME_TAG]
 })
 
 export const {
