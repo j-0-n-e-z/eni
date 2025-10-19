@@ -42,7 +42,7 @@ const router = createBrowserRouter([
 						element: <MovieSubtitles />,
 						path: 'movie/:movieId',
 						children: [
-							{ element: <MovieSubtitlesPicker /> },
+							{ element: <MovieSubtitlesPicker />, index: true },
 							{ element: <Subtitles />, path: 'subtitles/:fileId' }
 						]
 					},
