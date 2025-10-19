@@ -1,21 +1,18 @@
 import type { NextFunction, Request, Response } from 'express'
 
-import { TokenService } from '@/services/'
-import {
-	ACCESS_TOKEN,
-	AuthenticationError,
-	prisma,
-	REFRESH_TOKEN
-} from '@/utils'
+import { JwtService } from '@/services/jwt.service'
+import { ACCESS_TOKEN, AuthenticationError, REFRESH_TOKEN } from '@/utils'
 
 export class AuthMiddleware {
 	private static instance: AuthMiddleware
 
-	private constructor(private readonly tokenService: TokenService) {}
+	private constructor(
+		private readonly jwtService: JwtService = new JwtService()
+	) {}
 
-	static getInstance(tokenService: TokenService) {
+	static getInstance() {
 		if (!this.instance) {
-			this.instance = new AuthMiddleware(tokenService)
+			this.instance = new AuthMiddleware()
 		}
 
 		return this.instance
@@ -28,7 +25,7 @@ export class AuthMiddleware {
 			throw new AuthenticationError(401, 'Not authorized')
 		}
 
-		const decoded = this.tokenService.verifyRefreshToken(refreshToken)
+		const decoded = this.jwtService.verifyRefreshToken(refreshToken)
 		req.user = decoded
 		next()
 	}
@@ -40,12 +37,12 @@ export class AuthMiddleware {
 			throw new AuthenticationError(401, 'Not authorized')
 		}
 
-		const decoded = this.tokenService.verifyAccessToken(accessToken)
+		const decoded = this.jwtService.verifyAccessToken(accessToken)
 		req.user = decoded
 		next()
 	}
 }
 
-const authMiddleware = AuthMiddleware.getInstance(new TokenService(prisma))
+const authMiddleware = AuthMiddleware.getInstance()
 
 export { authMiddleware }

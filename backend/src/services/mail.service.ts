@@ -1,6 +1,8 @@
 import type nodemailer from 'nodemailer'
 
-export class MailService {
+import type { IMailService } from './types'
+
+export class MailService implements IMailService {
 	constructor(private readonly transporter: nodemailer.Transporter) {}
 
 	async sendConfirmationEmail(to: string, link: string) {

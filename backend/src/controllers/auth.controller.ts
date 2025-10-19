@@ -2,11 +2,12 @@ import type { User } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import type { Request, Response } from 'express'
 
-import type { UserService } from '@/services'
+import type { UserDto } from '@/dtos'
+import type { IUserService } from '@/services/types'
 import { ACCESS_TOKEN, AuthenticationError, REFRESH_TOKEN } from '@/utils'
 
 export class AuthController {
-	constructor(private readonly userService: UserService) {}
+	constructor(private readonly userService: IUserService<UserDto>) {}
 
 	signup = async (req: Request, res: Response) => {
 		const { username, password, email } = req.body as Pick<
@@ -32,7 +33,7 @@ export class AuthController {
 		// TODO: validate email and password
 		// validation error - code 422
 
-		const { userDto, accessToken, refreshToken } = await this.userService.login(
+		const { user, accessToken, refreshToken } = await this.userService.login(
 			email,
 			password
 		)
@@ -47,7 +48,7 @@ export class AuthController {
 				httpOnly: true
 			})
 			.status(200)
-			.json(userDto)
+			.json(user)
 	}
 
 	logout = async (req: Request, res: Response) => {
@@ -58,6 +59,7 @@ export class AuthController {
 		}
 
 		await this.userService.logout(refreshToken)
+
 		res.clearCookie(REFRESH_TOKEN)
 		res.clearCookie(ACCESS_TOKEN)
 
@@ -71,7 +73,7 @@ export class AuthController {
 			throw new AuthenticationError(401, 'Not authorized')
 		}
 
-		const { userDto, newAccessToken, newRefreshToken } =
+		const { user, newAccessToken, newRefreshToken } =
 			await this.userService.refresh(refreshToken)
 
 		res
@@ -84,7 +86,7 @@ export class AuthController {
 				httpOnly: true
 			})
 			.status(200)
-			.json(userDto)
+			.json(user)
 	}
 
 	activate = async (req: Request, res: Response) => {

@@ -82,7 +82,7 @@ export interface YandexDictionaryResponse {
 
 export interface Definition {
 	text: string
-	pos: string // Part of Speech (можно уточнить как union тип)
+	pos: string // Part of Speech
 	ts?: string // Транскрипция (может отсутствовать)
 	tr: Translation[]
 }

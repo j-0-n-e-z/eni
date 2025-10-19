@@ -1,98 +1,23 @@
-import type { Prisma, PrismaClient } from '@prisma/client'
-import type { UserJwtPayload } from 'global'
-import jwt from 'jsonwebtoken'
+import type { ITokenRepository } from '@/repositories/types'
+import { AuthenticationError } from '@/utils'
 
-import type { UserDto } from '@/dtos'
-import { AuthenticationError, TokenExpiredError } from '@/utils'
+import type { ITokenService } from './types'
 
-export class TokenService {
-	constructor(private readonly prisma: PrismaClient) {}
-
-	generateAccessToken(user: UserDto) {
-		return jwt.sign(
-			{ id: user.id, email: user.email },
-			process.env.JWT_ACCESS_SECRET as string,
-			{ expiresIn: '15m' }
-		)
-	}
-
-	generateRefreshToken(user: UserDto) {
-		return jwt.sign(
-			{ id: user.id, email: user.email },
-			process.env.JWT_REFRESH_SECRET!,
-			{
-				expiresIn: '30d'
-			}
-		)
-	}
-
-	generateTokens(user: UserDto) {
-		const accessToken = this.generateAccessToken(user)
-		const refreshToken = this.generateRefreshToken(user)
-
-		return { accessToken, refreshToken }
-	}
+export class TokenService implements ITokenService {
+	constructor(private readonly tokenRepository: ITokenRepository) {}
 
 	async invalidateRefreshToken(refreshToken: string) {
-		const existingRefreshToken = await this.prisma.token.findFirst({
-			where: { refreshToken }
-		})
+		const existingRefreshToken =
+			await this.tokenRepository.findToken(refreshToken)
 
 		if (!existingRefreshToken) {
 			throw new AuthenticationError(401, 'Refresh token not found')
 		}
 
-		await this.prisma.token.update({
-			data: {
-				refreshToken: null
-			},
-			where: {
-				userId: existingRefreshToken.userId
-			}
-		})
+		await this.tokenRepository.invalidateToken(existingRefreshToken.userId)
 	}
 
-	verifyAccessToken(accessToken: string) {
-		try {
-			const decoded = jwt.verify(
-				accessToken,
-				process.env.JWT_ACCESS_SECRET as string
-			)
-			return decoded as UserJwtPayload
-		} catch (error) {
-			if (error instanceof jwt.TokenExpiredError) {
-				throw new TokenExpiredError(401, 'Access token expired')
-			}
-			throw new AuthenticationError(401, 'Invalid access token')
-		}
-	}
-
-	verifyRefreshToken(refreshToken: string) {
-		try {
-			const decoded = jwt.verify(
-				refreshToken,
-				process.env.JWT_REFRESH_SECRET as string
-			)
-			return decoded as UserJwtPayload
-		} catch (error) {
-			if (error instanceof jwt.TokenExpiredError) {
-				throw new TokenExpiredError(401, 'Refresh token expired')
-			}
-			throw new AuthenticationError(401, 'Invalid refresh token')
-		}
-	}
-
-	async saveRefreshToken(
-		userId: string,
-		refreshToken: string,
-		tx?: Prisma.TransactionClient
-	) {
-		const client = tx || this.prisma
-
-		await client.token.upsert({
-			where: { userId },
-			update: { refreshToken },
-			create: { userId, refreshToken }
-		})
+	async saveRefreshToken(userId: string, refreshToken: string) {
+		await this.tokenRepository.updateToken(userId, refreshToken)
 	}
 }

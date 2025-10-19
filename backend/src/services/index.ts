@@ -1,5 +1,5 @@
 export * from './mail.service'
-export * from './movies.service'
+export * from './kinopoiskMovie.service'
 export * from './subtitles.service'
 export * from './token.service'
 export * from './translate.service'

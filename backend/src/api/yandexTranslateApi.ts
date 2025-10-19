@@ -11,6 +11,8 @@ export const yandexTranslateApi = axios.create({
 	}
 })
 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 yandexTranslateApi.interceptors.request.use((config) => {
 	const body =
 		typeof config.data === 'string'

@@ -2,12 +2,12 @@ import express from 'express'
 
 import { MovieController } from '@/controllers'
 import { authMiddleware } from '@/middlewares'
-import { MovieService } from '@/services'
+import { KinopoiskMovieService } from '@/services'
 import { asyncHandler } from '@/utils'
 
 const movieRouter = express.Router()
 
-const movieController = new MovieController(new MovieService())
+const movieController = new MovieController(new KinopoiskMovieService())
 
 movieRouter.get(
 	'/movies',

@@ -1,16 +1,22 @@
 import type { AxiosRequestConfig } from 'axios'
 
 import { kinopoiskApiV2_1, kinopoiskApiV2_2 } from '@/api'
-import type { BoxOffice, KinopoiskMovie } from '@/shared-types'
-import { convertNullStrings } from '@/utils/helpers/convertNullStrings'
+import type {
+	BoxOffice,
+	KinopoiskMovie,
+	KinopoiskSearchMovie
+} from '@/shared-types'
+import { convertNullStrings } from '@/utils'
 
 import type { KinopoiskSearchResponse, SearchMoviesParams } from '../types'
 
-export class MovieService {
-	async searchKinopoiskMovies(
+import type { IMovieService } from './types'
+
+export class KinopoiskMovieService implements IMovieService {
+	async searchMovies(
 		params: SearchMoviesParams,
 		config?: AxiosRequestConfig
-	) {
+	): Promise<KinopoiskSearchMovie[]> {
 		const response = await kinopoiskApiV2_1.get<KinopoiskSearchResponse>(
 			`/search-by-keyword`,
 			{
@@ -19,10 +25,10 @@ export class MovieService {
 			}
 		)
 
-		return response.data.films.map(convertNullStrings)
+		return response.data.films.map(convertNullStrings) as KinopoiskSearchMovie[]
 	}
 
-	async getKinopoiskMovieById(id: number) {
+	async getMovieById(id: number) {
 		const response = await kinopoiskApiV2_2.get<KinopoiskMovie>(`/${id}`)
 		return response.data
 	}

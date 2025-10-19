@@ -2,15 +2,17 @@ import express from 'express'
 
 import { AuthController } from '@/controllers'
 import { authMiddleware } from '@/middlewares'
+import { PrismaTokenRepository } from '@/repositories/prisma-token.repository'
+import { PrismaUserRepository } from '@/repositories/prisma-user.repository'
 import { MailService, TokenService, UserService } from '@/services'
-import { asyncHandler, gmailTransporter, prisma } from '@/utils'
+import { asyncHandler, gmailTransporter } from '@/utils'
 
 const authRouter = express.Router()
 
 const authController = new AuthController(
 	new UserService(
-		prisma,
-		new TokenService(prisma),
+		new PrismaUserRepository(),
+		new TokenService(new PrismaTokenRepository()),
 		new MailService(gmailTransporter)
 	)
 )

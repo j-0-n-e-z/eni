@@ -1,13 +1,13 @@
 import type { Request, Response } from 'express'
 
-import { UserDto } from '@/dtos'
-import type { UserService } from '@/services'
+import type { UserDto } from '@/dtos'
+import type { IUserService } from '@/services/types'
 import { ApiError, AuthenticationError, ErrorCodes } from '@/utils'
 
 import { REFRESH_TOKEN } from '../utils/constants'
 
 export class UserController {
-	constructor(private readonly userService: UserService) {}
+	constructor(private readonly userService: IUserService<UserDto>) {}
 
 	getUserByUsername = async (req: Request, res: Response) => {
 		const { username } = req.params
@@ -22,9 +22,7 @@ export class UserController {
 	getUsers = async (req: Request, res: Response) => {
 		const users = await this.userService.getUsers()
 
-		const userDtos = users.map((u) => new UserDto(u))
-
-		res.json({ users: userDtos })
+		res.json({ users })
 	}
 
 	getMe = async (req: Request, res: Response) => {
@@ -36,6 +34,6 @@ export class UserController {
 
 		const user = await this.userService.getMe(refreshToken)
 
-		res.json(new UserDto(user))
+		res.json(user)
 	}
 }

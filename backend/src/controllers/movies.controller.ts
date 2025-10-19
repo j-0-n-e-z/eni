@@ -1,15 +1,15 @@
 import type { Request, Response } from 'express'
 
-import type { MovieService } from '@/services'
+import type { IMovieService } from '@/services/types'
 import type { SearchMoviesParams } from '@/types'
 
 export class MovieController {
-	constructor(private readonly movieService: MovieService) {}
+	constructor(private readonly movieService: IMovieService) {}
 
 	searchMovies = async (req: Request, res: Response) => {
 		const query = req.query as unknown as SearchMoviesParams
 
-		const movies = await this.movieService.searchKinopoiskMovies(query)
+		const movies = await this.movieService.searchMovies(query)
 
 		res.status(200).json(movies)
 	}
@@ -17,7 +17,7 @@ export class MovieController {
 	findMovieById = async (req: Request, res: Response) => {
 		const { movieId } = req.params
 
-		const movie = await this.movieService.getKinopoiskMovieById(+movieId)
+		const movie = await this.movieService.getMovieById(+movieId)
 
 		res.status(200).json(movie)
 	}
