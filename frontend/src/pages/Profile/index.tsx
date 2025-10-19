@@ -7,7 +7,7 @@ import {
 	useGetWordsByUserIdQuery,
 	useLazyGetUserByUsernameQuery
 } from '@/store/api'
-import type { User } from '@/types'
+import type { UserDto } from '@/types'
 import { EmptyState, ErrorDisplay } from '@/ui'
 
 import styles from './Profile.module.scss'
@@ -17,7 +17,7 @@ import { SavedWordsSkeleton } from './components/SavedWords/SavedWordsSkeleton'
 
 export const Profile = () => {
 	const { username } = useParams()
-	const [displayUser, setDisplayUser] = useState<User | null>(null)
+	const [displayUser, setDisplayUser] = useState<UserDto | null>(null)
 
 	const { data: me, isFetching: isMeFetching } = useGetMeQuery()
 
