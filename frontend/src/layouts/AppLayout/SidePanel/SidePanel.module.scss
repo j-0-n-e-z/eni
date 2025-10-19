@@ -82,6 +82,29 @@
 		.navList {
 			flex-flow: row nowrap;
 		}
+
+		.wordsCount {
+			right: 32px;
+			bottom: 100%;
+		}
+
+		@include desktop-hover {
+			.navLink {
+				gap: 0;
+			}
+
+			.navLinkText {
+				display: none;
+			}
+
+			.login {
+				gap: 0;
+			}
+
+			.loginText {
+				display: none;
+			}
+		}
 	}
 }
 
