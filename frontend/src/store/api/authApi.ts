@@ -11,9 +11,6 @@ export const authApi = createApi({
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
 		getMe: build.query<User, void>({
-			extraOptions: {
-				maxRetries: 0
-			},
 			providesTags: [ME_TAG],
 			query: () => ({
 				credentials: 'include',
