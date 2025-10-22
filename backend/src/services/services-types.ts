@@ -1,11 +1,15 @@
 import type { AxiosRequestConfig } from 'axios'
 
+import type { PureSubtitle } from '@/shared-types'
 import type { SearchMoviesParams } from '@/types'
 
 export interface IMovieService {
-	searchMovies(params: SearchMoviesParams, config?: AxiosRequestConfig): unknown
-	getMovieById(id: number): unknown
-	getMovieBoxOfficeById(id: number): unknown
+	searchMovies(
+		params: SearchMoviesParams,
+		config?: AxiosRequestConfig
+	): Promise<unknown>
+	getMovieById(id: number): Promise<unknown>
+	getMovieBoxOfficeById(id: number): Promise<unknown>
 }
 
 export interface IUserService<TUser> {
@@ -26,11 +30,21 @@ export interface IUserService<TUser> {
 }
 
 export interface IMailService {
-	sendConfirmationEmail(to: string, link: string): unknown
-	sendEmail(to: string, subject: string, html: string): unknown
+	sendConfirmationEmail(to: string, link: string): Promise<unknown>
+	sendEmail(to: string, subject: string, html: string): Promise<unknown>
 }
 
 export interface ITokenService {
 	invalidateRefreshToken(refreshToken: string): Promise<void>
 	saveRefreshToken(userId: string, refreshToken: string): Promise<void>
+}
+
+export interface ISubtitleService {
+	findMovieSubtitles(query: string): Promise<unknown>
+	getSubtitlesByFileId(fileId: number): Promise<PureSubtitle[]>
+}
+
+export interface ITranslateService {
+	findDefinition(text: string): Promise<unknown>
+	translate(text: string): Promise<unknown>
 }

@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 import type { Request, Response } from 'express'
 
 import type { UserDto } from '@/dtos'
-import type { IUserService } from '@/services/types'
+import type { IUserService } from '@/services/services-types'
 import { ACCESS_TOKEN, AuthenticationError, REFRESH_TOKEN } from '@/utils'
 
 export class AuthController {
@@ -91,7 +91,9 @@ export class AuthController {
 
 	activate = async (req: Request, res: Response) => {
 		const emailConfirmationLink = req.params.link
+
 		await this.userService.confirmEmail(emailConfirmationLink)
+		
 		res.redirect(`${process.env.CLIENT_URL as string}?email_confirmed=1`)
 	}
 }

@@ -1,9 +1,11 @@
 import type { User } from '@prisma/client'
+import { injectable } from 'inversify'
 
 import { prisma } from '@/utils'
 
 import type { CreateUserData, IUserRepository, UpdateUserData } from './types'
 
+@injectable()
 export class PrismaUserRepository implements IUserRepository<User> {
 	prisma = prisma
 

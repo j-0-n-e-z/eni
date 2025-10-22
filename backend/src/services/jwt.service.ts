@@ -1,11 +1,8 @@
-import dotenv from 'dotenv'
 import type { UserJwtPayload } from 'global'
 import jwt from 'jsonwebtoken'
 
 import type { UserDto } from '@/shared-types'
 import { AuthenticationError, TokenExpiredError } from '@/utils'
-
-dotenv.config()
 
 export class JwtService {
 	constructor(

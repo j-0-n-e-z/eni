@@ -12,7 +12,9 @@
 		"paths": {
 			"@/*": ["./src/*"],
 			"@/shared-types": ["../shared/types"]
-		}
+		},
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
 	},
 	"exclude": ["node_modules", "dist", "**/*.test.ts"]
 }

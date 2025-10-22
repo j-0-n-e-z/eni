@@ -1,7 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import axios from 'axios'
-import dotenv from 'dotenv'
-
-dotenv.config()
 
 export const kinopoiskApiV2_1 = axios.create({
 	baseURL: process.env.KINOPOISK_API_V2_1_URL,

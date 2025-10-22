@@ -1,4 +1,4 @@
-import type { PureSubtitle } from '../../types'
+import type { PureSubtitle } from '@/types'
 
 function isCompleteSentence(text: string) {
 	return /((?<!\.)[.!?](?!\.)|[!?]\.{2}|\?!|!{2,3}|\?{2,3})$/.test(text)
@@ -46,7 +46,7 @@ export function concatSubtitlesWithUncompleteSentences(
 				text += ` ${nextText}`
 			}
 
-			i += 1
+			i++
 			nextText = subtitles[i + 1]?.text
 		}
 

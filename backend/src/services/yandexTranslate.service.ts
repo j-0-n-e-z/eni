@@ -1,12 +1,14 @@
 import { yandexDictionaryApi, yandexTranslateApi } from '@/api'
-
 import type {
 	Definition,
 	YandexDictionaryResponse,
 	YandexTranslateResponse
-} from '../types'
+} from '@/types'
+import { ApiError, ErrorCodes } from '@/utils'
 
-export class TranslateService {
+import type { ITranslateService } from './services-types'
+
+export class TranslateService implements ITranslateService {
 	async findDefinition(text: string) {
 		const response = await yandexDictionaryApi.get<YandexDictionaryResponse>(
 			'/lookup',
@@ -19,7 +21,12 @@ export class TranslateService {
 			}
 		)
 
-		return response.data.def
+		const definitions = response.data.def
+
+		if (this.isDefinitionsEmpty(definitions))
+			throw new ApiError(404, 'Definition was not found', ErrorCodes.NOT_FOUND)
+
+		return this.convertDefinitionsToString(definitions)
 	}
 
 	async translate(text: string) {
@@ -33,11 +40,11 @@ export class TranslateService {
 		return response.data.translations
 	}
 
-	isDefinitionsEmpty(defs: Definition[]) {
+	private isDefinitionsEmpty(defs: Definition[]) {
 		return !defs.filter((def) => def.pos).length
 	}
 
-	convertDefinitionsToString(defs: Definition[]) {
+	private convertDefinitionsToString(defs: Definition[]) {
 		return defs
 			.map(
 				(def) =>

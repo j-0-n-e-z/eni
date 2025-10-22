@@ -4,7 +4,7 @@ import type { JsonValue } from '@prisma/client/runtime/library'
 import type { Word, WordSource } from '@/shared-types'
 import { ApiError, ErrorCodes } from '@/utils'
 
-import type { TranslateService } from './translate.service'
+import type { TranslateService } from './yandexTranslate.service'
 
 export class WordService {
 	constructor(
@@ -76,19 +76,20 @@ export class WordService {
 	}
 
 	async translateWord(wordText: string) {
-		const definitions = await this.translateService.findDefinition(wordText)
+		try {
+			const definitions = await this.translateService.findDefinition(wordText)
+			return definitions
+		} catch (e) {
+			if (e instanceof ApiError && e.statusCode === 404) {
+				const translations = await this.translateService.translate(wordText)
 
-		console.log('DEFINITIONS', definitions)
+				console.log('TRANSLATIONS', translations)
 
-		if (this.translateService.isDefinitionsEmpty(definitions)) {
-			const translations = await this.translateService.translate(wordText)
+				return translations[0].text
+			}
 
-			console.log('TRANSLATIONS',translations);
-
-			return translations[0].text
+			throw e
 		}
-
-		return this.translateService.convertDefinitionsToString(definitions)
 	}
 
 	async getMoreWordSources(wordText: string) {

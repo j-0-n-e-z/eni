@@ -5,7 +5,6 @@ import axios from 'axios'
 import type { NextFunction, Request, Response } from 'express'
 import jwt, { JsonWebTokenError } from 'jsonwebtoken'
 
-import type { ApiServiceName } from '@/types'
 import {
 	ApiError,
 	AuthenticationError,
@@ -14,6 +13,12 @@ import {
 	ValidationError
 } from '@/utils'
 import { getErrorCodeByStatusCode } from '@/utils/errors/ErrorCodes'
+
+type ApiServiceName =
+	| 'Kinopoisk'
+	| 'OpenSubtitles'
+	| 'Yandex.Translate'
+	| 'Yandex.Dictionary'
 
 export class ErrorHandler {
 	constructor(private readonly logger: (error: Error) => void) {}

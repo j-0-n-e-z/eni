@@ -1,13 +1,22 @@
 import type { Request, Response } from 'express'
+import { inject, injectable } from 'inversify'
 
 import type { UserDto } from '@/dtos'
-import type { IUserService } from '@/services/types'
-import { ApiError, AuthenticationError, ErrorCodes } from '@/utils'
+import { TYPES } from '@/inversify/types'
+import type { IUserService } from '@/services/services-types'
+import {
+	ApiError,
+	AuthenticationError,
+	ErrorCodes,
+	REFRESH_TOKEN
+} from '@/utils'
 
-import { REFRESH_TOKEN } from '../utils/constants'
-
+@injectable()
 export class UserController {
-	constructor(private readonly userService: IUserService<UserDto>) {}
+	constructor(
+		@inject(TYPES.IUserService)
+		private readonly userService: IUserService<UserDto>
+	) {}
 
 	getUserByUsername = async (req: Request, res: Response) => {
 		const { username } = req.params

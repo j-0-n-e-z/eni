@@ -1,19 +1,30 @@
-import https from 'https'
+import axios from 'axios'
+
+import { ApiError } from '../errors/ApiError'
+import { ErrorCodes } from '../errors/ErrorCodes'
 
 import { saveSrtFile } from './saveSrtFile'
 
-export function fetchSrtFile(srtUrl: string, srtFilename?: string) {
-	return new Promise<string>((resolve, reject) => {
-		https.get(srtUrl, (res) => {
-			let rawData = ''
-			res.on('data', (chunk) => (rawData += chunk))
-			res.on('end', () => {
-				if (srtFilename) {
-					saveSrtFile(rawData, srtFilename)
-				}
-				resolve(rawData)
-			})
-			res.on('error', reject)
+export async function fetchSrtFile(strUrl: string, srtFilename?: string) {
+	try {
+		const response = await axios.get(strUrl, {
+			timeout: 10000,
+			responseType: 'text'
 		})
-	})
+
+		console.log(response)
+
+		if (srtFilename) {
+			saveSrtFile(response.data, srtFilename)
+		}
+
+		return response.data
+	} catch (error) {
+		console.log(error)
+		throw new ApiError(
+			503,
+			'Failed to download subtitles',
+			ErrorCodes.BAD_REQUEST
+		)
+	}
 }

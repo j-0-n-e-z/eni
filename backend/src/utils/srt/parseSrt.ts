@@ -1,4 +1,4 @@
-import type { PureSubtitle } from '../../types'
+import type { PureSubtitle } from '@/types'
 
 import { concatSubtitlesWithUncompleteSentences } from './concatSubtitles'
 

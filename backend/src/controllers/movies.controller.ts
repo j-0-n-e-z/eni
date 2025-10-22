@@ -1,10 +1,16 @@
 import type { Request, Response } from 'express'
+import { inject, injectable } from 'inversify'
+import 'reflect-metadata'
 
-import type { IMovieService } from '@/services/types'
+import { TYPES } from '@/inversify/types'
+import type { IMovieService } from '@/services/services-types'
 import type { SearchMoviesParams } from '@/types'
 
+@injectable()
 export class MovieController {
-	constructor(private readonly movieService: IMovieService) {}
+	constructor(
+		@inject(TYPES.IMovieService) private readonly movieService: IMovieService
+	) {}
 
 	searchMovies = async (req: Request, res: Response) => {
 		const query = req.query as unknown as SearchMoviesParams

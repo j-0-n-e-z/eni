@@ -1,7 +1,10 @@
+import { injectable } from 'inversify'
+
 import { prisma } from '@/utils'
 
 import type { ITokenRepository } from './types'
 
+@injectable()
 export class PrismaTokenRepository implements ITokenRepository {
 	prisma = prisma
 

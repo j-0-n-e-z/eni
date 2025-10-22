@@ -1,7 +1,4 @@
 import axios from 'axios'
-import dotenv from 'dotenv'
-
-dotenv.config()
 
 export const openSubtitlesApi = axios.create({
 	baseURL: process.env.OPENSUBTITLES_API_URL,

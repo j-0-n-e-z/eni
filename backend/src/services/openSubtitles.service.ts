@@ -1,10 +1,11 @@
 import { openSubtitlesApi, openSubtitlesApiAuthed } from '@/api'
 import type { MovieSubtitle } from '@/shared-types'
+import type { OSMovieSubtitle, SubtitlesInfo } from '@/types'
 import { fetchSrtFile, parseSrt } from '@/utils'
 
-import type { OSMovieSubtitle, SubtitlesInfo } from '../types'
+import type { ISubtitleService } from './services-types'
 
-export class SubtitleService {
+export class SubtitleService implements ISubtitleService {
 	async findMovieSubtitles(query: string) {
 		const params: Record<string, string> = {
 			type: 'movie',
@@ -18,7 +19,6 @@ export class SubtitleService {
 			params.query = query
 		}
 
-		
 		const response = await openSubtitlesApi.get<{ data: OSMovieSubtitle[] }>(
 			`/subtitles`,
 			{
@@ -40,7 +40,9 @@ export class SubtitleService {
 		)
 
 		const srtUrl = response.data.link
+		console.log('download');
 		const srtContent = await fetchSrtFile(srtUrl)
+		console.log(srtContent)
 
 		return parseSrt(srtContent)
 	}

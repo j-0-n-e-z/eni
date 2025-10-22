@@ -31,6 +31,8 @@ export class SubtitleController {
 
 		const subtitles = await this.subtitleService.getSubtitlesByFileId(+fileId)
 
+		console.log(subtitles);
+
 		res.status(200).json(subtitles)
 	}
 }

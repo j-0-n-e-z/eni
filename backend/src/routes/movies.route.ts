@@ -1,13 +1,14 @@
 import express from 'express'
 
-import { MovieController } from '@/controllers'
+import type { MovieController } from '@/controllers'
+import { container } from '@/inversify/inversify.config'
+import { TYPES } from '@/inversify/types'
 import { authMiddleware } from '@/middlewares'
-import { KinopoiskMovieService } from '@/services'
 import { asyncHandler } from '@/utils'
 
 const movieRouter = express.Router()
 
-const movieController = new MovieController(new KinopoiskMovieService())
+const movieController = container.get<MovieController>(TYPES.MovieController)
 
 movieRouter.get(
 	'/movies',

@@ -1,24 +1,22 @@
 import type { Request, Response } from 'express'
+import { inject, injectable } from 'inversify'
 
+import { TYPES } from '@/inversify/types'
 import type { TranslateService } from '@/services'
-import { ApiError, ErrorCodes } from '@/utils'
 
+@injectable()
 export class TranslateController {
-	constructor(private readonly translateService: TranslateService) {}
+	constructor(
+		@inject(TYPES.ITranslateService)
+		private readonly translateService: TranslateService
+	) {}
 
 	findDefinition = async (req: Request, res: Response) => {
 		const { text } = req.body as { text: string }
 
 		const definitions = await this.translateService.findDefinition(text)
 
-		if (this.translateService.isDefinitionsEmpty(definitions)) {
-			throw new ApiError(404, 'Definition was not found', ErrorCodes.NOT_FOUND)
-		}
-
-		const definitionsAsString =
-			this.translateService.convertDefinitionsToString(definitions)
-
-		res.status(200).json(definitionsAsString)
+		res.status(200).json(definitions)
 	}
 
 	translate = async (req: Request, res: Response) => {

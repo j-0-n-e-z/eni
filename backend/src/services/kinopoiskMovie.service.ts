@@ -1,4 +1,5 @@
 import type { AxiosRequestConfig } from 'axios'
+import { injectable } from 'inversify'
 
 import { kinopoiskApiV2_1, kinopoiskApiV2_2 } from '@/api'
 import type {
@@ -6,12 +7,12 @@ import type {
 	KinopoiskMovie,
 	KinopoiskSearchMovie
 } from '@/shared-types'
+import type { KinopoiskSearchResponse, SearchMoviesParams } from '@/types'
 import { convertNullStrings } from '@/utils'
 
-import type { KinopoiskSearchResponse, SearchMoviesParams } from '../types'
+import type { IMovieService } from './services-types'
 
-import type { IMovieService } from './types'
-
+@injectable()
 export class KinopoiskMovieService implements IMovieService {
 	async searchMovies(
 		params: SearchMoviesParams,
