@@ -19,7 +19,12 @@ export const BottomNavigation = () => {
 	})
 
 	useEffect(() => {
-		if (logoutError) toast.error(getErrorMessage(logoutError))
+		if (logoutError) {
+			const logoutErrorMessage = getErrorMessage(logoutError)
+			if (logoutErrorMessage) {
+				toast.error(logoutErrorMessage)
+			}
+		}
 	}, [logoutError])
 
 	return (
