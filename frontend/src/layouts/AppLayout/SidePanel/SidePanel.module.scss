@@ -292,3 +292,20 @@
 		display: none;
 	}
 }
+
+.themeToggle {
+	@include center-flex;
+
+	width: 30px;
+	height: 30px;
+	padding: 1rem;
+	margin: auto auto 1rem;
+	cursor: pointer;
+	border: 2px solid $border-dark;
+	border-radius: 50%;
+	transition: border-color .2s ease;
+
+	@include desktop-hover {
+		border: 2px solid $border-light;
+	}
+}

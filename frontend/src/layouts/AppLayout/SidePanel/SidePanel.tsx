@@ -9,6 +9,7 @@ import { AuthorizedItem } from './components/AuthorizedItem'
 import { BottomNavigation } from './components/BottomNavigation'
 import { NavItem } from './components/NavItem'
 import { Navigation } from './components/Navigation'
+import { ThemeToggle } from './components/ThemeToggle'
 import { TopArea } from './components/TopArea'
 
 interface SidePanelProps {
@@ -38,3 +39,4 @@ SidePanel.Navigation = Navigation
 SidePanel.NavItem = NavItem
 SidePanel.BottomNavigation = BottomNavigation
 SidePanel.AuthorizedItem = AuthorizedItem
+SidePanel.ThemeToggle = ThemeToggle
