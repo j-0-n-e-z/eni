@@ -5,13 +5,13 @@ import Skeleton from 'react-loading-skeleton'
 import { useNavigate } from 'react-router-dom'
 
 import type { BackendError } from '@/frontend-types'
-import { TrashIcon } from '@/icons'
 import {
 	useDeleteWordSourceMutation,
 	useLazyGetMoreWordSourcesQuery
 } from '@/store/api'
 import type { Word, WordSource } from '@/types'
 import { ErrorDisplay } from '@/ui'
+import { TrashIcon } from '@/ui/icons'
 
 import s from './WordSources.module.scss'
 

@@ -4,7 +4,6 @@ import toast from 'react-hot-toast'
 import { useSearchParams } from 'react-router-dom'
 
 import type { SubtitleSource } from '@/frontend-types'
-import { ErrorIcon, TranslateIcon } from '@/icons'
 import {
 	useDeleteWordSourceMutation,
 	useLazyTranslateQuery,
@@ -12,6 +11,7 @@ import {
 } from '@/store/api'
 import type { PureSubtitle, Word } from '@/types'
 import { Skeleton } from '@/ui'
+import { ErrorIcon, TranslateIcon } from '@/ui/icons'
 import { getErrorMessage } from '@/utils'
 
 import { SubtitleSavedWords } from '../SubtitleSavedWords'

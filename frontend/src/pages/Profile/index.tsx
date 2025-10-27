@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { BookIcon, ProfileIcon } from '@/icons'
 import {
 	useGetMeQuery,
 	useGetWordsByUserIdQuery,
 	useLazyGetUserByUsernameQuery
 } from '@/store/api'
 import type { UserDto } from '@/types'
-import { EmptyState, ErrorDisplay } from '@/ui'
+import { Container, EmptyState, ErrorDisplay } from '@/ui'
+import { BookIcon, ProfileIcon } from '@/ui/icons'
 
 import styles from './Profile.module.scss'
 import { ProfileSkeleton } from './ProfileSkeleton'
@@ -95,7 +95,7 @@ export const Profile = () => {
 	}
 
 	return (
-		<div className={styles.profilePage}>
+		<Container className={styles.profilePage}>
 			{isProfileLoading || !displayUser ? (
 				<ProfileSkeleton />
 			) : (
@@ -123,6 +123,6 @@ export const Profile = () => {
 			)}
 
 			{renderSavedWords()}
-		</div>
+		</Container>
 	)
 }

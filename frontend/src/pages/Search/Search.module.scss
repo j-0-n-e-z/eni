@@ -1,11 +1,11 @@
 @use '@styles' as *;
 
 .searchPage {
-	@include container;
-
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 	gap: 0.75rem;
+	width: 100%;
 	min-height: 100vh;
 	padding: 1.5rem;
 }

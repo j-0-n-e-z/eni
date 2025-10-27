@@ -3,10 +3,10 @@ import { useEffect, useState, type FC } from 'react'
 import toast from 'react-hot-toast'
 import { Link } from 'react-router-dom'
 
-import { ArrowIcon, ImdbIcon, TranslateIcon } from '@/icons'
 import { useGetMovieBoxOfficeByKinopoiskIdQuery } from '@/store/api'
 import type { KinopoiskMovie } from '@/types'
-import { Skeleton } from '@/ui'
+import { Container, Skeleton } from '@/ui'
+import { ArrowIcon, ImdbIcon, TranslateIcon } from '@/ui/icons'
 import { formatMinutesToHours, formatMoney, formatRating } from '@/utils'
 
 import styles from './MovieInfo.module.scss'
@@ -46,27 +46,29 @@ export const MovieInfo: FC<MovieInfoProps> = ({ movie }) => {
 				[styles.hidden]: isMovieInfoHidden
 			})}
 		>
-			<h2 className={styles.toggleTitleWrapper}>
-				<div className={styles.toggleTitle}>
-					<Link
-						className={styles.titleLink}
-						target='_blank'
-						to={`https://www.imdb.com/title/${movie.imdbId}`}
-					>
-						{isShowOriginalTitle
-							? (movie.nameOriginal ?? movie.nameRu)
-							: (movie.nameRu ?? 'Отсутствует название на русском языке')}
-					</Link>
-					{movie.nameOriginal && (
-						<TranslateIcon
-							className={styles.translateTitleIcon}
-							onClick={() => setIsShowOriginalTitle((p) => !p)}
-						/>
-					)}
-				</div>
+			<h2>
+				<Container className={styles.toggleTitleWrapper}>
+					<div className={styles.toggleTitle}>
+						<Link
+							className={styles.titleLink}
+							target='_blank'
+							to={`https://www.imdb.com/title/${movie.imdbId}`}
+						>
+							{isShowOriginalTitle
+								? (movie.nameOriginal ?? movie.nameRu)
+								: (movie.nameRu ?? 'Отсутствует название на русском языке')}
+						</Link>
+						{movie.nameOriginal && (
+							<TranslateIcon
+								className={styles.translateTitleIcon}
+								onClick={() => setIsShowOriginalTitle((p) => !p)}
+							/>
+						)}
+					</div>
+				</Container>
 			</h2>
 			<div className={styles.toggleInfo}>
-				<div className={styles.heroContainer}>
+				<Container className={styles.heroContainer}>
 					<Link target='_blank' to={movie.webUrl}>
 						<div className={styles.cover}>
 							<img
@@ -196,7 +198,7 @@ export const MovieInfo: FC<MovieInfoProps> = ({ movie }) => {
 							)}
 						</div>
 					</div>
-				</div>
+				</Container>
 			</div>
 
 			<button

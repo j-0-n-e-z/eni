@@ -2,7 +2,7 @@ import type { SerializedError } from '@reduxjs/toolkit'
 import type { FC } from 'react'
 
 import type { BackendError } from '@/frontend-types'
-import { ErrorIcon } from '@/icons'
+import { ErrorIcon } from '@/ui/icons'
 import { getErrorMessage } from '@/utils'
 
 import { EmptyState } from '../EmptyState'

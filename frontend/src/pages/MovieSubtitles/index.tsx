@@ -2,9 +2,9 @@ import { type FC } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 import type { MovieSubtitlesContext } from '@/frontend-types'
-import { EmptyIcon } from '@/icons'
 import { useGetMovieByKinopoiskIdQuery } from '@/store/api'
 import { EmptyState, ErrorDisplay } from '@/ui'
+import { EmptyIcon } from '@/ui/icons'
 
 import styles from './MovieSubtitlesPage.module.scss'
 import { MovieInfo } from './components/MovieInfo'

@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import type { FC } from 'react'
 
-import { TrashIcon } from '@/icons'
+import { TrashIcon } from '@/ui/icons'
 
 import styles from './DeleteButton.module.scss'
 

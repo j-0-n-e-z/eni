@@ -2,10 +2,10 @@ import cn from 'classnames'
 import { useState, type FC } from 'react'
 import toast from 'react-hot-toast'
 
-import { BrainIcon, EyeIcon, TrashIcon } from '@/icons'
 import { useDeleteWordMutation, useSaveWordMutation } from '@/store/api'
 import type { Word as IWord } from '@/types'
 import { Modal } from '@/ui'
+import { BrainIcon, EyeIcon, TrashIcon } from '@/ui/icons'
 
 import { WordSources } from '../WordSources'
 

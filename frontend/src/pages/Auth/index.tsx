@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { BrainIcon } from '@/icons'
+import { BrainIcon } from '@/ui/icons'
 
 import styles from './Auth.module.scss'
 import { Login } from './components/Login'

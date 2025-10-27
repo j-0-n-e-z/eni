@@ -1,5 +1,10 @@
 import type { SkeletonProps as ReactLoadingSkeletonProps } from 'react-loading-skeleton'
 import ReactLoadingSkeleton from 'react-loading-skeleton'
+
+import {
+	DARK_SKELETON_BASE_COLOR,
+	DARK_SKELETON_HIGHLIGHT_COLOR
+} from '@/config'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 type SkeletonProps = ReactLoadingSkeletonProps & { variant?: 'light' | 'dark' }
@@ -13,8 +18,8 @@ export const Skeleton = (props: SkeletonProps) => {
 	return (
 		<ReactLoadingSkeleton
 			{...props}
-			baseColor='#2d3846'
-			highlightColor='#364252'
+			baseColor={DARK_SKELETON_BASE_COLOR}
+			highlightColor={DARK_SKELETON_HIGHLIGHT_COLOR}
 		/>
 	)
 }

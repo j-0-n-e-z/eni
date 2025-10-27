@@ -1,22 +1,22 @@
 import cn from 'classnames'
 import { useState } from 'react'
 
-import { BurgerMenuIcon, CancelIcon } from '@/icons'
+import { BurgerMenuIcon, CancelIcon } from '@/ui'
 
 import styles from './SidePanel.module.scss'
 
 export const MenuBurgerButton = () => {
-	const [isOpen, setIsOpen] = useState(false)
+	const [isSidepanelOpen, setIsSidepanelOpen] = useState(false)
 
 	return (
 		<button
 			aria-label='toggle sidepanel'
 			className={cn(styles.sidepanelToggleBtn, {
-				[styles.open]: isOpen
+				[styles.open]: isSidepanelOpen
 			})}
-			onClick={() => setIsOpen((isOpen) => !isOpen)}
+			onClick={() => setIsSidepanelOpen((isOpen) => !isOpen)}
 		>
-			{isOpen ? <CancelIcon /> : <BurgerMenuIcon />}
+			{isSidepanelOpen ? <CancelIcon /> : <BurgerMenuIcon />}
 		</button>
 	)
 }

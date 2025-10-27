@@ -1,1 +1,3 @@
 export const SUBTITLES_PER_PAGE = 5
+export const DARK_SKELETON_BASE_COLOR = '#2d3846'
+export const DARK_SKELETON_HIGHLIGHT_COLOR = '#364252'

@@ -5,10 +5,10 @@ import { useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router-dom'
 
 import { useDebounce } from '@/hooks'
-import { CancelIcon, MovieIcon, SearchIcon } from '@/icons'
 import { selectMoviesFromHistory } from '@/store'
 import { useLazySearchMoviesQuery } from '@/store/api'
-import { EmptyState, ErrorDisplay } from '@/ui'
+import { Container, EmptyState, ErrorDisplay } from '@/ui'
+import { CancelIcon, MovieIcon, SearchIcon } from '@/ui/icons'
 
 import styles from './Search.module.scss'
 import { SearchResults } from './components/SearchResults'
@@ -114,7 +114,7 @@ export const Search: FC = () => {
 	}
 
 	return (
-		<div className={styles.searchPage}>
+		<Container className={styles.searchPage}>
 			<div className={styles.searchContainer}>
 				<label className={styles.inputContainer} htmlFor='search'>
 					<button className={styles.searchBtn} onClick={searchMovies}>
@@ -141,6 +141,6 @@ export const Search: FC = () => {
 			<div className={styles.searchResultsContainer}>
 				{renderSearchResults()}
 			</div>
-		</div>
+		</Container>
 	)
 }

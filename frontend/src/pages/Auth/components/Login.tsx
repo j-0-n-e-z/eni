@@ -6,9 +6,9 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import type { BackendError } from '@/frontend-types'
 import { useAuthActions, useAuthData } from '@/hooks'
-import { GithubIcon, GoogleIcon } from '@/icons'
 import type { LoginCredentials } from '@/schemas'
 import { loginSchema } from '@/schemas'
+import { GithubIcon, GoogleIcon } from '@/ui'
 
 import styles from '../Auth.module.scss'
 

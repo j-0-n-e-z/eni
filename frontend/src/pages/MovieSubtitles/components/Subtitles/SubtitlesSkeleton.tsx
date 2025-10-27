@@ -1,10 +1,10 @@
-import { Skeleton } from '@/ui'
+import { Container, Skeleton } from '@/ui'
 
 import paginatorStyles from './Paginator/Paginator.module.scss'
 import styles from './Subtitles.module.scss'
 
 export const SubtitlesSkeleton = () => (
-	<div>
+	<Container>
 		<div className={styles.controlPanel}>
 			<div className={paginatorStyles.paginator}>
 				<div className={paginatorStyles.pageBtnsContainer}>
@@ -23,5 +23,5 @@ export const SubtitlesSkeleton = () => (
 			<Skeleton containerClassName='round' height='5rem' />
 			<Skeleton containerClassName='round' height='5rem' />
 		</div>
-	</div>
+	</Container>
 )

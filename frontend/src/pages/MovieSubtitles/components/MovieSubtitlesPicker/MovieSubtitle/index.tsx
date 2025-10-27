@@ -3,8 +3,8 @@ import type { FC } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import type { MovieSubtitlesContext } from '@/frontend-types'
-import { StarIcon } from '@/icons'
 import type { MovieSubtitle as IMovieSubtitle } from '@/types'
+import { StarIcon } from '@/ui/icons'
 import { DateFormatter, NumberFormatter } from '@/utils'
 
 import styles from './MovieSubtitle.module.scss'

@@ -19,10 +19,9 @@
 }
 
 .toggleTitleWrapper {
-	@extend %container;
-
 	display: grid;
 	grid-template-rows: 0fr;
+	width: 100%;
 	transition: grid-template-rows 0.5s ease;
 }
 
@@ -40,8 +39,6 @@
 }
 
 .heroContainer {
-	@include container;
-
 	display: flex;
 	gap: 3rem;
 	transition: gap 0.2s ease;

@@ -300,12 +300,34 @@
 	height: 30px;
 	padding: 1rem;
 	margin: auto auto 1rem;
+	overflow: hidden;
 	cursor: pointer;
 	border: 2px solid $border-dark;
 	border-radius: 50%;
-	transition: border-color .2s ease;
+	transition: border-color 0.2s ease;
 
 	@include desktop-hover {
 		border: 2px solid $border-light;
+
+		.themeIcon {
+			translate: calc(var(--position) + 2.5rem) 0;
+		}
 	}
+}
+
+[data-theme='dark'] {
+	.themeToggle {
+		@include desktop-hover {
+			.themeIcon {
+				translate: calc(var(--position) - 2.5rem) 0;
+			}
+		}
+	}
+}
+
+.themeIcon {
+	display: flex;
+	column-gap: 1rem;
+	translate: var(--position) 0;
+	transition: translate 0.2s ease;
 }

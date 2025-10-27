@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import React from 'react'
 
-import { ArrowIcon } from '@/icons'
+import { ArrowIcon } from '@/ui/icons'
 
 import styles from './Paginator.module.scss'
 import { generatePages } from './generatePages'
@@ -92,7 +92,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
 					<ArrowIcon className={styles.nextIcon} />
 				</button>
 			</div>
-			
+
 			<input
 				aria-label='go to page'
 				className={styles.goToPageInput}

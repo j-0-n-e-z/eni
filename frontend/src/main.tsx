@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import { EmptyIcon } from '@/icons'
+import { EmptyIcon } from '@/ui/icons'
 import { Auth, Main, MovieSubtitles, Profile, Search } from '@/pages'
 import { MovieSubtitlesPicker } from '@/pages/MovieSubtitles/components/MovieSubtitlesPicker'
 import { Subtitles } from '@/pages/MovieSubtitles/components/Subtitles'

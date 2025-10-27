@@ -6,7 +6,7 @@ import { AppSidePanel } from '@/layouts/AppLayout/SidePanel'
 import { EmptyState } from '@/ui'
 
 import './App.scss'
-import { EmptyIcon } from './icons'
+import { EmptyIcon } from './ui/icons'
 
 export const ErrorBoundary: FC = () => {
 	const error = useRouteError() as Error

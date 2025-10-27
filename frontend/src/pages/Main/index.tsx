@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { useSearchParams } from 'react-router-dom'
 
+import { Container } from '@/ui'
+
 export const Main = () => {
 	const [params] = useSearchParams()
 	const isVerifined = params.get('email_confirmed') === '1'
@@ -12,5 +14,5 @@ export const Main = () => {
 		}
 	}, [isVerifined])
 
-	return <div>Main</div>
+	return <Container>Main</Container>
 }

@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 
-import { CancelIcon } from '@/icons'
 import type { Word } from '@/types'
+import { CancelIcon } from '@/ui/icons'
 
 import styles from './SubtitleSavedWords.module.scss'
 

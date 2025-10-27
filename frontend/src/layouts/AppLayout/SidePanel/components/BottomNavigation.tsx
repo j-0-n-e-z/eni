@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 import { Link, useLocation } from 'react-router-dom'
 
 import { useAuthActions, useAuthData } from '@/hooks'
-import { LoginIcon } from '@/icons'
+import { LoginIcon } from '@/ui/icons'
 import { getErrorMessage } from '@/utils'
 
 import styles from '../SidePanel.module.scss'

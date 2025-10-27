@@ -7,17 +7,17 @@ import { SUBTITLES_PER_PAGE } from '@/config'
 import type { MovieSubtitlesContext } from '@/frontend-types'
 import { useAuthData, useDebounce } from '@/hooks'
 import {
-	CaseSensitiveIcon,
-	EmptyIcon,
-	SearchIcon,
-	WholeWordIcon
-} from '@/icons'
-import {
 	useGetSubtitlesByFileIdQuery,
 	useGetWordsByUserIdQuery
 } from '@/store/api'
 import type { PureSubtitle } from '@/types'
 import { EmptyState, ErrorDisplay, Skeleton } from '@/ui'
+import {
+	CaseSensitiveIcon,
+	EmptyIcon,
+	SearchIcon,
+	WholeWordIcon
+} from '@/ui/icons'
 import { includesWord } from '@/utils'
 
 import { Paginator } from './Paginator/Paginator'

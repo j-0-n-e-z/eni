@@ -7,7 +7,7 @@ import {
 	PopularIcon,
 	SearchIcon,
 	SettingsIcon
-} from '@/icons'
+} from '@/ui/icons'
 
 import { SidePanel } from './SidePanel'
 import styles from './SidePanel.module.scss'
@@ -64,5 +64,7 @@ export const AppSidePanel = () => (
 		</SidePanel.Navigation>
 
 		<SidePanel.BottomNavigation />
+
+		<SidePanel.ThemeToggle />
 	</SidePanel>
 )

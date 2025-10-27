@@ -2,9 +2,9 @@ import type { FC } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import type { MovieSubtitlesContext } from '@/frontend-types'
-import { SubtitleIcon } from '@/icons'
 import { useGetMovieSubtitlesQuery } from '@/store/api'
-import { EmptyState, ErrorDisplay } from '@/ui'
+import { Container, EmptyState, ErrorDisplay } from '@/ui'
+import { SubtitleIcon } from '@/ui/icons'
 
 import { MovieSubtitle } from './MovieSubtitle'
 import styles from './MovieSubtitlesPicker.module.scss'
@@ -35,13 +35,13 @@ export const MovieSubtitlesPicker: FC = () => {
 		)
 
 	return (
-		<div className={styles.movieSubsPicker}>
+		<Container className={styles.movieSubsPicker}>
 			<h3 className={styles.movieSubsHeader}>Выберите субтитры</h3>
 			<ul className={styles.movieSubList}>
 				{movieSubtitles.map((movieSubtitle) => (
 					<MovieSubtitle key={movieSubtitle.id} movieSubtitle={movieSubtitle} />
 				))}
 			</ul>
-		</div>
+		</Container>
 	)
 }

@@ -1,12 +1,5 @@
 @use 'mixins' as *;
 
-%container {
-	width: 100%;
-	max-width: 1480px;
-	height: 100%;
-	margin: 0 auto;
-}
-
 %button-base {
 	display: block;
 	width: fit-content;

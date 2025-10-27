@@ -2,7 +2,7 @@ import { useRef, type FC } from 'react'
 import ReactDOM from 'react-dom'
 import useClickAway from 'react-use/lib/useClickAway'
 
-import { CancelIcon } from '@/icons'
+import { CancelIcon } from '@/ui/icons'
 
 import s from './Modal.module.scss'
 
