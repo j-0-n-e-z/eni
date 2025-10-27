@@ -191,7 +191,7 @@ export const MovieInfo: FC<MovieInfoProps> = ({ movie }) => {
 								<p className={styles.description}>{movie.shortDescription}</p>
 							)}
 							{movie.productionStatus && (
-								<span>
+								<span className={styles.productionStatus}>
 									<b>Production Status: </b>
 									{movie.productionStatus}
 								</span>
