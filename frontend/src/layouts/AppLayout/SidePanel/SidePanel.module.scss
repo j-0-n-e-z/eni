@@ -313,6 +313,10 @@
 			translate: calc(var(--position) + 2.5rem) 0;
 		}
 	}
+
+	@include respond-to('md') {
+		display: none;
+	}
 }
 
 [data-theme='dark'] {
