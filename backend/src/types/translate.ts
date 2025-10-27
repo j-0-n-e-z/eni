@@ -1,3 +1,5 @@
+import type { YandexTranslation } from '@/shared-types'
+
 export interface YandexDictionaryResponse {
 	head: Record<string, never>
 	def: Definition[]
@@ -9,10 +11,10 @@ export interface Definition {
 	text: string
 	pos: string // Part of Speech
 	ts?: string // Транскрипция (может отсутствовать)
-	tr: Translation[]
+	tr: YandexDefinitionTranslation[]
 }
 
-interface Translation {
+interface YandexDefinitionTranslation {
 	text: string
 	pos: string
 	gen?: string // Род (для существительных)
@@ -34,10 +36,10 @@ interface Meaning {
 }
 
 export interface YandexTranslateResponse {
-	translations: Translation[]
+	translations: YandexTranslation[]
 }
 
-interface Translation {
+export interface Translation {
 	text: string
 	detectedLanguageCode: string
 }

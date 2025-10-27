@@ -28,10 +28,14 @@ export class SubtitleService implements ISubtitleService {
 
 		return response.data.data
 			.filter((m) => m.attributes.files.length)
-			.map(this.mapOSMovieSubtitleToMovie)
+			.map(this.mapOSMovieSubtitleToMovieSubtitle)
 	}
 
 	async getSubtitlesByFileId(fileId: number) {
+		if (process.env.NODE_ENV === 'dev') {
+
+		}
+
 		const response = await openSubtitlesApiAuthed.post<SubtitlesInfo>(
 			'/download',
 			{
@@ -47,7 +51,7 @@ export class SubtitleService implements ISubtitleService {
 		return parseSrt(srtContent)
 	}
 
-	private mapOSMovieSubtitleToMovie(
+	private mapOSMovieSubtitleToMovieSubtitle(
 		osMovieSubtitle: OSMovieSubtitle
 	): MovieSubtitle {
 		return {

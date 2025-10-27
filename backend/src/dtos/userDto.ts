@@ -1,5 +1,7 @@
 import type { User } from '@prisma/client'
 
+import type { WordSource } from '@/shared-types'
+
 export class UserDto {
 	readonly id: string
 

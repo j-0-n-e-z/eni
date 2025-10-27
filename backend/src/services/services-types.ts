@@ -1,7 +1,7 @@
 import type { AxiosRequestConfig } from 'axios'
 
-import type { PureSubtitle } from '@/shared-types'
-import type { SearchMoviesParams } from '@/types'
+import type { MovieSubtitle, PureSubtitle, Word, WordSource } from '@/shared-types'
+import type { SearchMoviesParams, Translation, UserWord } from '@/types'
 
 export interface IMovieService {
 	searchMovies(
@@ -40,11 +40,24 @@ export interface ITokenService {
 }
 
 export interface ISubtitleService {
-	findMovieSubtitles(query: string): Promise<unknown>
+	findMovieSubtitles(query: string): Promise<MovieSubtitle[]>
 	getSubtitlesByFileId(fileId: number): Promise<PureSubtitle[]>
 }
 
 export interface ITranslateService {
-	findDefinition(text: string): Promise<unknown>
-	translate(text: string): Promise<unknown>
+	findDefinition(text: string): Promise<string>
+	translate(text: string): Promise<Translation[]>
+}
+
+export interface IWordService {
+	deleteUserWord(userId: string, wordText: string): Promise<void>
+	deleteUserWordSource(
+		userId: string,
+		wordText: string,
+		wordSource: WordSource
+	): Promise<void>
+	translateWord(wordText: string): Promise<string>
+	getMoreWordSources(wordText: string): Promise<WordSource[] | null>
+	saveWord(userId: string, word: Word): Promise<UserWord>
+	getWordsByUserId(userId: string): Promise<Word[]>
 }

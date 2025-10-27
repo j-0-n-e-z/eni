@@ -1,10 +1,16 @@
 import type { Request, Response } from 'express'
+import { inject, injectable } from 'inversify'
 
-import type { SubtitleService } from '@/services'
+import { TYPES } from '@/inversify/types'
+import type { ISubtitleService } from '@/services'
 import type { MovieSubtitle } from '@/shared-types'
 
+@injectable()
 export class SubtitleController {
-	constructor(private readonly subtitleService: SubtitleService) {}
+	constructor(
+		@inject(TYPES.ISubtitleService)
+		private readonly subtitleService: ISubtitleService
+	) {}
 
 	getMovieSubtitles = async (req: Request, res: Response) => {
 		const { query } = req.params
@@ -31,7 +37,7 @@ export class SubtitleController {
 
 		const subtitles = await this.subtitleService.getSubtitlesByFileId(+fileId)
 
-		console.log(subtitles);
+		console.log(subtitles)
 
 		res.status(200).json(subtitles)
 	}

@@ -8,7 +8,7 @@ import { ApiError, ErrorCodes } from '@/utils'
 
 import type { ITranslateService } from './services-types'
 
-export class TranslateService implements ITranslateService {
+export class YandexTranslateService implements ITranslateService {
 	async findDefinition(text: string) {
 		const response = await yandexDictionaryApi.get<YandexDictionaryResponse>(
 			'/lookup',

@@ -1,24 +1,27 @@
 import express from 'express'
 
-import { SubtitleController } from '@/controllers'
+import type { SubtitleController } from '@/controllers'
+import { container } from '@/inversify/inversify.config'
+import { TYPES } from '@/inversify/types'
 import { authMiddleware } from '@/middlewares'
-import { SubtitleService } from '@/services'
 import { asyncHandler } from '@/utils'
 
-const subtitlesRouter = express.Router()
+const subtitleRouter = express.Router()
 
-const subtitleController = new SubtitleController(new SubtitleService())
+const subtitleController = container.get<SubtitleController>(
+	TYPES.SubtitleController
+)
 
-subtitlesRouter.get(
+subtitleRouter.get(
 	'/movie-subtitles/:query',
 	authMiddleware.protectByAccessToken,
 	asyncHandler(subtitleController.getMovieSubtitles)
 )
 
-subtitlesRouter.post(
+subtitleRouter.post(
 	'/subtitles/:fileId',
 	authMiddleware.protectByAccessToken,
 	asyncHandler(subtitleController.getSubtitlesByFileId)
 )
 
-export { subtitlesRouter }
+export { subtitleRouter }

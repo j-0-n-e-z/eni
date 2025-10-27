@@ -1,16 +1,14 @@
 import express from 'express'
 
-import { WordController } from '@/controllers/words.controller'
+import type { WordController } from '@/controllers/word.controller'
+import { container } from '@/inversify/inversify.config'
+import { TYPES } from '@/inversify/types'
 import { authMiddleware } from '@/middlewares'
-import { TranslateService } from '@/services'
-import { WordService } from '@/services/word.service'
-import { asyncHandler, prisma } from '@/utils'
+import { asyncHandler } from '@/utils'
 
 export const wordRouter = express.Router()
 
-const wordController = new WordController(
-	new WordService(prisma, new TranslateService())
-)
+const wordController = container.get<WordController>(TYPES.WordController)
 
 wordRouter.post(
 	'/user/:userId/word',
@@ -35,4 +33,7 @@ wordRouter.get(
 	asyncHandler(wordController.getWordsByUserId)
 )
 
-wordRouter.get('/word/sources/:wordText', asyncHandler(wordController.getMoreWordSources))
+wordRouter.get(
+	'/word/sources/:wordText',
+	asyncHandler(wordController.getMoreWordSources)
+)

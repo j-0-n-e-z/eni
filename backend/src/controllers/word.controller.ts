@@ -1,11 +1,16 @@
 import type { Request, Response } from 'express'
+import { inject, injectable } from 'inversify'
 
-import type { WordService } from '@/services/word.service'
+import { TYPES } from '@/inversify/types'
+import { IWordService } from '@/services'
 import type { Word, WordSource } from '@/shared-types'
 import { ApiError, ErrorCodes } from '@/utils'
 
+@injectable()
 export class WordController {
-	constructor(private readonly wordService: WordService) {}
+	constructor(
+		@inject(TYPES.IWordService) private readonly wordService: IWordService
+	) {}
 
 	getWordsByUserId = async (req: Request, res: Response) => {
 		const { userId } = req.params
@@ -18,16 +23,16 @@ export class WordController {
 	getMoreWordSources = async (req: Request, res: Response) => {
 		const { wordText } = req.params
 
-		const word = await this.wordService.getMoreWordSources(wordText)
+		const wordSources = await this.wordService.getMoreWordSources(wordText)
 
-		if (!word)
+		if (!wordSources)
 			throw new ApiError(
 				404,
 				`No sources for word '${wordText}' were found`,
 				ErrorCodes.NOT_FOUND
 			)
 
-		res.json(JSON.parse(word.sources as string))
+		res.json(wordSources)
 	}
 
 	saveWord = async (req: Request, res: Response) => {

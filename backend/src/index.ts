@@ -14,7 +14,7 @@ import { ErrorHandler } from '@/middlewares'
 import {
 	authRouter,
 	movieRouter,
-	subtitlesRouter,
+	subtitleRouter,
 	translateRouter,
 	userRouter,
 	wordRouter
@@ -39,7 +39,7 @@ app.get('/health', (req, res) => {
 })
 
 app.use('/api', movieRouter)
-app.use('/api', subtitlesRouter)
+app.use('/api', subtitleRouter)
 app.use('/api', authRouter)
 app.use('/api', userRouter)
 app.use('/api', translateRouter)

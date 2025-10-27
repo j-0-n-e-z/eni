@@ -94,6 +94,6 @@ export class AuthController {
 
 		await this.userService.confirmEmail(emailConfirmationLink)
 		
-		res.redirect(`${process.env.CLIENT_URL as string}?email_confirmed=1`)
+		res.redirect(`${process.env.CORS_ORIGIN_URL as string}?email_confirmed=1`)
 	}
 }

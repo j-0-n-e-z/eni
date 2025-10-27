@@ -2,13 +2,13 @@ import type { Request, Response } from 'express'
 import { inject, injectable } from 'inversify'
 
 import { TYPES } from '@/inversify/types'
-import type { TranslateService } from '@/services'
+import type { ITranslateService } from '@/services'
 
 @injectable()
 export class TranslateController {
 	constructor(
 		@inject(TYPES.ITranslateService)
-		private readonly translateService: TranslateService
+		private readonly translateService: ITranslateService
 	) {}
 
 	findDefinition = async (req: Request, res: Response) => {
