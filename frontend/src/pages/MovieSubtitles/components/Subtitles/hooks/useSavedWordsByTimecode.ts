@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
 
-import type { WordRequest } from '@/types'
+import type { Word } from '@/types'
 
-export const useSavedWordsByTimecode = (savedWords: WordRequest[] | undefined) =>
+export const useSavedWordsByTimecode = (savedWords: Word[] | undefined) =>
 	useMemo(() => {
-		const map = new Map<string, WordRequest[]>()
+		const map = new Map<string, Word[]>()
 
 		savedWords?.forEach((savedWord) => {
 			savedWord.userSources.forEach((source) => {
