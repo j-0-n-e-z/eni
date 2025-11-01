@@ -43,6 +43,8 @@ export function formatMoney(amount: number, currency: string) {
 		| { format: (amount: number) => string }
 
 	try {
+		if (currency === '$') currency = 'USD'
+
 		currencyFormatter = new Intl.NumberFormat('en-US', {
 			currency,
 			currencyDisplay: 'symbol',
@@ -50,7 +52,7 @@ export function formatMoney(amount: number, currency: string) {
 			minimumFractionDigits: 0,
 			style: 'currency'
 		})
-	} catch {
+	} catch (e) {
 		currencyFormatter = {
 			format: (amount: number) =>
 				`${currency} ${NumberFormatter.format(amount)}`
