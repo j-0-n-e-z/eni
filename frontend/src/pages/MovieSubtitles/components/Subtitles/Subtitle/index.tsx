@@ -9,7 +9,7 @@ import {
 	useLazyTranslateQuery,
 	useSaveWordMutation
 } from '@/store/api'
-import type { PureSubtitle, Word } from '@/types'
+import type { PureSubtitle, SavedWord, Word } from '@/types'
 import { Skeleton } from '@/ui'
 import { ErrorIcon, TranslateIcon } from '@/ui/icons'
 import { getErrorMessage } from '@/utils'
@@ -25,7 +25,7 @@ interface SubtitleProps {
 	myId: string | undefined
 	subtitle: PureSubtitle
 	subtitleSource: SubtitleSource
-	savedWords: Word[] | undefined
+	savedWords: SavedWord[] | undefined
 }
 
 export const Subtitle: FC<SubtitleProps> = ({
@@ -62,10 +62,8 @@ export const Subtitle: FC<SubtitleProps> = ({
 	const hasWordsToSave = selectedWords.length > 0 || wordsToJoin.length > 1
 
 	const saveSingleWords = () => {
-		if (!myId) return
-
 		selectedWords.forEach((selectedWord) => {
-			saveWord({ userId: myId, word: selectedWord })
+			saveWord(selectedWord)
 			toast.success(`Слово "${selectedWord.text}" сохранено`)
 		})
 	}
@@ -75,16 +73,14 @@ export const Subtitle: FC<SubtitleProps> = ({
 
 		const joinedWordText = wordsToJoin.map((word) => word.text).join(' ')
 
-		const joinedWord = {
+		const joinedWord: Word = {
+			id: `joined_${wordsToJoin.map((word) => word.id).join('_')}`,
+			isFavorite: false,
+			isJoined: true,
+			isLearned: false,
+			text: joinedWordText,
 			userId: myId,
-			word: {
-				id: `joined_${wordsToJoin.map((word) => word.id).join('_')}`,
-				isFavorite: false,
-				isJoined: true,
-				isLearned: false,
-				mySources: wordsToJoin[0].mySources,
-				text: joinedWordText
-			}
+			userSources: wordsToJoin[0].userSources
 		}
 
 		saveWord(joinedWord)
@@ -93,10 +89,10 @@ export const Subtitle: FC<SubtitleProps> = ({
 		clearWordsToJoin()
 	}
 
-	const removeWord = (word: Word) => {
+	const removeWord = (word: SavedWord) => {
 		if (!myId) return
 
-		const source = word.mySources.find(
+		const source = word.userSources.find(
 			(s) => s.subtitleTimecode === subtitleSource.subtitleTimecode
 		)
 
@@ -174,12 +170,15 @@ export const Subtitle: FC<SubtitleProps> = ({
 				<div className={styles.subtitleWordsContainer}>
 					{renderSubtitleTranslation()}
 
-					<SubtitleWords
-						selectedWords={selectedWords}
-						subtitle={subtitle}
-						subtitleSource={subtitleSource}
-						toggleSelectedWord={toggleSelectedWord}
-					/>
+					{myId && (
+						<SubtitleWords
+							myId={myId}
+							selectedWords={selectedWords}
+							subtitle={subtitle}
+							subtitleSource={subtitleSource}
+							toggleSelectedWord={toggleSelectedWord}
+						/>
+					)}
 
 					{savedJoinedWords && savedJoinedWords.length > 0 && (
 						<SubtitleSavedWords

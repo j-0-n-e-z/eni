@@ -8,6 +8,7 @@ import type { PureSubtitle, Word } from '@/types'
 import styles from './SubtitleWords.module.scss'
 
 interface SubtitleWordProps {
+	myId: string
 	toggleSelectedWord: (word: Word) => void
 	subtitleSource: SubtitleSource
 	subtitle: PureSubtitle
@@ -20,6 +21,7 @@ export const SubtitleWords: FC<SubtitleWordProps> = ({
 	subtitle,
 	toggleSelectedWord,
 	selectedWords,
+	myId,
 	subtitleSource
 }) => {
 	const words = subtitle.text.split(' ')
@@ -47,7 +49,9 @@ export const SubtitleWords: FC<SubtitleWordProps> = ({
 					isFavorite: false,
 					isJoined: false,
 					isLearned: false,
-					mySources: [
+					text: punctuationMatch ? punctuationMatch[2] : wordText,
+					userId: myId,
+					userSources: [
 						{
 							fileId,
 							id: wordId,
@@ -59,8 +63,7 @@ export const SubtitleWords: FC<SubtitleWordProps> = ({
 							subtitleTimecode,
 							subtitleWordIndex: i
 						}
-					],
-					text: punctuationMatch ? punctuationMatch[2] : wordText
+					]
 				}
 
 				return (

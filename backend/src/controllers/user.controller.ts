@@ -1,7 +1,6 @@
 import type { Request, Response } from 'express'
 import { inject, injectable } from 'inversify'
 
-import type { UserDto } from '@/dtos'
 import { TYPES } from '@/inversify/types'
 import type { IUserService } from '@/services/services-types'
 import {
@@ -15,7 +14,7 @@ import {
 export class UserController {
 	constructor(
 		@inject(TYPES.IUserService)
-		private readonly userService: IUserService<UserDto>
+		private readonly userService: IUserService
 	) {}
 
 	getUserByUsername = async (req: Request, res: Response) => {

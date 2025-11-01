@@ -1,5 +1,6 @@
 export { Auth } from './Auth'
 export { Main } from './Main'
 export { MovieSubtitles } from './MovieSubtitles'
+export { Popular } from './Popular'
 export { Profile } from './Profile'
 export { Search } from './Search'

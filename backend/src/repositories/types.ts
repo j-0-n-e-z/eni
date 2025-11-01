@@ -1,5 +1,5 @@
-import type {  WordSource } from '@/shared-types'
-import type { UserWord, Word } from '@/types'
+import type { User, WordSource } from '@/shared-types'
+import type { UserWordDb, WordDb } from '@/types'
 
 export type CreateUserData = {
 	username: string
@@ -13,16 +13,16 @@ export type UpdateUserData = {
 	emailConfirmationLink?: string | null
 }
 
-export interface IUserRepository<TUser> {
-	findByUsername(username: string): Promise<TUser | null>
-	findByEmail(email: string): Promise<TUser | null>
-	findById(id: string): Promise<TUser | null>
-	findByRefreshToken(refreshToken: string): Promise<TUser | null>
-	findByEmailConfirmationLink(link: string): Promise<TUser | null>
-	create(userData: CreateUserData): Promise<TUser>
-	update(id: string, data: UpdateUserData): Promise<TUser>
+export interface IUserRepository {
+	findByUsername(username: string): Promise<User | null>
+	findByEmail(email: string): Promise<User | null>
+	findById(id: string): Promise<User | null>
+	findByRefreshToken(refreshToken: string): Promise<User | null>
+	findByEmailConfirmationLink(link: string): Promise<User | null>
+	create(userData: CreateUserData): Promise<User>
+	update(id: string, data: UpdateUserData): Promise<User>
 	delete(id: string): Promise<void>
-	findAll(): Promise<TUser[]>
+	findAll(): Promise<User[]>
 }
 
 export interface ITokenRepository {
@@ -32,21 +32,21 @@ export interface ITokenRepository {
 }
 
 export interface IWordsRepository {
-	findUserWord(userId: string, wordText: string): Promise<UserWord | null>
+	findUserWord(userId: string, wordText: string): Promise<UserWordDb | null>
 	createUserWord(
 		userId: string,
 		wordText: string,
 		sources: WordSource[]
-	): Promise<UserWord>
-	updateWordSources(
+	): Promise<UserWordDb>
+	updateUserWordSources(
 		userId: string,
 		wordText: string,
 		newSources: WordSource[]
-	): Promise<UserWord>
+	): Promise<UserWordDb>
 	deleteUserWord(userId: string, wordText: string): Promise<void>
 	findUserWordsByUserId(userId: string): Promise<
-		(UserWord & {
-			word: Word
+		(UserWordDb & {
+			word: WordDb
 		})[]
 	>
 
@@ -56,7 +56,10 @@ export interface IWordsRepository {
 		translation: string,
 		isJoined: boolean,
 		sources: WordSource[]
-	): Promise<Word>
-	updateWord(wordText: string, sources: WordSource[]): Promise<Word>
-	findWord(wordText: string): Promise<Word | null>
+	): Promise<WordDb>
+	updateWordSources(wordText: string, sources: WordSource[]): Promise<WordDb>
+	findWord(wordText: string): Promise<WordDb | null>
+
+	tryIncrementTranslateCount(wordText: string): Promise<void>
+	getMostTranslatableWords(): Promise<WordDb[]>
 }

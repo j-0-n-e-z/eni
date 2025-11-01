@@ -1,18 +1,15 @@
 import axios from 'axios'
 
-import { ApiError } from '../errors/ApiError'
-import { ErrorCodes } from '../errors/ErrorCodes'
+import { ApiError, ErrorCodes } from '@/utils'
 
 import { saveSrtFile } from './saveSrtFile'
 
 export async function fetchSrtFile(strUrl: string, srtFilename?: string) {
 	try {
-		const response = await axios.get(strUrl, {
+		const response = await axios.get<string, { data: string }>(strUrl, {
 			timeout: 10000,
 			responseType: 'text'
 		})
-
-		console.log(response)
 
 		if (srtFilename) {
 			saveSrtFile(response.data, srtFilename)
@@ -20,7 +17,6 @@ export async function fetchSrtFile(strUrl: string, srtFilename?: string) {
 
 		return response.data
 	} catch (error) {
-		console.log(error)
 		throw new ApiError(
 			503,
 			'Failed to download subtitles',

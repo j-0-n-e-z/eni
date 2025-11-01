@@ -1,20 +1,20 @@
 import type { FC } from 'react'
 
-import type { Word } from '@/types'
+import type { SavedWord } from '@/types'
 import { CancelIcon } from '@/ui/icons'
 
 import styles from './SubtitleSavedWords.module.scss'
 
 interface SubtitleSavedWordsProps {
-	savedWords: Word[]
-	removeWord: (word: Word) => void
+	savedWords: SavedWord[]
+	removeWord: (word: SavedWord) => void
 }
 
 export const SubtitleSavedWords: FC<SubtitleSavedWordsProps> = ({
 	savedWords,
 	removeWord
 }) => {
-	const renderWordTranslation = (word: Word) => {
+	const renderWordTranslation = (word: SavedWord) => {
 		if (
 			word.translation &&
 			(word.translation.includes('\n') || word.translation.includes(': '))

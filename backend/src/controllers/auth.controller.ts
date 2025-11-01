@@ -1,13 +1,17 @@
 import type { User } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import type { Request, Response } from 'express'
+import { inject, injectable } from 'inversify'
 
-import type { UserDto } from '@/dtos'
+import { TYPES } from '@/inversify/types'
 import type { IUserService } from '@/services/services-types'
 import { ACCESS_TOKEN, AuthenticationError, REFRESH_TOKEN } from '@/utils'
 
+@injectable()
 export class AuthController {
-	constructor(private readonly userService: IUserService<UserDto>) {}
+	constructor(
+		@inject(TYPES.IUserService) private readonly userService: IUserService
+	) {}
 
 	signup = async (req: Request, res: Response) => {
 		const { username, password, email } = req.body as Pick<
@@ -93,7 +97,7 @@ export class AuthController {
 		const emailConfirmationLink = req.params.link
 
 		await this.userService.confirmEmail(emailConfirmationLink)
-		
+
 		res.redirect(`${process.env.CORS_ORIGIN_URL as string}?email_confirmed=1`)
 	}
 }

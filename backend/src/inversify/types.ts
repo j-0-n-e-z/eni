@@ -6,7 +6,7 @@ export const TYPES = {
 	IMailService: Symbol('mail-service'),
 	ISubtitleService: Symbol('subtitle-service'),
 	ITranslateService: Symbol('translate-service'),
-	IWordService: Symbol('words-service'),
+	IWordService: Symbol('word-service'),
 	IUserRepository: Symbol('user-repo'),
 	ITokenRepository: Symbol('token-repo'),
 	IWordsRepository: Symbol('words-repo'),
@@ -16,5 +16,6 @@ export const TYPES = {
 	WordController: Symbol('word-controller'),
 	SubtitleController: Symbol('subtitle-controller'),
 	TranslateController: Symbol('translate-controller'),
+	AuthController: Symbol('auth-controller'),
 	JwtService: Symbol('jwt-service')
 }

@@ -29,12 +29,13 @@ model Token {
 }
 
 model Word {
-  id          String     @id()
-  userWords   UserWord[]
-  text        String     @unique
-  translation String
-  sources     Json
-  isJoined    Boolean
+  id               String     @id()
+  userWords        UserWord[]
+  text             String     @unique
+  translation      String
+  sources          Json
+  isJoined         Boolean
+  translationCount Int        @default(0)
 }
 
 model UserWord {

@@ -2,13 +2,13 @@ import { Container } from 'inversify'
 import type nodemailer from 'nodemailer'
 
 import {
+	AuthController,
 	MovieController,
 	SubtitleController,
 	TranslateController,
 	UserController,
 	WordController
 } from '@/controllers'
-import type { UserDto } from '@/dtos'
 import type {
 	ITokenRepository,
 	IUserRepository,
@@ -35,16 +35,13 @@ import {
 	YandexTranslateService
 } from '@/services'
 import { JwtService } from '@/services/jwt.service'
-import type { User } from '@/shared-types'
 import { gmailTransporter } from '@/utils'
 
 import { TYPES } from './types'
 
 const container = new Container()
 
-container
-	.bind<IUserRepository<User>>(TYPES.IUserRepository)
-	.to(PrismaUserRepository)
+container.bind<IUserRepository>(TYPES.IUserRepository).to(PrismaUserRepository)
 container
 	.bind<ITokenRepository>(TYPES.ITokenRepository)
 	.to(PrismaTokenRepository)
@@ -53,7 +50,7 @@ container
 	.to(PrismaWordsRepository)
 
 container.bind<IMovieService>(TYPES.IMovieService).to(KinopoiskMovieService)
-container.bind<IUserService<UserDto>>(TYPES.IUserService).to(UserService)
+container.bind<IUserService>(TYPES.IUserService).to(UserService)
 container.bind<ITokenService>(TYPES.ITokenService).to(TokenService)
 container.bind<IMailService>(TYPES.IMailService).to(MailService)
 container.bind<IWordService>(TYPES.IWordService).to(WordService)
@@ -77,5 +74,6 @@ container.bind<WordController>(TYPES.WordController).to(WordController)
 container
 	.bind<SubtitleController>(TYPES.SubtitleController)
 	.to(SubtitleController)
+container.bind<AuthController>(TYPES.AuthController).to(AuthController)
 
 export { container }

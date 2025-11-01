@@ -68,4 +68,10 @@ export class WordController {
 
 		res.json({ message: 'Word source was successfully deleted' })
 	}
+
+	getMostTranslatableWords = async (req: Request, res: Response) => {
+		const words = await this.wordService.getMostTranslatableWords()
+
+		res.json(words)
+	}
 }

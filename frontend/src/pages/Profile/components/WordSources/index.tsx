@@ -9,7 +9,7 @@ import {
 	useDeleteWordSourceMutation,
 	useLazyGetMoreWordSourcesQuery
 } from '@/store/api'
-import type { Word, WordSource } from '@/types'
+import type { SavedWord, WordSource } from '@/types'
 import { ErrorDisplay } from '@/ui'
 import { TrashIcon } from '@/ui/icons'
 
@@ -17,7 +17,7 @@ import s from './WordSources.module.scss'
 
 interface WordSourcesProps {
 	myId?: string
-	word: Word
+	word: SavedWord
 	mySources: WordSource[]
 }
 

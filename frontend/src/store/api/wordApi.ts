@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import type { Word, WordSource } from '@/types'
+import type { Word, SavedWord, WordSource } from '@/types'
 
 import { baseQueryWithReauth } from './baseQueries/baseQueryWithReauth'
 
@@ -36,7 +36,12 @@ export const wordApi = createApi({
 				url: `word/sources/${wordText}`
 			})
 		}),
-		getWordsByUserId: build.query<Word[], string>({
+		getPopularWords: build.query<SavedWord[], void>({
+			query: () => ({
+				url: `word/popular`
+			})
+		}),
+		getWordsByUserId: build.query<SavedWord[], string>({
 			providesTags: (result) =>
 				result
 					? [
@@ -48,16 +53,16 @@ export const wordApi = createApi({
 				url: `user/${userId}/words`
 			})
 		}),
-		saveWord: build.mutation<void, { userId: string; word: Word }>({
+		saveWord: build.mutation<void, Word>({
 			invalidatesTags: [{ id: 'LIST', type: WORDS_TAG }],
-			query: ({ userId, word }) => ({
-				body: { word },
+			query: (wordRequest) => ({
+				body: { word: wordRequest },
 				credentials: 'include',
 				method: 'POST',
-				url: `user/${userId}/word`
+				url: `user/${wordRequest.userId}/word`
 			})
 		}),
-		translateWord: build.mutation<Word, { userId: string; wordText: string }>({
+		translateWord: build.mutation<SavedWord, { userId: string; wordText: string }>({
 			query: ({ userId, wordText }) => ({
 				body: { userId, wordText },
 				credentials: 'include',
@@ -77,5 +82,6 @@ export const {
 	useDeleteWordMutation,
 	useDeleteWordSourceMutation,
 	useLazyGetMoreWordSourcesQuery,
-	useTranslateWordMutation
+	useTranslateWordMutation,
+	useGetPopularWordsQuery
 } = wordApi

@@ -1,21 +1,14 @@
 import express from 'express'
 
-import { AuthController } from '@/controllers'
+import type { AuthController } from '@/controllers'
+import { container } from '@/inversify/inversify.config'
+import { TYPES } from '@/inversify/types'
 import { authMiddleware } from '@/middlewares'
-import { PrismaTokenRepository } from '@/repositories/prisma-token.repository'
-import { PrismaUserRepository } from '@/repositories/prisma-user.repository'
-import { MailService, TokenService, UserService } from '@/services'
-import { asyncHandler, gmailTransporter } from '@/utils'
+import { asyncHandler } from '@/utils'
 
 const authRouter = express.Router()
 
-const authController = new AuthController(
-	new UserService(
-		new PrismaUserRepository(),
-		new TokenService(new PrismaTokenRepository()),
-		new MailService(gmailTransporter)
-	)
-)
+const authController = container.get<AuthController>(TYPES.AuthController)
 
 authRouter.post('/signup', asyncHandler(authController.signup))
 authRouter.post('/login', asyncHandler(authController.login))

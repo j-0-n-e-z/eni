@@ -1,14 +1,3 @@
-export interface Word {
-	id: string
-	text: string
-	mySources: WordSource[]
-	sources?: WordSource[]
-	isLearned: boolean
-	isFavorite: boolean
-	isJoined: boolean
-	translation?: string
-}
-
 export interface WordSource {
 	id: string
 	movieName: string
@@ -21,4 +10,17 @@ export interface WordSource {
 	subtitleWordIndex: number
 }
 
-export type TranslatedWord = Word & Required<Pick<Word, 'translation'>>
+export interface Word {
+	userId: string
+	id: string
+	text: string
+	userSources: WordSource[]
+	isLearned: boolean
+	isFavorite: boolean
+	isJoined: boolean
+}
+
+export interface SavedWord extends Omit<Word, 'userId'> {
+	translation: string
+	translationCount: number
+}

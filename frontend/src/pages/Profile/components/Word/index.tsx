@@ -2,24 +2,22 @@ import cn from 'classnames'
 import { useState, type FC } from 'react'
 import toast from 'react-hot-toast'
 
-import { useDeleteWordMutation, useSaveWordMutation } from '@/store/api'
-import type { Word as IWord } from '@/types'
+import { useDeleteWordMutation } from '@/store/api'
+import type { SavedWord } from '@/types'
 import { Modal } from '@/ui'
-import { BrainIcon, EyeIcon, TrashIcon } from '@/ui/icons'
+import { EyeIcon, TrashIcon } from '@/ui/icons'
 
 import { WordSources } from '../WordSources'
 
 import styles from './Word.module.scss'
 
 interface MyWordProps {
-	word: IWord
+	word: SavedWord
 	isMyPage: boolean
 	myId?: string
-	isLearned: boolean
 }
 
-export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
-	const [triggerSaveWord] = useSaveWordMutation()
+export const Word: FC<MyWordProps> = ({ word, isMyPage, myId }) => {
 	const [triggerDeleteWord] = useDeleteWordMutation()
 	const [isSourcesModalOpen, setIsSourcesModalOpen] = useState(false)
 
@@ -34,25 +32,6 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 		} catch (e) {
 			toast.error('Произошла ошибка при удалении слова', {
 				id: 'deleteWordError'
-			})
-		}
-	}
-
-	const saveWord = async () => {
-		try {
-			if (!myId) return
-
-			await triggerSaveWord({
-				userId: myId,
-				word
-			}).unwrap()
-
-			toast.success('Слово сохранено', {
-				id: 'saveWordSuccess'
-			})
-		} catch (e) {
-			toast.error('Произошла ошибка при сохранении слова', {
-				id: 'saveWordError'
 			})
 		}
 	}
@@ -91,21 +70,12 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId, isLearned }) => {
 					closeModalHandler={() => setIsSourcesModalOpen(false)}
 					isOpen={isSourcesModalOpen}
 				>
-					<WordSources myId={myId} mySources={word.mySources} word={word} />
+					<WordSources myId={myId} mySources={word.userSources} word={word} />
 				</Modal>
 			)}
 			<div className={styles.wordActions}>
 				{isMyPage && (
 					<>
-						{!isLearned && (
-							<button
-								aria-label='save word'
-								className={cn(styles.actionButton, styles.saveButton)}
-								onClick={saveWord}
-							>
-								<BrainIcon />
-							</button>
-						)}
 						<button
 							aria-label='look appearances'
 							className={cn(styles.actionButton, styles.appearanceButton)}

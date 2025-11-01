@@ -1,9 +1,8 @@
-import type { JsonValue } from '@prisma/client/runtime/library'
 import { inject, injectable } from 'inversify'
 
 import { TYPES } from '@/inversify/types'
 import type { IWordsRepository } from '@/repositories'
-import type { Word, WordSource } from '@/shared-types'
+import type { SavedWord, Word, WordSource } from '@/shared-types'
 import { ApiError, ErrorCodes } from '@/utils'
 
 import type { ITranslateService, IWordService } from './services-types'
@@ -16,14 +15,6 @@ export class WordService implements IWordService {
 		@inject(TYPES.ITranslateService)
 		private readonly translateService: ITranslateService
 	) {}
-
-	private parseWordSources(sources: JsonValue): WordSource[] {
-		try {
-			return JSON.parse(sources as string) as WordSource[]
-		} catch {
-			return []
-		}
-	}
 
 	async deleteUserWord(userId: string, wordText: string) {
 		const userWord = await this.wordRepository.findUserWord(userId, wordText)
@@ -62,7 +53,7 @@ export class WordService implements IWordService {
 			return
 		}
 
-		await this.wordRepository.updateWordSources(
+		await this.wordRepository.updateUserWordSources(
 			userId,
 			wordText,
 			userWordSources.filter((s) => s.id !== wordSource.id)
@@ -71,10 +62,16 @@ export class WordService implements IWordService {
 
 	async translateWord(wordText: string) {
 		try {
-			return await this.translateService.findDefinition(wordText)
+			const definition = await this.translateService.findDefinition(wordText)
+
+			this.tryIncrementTranslateCount(wordText)
+
+			return definition
 		} catch (e) {
 			if (e instanceof ApiError && e.statusCode === 404) {
 				const translations = await this.translateService.translate(wordText)
+
+				this.tryIncrementTranslateCount(wordText)
 
 				console.log('TRANSLATIONS', translations)
 
@@ -100,7 +97,7 @@ export class WordService implements IWordService {
 			const userWordSources = userWord.mySources
 
 			const userWordSourceIds = new Set(userWordSources.map((s) => s.id))
-			const newWordSources = word.mySources.filter(
+			const newWordSources = word.userSources.filter(
 				(source) => !userWordSourceIds.has(source.id)
 			)
 
@@ -112,7 +109,7 @@ export class WordService implements IWordService {
 				)
 			}
 
-			const updatedUserWord = await this.wordRepository.updateWordSources(
+			const updatedUserWord = await this.wordRepository.updateUserWordSources(
 				userId,
 				word.text,
 				[...userWordSources, ...newWordSources]
@@ -124,7 +121,7 @@ export class WordService implements IWordService {
 		const newUserWord = await this.wordRepository.createUserWord(
 			userId,
 			word.text,
-			word.mySources
+			word.userSources
 		)
 
 		return newUserWord
@@ -133,18 +130,20 @@ export class WordService implements IWordService {
 	private async saveToWords(word: Word) {
 		const wordDb = await this.wordRepository.findWord(word.text)
 
-		if (wordDb && wordDb.sources) {
+		if (wordDb) {
+			this.tryIncrementTranslateCount(word.text)
+
 			const wordDbSourceIds = new Set(wordDb.sources.map((s) => s.id))
-			const newWordSources = word.mySources.filter(
+			const newWordSources = word.userSources.filter(
 				(source) => !wordDbSourceIds.has(source.id)
 			)
 
 			if (newWordSources.length === 0) return
 
-			const updatedWord = await this.wordRepository.updateWord(word.text, [
-				...wordDb.sources,
-				...newWordSources
-			])
+			const updatedWord = await this.wordRepository.updateWordSources(
+				word.text,
+				[...wordDb.sources, ...newWordSources]
+			)
 
 			return updatedWord
 		}
@@ -156,7 +155,7 @@ export class WordService implements IWordService {
 			word.id,
 			translation,
 			word.isJoined,
-			word.mySources
+			word.userSources
 		)
 
 		return newWord
@@ -174,13 +173,13 @@ export class WordService implements IWordService {
 		userWord: Awaited<
 			ReturnType<typeof this.wordRepository.findUserWordsByUserId>
 		>[number]
-	): Word {
+	): SavedWord {
 		return {
 			id: userWord.word.id,
 			text: userWord.word.text,
 			translation: userWord.word.translation,
-			mySources: userWord.mySources,
-			sources: userWord.word.sources,
+			translationCount: userWord.word.translationCount,
+			userSources: userWord.mySources,
 			isLearned: userWord.isLearned,
 			isFavorite: userWord.isFavorite,
 			isJoined: userWord.word.isJoined
@@ -190,5 +189,13 @@ export class WordService implements IWordService {
 	async getWordsByUserId(userId: string) {
 		const userWords = await this.wordRepository.findUserWordsByUserId(userId)
 		return userWords.map(this.mapUserWordToWord.bind(this))
+	}
+
+	async tryIncrementTranslateCount(wordText: string) {
+		await this.wordRepository.tryIncrementTranslateCount(wordText)
+	}
+
+	async getMostTranslatableWords() {
+		return this.wordRepository.getMostTranslatableWords()
 	}
 }

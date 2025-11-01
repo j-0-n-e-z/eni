@@ -37,3 +37,8 @@ wordRouter.get(
 	'/word/sources/:wordText',
 	asyncHandler(wordController.getMoreWordSources)
 )
+
+wordRouter.get(
+	'/word/popular',
+	asyncHandler(wordController.getMostTranslatableWords)
+)

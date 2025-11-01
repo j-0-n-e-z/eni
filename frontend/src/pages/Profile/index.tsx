@@ -76,7 +76,6 @@ export const Profile = () => {
 		if (savedWords?.length)
 			return (
 				<SavedWords
-					isLearned
 					icon={<BookIcon />}
 					isMyPage={isMyPage}
 					myId={me?.id}

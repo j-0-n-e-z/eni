@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 
-import type { Word as IWord } from '@/types'
+import type { SavedWord } from '@/types'
 
 import { Word } from '../Word'
 
@@ -9,9 +9,8 @@ import styles from './SavedWords.module.scss'
 interface WordsSectionProps {
 	icon: React.ReactNode
 	title: string
-	words: IWord[]
+	words: SavedWord[]
 	isMyPage: boolean
-	isLearned?: boolean
 	myId: string | undefined
 }
 
@@ -20,8 +19,7 @@ export const SavedWords: FC<WordsSectionProps> = ({
 	myId,
 	words,
 	title,
-	icon,
-	isLearned
+	icon
 }) => (
 	<section className={styles.wordsSection}>
 		<div className={styles.wordsSectionHeader}>
@@ -36,7 +34,6 @@ export const SavedWords: FC<WordsSectionProps> = ({
 			{words.map((word) => (
 				<Word
 					key={`learn${word.id}`}
-					isLearned={Boolean(isLearned)}
 					isMyPage={isMyPage}
 					myId={myId}
 					word={word}

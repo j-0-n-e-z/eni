@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { createContext } from 'react'
+import { createContext, useMemo } from 'react'
 
 import { useAuth } from '@/hooks'
 
@@ -55,10 +55,10 @@ export const AuthProvider = ({ children }: AuthDataProviderProps) => {
 		meError
 	}
 
-	const actionsValue = {
+	const actionsValue = useMemo(() => ({
 		login,
 		logout
-	}
+	}), [login, logout])
 
 	return (
 		<AuthDataContext.Provider value={dataValue}>

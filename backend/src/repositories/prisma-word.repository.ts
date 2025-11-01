@@ -25,7 +25,7 @@ export class PrismaWordsRepository implements IWordsRepository {
 		})
 	}
 
-	async updateWordSources(
+	async updateUserWordSources(
 		userId: string,
 		wordText: string,
 		newSources: WordSource[]
@@ -100,7 +100,7 @@ export class PrismaWordsRepository implements IWordsRepository {
 		}
 	}
 
-	async updateWord(wordText: string, sources: WordSource[]) {
+	async updateWordSources(wordText: string, sources: WordSource[]) {
 		const updatedWord = await this.prisma.word.update({
 			where: { text: wordText },
 			data: {
@@ -127,7 +127,8 @@ export class PrismaWordsRepository implements IWordsRepository {
 				text: wordText,
 				id: wordId,
 				isJoined,
-				sources: JSON.stringify(sources)
+				sources: JSON.stringify(sources),
+				translationCount: 1
 			}
 		})
 
@@ -135,5 +136,30 @@ export class PrismaWordsRepository implements IWordsRepository {
 			...newWord,
 			sources: JSON.parse(newWord.sources as string) as WordSource[]
 		}
+	}
+
+	async tryIncrementTranslateCount(wordText: string) {
+		const word = await this.prisma.word.findUnique({
+			where: { text: wordText }
+		})
+
+		if (word) {
+			await this.prisma.word.update({
+				where: { text: word.text },
+				data: { translationCount: { increment: 1 } }
+			})
+		}
+	}
+
+	async getMostTranslatableWords() {
+		const words = await this.prisma.word.findMany({
+			orderBy: { translationCount: 'desc' },
+			take: 10
+		})
+
+		return words.map((word) => ({
+			...word,
+			sources: JSON.parse(word.sources as string) as WordSource[]
+		}))
 	}
 }

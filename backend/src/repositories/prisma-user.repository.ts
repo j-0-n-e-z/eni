@@ -1,4 +1,3 @@
-import type { User } from '@prisma/client'
 import { injectable } from 'inversify'
 
 import { prisma } from '@/utils'
@@ -6,7 +5,7 @@ import { prisma } from '@/utils'
 import type { CreateUserData, IUserRepository, UpdateUserData } from './types'
 
 @injectable()
-export class PrismaUserRepository implements IUserRepository<User> {
+export class PrismaUserRepository implements IUserRepository {
 	prisma = prisma
 
 	async findByUsername(username: string) {

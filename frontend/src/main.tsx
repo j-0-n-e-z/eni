@@ -4,12 +4,12 @@ import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import { EmptyIcon } from '@/ui/icons'
-import { Auth, Main, MovieSubtitles, Profile, Search } from '@/pages'
+import { Auth, Main, MovieSubtitles, Popular, Profile, Search } from '@/pages'
 import { MovieSubtitlesPicker } from '@/pages/MovieSubtitles/components/MovieSubtitlesPicker'
 import { Subtitles } from '@/pages/MovieSubtitles/components/Subtitles'
 import { store } from '@/store'
 import { EmptyState } from '@/ui'
+import { EmptyIcon } from '@/ui/icons'
 
 import { ErrorBoundary } from './ErrorBoundary'
 import { AppLayout } from './layouts/AppLayout'
@@ -59,7 +59,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/popular',
-				element: <div>Popular words</div>
+				element: <Popular />
 			},
 			{ element: <div>Info</div>, path: '/info' },
 			{

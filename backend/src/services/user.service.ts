@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid'
 import { UserDto } from '@/dtos'
 import { TYPES } from '@/inversify/types'
 import type { IUserRepository } from '@/repositories/types'
-import type { User } from '@/shared-types'
 import { ApiError, ErrorCodes, ValidationError } from '@/utils'
 
 import { JwtService } from './jwt.service'
@@ -16,13 +15,14 @@ import type {
 } from './services-types'
 
 @injectable()
-export class UserService implements IUserService<UserDto> {
+export class UserService implements IUserService {
 	constructor(
 		@inject(TYPES.IUserRepository)
-		private readonly userRepository: IUserRepository<User>,
+		private readonly userRepository: IUserRepository,
 		@inject(TYPES.ITokenService) private readonly tokenService: ITokenService,
 		@inject(TYPES.IMailService) private readonly mailService: IMailService,
-		@inject(TYPES.JwtService) private readonly jwtService: JwtService = new JwtService()
+		@inject(TYPES.JwtService)
+		private readonly jwtService: JwtService = new JwtService()
 	) {}
 
 	async getUserByUsername(username: string) {

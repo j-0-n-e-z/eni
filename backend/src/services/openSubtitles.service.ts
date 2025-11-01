@@ -1,3 +1,5 @@
+import fs from 'fs/promises'
+
 import { openSubtitlesApi, openSubtitlesApiAuthed } from '@/api'
 import type { MovieSubtitle } from '@/shared-types'
 import type { OSMovieSubtitle, SubtitlesInfo } from '@/types'
@@ -32,8 +34,9 @@ export class SubtitleService implements ISubtitleService {
 	}
 
 	async getSubtitlesByFileId(fileId: number) {
-		if (process.env.NODE_ENV === 'dev') {
-
+		if (process.env.NODE_ENV === 'development') {
+			const srtContent = await fs.readFile('../backend/srt/The.Hobbit.An.Unexpected.Journey.2012.720p.BluRay.x264-SPARKS.eng.srt', 'utf8')
+			return parseSrt(srtContent)
 		}
 
 		const response = await openSubtitlesApiAuthed.post<SubtitlesInfo>(
@@ -44,9 +47,8 @@ export class SubtitleService implements ISubtitleService {
 		)
 
 		const srtUrl = response.data.link
-		console.log('download');
+
 		const srtContent = await fetchSrtFile(srtUrl)
-		console.log(srtContent)
 
 		return parseSrt(srtContent)
 	}
