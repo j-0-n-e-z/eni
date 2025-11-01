@@ -1,6 +1,6 @@
 @use '@styles' as *;
 
-.modalContainer {
+.modalOverlay {
 	@include center-flex;
 
 	position: fixed;
@@ -12,7 +12,7 @@
 	animation: fadeIn 0.3s ease forwards;
 }
 
-.modal {
+.modalContent {
 	display: flex;
 	flex-direction: column;
 	max-width: 80%;

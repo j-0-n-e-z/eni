@@ -67,8 +67,8 @@ export const Word: FC<MyWordProps> = ({ word, isMyPage, myId }) => {
 
 			{isSourcesModalOpen && (
 				<Modal
-					closeModalHandler={() => setIsSourcesModalOpen(false)}
 					isOpen={isSourcesModalOpen}
+					onClose={() => setIsSourcesModalOpen(false)}
 				>
 					<WordSources myId={myId} mySources={word.userSources} word={word} />
 				</Modal>
