@@ -4,7 +4,7 @@ import useClickAway from 'react-use/lib/useClickAway'
 
 import { CancelIcon } from '@/ui/icons'
 
-import s from './Modal.module.scss'
+import styles from './Modal.module.scss'
 
 interface ModalProps {
 	children: React.ReactNode
@@ -23,18 +23,18 @@ export const Modal: FC<ModalProps> = ({
 	if (!isOpen) return null
 
 	return ReactDOM.createPortal(
-		<div className={s.modalContainer}>
-			<div ref={modalRef} className={s.modal}>
+		<div className={styles.modalContainer}>
+			<div ref={modalRef} className={styles.modal}>
 				{children}
 				<button
 					aria-label='close modal'
-					className={s.modalCloseBtn}
+					className={styles.modalCloseBtn}
 					onClick={closeModalHandler}
 				>
 					<CancelIcon />
 				</button>
 			</div>
 		</div>,
-		document.querySelector('#modal-root')!
+		document.body
 	)
 }
