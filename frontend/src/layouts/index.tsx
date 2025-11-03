@@ -1,2 +1,2 @@
-export { AppLayout } from './AppLayout'
-export { ProtectedLayout } from './ProtectedLayout'
+export * from './AppLayout'
+export * from './ProtectedLayout'

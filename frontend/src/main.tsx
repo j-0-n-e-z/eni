@@ -1,19 +1,17 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 import { CookiesProvider } from 'react-cookie'
 import { createRoot } from 'react-dom/client'
+import { ErrorBoundary } from 'react-error-boundary'
 import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
+import { AppLayout, ErrorFallback, ProtectedLayout } from '@/layouts'
 import { Auth, Main, MovieSubtitles, Popular, Profile, Search } from '@/pages'
 import { MovieSubtitlesPicker } from '@/pages/MovieSubtitles/components/MovieSubtitlesPicker'
 import { Subtitles } from '@/pages/MovieSubtitles/components/Subtitles'
 import { store } from '@/store'
 import { EmptyState } from '@/ui'
 import { EmptyIcon } from '@/ui/icons'
-
-import { ErrorBoundary } from './ErrorBoundary'
-import { AppLayout } from './layouts/AppLayout'
-import { ProtectedLayout } from './layouts/ProtectedLayout'
 
 function tryFixUrl() {
 	const { pathname, search, hash, origin } = window.location
@@ -31,7 +29,7 @@ const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <AppLayout />,
-		errorElement: <ErrorBoundary />,
+		errorElement: <ErrorBoundary FallbackComponent={ErrorFallback} />,
 		children: [
 			{ element: <Main />, index: true },
 			{
@@ -46,7 +44,7 @@ const router = createBrowserRouter([
 							{ element: <Subtitles />, path: 'subtitles/:fileId' }
 						]
 					},
-					{ element: <div className='test'>Settings</div>, path: '/settings' }
+					{ element: <div>Settings</div>, path: '/settings' }
 				]
 			},
 			{
@@ -61,7 +59,6 @@ const router = createBrowserRouter([
 				path: '/popular',
 				element: <Popular />
 			},
-			{ element: <div>Info</div>, path: '/info' },
 			{
 				element: (
 					<EmptyState
