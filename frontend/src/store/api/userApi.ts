@@ -1,13 +1,13 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import type { User } from '@/types'
+import type { UserDto } from '@/types'
 
 import { baseQueryWithReauth } from './baseQueries/baseQueryWithReauth'
 
 export const userApi = createApi({
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
-		getUserByUsername: build.query<User, string>({
+		getUserByUsername: build.query<UserDto, string>({
 			query: (username) => ({
 				url: `user/${username}`
 			})
@@ -17,4 +17,5 @@ export const userApi = createApi({
 	tagTypes: ['Users']
 })
 
-export const { useLazyGetUserByUsernameQuery } = userApi
+export const { useLazyGetUserByUsernameQuery, useGetUserByUsernameQuery } =
+	userApi

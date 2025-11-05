@@ -34,22 +34,6 @@
 	text-wrap: nowrap;
 }
 
-.translationContainer {
-	display: flex;
-	flex: 3;
-	flex-direction: column;
-	gap: 0.25rem;
-}
-
-.translation {
-	font-size: 0.875rem;
-	color: var(--text-secondary);
-}
-
-.translationPos {
-	font-weight: 600;
-}
-
 .wordActions {
 	display: flex;
 	gap: 0.5rem;

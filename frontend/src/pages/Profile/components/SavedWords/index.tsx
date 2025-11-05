@@ -1,44 +1,65 @@
+import type { SerializedError } from '@reduxjs/toolkit'
 import type { FC } from 'react'
 
-import type { SavedWord } from '@/types'
+import type { BackendError } from '@/frontend-types'
+import type { SavedWord as ISavedWord } from '@/types'
+import { EmptyState, Icons } from '@/ui'
 
-import { Word } from '../Word'
+import { SavedWord } from '../SavedWord'
 
 import styles from './SavedWords.module.scss'
+import { SavedWordsSkeleton } from './SavedWordsSkeleton'
 
-interface WordsSectionProps {
-	icon: React.ReactNode
-	title: string
-	words: SavedWord[]
-	isMyPage: boolean
+interface SavedWordsProps {
+	isSavedWordsFetching: boolean
+	savedWordsError: BackendError | SerializedError | undefined
+	savedWords: ISavedWord[] | undefined
+	descriptionOnEmpty: string
+	isMyProfile: boolean
 	myId: string | undefined
 }
 
-export const SavedWords: FC<WordsSectionProps> = ({
-	isMyPage,
-	myId,
-	words,
-	title,
-	icon
-}) => (
-	<section className={styles.wordsSection}>
-		<div className={styles.wordsSectionHeader}>
-			<h3 className={styles.wordsSectionTitleWrapper}>
-				{icon}
-				{title}
-			</h3>
-			<span className={styles.badge}>{words.length}</span>
-		</div>
+export const SavedWords: FC<SavedWordsProps> = ({
+	isMyProfile,
+	descriptionOnEmpty,
+	savedWords,
+	savedWordsError,
+	isSavedWordsFetching,
+	myId
+}) => {
+	if (isSavedWordsFetching) return <SavedWordsSkeleton />
 
-		<ul className={styles.wordsList}>
-			{words.map((word) => (
-				<Word
-					key={`learn${word.id}`}
-					isMyPage={isMyPage}
-					myId={myId}
-					word={word}
-				/>
-			))}
-		</ul>
-	</section>
-)
+	if (savedWordsError) return <div>Не удалось загрузить изученные слова</div>
+
+	if (savedWords?.length)
+		return (
+			<section className={styles.wordsSection}>
+				<div className={styles.wordsSectionHeader}>
+					<h3 className={styles.wordsSectionTitleWrapper}>
+						<Icons.BookIcon />
+						Изучено
+					</h3>
+					<span className={styles.badge}>{savedWords.length}</span>
+				</div>
+
+				<ul className={styles.wordsList}>
+					{savedWords.map((word) => (
+						<SavedWord
+							key={word.id}
+							isMyProfile={isMyProfile}
+							myId={myId}
+							word={word}
+						/>
+					))}
+				</ul>
+			</section>
+		)
+
+	return (
+		<EmptyState
+			description={descriptionOnEmpty}
+			header='Пока пусто'
+			icon={<Icons.BookIcon />}
+		/>
+	)
+}

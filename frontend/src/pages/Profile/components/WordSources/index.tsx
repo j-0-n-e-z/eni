@@ -10,21 +10,22 @@ import {
 	useLazyGetMoreWordSourcesQuery
 } from '@/store/api'
 import type { SavedWord, WordSource } from '@/types'
-import { ErrorDisplay } from '@/ui'
-import { TrashIcon } from '@/ui/icons'
+import { ErrorDisplay, Icons } from '@/ui'
 
 import s from './WordSources.module.scss'
 
 interface WordSourcesProps {
-	myId?: string
+	myId: string | undefined
+	isMyProfile: boolean
 	word: SavedWord
-	mySources: WordSource[]
+	userSources: WordSource[]
 }
 
 export const WordSources: FC<WordSourcesProps> = ({
 	word,
-	mySources,
-	myId
+	userSources,
+	myId,
+	isMyProfile
 }) => {
 	const navigate = useNavigate()
 	const [
@@ -38,9 +39,11 @@ export const WordSources: FC<WordSourcesProps> = ({
 	const [triggerDeleteWordSource, { isLoading: isDeleteWordSourceFetching }] =
 		useDeleteWordSourceMutation()
 
+	// TODO: refactor WordSources
+
 	async function deleteWordSource(wordSource: WordSource) {
 		try {
-			if (!isDeleteWordSourceFetching && myId) {
+			if (!isDeleteWordSourceFetching && isMyProfile && myId) {
 				await triggerDeleteWordSource({
 					userId: myId,
 					wordSource,
@@ -91,7 +94,7 @@ export const WordSources: FC<WordSourcesProps> = ({
 								className={s.deleteMySourceBtn}
 								onClick={() => deleteWordSource(source)}
 							>
-								<TrashIcon />
+								<Icons.TrashIcon />
 							</button>
 						)}
 					</li>
@@ -117,7 +120,7 @@ export const WordSources: FC<WordSourcesProps> = ({
 		if (moreSourcesError) return <ErrorDisplay error={moreSourcesError} />
 
 		const moreSourcesWithoutMySources = moreSources.filter(
-			(source) => !mySources.find((s) => s.id === source.id)
+			(source) => !userSources.find((s) => s.id === source.id)
 		)
 
 		if (moreSourcesWithoutMySources.length === 0)
@@ -134,7 +137,7 @@ export const WordSources: FC<WordSourcesProps> = ({
 				Sources for word &quot;{word.text}&quot;
 			</h3>
 			<div className={s.wordSourcesContainer}>
-				{renderSourceList(mySources, true)}
+				{renderSourceList(userSources, true)}
 
 				<div className={s.additionalSources}>{renderMoreSources()}</div>
 			</div>

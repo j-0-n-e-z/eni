@@ -21,6 +21,8 @@
 	text-align: center;
 	background-color: var(--bg-secondary);
 
+	// TODO: on hover before and after aren't shown
+
 	&::before {
 		position: absolute;
 		top: 100%;
