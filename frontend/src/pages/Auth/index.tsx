@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { BrainIcon } from '@/ui/icons'
+import { Icons } from '@/ui'
 
 import styles from './Auth.module.scss'
 import { Login } from './components/Login'
@@ -15,7 +15,7 @@ export const Auth = () => {
 				<div className={styles.authHeader}>
 					<div className={styles.logoContainer}>
 						<div className={styles.logoIconWrapper}>
-							<BrainIcon className={styles.logoIcon} />
+							<Icons.BrainIcon className={styles.logoIcon} />
 						</div>
 						<span className={styles.logoText}>Eni</span>
 					</div>

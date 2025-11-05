@@ -4,7 +4,7 @@ import { useOutletContext } from 'react-router-dom'
 
 import type { MovieSubtitlesContext } from '@/frontend-types'
 import type { MovieSubtitle as IMovieSubtitle } from '@/types'
-import { StarIcon } from '@/ui/icons'
+import { Icons } from '@/ui'
 import { DateFormatter, NumberFormatter } from '@/utils'
 
 import styles from './MovieSubtitle.module.scss'
@@ -18,7 +18,7 @@ export const MovieSubtitle: FC<MovieSubtitleProps> = ({ movieSubtitle }) => {
 		useOutletContext<MovieSubtitlesContext>()
 
 	const ratingStars = Array.from({ length: 10 }).map((_, i) => (
-		<StarIcon
+		<Icons.StarIcon
 			key={i}
 			className={cn(styles.star, {
 				[styles.filled]: i + 1 <= movieSubtitle.subtitles.rating

@@ -8,7 +8,7 @@ import type { BackendError } from '@/frontend-types'
 import { useAuthActions, useAuthData } from '@/hooks'
 import type { LoginCredentials } from '@/schemas'
 import { loginSchema } from '@/schemas'
-import { GithubIcon, GoogleIcon } from '@/ui'
+import { Icons } from '@/ui'
 
 import styles from '../Auth.module.scss'
 
@@ -114,11 +114,11 @@ export const Login = () => {
 				</div>
 				<div className={styles.socialButtons}>
 					<button className={styles.socialButton}>
-						<GoogleIcon />
+						<Icons.GoogleIcon />
 						Google
 					</button>
 					<button className={styles.socialButton}>
-						<GithubIcon />
+						<Icons.GithubIcon />
 						GitHub
 					</button>
 				</div>

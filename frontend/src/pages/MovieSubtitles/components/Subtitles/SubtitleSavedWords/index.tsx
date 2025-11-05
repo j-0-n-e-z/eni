@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 
 import type { SavedWord } from '@/types'
-import { CancelIcon } from '@/ui/icons'
+import { Icons } from '@/ui'
 
 import styles from './SubtitleSavedWords.module.scss'
 
@@ -45,7 +45,7 @@ export const SubtitleSavedWords: FC<SubtitleSavedWordsProps> = ({
 						className={styles.removeSavedWordBtn}
 						onClick={() => removeWord(word)}
 					>
-						<CancelIcon />
+						<Icons.CancelIcon />
 					</button>
 				</li>
 			))}

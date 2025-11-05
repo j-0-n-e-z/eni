@@ -1,5 +1,5 @@
 import { useGetPopularWordsQuery } from '@/store/api'
-import { Container, EmptyIcon, EmptyState, ErrorDisplay } from '@/ui'
+import { Container, EmptyState, ErrorDisplay, Icons } from '@/ui'
 
 import styles from './Popular.module.scss'
 
@@ -20,7 +20,7 @@ export const Popular = () => {
 				<EmptyState
 					description='Нет данных о популярных словах'
 					header='Упс...'
-					icon={<EmptyIcon />}
+					icon={<Icons.EmptyIcon />}
 				/>
 			)
 

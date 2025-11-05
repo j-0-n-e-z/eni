@@ -2,15 +2,7 @@ import cn from 'classnames'
 import { type ReactNode } from 'react'
 
 import { useAuthData } from '@/hooks'
-import {
-	BookIcon,
-	BrainIcon,
-	InfoIcon,
-	PopularIcon,
-	SearchIcon,
-	SettingsIcon,
-	Skeleton
-} from '@/ui'
+import { Icons, Skeleton } from '@/ui'
 
 import { MenuBurgerButton } from './MenuBurgerButton'
 import styles from './SidePanel.module.scss'
@@ -53,14 +45,14 @@ SidePanel.ThemeToggle = ThemeToggle
 export const AppSidePanel = () => (
 	<SidePanel>
 		<SidePanel.TopArea>
-			<BrainIcon className={cn(styles.bookIcon, styles.topLogo)} />
+			<Icons.BrainIcon className={cn(styles.bookIcon, styles.topLogo)} />
 			<div className={styles.topTitle}>Eni</div>
 		</SidePanel.TopArea>
 
 		<SidePanel.Navigation>
 			<SidePanel.NavItem
 				ariaLabel='search movies'
-				icon={<SearchIcon className={styles.searchIcon} />}
+				icon={<Icons.SearchIcon className={styles.searchIcon} />}
 				text='Search'
 				to='/search'
 			/>
@@ -71,7 +63,7 @@ export const AppSidePanel = () => (
 					showWordsCount
 					ariaLabel='profile with words'
 					customClassName={styles.words}
-					icon={<BookIcon className={styles.bookIcon} />}
+					icon={<Icons.BookIcon className={styles.bookIcon} />}
 					text='Words'
 					to='/user'
 				/>
@@ -79,7 +71,7 @@ export const AppSidePanel = () => (
 
 			<SidePanel.NavItem
 				ariaLabel='popular words'
-				icon={<PopularIcon className={styles.popularIcon} />}
+				icon={<Icons.PopularIcon className={styles.popularIcon} />}
 				text='Popular'
 				to='/popular'
 			/>
@@ -87,18 +79,11 @@ export const AppSidePanel = () => (
 			<SidePanel.AuthorizedItem>
 				<SidePanel.NavItem
 					ariaLabel='settings'
-					icon={<SettingsIcon />}
+					icon={<Icons.SettingsIcon />}
 					text='Settings'
 					to='/settings'
 				/>
 			</SidePanel.AuthorizedItem>
-
-			<SidePanel.NavItem
-				ariaLabel='app info'
-				icon={<InfoIcon />}
-				text='Info'
-				to='/info'
-			/>
 		</SidePanel.Navigation>
 
 		<SidePanel.BottomNavigation />

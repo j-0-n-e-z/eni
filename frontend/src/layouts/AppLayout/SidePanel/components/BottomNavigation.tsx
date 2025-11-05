@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 import { Link, useLocation } from 'react-router-dom'
 
 import { useAuthActions, useAuthData } from '@/hooks'
-import { LoginIcon } from '@/ui/icons'
+import { Icons } from '@/ui'
 import { getErrorMessage } from '@/utils'
 
 import styles from '../SidePanel.module.scss'
@@ -22,7 +22,7 @@ export const BottomNavigation = () => {
 		if (logoutError) {
 			const logoutErrorMessage = getErrorMessage(logoutError)
 			if (logoutErrorMessage) {
-				toast.error(logoutErrorMessage)
+				toast.error(logoutErrorMessage, { id: 'logoutError' })
 			}
 		}
 	}, [logoutError])
@@ -35,7 +35,7 @@ export const BottomNavigation = () => {
 					className={styles.login}
 					onClick={() => logout()}
 				>
-					<LoginIcon className={styles.logoutIcon} />
+					<Icons.LoginIcon className={styles.logoutIcon} />
 					<span className={styles.loginText}>Logout</span>
 				</button>
 			) : (
@@ -44,7 +44,7 @@ export const BottomNavigation = () => {
 					className={cn(styles.login, setActiveIf('/login'))}
 					to='/login'
 				>
-					<LoginIcon className={styles.loginIcon} />
+					<Icons.LoginIcon className={styles.loginIcon} />
 					<span className={styles.loginText}>Login</span>
 				</Link>
 			)}

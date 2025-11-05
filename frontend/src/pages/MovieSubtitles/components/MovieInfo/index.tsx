@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom'
 
 import { useGetMovieBoxOfficeByKinopoiskIdQuery } from '@/store/api'
 import type { KinopoiskMovie } from '@/types'
-import { Container, Skeleton } from '@/ui'
-import { ArrowIcon, ImdbIcon, TranslateIcon } from '@/ui/icons'
+import { Container, Icons, Skeleton } from '@/ui'
 import { formatMinutesToHours, formatMoney, formatRating } from '@/utils'
 
 import styles from './MovieInfo.module.scss'
@@ -59,7 +58,7 @@ export const MovieInfo: FC<MovieInfoProps> = ({ movie }) => {
 								: (movie.nameRu ?? 'Отсутствует название на русском языке')}
 						</Link>
 						{movie.nameOriginal && (
-							<TranslateIcon
+							<Icons.TranslateIcon
 								className={styles.translateTitleIcon}
 								onClick={() => setIsShowOriginalTitle((p) => !p)}
 							/>
@@ -91,7 +90,7 @@ export const MovieInfo: FC<MovieInfoProps> = ({ movie }) => {
 									: (movie.nameRu ?? 'Отсутствует название на русском языке')}
 							</a>
 							{movie.nameOriginal && (
-								<TranslateIcon
+								<Icons.TranslateIcon
 									className={styles.translateTitleIcon}
 									onClick={() => setIsShowOriginalTitle((p) => !p)}
 								/>
@@ -130,7 +129,7 @@ export const MovieInfo: FC<MovieInfoProps> = ({ movie }) => {
 											target='_blank'
 										>
 											{movie.ratingImdb.toFixed(1)}
-											<ImdbIcon className={styles.imdbLogo} />
+											<Icons.ImdbIcon className={styles.imdbLogo} />
 										</a>
 									</div>
 								)}
@@ -206,7 +205,7 @@ export const MovieInfo: FC<MovieInfoProps> = ({ movie }) => {
 				className={styles.toggleMovieInfoBtn}
 				onClick={toggleHideMovieInfo}
 			>
-				<ArrowIcon />
+				<Icons.ArrowIcon />
 			</button>
 		</section>
 	)

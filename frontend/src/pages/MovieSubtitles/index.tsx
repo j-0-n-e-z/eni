@@ -3,8 +3,7 @@ import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 import type { MovieSubtitlesContext } from '@/frontend-types'
 import { useGetMovieByKinopoiskIdQuery } from '@/store/api'
-import { EmptyState, ErrorDisplay } from '@/ui'
-import { EmptyIcon } from '@/ui/icons'
+import { EmptyState, ErrorDisplay, Icons } from '@/ui'
 
 import styles from './MovieSubtitlesPage.module.scss'
 import { MovieInfo } from './components/MovieInfo'
@@ -31,7 +30,7 @@ export const MovieSubtitles: FC = () => {
 			<EmptyState
 				description='Отсутствует id фильма'
 				header='Упс...'
-				icon={<EmptyIcon />}
+				icon={<Icons.EmptyIcon />}
 			/>
 		)
 	if (isMovieLoading) return <MovieInfoSkeleton />
@@ -43,7 +42,7 @@ export const MovieSubtitles: FC = () => {
 			<EmptyState
 				description='Нет данных о фильме'
 				header='Упс...'
-				icon={<EmptyIcon />}
+				icon={<Icons.EmptyIcon />}
 			/>
 		)
 

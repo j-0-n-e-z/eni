@@ -11,13 +11,7 @@ import {
 	useGetWordsByUserIdQuery
 } from '@/store/api'
 import type { PureSubtitle } from '@/types'
-import { EmptyState, ErrorDisplay, Skeleton } from '@/ui'
-import {
-	CaseSensitiveIcon,
-	EmptyIcon,
-	SearchIcon,
-	WholeWordIcon
-} from '@/ui/icons'
+import { EmptyState, ErrorDisplay, Icons, Skeleton } from '@/ui'
 import { includesWord } from '@/utils'
 
 import { Paginator } from './Paginator/Paginator'
@@ -134,7 +128,7 @@ export const Subtitles: FC = () => {
 				<EmptyState
 					description='Субтитры не найдены'
 					header='Пусто'
-					icon={<EmptyIcon />}
+					icon={<Icons.EmptyIcon />}
 				/>
 			)
 
@@ -172,9 +166,9 @@ export const Subtitles: FC = () => {
 		if (foundSubtitlesWithSearchedWord.length === 0)
 			return (
 				<EmptyState
-					description={`Слово "${searchedWord}" не найдено`}
+					description={`Слово "${debouncedSearchedWord}" не найдено`}
 					header='Не найдено'
-					icon={<SearchIcon />}
+					icon={<Icons.SearchIcon />}
 				/>
 			)
 
@@ -231,7 +225,7 @@ export const Subtitles: FC = () => {
 									type='checkbox'
 									onChange={() => setIsCaseSensitive((p) => !p)}
 								/>
-								<CaseSensitiveIcon />
+								<Icons.CaseSensitiveIcon />
 							</label>
 							<label
 								aria-label='whole word'
@@ -244,7 +238,7 @@ export const Subtitles: FC = () => {
 									type='checkbox'
 									onChange={() => setIsWholeMatch((p) => !p)}
 								/>
-								<WholeWordIcon />
+								<Icons.WholeWordIcon />
 							</label>
 						</div>
 					</div>

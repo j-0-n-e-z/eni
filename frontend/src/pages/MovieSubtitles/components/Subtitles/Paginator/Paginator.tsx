@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import React from 'react'
 
-import { ArrowIcon } from '@/ui/icons'
+import { Icons } from '@/ui'
 
 import styles from './Paginator.module.scss'
 import { generatePages } from './generatePages'
@@ -51,7 +51,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
 					disabled={currentPage === 1}
 					onClick={() => goToPage(currentPage - 1)}
 				>
-					<ArrowIcon className={styles.prevIcon} />
+					<Icons.ArrowIcon className={styles.prevIcon} />
 				</button>
 
 				{generatePages(pageCount, currentPage).map((page, index) =>
@@ -89,7 +89,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
 					disabled={currentPage === pageCount}
 					onClick={() => goToPage(currentPage + 1)}
 				>
-					<ArrowIcon className={styles.nextIcon} />
+					<Icons.ArrowIcon className={styles.nextIcon} />
 				</button>
 			</div>
 

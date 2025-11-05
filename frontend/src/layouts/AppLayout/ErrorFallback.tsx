@@ -1,9 +1,13 @@
-import { EmptyIcon, EmptyState } from '@/ui'
+import { EmptyState, Icons } from '@/ui'
 
-export const ErrorFallback = ({ error }: { error: Error }) => (
+interface ErrorFallbackProps {
+	error: Error
+}
+
+export const ErrorFallback = ({ error }: ErrorFallbackProps) => (
 	<EmptyState
 		description={error.message}
 		header='Error occured'
-		icon={<EmptyIcon />}
+		icon={<Icons.EmptyIcon />}
 	/>
 )

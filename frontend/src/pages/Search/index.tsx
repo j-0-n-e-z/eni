@@ -7,8 +7,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useDebounce } from '@/hooks'
 import { selectMoviesFromHistory } from '@/store'
 import { useLazySearchMoviesQuery } from '@/store/api'
-import { Container, EmptyState, ErrorDisplay } from '@/ui'
-import { CancelIcon, MovieIcon, SearchIcon } from '@/ui/icons'
+import { Container, EmptyState, ErrorDisplay, Icons } from '@/ui'
 
 import styles from './Search.module.scss'
 import { SearchResults } from './components/SearchResults'
@@ -87,7 +86,7 @@ export const Search: FC = () => {
 				<EmptyState
 					description='Введите название фильма в поле поиска'
 					header='Пока пусто'
-					icon={<MovieIcon />}
+					icon={<Icons.MovieIcon />}
 				/>
 			)
 
@@ -96,7 +95,7 @@ export const Search: FC = () => {
 				<EmptyState
 					description='Похоже фильм отсутствует в базе кинопоиска'
 					header='Ничего не найдено'
-					icon={<MovieIcon />}
+					icon={<Icons.MovieIcon />}
 				/>
 			)
 
@@ -118,7 +117,7 @@ export const Search: FC = () => {
 			<div className={styles.searchContainer}>
 				<label className={styles.inputContainer} htmlFor='search'>
 					<button className={styles.searchBtn} onClick={searchMovies}>
-						<SearchIcon className={styles.searchIcon} />
+						<Icons.SearchIcon className={styles.searchIcon} />
 					</button>
 
 					<input
@@ -133,7 +132,7 @@ export const Search: FC = () => {
 					/>
 
 					<button className={styles.clearBtn} onClick={clearInput}>
-						<CancelIcon className={styles.clearIcon} />
+						<Icons.CancelIcon className={styles.clearIcon} />
 					</button>
 				</label>
 			</div>

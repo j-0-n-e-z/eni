@@ -1,5 +1,5 @@
 import { useTheme, useThemeToggle } from '@/hooks'
-import { MoonIcon, SunIcon } from '@/ui'
+import { Icons } from '@/ui'
 
 import styles from '../SidePanel.module.scss'
 
@@ -17,8 +17,8 @@ export const ThemeToggle = () => {
 					} as React.CSSProperties
 				}
 			>
-				<MoonIcon />
-				<SunIcon />
+				<Icons.MoonIcon />
+				<Icons.SunIcon />
 			</div>
 		</button>
 	)

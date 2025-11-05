@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import type { FC } from 'react'
 
-import { TrashIcon } from '@/ui/icons'
+import { Icons } from '@/ui/icons'
 
 import styles from './DeleteButton.module.scss'
 
@@ -13,6 +13,6 @@ export const DeleteButton: FC<DeleteButtonProps> = ({
 	...props
 }) => (
 	<button className={cn(styles.deleteBtn, className)} {...props}>
-		<TrashIcon className={styles.deleteBtnIcon} />
+		<Icons.TrashIcon className={styles.deleteBtnIcon} />
 	</button>
 )

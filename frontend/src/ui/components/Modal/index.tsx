@@ -3,7 +3,7 @@
 import { type FC } from 'react'
 import ReactDOM from 'react-dom'
 
-import { CancelIcon } from '@/ui/icons'
+import { Icons } from '@/ui/icons'
 
 import styles from './Modal.module.scss'
 
@@ -25,7 +25,7 @@ export const Modal: FC<ModalProps> = ({ children, isOpen, onClose }) => {
 					className={styles.modalCloseBtn}
 					onClick={onClose}
 				>
-					<CancelIcon />
+					<Icons.CancelIcon />
 				</button>
 			</div>
 		</div>,

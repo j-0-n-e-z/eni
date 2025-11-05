@@ -10,8 +10,7 @@ import {
 	useSaveWordMutation
 } from '@/store/api'
 import type { PureSubtitle, SavedWord, Word } from '@/types'
-import { Skeleton } from '@/ui'
-import { ErrorIcon, TranslateIcon } from '@/ui/icons'
+import { Icons, Skeleton } from '@/ui'
 import { getErrorMessage } from '@/utils'
 
 import { SubtitleSavedWords } from '../SubtitleSavedWords'
@@ -142,7 +141,7 @@ export const Subtitle: FC<SubtitleProps> = ({
 		if (subtitleTranslationError)
 			return (
 				<p className={cn(styles.subtitleTranslation, styles.error)}>
-					<ErrorIcon />
+					<Icons.ErrorIcon />
 					{getErrorMessage(subtitleTranslationError)}
 				</p>
 			)
@@ -211,7 +210,7 @@ export const Subtitle: FC<SubtitleProps> = ({
 					className={styles.translateBtn}
 					onClick={() => translateSubtitle(subtitle.text)}
 				>
-					<TranslateIcon />
+					<Icons.TranslateIcon />
 				</button>
 			</div>
 		</li>

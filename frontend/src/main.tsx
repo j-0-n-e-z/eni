@@ -10,8 +10,7 @@ import { Auth, Main, MovieSubtitles, Popular, Profile, Search } from '@/pages'
 import { MovieSubtitlesPicker } from '@/pages/MovieSubtitles/components/MovieSubtitlesPicker'
 import { Subtitles } from '@/pages/MovieSubtitles/components/Subtitles'
 import { store } from '@/store'
-import { EmptyState } from '@/ui'
-import { EmptyIcon } from '@/ui/icons'
+import { EmptyState, Icons } from '@/ui'
 
 function tryFixUrl() {
 	const { pathname, search, hash, origin } = window.location
@@ -64,7 +63,7 @@ const router = createBrowserRouter([
 					<EmptyState
 						description='Such path does not exist'
 						header='Path not found'
-						icon={<EmptyIcon />}
+						icon={<Icons.EmptyIcon />}
 					/>
 				),
 				path: '*'

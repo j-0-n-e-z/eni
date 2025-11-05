@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { useState } from 'react'
 
-import { BurgerMenuIcon, CancelIcon } from '@/ui'
+import { Icons } from '@/ui'
 
 import styles from './SidePanel.module.scss'
 
@@ -16,7 +16,7 @@ export const MenuBurgerButton = () => {
 			})}
 			onClick={() => setIsSidepanelOpen((isOpen) => !isOpen)}
 		>
-			{isSidepanelOpen ? <CancelIcon /> : <BurgerMenuIcon />}
+			{isSidepanelOpen ? <Icons.CancelIcon /> : <Icons.BurgerMenuIcon />}
 		</button>
 	)
 }

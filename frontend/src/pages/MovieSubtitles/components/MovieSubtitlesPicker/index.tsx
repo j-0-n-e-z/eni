@@ -3,8 +3,7 @@ import { useOutletContext } from 'react-router-dom'
 
 import type { MovieSubtitlesContext } from '@/frontend-types'
 import { useGetMovieSubtitlesQuery } from '@/store/api'
-import { Container, EmptyState, ErrorDisplay } from '@/ui'
-import { SubtitleIcon } from '@/ui/icons'
+import { Container, EmptyState, ErrorDisplay, Icons } from '@/ui'
 
 import { MovieSubtitle } from './MovieSubtitle'
 import styles from './MovieSubtitlesPicker.module.scss'
@@ -30,7 +29,7 @@ export const MovieSubtitlesPicker: FC = () => {
 			<EmptyState
 				description='Варианты субтитров не найдены'
 				header='Не найдено'
-				icon={<SubtitleIcon />}
+				icon={<Icons.SubtitleIcon />}
 			/>
 		)
 
