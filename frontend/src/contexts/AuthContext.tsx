@@ -44,21 +44,27 @@ export const AuthProvider = ({ children }: AuthDataProviderProps) => {
 		isMeSuccess
 	} = useAuth()
 
-	const dataValue = {
-		isLoginLoading,
-		isLogoutLoading,
-		isMeFetching,
-		isMeSuccess,
-		loginError,
-		logoutError,
-		me,
-		meError
-	}
+	const dataValue = useMemo(
+		() => ({
+			isLoginLoading,
+			isLogoutLoading,
+			isMeFetching,
+			isMeSuccess,
+			loginError,
+			logoutError,
+			me,
+			meError
+		}),
+		[me]
+	)
 
-	const actionsValue = useMemo(() => ({
-		login,
-		logout
-	}), [login, logout])
+	const actionsValue = useMemo(
+		() => ({
+			login,
+			logout
+		}),
+		[login, logout]
+	)
 
 	return (
 		<AuthDataContext.Provider value={dataValue}>
