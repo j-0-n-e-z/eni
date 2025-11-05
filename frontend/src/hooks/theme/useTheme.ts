@@ -5,7 +5,7 @@ import { ThemeContext } from '@/contexts'
 export const useTheme = () => {
 	const context = useContext(ThemeContext)
 
-	if (context === null) {
+	if (!context) {
 		throw new Error('useTheme must be used within a ThemeProvider')
 	}
 

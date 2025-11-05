@@ -1,10 +1,8 @@
-import type { ReactNode } from 'react'
-
 import { useAuthData } from '@/hooks'
 
 interface AuthorizedItemProps {
-	children: ReactNode
-	fallback?: ReactNode
+	children: React.ReactNode
+	fallback?: React.ReactNode
 }
 
 export const AuthorizedItem = ({
