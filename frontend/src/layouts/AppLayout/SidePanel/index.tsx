@@ -2,10 +2,11 @@ import cn from 'classnames'
 import { type ReactNode } from 'react'
 
 import { useAuthData } from '@/hooks'
-import { Icons, Skeleton } from '@/ui'
+import { Icons } from '@/ui'
 
 import { MenuBurgerButton } from './MenuBurgerButton'
 import styles from './SidePanel.module.scss'
+import { SidePanelSkeleton } from './SidePanelSkeleton'
 import { AuthorizedItem } from './components/AuthorizedItem'
 import { BottomNavigation } from './components/BottomNavigation'
 import { NavItem } from './components/NavItem'
@@ -20,12 +21,7 @@ interface SidePanelProps {
 const SidePanel = ({ children }: SidePanelProps) => {
 	const { isMeFetching } = useAuthData()
 
-	if (isMeFetching)
-		return (
-			<aside className={styles.sidepanel}>
-				<Skeleton containerClassName='flex1' height='100%' variant='dark' />
-			</aside>
-		)
+	if (isMeFetching) return <SidePanelSkeleton />
 
 	return (
 		<>
