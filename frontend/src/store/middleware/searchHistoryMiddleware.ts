@@ -2,7 +2,7 @@ import { isAnyOf, type Middleware } from '@reduxjs/toolkit'
 
 import type { RootState } from '@/store'
 import {
-	clearMovieHistory,
+	clearMoviesHistory,
 	removeMovieFromHistory,
 	upsertMovieInHistory
 } from '@/store'
@@ -13,7 +13,7 @@ export const searchHistoryMiddleware: Middleware =
 
 		if (
 			isAnyOf(
-				clearMovieHistory,
+				clearMoviesHistory,
 				removeMovieFromHistory,
 				upsertMovieInHistory
 			)(action)
