@@ -201,6 +201,10 @@
 	}
 }
 
+.navLink.active {
+	background: $overlay-white-15;
+}
+
 .navLinkText {
 	width: 0;
 	color: $text-white;
@@ -216,10 +220,6 @@
 
 .searchIcon path {
 	stroke-width: 3px;
-}
-
-.navLink.active {
-	background: $overlay-white-15;
 }
 
 .words {
