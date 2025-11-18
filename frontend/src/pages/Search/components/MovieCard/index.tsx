@@ -1,8 +1,9 @@
 import cn from 'classnames'
-import type { FC } from 'react'
 import { useInView } from 'react-intersection-observer'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+import { removeMovieFromHistory, upsertMovieInHistory } from '@/store'
 import type { BaseKinoposikMovie } from '@/types'
 import { DeleteButton } from '@/ui'
 import { formatDurationStrToHours } from '@/utils'
@@ -12,23 +13,22 @@ import styles from './MovieCard.module.scss'
 interface MovieCardProps {
 	movie: BaseKinoposikMovie
 	isHistory?: true
-	addToSearchHistory: (movie: BaseKinoposikMovie) => void
-	handleDeleteMovieBtnClick: (
-		e: React.MouseEvent<HTMLButtonElement>,
-		filmId: number
-	) => void
 }
 
-export const MovieCard: FC<MovieCardProps> = ({
-	movie,
-	addToSearchHistory,
-	handleDeleteMovieBtnClick,
-	isHistory
-}) => {
+export const MovieCard = ({ movie, isHistory }: MovieCardProps) => {
 	const { ref, inView } = useInView({
 		threshold: 0.2,
 		triggerOnce: true
 	})
+	const dispatch = useDispatch()
+
+	const onDeleteButtonClick = (
+		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+	) => {
+		e.preventDefault()
+		e.stopPropagation()
+		dispatch(removeMovieFromHistory(movie.filmId))
+	}
 
 	return (
 		<li
@@ -39,12 +39,12 @@ export const MovieCard: FC<MovieCardProps> = ({
 			<Link
 				className={styles.movieCard}
 				to={`/movie/${movie.filmId}`}
-				onClick={() => addToSearchHistory(movie)}
+				onClick={() => dispatch(upsertMovieInHistory(movie))}
 			>
 				{isHistory && (
 					<DeleteButton
 						className={styles.deleteBtn}
-						onClick={(e) => handleDeleteMovieBtnClick(e, movie.filmId)}
+						onClick={onDeleteButtonClick}
 					/>
 				)}
 				<img

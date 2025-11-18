@@ -1,8 +1,6 @@
-import type { FC } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { useSelector } from 'react-redux'
-import { useSearchParams } from 'react-router-dom'
 
 import { useDebounce } from '@/hooks'
 import { selectMoviesFromHistory } from '@/store'
@@ -13,9 +11,8 @@ import styles from './Search.module.scss'
 import { SearchResults } from './components/SearchResults'
 import { SearchResultsSkeleton } from './components/SearchResults/SearchResultsSkeleton'
 
-export const Search: FC = () => {
-	const [searchParams, setSearchParams] = useSearchParams()
-	const [movieTitle, setMovieTitle] = useState(searchParams.get('query') ?? '')
+export const Search = () => {
+	const [movieTitle, setMovieTitle] = useState('')
 	const [debouncedMovieTitle, cancelDebounce] = useDebounce(movieTitle, 500)
 	const historyMovies = useSelector(selectMoviesFromHistory)
 	const [
@@ -32,28 +29,9 @@ export const Search: FC = () => {
 
 	useEffect(() => {
 		if (debouncedMovieTitle) {
-			if (searchParams.get('query') !== debouncedMovieTitle) {
-				setSearchParams({ query: debouncedMovieTitle })
-			}
 			searchQueryRef.current = triggerSearch(debouncedMovieTitle)
-		} else {
-			setSearchParams({})
 		}
 	}, [debouncedMovieTitle])
-
-	useEffect(() => {
-		const query = searchParams.get('query')
-
-		if (!query) {
-			searchQueryRef.current?.abort()
-			searchQueryRef.current = null
-			return
-		}
-
-		if (movieTitle.trim() !== query) {
-			setMovieTitle(query)
-		}
-	}, [searchParams])
 
 	useEffect(() => () => searchQueryRef.current?.abort(), [])
 
@@ -71,7 +49,6 @@ export const Search: FC = () => {
 
 		if (movieTitleTrimmed) {
 			cancelDebounce()
-			setSearchParams({ query: movieTitleTrimmed })
 			searchQueryRef.current = triggerSearch(movieTitleTrimmed)
 		}
 	}
