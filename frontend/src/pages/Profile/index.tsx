@@ -10,9 +10,9 @@ export const Profile = () => {
 	const { me } = useAuthData()
 	const { username } = useParams()
 
-	if (!me || !username) return <ProfileSkeleton />
+	if (!username) return <ProfileSkeleton />
 
-	return me.username === username ? (
+	return me?.username === username ? (
 		<MyProfile />
 	) : (
 		<UserProfile username={username} />
