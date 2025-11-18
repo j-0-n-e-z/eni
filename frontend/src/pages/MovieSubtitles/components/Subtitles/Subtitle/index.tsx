@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { useEffect, useRef, type FC } from 'react'
+import { useEffect, useRef } from 'react'
 import toast from 'react-hot-toast'
 import { useSearchParams } from 'react-router-dom'
 
@@ -27,12 +27,12 @@ interface SubtitleProps {
 	savedWords: SavedWord[] | undefined
 }
 
-export const Subtitle: FC<SubtitleProps> = ({
+export const Subtitle = ({
 	myId,
 	savedWords,
 	subtitle,
 	subtitleSource
-}) => {
+}: SubtitleProps) => {
 	const savedJoinedWords = savedWords?.filter((w) => w.isJoined)
 	const savedSingleWords = savedWords?.filter((w) => !w.isJoined)
 	const [searchParams] = useSearchParams()

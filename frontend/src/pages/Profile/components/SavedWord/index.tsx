@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { useState, type FC } from 'react'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
 
 import { useDeleteWordMutation } from '@/store/api'
@@ -17,7 +17,7 @@ interface SavedWordProps {
 	myId: string | undefined
 }
 
-export const SavedWord: FC<SavedWordProps> = ({ word, isMyProfile, myId }) => {
+export const SavedWord = ({ word, isMyProfile, myId }: SavedWordProps) => {
 	const [isSourcesModalOpen, setIsSourcesModalOpen] = useState(false)
 	const [triggerDeleteWord] = useDeleteWordMutation()
 
@@ -64,6 +64,7 @@ export const SavedWord: FC<SavedWordProps> = ({ word, isMyProfile, myId }) => {
 				>
 					<Icons.EyeIcon />
 				</button>
+				
 				{isMyProfile && (
 					<button
 						aria-label='delete word'

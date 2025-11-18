@@ -1,5 +1,3 @@
-import type { FC } from 'react'
-
 import { useGetUserByUsernameQuery } from '@/store/api'
 import { ErrorDisplay } from '@/ui'
 
@@ -10,7 +8,7 @@ interface UserProfileProps {
 	username: string
 }
 
-export const UserProfile: FC<UserProfileProps> = ({ username }) => {
+export const UserProfile = ({ username }: UserProfileProps) => {
 	const {
 		data: user,
 		isFetching: isUserFetcing,

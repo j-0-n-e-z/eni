@@ -1,12 +1,10 @@
-import type { FC } from 'react'
-
 import styles from './WordTranslation.module.scss'
 
 interface WordTranslationProps {
 	translation: string
 }
 
-export const WordTranslation: FC<WordTranslationProps> = ({ translation }) => {
+export const WordTranslation = ({ translation }: WordTranslationProps) => {
 	const isDefinition =
 		translation && (translation.includes('\n') || translation.includes(': '))
 
@@ -25,7 +23,7 @@ export const WordTranslation: FC<WordTranslationProps> = ({ translation }) => {
 			{isDefinition ? (
 				transformDefinitionToTranslation(translation)
 			) : (
-				<div className={styles.translation}>{translation}</div>
+				<span className={styles.translation}>{translation}</span>
 			)}
 		</div>
 	)

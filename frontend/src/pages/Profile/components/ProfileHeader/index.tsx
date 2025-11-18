@@ -1,5 +1,3 @@
-import type { FC } from 'react'
-
 import { Icons } from '@/ui'
 
 import styles from '../../Profile.module.scss'
@@ -10,11 +8,11 @@ interface ProfileHeaderProps {
 	savedWordsCount: number
 }
 
-export const ProfileHeader: FC<ProfileHeaderProps> = ({
+export const ProfileHeader = ({
 	username,
 	email,
 	savedWordsCount
-}) => (
+}: ProfileHeaderProps) => (
 	<section className={styles.profileHeader}>
 		<div className={styles.headerContent}>
 			<div className={styles.avatarContainer}>

@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { useEffect, useState, type FC } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { Link } from 'react-router-dom'
 
@@ -14,7 +14,7 @@ interface MovieInfoProps {
 	movie: KinopoiskMovie
 }
 
-export const MovieInfo: FC<MovieInfoProps> = ({ movie }) => {
+export const MovieInfo = ({ movie }: MovieInfoProps) => {
 	const {
 		data: boxOffice,
 		error: boxOfficeError,

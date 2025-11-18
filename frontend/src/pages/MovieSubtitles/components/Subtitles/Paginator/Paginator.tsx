@@ -14,13 +14,13 @@ interface PaginatorProps {
 	goToPage: (page: number) => void
 }
 
-export const Paginator: React.FC<PaginatorProps> = ({
+export const Paginator = ({
 	currentPage,
 	itemsLength,
 	itemsPerPage,
 	goToPage,
 	isDisabled
-}) => {
+}: PaginatorProps) => {
 	const pageCount = Math.ceil(itemsLength / itemsPerPage)
 
 	if (pageCount < 1) return null

@@ -1,5 +1,4 @@
 import type { SerializedError } from '@reduxjs/toolkit'
-import type { FC } from 'react'
 
 import type { BackendError } from '@/frontend-types'
 import { Icons } from '@/ui/icons'
@@ -11,7 +10,7 @@ interface ErrorDisplayProps {
 	error: BackendError | SerializedError | undefined
 }
 
-export const ErrorDisplay: FC<ErrorDisplayProps> = ({ error }) => (
+export const ErrorDisplay = ({ error }: ErrorDisplayProps) => (
 	<EmptyState
 		description={getErrorMessage(error)}
 		header='Error occured'

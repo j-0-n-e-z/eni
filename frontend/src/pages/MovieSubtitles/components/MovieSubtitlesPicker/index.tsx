@@ -1,4 +1,3 @@
-import type { FC } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import type { MovieSubtitlesContext } from '@/frontend-types'
@@ -9,7 +8,7 @@ import { MovieSubtitle } from './MovieSubtitle'
 import styles from './MovieSubtitlesPicker.module.scss'
 import { MovieSubtitlesPickerSkeleton } from './MovieSubtitlesPickerSkeleton'
 
-export const MovieSubtitlesPicker: FC = () => {
+export const MovieSubtitlesPicker = () => {
 	const { imdbId, movieName } = useOutletContext<MovieSubtitlesContext>()
 	const query = imdbId || movieName
 	const {

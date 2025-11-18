@@ -1,5 +1,4 @@
 import cn from 'classnames'
-import type { FC } from 'react'
 
 import type { Word } from '@/types'
 
@@ -14,14 +13,14 @@ interface WordsPanelProps {
 	hasWordsToSave: boolean
 }
 
-export const WordsPanel: FC<WordsPanelProps> = ({
+export const WordsPanel = ({
 	selectedWords,
 	wordsToJoin,
 	toggleWordToJoin,
 	saveSingleWords,
 	saveJoinedWords,
 	hasWordsToSave
-}) => (
+}: WordsPanelProps) => (
 	<div className={styles.joinWordsPanel}>
 		<div className={styles.wordsJoinContainer}>
 			{selectedWords.map((word) => (

@@ -1,5 +1,3 @@
-import type { FC } from 'react'
-
 import type { SavedWord } from '@/types'
 import { Icons } from '@/ui'
 
@@ -10,10 +8,10 @@ interface SubtitleSavedWordsProps {
 	removeWord: (word: SavedWord) => void
 }
 
-export const SubtitleSavedWords: FC<SubtitleSavedWordsProps> = ({
+export const SubtitleSavedWords = ({
 	savedWords,
 	removeWord
-}) => {
+}: SubtitleSavedWordsProps) => {
 	const renderWordTranslation = (word: SavedWord) => {
 		if (
 			word.translation &&

@@ -1,4 +1,3 @@
-import { type FC } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 import type { MovieSubtitlesContext } from '@/frontend-types'
@@ -9,7 +8,7 @@ import styles from './MovieSubtitlesPage.module.scss'
 import { MovieInfo } from './components/MovieInfo'
 import { MovieInfoSkeleton } from './components/MovieInfo/MovieInfoSkeleton'
 
-export const MovieSubtitles: FC = () => {
+export const MovieSubtitles = () => {
 	const { movieId: movieIdFromUrl } = useParams()
 	const movieId = Number(movieIdFromUrl)
 	const navigate = useNavigate()

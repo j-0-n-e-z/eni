@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { zodResolver } from '@hookform/resolvers/zod'
 import cn from 'classnames'
-import type { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
@@ -16,7 +15,7 @@ interface SignupProps {
 	goToLogin: () => void
 }
 
-export const Signup: FC<SignupProps> = ({ goToLogin }) => {
+export const Signup = ({ goToLogin }: SignupProps) => {
 	const {
 		register,
 		handleSubmit,

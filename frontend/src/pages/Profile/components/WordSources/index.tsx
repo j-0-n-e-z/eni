@@ -1,5 +1,4 @@
 import cn from 'classnames'
-import type { FC } from 'react'
 import toast from 'react-hot-toast'
 import Skeleton from 'react-loading-skeleton'
 import { useNavigate } from 'react-router-dom'
@@ -12,7 +11,7 @@ import {
 import type { SavedWord, WordSource } from '@/types'
 import { ErrorDisplay, Icons } from '@/ui'
 
-import s from './WordSources.module.scss'
+import styles from './WordSources.module.scss'
 
 interface WordSourcesProps {
 	myId: string | undefined
@@ -21,12 +20,12 @@ interface WordSourcesProps {
 	userSources: WordSource[]
 }
 
-export const WordSources: FC<WordSourcesProps> = ({
+export const WordSources = ({
 	word,
 	userSources,
 	myId,
 	isMyProfile
-}) => {
+}: WordSourcesProps) => {
 	const navigate = useNavigate()
 	const [
 		triggerGetMoreWordSources,
@@ -75,23 +74,23 @@ export const WordSources: FC<WordSourcesProps> = ({
 		isMySources: boolean = false
 	) {
 		return (
-			<ul className={s.wordSourceList}>
+			<ul className={styles.wordSourceList}>
 				{sources.map((source) => (
 					<li
 						key={source.id}
-						className={cn(s.wordSource, { [s.mySource]: isMySources })}
+						className={cn(styles.wordSource, { [styles.mySource]: isMySources })}
 					>
-						<button className={s.sourceHero} onClick={() => goToWord(source)}>
-							<img alt='poster' className={s.poster} src={source.posterUrl} />
-							<div className={s.sourceInfo}>
-								<h3 className={s.movieName}>{source.movieName}</h3>
-								<p className={s.sentence}>{source.sentence}</p>
+						<button className={styles.sourceHero} onClick={() => goToWord(source)}>
+							<img alt='poster' className={styles.poster} src={source.posterUrl} />
+							<div className={styles.sourceInfo}>
+								<h3 className={styles.movieName}>{source.movieName}</h3>
+								<p className={styles.sentence}>{source.sentence}</p>
 							</div>
 						</button>
 						{isMySources && (
 							<button
 								aria-label='delete my word source'
-								className={s.deleteMySourceBtn}
+								className={styles.deleteMySourceBtn}
 								onClick={() => deleteWordSource(source)}
 							>
 								<Icons.TrashIcon />
@@ -110,7 +109,7 @@ export const WordSources: FC<WordSourcesProps> = ({
 		if (!moreSources)
 			return (
 				<button
-					className={s.loadMoreBtn}
+					className={styles.loadMoreBtn}
 					onClick={() => triggerGetMoreWordSources(word.text)}
 				>
 					Load additional sources
@@ -125,7 +124,7 @@ export const WordSources: FC<WordSourcesProps> = ({
 
 		if (moreSourcesWithoutMySources.length === 0)
 			return (
-				<p className={s.noAdditionalSourcesMsg}>No additional sources found</p>
+				<p className={styles.noAdditionalSourcesMsg}>No additional sources found</p>
 			)
 
 		return renderSourceList(moreSourcesWithoutMySources)
@@ -133,13 +132,13 @@ export const WordSources: FC<WordSourcesProps> = ({
 
 	return (
 		<>
-			<h3 className={s.wordSourcesHeader}>
+			<h3 className={styles.wordSourcesHeader}>
 				Sources for word &quot;{word.text}&quot;
 			</h3>
-			<div className={s.wordSourcesContainer}>
+			<div className={styles.wordSourcesContainer}>
 				{renderSourceList(userSources, true)}
 
-				<div className={s.additionalSources}>{renderMoreSources()}</div>
+				<div className={styles.additionalSources}>{renderMoreSources()}</div>
 			</div>
 		</>
 	)

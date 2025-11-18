@@ -1,5 +1,4 @@
 import cn from 'classnames'
-import type { FC } from 'react'
 import { Fragment } from 'react'
 
 import type { SubtitleSource } from '@/frontend-types'
@@ -17,13 +16,13 @@ interface SubtitleWordProps {
 
 const PUNCTUATION = /([^\w]*)(\w+'?\w+)([^\w]*)/
 
-export const SubtitleWords: FC<SubtitleWordProps> = ({
+export const SubtitleWords = ({
 	subtitle,
 	toggleSelectedWord,
 	selectedWords,
 	myId,
 	subtitleSource
-}) => {
+}: SubtitleWordProps) => {
 	const words = subtitle.text.split(' ')
 
 	return (

@@ -7,11 +7,13 @@ export function useWordSelection() {
 	const [wordsToJoin, setWordsToJoin] = useState<Word[]>([])
 
 	const toggleSelectedWord = (word: Word) => {
-		setSelectedWords((prev) => {
-			if (prev.find((w) => w.id === word.id))
-				return prev.filter((w) => w.id !== word.id)
-			if (prev.find((w) => w.text === word.text)) return prev
-			return [...prev, word]
+		setSelectedWords((selectedWords) => {
+			if (selectedWords.find((w) => w.id === word.id))
+				return selectedWords.filter((w) => w.id !== word.id)
+
+			// if (selectedWords.find((w) => w.text === word.text)) return selectedWords
+
+			return [...selectedWords, word]
 		})
 	}
 

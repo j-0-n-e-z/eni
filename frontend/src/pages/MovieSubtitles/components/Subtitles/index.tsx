@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { useOutletContext, useParams, useSearchParams } from 'react-router-dom'
 
@@ -20,7 +19,7 @@ import styles from './Subtitles.module.scss'
 import { SubtitlesSkeleton } from './SubtitlesSkeleton'
 import { useSavedWordsByTimecode } from './hooks'
 
-export const Subtitles: FC = () => {
+export const Subtitles = () => {
 	const { movieName, posterUrl } = useOutletContext<MovieSubtitlesContext>()
 	const { movieId, fileId } = useParams()
 	const [searchParams, setSearchParams] = useSearchParams()

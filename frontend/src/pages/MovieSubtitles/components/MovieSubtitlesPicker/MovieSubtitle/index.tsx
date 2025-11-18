@@ -1,5 +1,4 @@
 import cn from 'classnames'
-import type { FC } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import type { MovieSubtitlesContext } from '@/frontend-types'
@@ -13,7 +12,7 @@ interface MovieSubtitleProps {
 	movieSubtitle: IMovieSubtitle
 }
 
-export const MovieSubtitle: FC<MovieSubtitleProps> = ({ movieSubtitle }) => {
+export const MovieSubtitle = ({ movieSubtitle }: MovieSubtitleProps) => {
 	const { goToSubtitles, movieKinopoiskId } =
 		useOutletContext<MovieSubtitlesContext>()
 

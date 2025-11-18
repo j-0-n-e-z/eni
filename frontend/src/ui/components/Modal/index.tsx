@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { type FC } from 'react'
 import ReactDOM from 'react-dom'
 
 import { Icons } from '@/ui/icons'
@@ -13,7 +12,7 @@ interface ModalProps {
 	onClose: () => void
 }
 
-export const Modal: FC<ModalProps> = ({ children, isOpen, onClose }) => {
+export const Modal = ({ children, isOpen, onClose }: ModalProps) => {
 	if (!isOpen) return null
 
 	return ReactDOM.createPortal(
