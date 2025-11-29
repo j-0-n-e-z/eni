@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }: AuthDataProviderProps) => {
 			me,
 			meError
 		}),
-		[me]
+		[isMeFetching, isLoginLoading, isLogoutLoading]
 	)
 
 	const actionsValue = useMemo(
