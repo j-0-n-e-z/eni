@@ -47,7 +47,7 @@ export const AppSidePanel = () => (
 
 		<SidePanel.Navigation>
 			<SidePanel.NavItem
-				ariaLabel='search movies'
+				aria-label='search movies'
 				icon={<Icons.SearchIcon className={styles.searchIcon} />}
 				text='Search'
 				to='/search'
@@ -56,8 +56,8 @@ export const AppSidePanel = () => (
 			<SidePanel.AuthorizedItem>
 				<SidePanel.NavItem
 					isToUserPath
-					showWordsCount
-					ariaLabel='profile with words'
+					isWordsItem
+					aria-label='profile with words'
 					customClassName={styles.words}
 					icon={<Icons.BookIcon className={styles.bookIcon} />}
 					text='Words'
@@ -66,7 +66,7 @@ export const AppSidePanel = () => (
 			</SidePanel.AuthorizedItem>
 
 			<SidePanel.NavItem
-				ariaLabel='popular words'
+				aria-label='popular words'
 				icon={<Icons.PopularIcon className={styles.popularIcon} />}
 				text='Popular'
 				to='/popular'
@@ -74,7 +74,7 @@ export const AppSidePanel = () => (
 
 			<SidePanel.AuthorizedItem>
 				<SidePanel.NavItem
-					ariaLabel='settings'
+					aria-label='settings'
 					icon={<Icons.SettingsIcon />}
 					text='Settings'
 					to='/settings'

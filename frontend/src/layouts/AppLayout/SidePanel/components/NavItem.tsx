@@ -1,18 +1,17 @@
 import cn from 'classnames'
-import { type ReactNode } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import React, { type ReactNode } from 'react'
+import { NavLink } from 'react-router-dom'
 
 import { useAuthData } from '@/hooks'
 import { useGetWordsByUserIdQuery } from '@/store/api'
 
 import styles from '../SidePanel.module.scss'
 
-interface NavItemProps {
+interface NavItemProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 	to: string
 	icon: ReactNode
 	text: string
-	ariaLabel: string
-	showWordsCount?: boolean
+	isWordsItem?: boolean
 	isToUserPath?: boolean
 	customClassName?: string
 }
@@ -21,10 +20,10 @@ export const NavItem = ({
 	to,
 	icon,
 	text,
-	ariaLabel,
 	isToUserPath = false,
-	showWordsCount: isWords = false,
-	customClassName
+	isWordsItem = false,
+	customClassName,
+	...props
 }: NavItemProps) => {
 	const { me } = useAuthData()
 	const { data: savedWords } = useGetWordsByUserIdQuery(me?.id ?? '', {
@@ -48,7 +47,7 @@ export const NavItem = ({
 			>
 				{icon}
 				<span className={styles.navLinkText}>{text}</span>
-				{isWords && savedWords && savedWords.length > 0 && (
+				{isWordsItem && savedWords && savedWords.length > 0 && (
 					<div className={styles.wordsCount}>{savedWords.length}</div>
 				)}
 			</NavLink>
