@@ -27,13 +27,8 @@ export const NavItem = ({
 	customClassName
 }: NavItemProps) => {
 	const { me } = useAuthData()
-	const location = useLocation()
 	const { data: savedWords } = useGetWordsByUserIdQuery(me?.id ?? '', {
-		skip: !isWords || !me?.id
-	})
-
-	const setActiveIf = (path: string) => ({
-		[styles.active]: location.pathname === path
+		skip: !isWordsItem || !me?.id
 	})
 
 	if (isToUserPath && !me) return null
@@ -42,17 +37,21 @@ export const NavItem = ({
 
 	return (
 		<li>
-			<Link
-				aria-label={ariaLabel}
-				className={cn(styles.navLink, customClassName, setActiveIf(finalTo))}
+			<NavLink
+				aria-label={props['aria-label']}
 				to={finalTo}
+				className={({ isActive }) =>
+					cn(styles.navLink, customClassName, {
+						[styles.active]: isActive
+					})
+				}
 			>
 				{icon}
 				<span className={styles.navLinkText}>{text}</span>
 				{isWords && savedWords && savedWords.length > 0 && (
 					<div className={styles.wordsCount}>{savedWords.length}</div>
 				)}
-			</Link>
+			</NavLink>
 		</li>
 	)
 }
