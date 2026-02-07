@@ -3,51 +3,76 @@ import { describe, expect, test } from 'vitest'
 import { includesWord } from '@/utils'
 
 describe('includesWord', () => {
-	test('should return TRUE with [match case] on "go" and "gold"', () => {
-		const word = 'go'
-		const text = "Thror's love of gold had grown too fierce."
-		expect(includesWord(text, word, true)).toBe(true)
+	describe('different case & match', () => {test.each([
+		['go', 'go', true, false, true],
+		['gold', 'go', true, false, true],
+		['g', 'go', true, false, false],
+		['Go', 'go', true, false, false],
+
+		['go', 'go', false, false, true],
+		['gold', 'go', false, false, true],
+		['g', 'go', false, false, false],
+		['Go', 'go', false, false, true],
+
+		['go', 'go', true, true, true],
+		['gold', 'go', true, true, false],
+		['g', 'go', true, true, false],
+		['Go', 'go', true, true, false],
+
+		['go', 'go', false, true, true],
+		['gold', 'go', false, true, false],
+		['g', 'go', false, true, false],
+		['Go', 'go', false, true, true]
+	])(
+		'should return $4 for $1 in $0 with case=$2 match=$3',
+		(text, word, isCaseSensetive, isWholeMatch, expected) => {
+			expect(includesWord(text, word, isCaseSensetive, isWholeMatch)).toBe(
+				expected
+			)
+		}
+	)})
+	
+
+	test.each([
+		['some text', '', false, false, false],
+		['', '', false, false, false],
+		['', 'word', false, false, false]
+	])(
+		'should return $4 for $1 in $0',
+		(text, word, isCaseSensetive, isWholeMatch, expected) => {
+			expect(includesWord(text, word, isCaseSensetive, isWholeMatch)).toBe(
+				expected
+			)
+		}
+	)
+
+	test('should return true with punctuation', () => {
+		expect(includesWord('gold,silver', 'gold', false, true)).toBe(true)
 	})
 
-	test('should return FALSE with [match case] on "go" and "Gold"', () => {
-		const word = 'go'
-		const text = "Thror's love of Gold had grown too fierce."
-		expect(includesWord(text, word, true)).toBe(false)
+	test('should return true when word appears multiple times', () => {
+		expect(includesWord('gold and more gold', 'gold', false, true)).toBe(true)
 	})
 
-	test('should return TRUE with [no match case] on "go" and "Gold"', () => {
-		const word = 'go'
-		const text = "Thror's love of Gold had grown too fierce."
-		expect(includesWord(text, word, false)).toBe(true)
+	test('should return true with unicode', () => {
+		expect(includesWord('café pizza', 'café', true)).toBe(true)
 	})
 
-	test('should return TRUE with [no match case] on "go" and "gold"', () => {
-		const word = 'go'
-		const text = "Thror's love of gold had grown too fierce."
-		expect(includesWord(text, word, false)).toBe(true)
+	test('should return true when word is at start of text', () => {
+		expect(includesWord('gold is shiny', 'gold', false, true)).toBe(true)
 	})
 
-	test('should return FALSE with [no match case] on "go" and "g"', () => {
-		const word = 'go'
-		const text = "Thror's love of g had grown too fierce."
-		expect(includesWord(text, word, false)).toBe(false)
+	test('should return true when word is at end of text', () => {
+		expect(includesWord('I love gold', 'gold', false, true)).toBe(true)
 	})
 
-	test('should return TRUE with [match case, match whole word] on "gold" and "gold"', () => {
-		const word = 'gold'
-		const text = "Thror's love of gold had grown too fierce."
-		expect(includesWord(text, word, true, true)).toBe(true)
+	test('should return true with hyphenated words', () => {
+		expect(includesWord('well-known fact', 'well-known', false, true)).toBe(
+			true
+		)
 	})
 
-	test('should return TRUE with [no match case, match whole word] on "gold" and "Gold"', () => {
-		const word = 'gold'
-		const text = "Thror's love of Gold things had grown too fierce."
-		expect(includesWord(text, word, false, true)).toBe(true)
-	})
-
-	test('should return FALSE with [match case, match whole word] on "gold" and "golden"', () => {
-		const word = 'gold'
-		const text = "Thror's love of golden things had grown too fierce."
-		expect(includesWord(text, word, true, true)).toBe(false)
+	test('should return true with word boundaries and special chars', () => {
+		expect(includesWord('(gold) item', 'gold', false, true)).toBe(true)
 	})
 })

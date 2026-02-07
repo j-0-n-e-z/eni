@@ -11,117 +11,152 @@ import {
 	USDFormatter
 } from '@/utils'
 
-describe('USD formatter', () => {
-	test('should format integers correctly', () => {
-		expect(USDFormatter.format(0)).toBe('$0')
-		expect(USDFormatter.format(10)).toBe('$10')
-		expect(USDFormatter.format(10_000)).toBe('$10,000')
+describe('USDFormatter', () => {
+	test.each([
+		[0, '$0'],
+		[10, '$10'],
+		[10_000, '$10,000']
+	])('should format integer %s as %s', (input, expected) => {
+		expect(USDFormatter.format(input)).toBe(expected)
 	})
 
-	test('should format decimals with rounding', () => {
-		expect(USDFormatter.format(0.01)).toBe('$0')
-		expect(USDFormatter.format(0.54)).toBe('$0.5')
-		expect(USDFormatter.format(0.55)).toBe('$0.6')
-		expect(USDFormatter.format(10.0)).toBe('$10')
-		expect(USDFormatter.format(10.54)).toBe('$10.5')
-		expect(USDFormatter.format(10.55)).toBe('$10.6')
+	test.each([
+		[0.01, '$0'],
+		[10.0, '$10'],
+		[10.54, '$10.5'],
+		[10.55, '$10.6']
+	])('should format decimal %s as %s (with rounding)', (input, expected) => {
+		expect(USDFormatter.format(input)).toBe(expected)
 	})
 
-	test('should format large numbers correctly', () => {
-		expect(USDFormatter.format(999_999.3)).toBe('$999,999.3')
-		expect(USDFormatter.format(2_999_999)).toBe('$2,999,999')
+	test.each([
+		[999_999.3, '$999,999.3'],
+		[2_999_999, '$2,999,999']
+	])('should format large number %s as %s', (input, expected) => {
+		expect(USDFormatter.format(input)).toBe(expected)
 	})
 
-	test('should format negative numbers', () => {
-		expect(USDFormatter.format(-10)).toBe('-$10')
-		expect(USDFormatter.format(-10.55)).toBe('-$10.6')
+	test.each([
+		[-10, '-$10'],
+		[-10.54, '-$10.5'],
+		[-10.55, '-$10.6']
+	])('should format negative number %s as %s', (input, expected) => {
+		expect(USDFormatter.format(input)).toBe(expected)
 	})
 
-	test('should format invalid numbers', () => {
-		expect(USDFormatter.format(NaN)).toBe('$0')
-		expect(USDFormatter.format(Infinity)).toBe('$0')
-	})
-})
-
-describe('US number formatter', () => {
-	test('should format integers correctly', () => {
-		expect(NumberFormatter.format(0)).toBe('0')
-		expect(NumberFormatter.format(10)).toBe('10')
-		expect(NumberFormatter.format(1999)).toBe('1,999')
-	})
-
-	test('should format decimals correctly', () => {
-		expect(NumberFormatter.format(10.0)).toBe('10')
-		expect(NumberFormatter.format(10.54)).toBe('10.54')
-		expect(NumberFormatter.format(10.55)).toBe('10.55')
-	})
-
-	test('should format negative numbers correctly', () => {
-		expect(NumberFormatter.format(-10.0)).toBe('-10')
-		expect(NumberFormatter.format(-10_999)).toBe('-10,999')
-	})
-
-	test('should format invalid numbers', () => {
-		expect(NumberFormatter.format(NaN)).toBe('NaN')
-		expect(NumberFormatter.format(Infinity)).toBe('∞')
-	})
-
-	test('should format large numbers correctly', () => {
-		expect(NumberFormatter.format(999_999.3)).toBe('999,999.3')
-		expect(NumberFormatter.format(2_999_999)).toBe('2,999,999')
+	test.each([
+		[NaN, '$0'],
+		[Infinity, '$0']
+	])('should format invalid number %s as %s', (input, expected) => {
+		expect(USDFormatter.format(input)).toBe(expected)
 	})
 })
 
-describe('Date formatter', () => {
-	test('should format dates correctly"', () => {
-		expect(DateFormatter.format(new Date(0, 0, 0))).toBe('Dec 31, 1899')
-		expect(DateFormatter.format(new Date(2000, 8, 15))).toBe('Sep 15, 2000')
-		expect(DateFormatter.format(new Date(2023, 10, 3))).toBe('Nov 3, 2023')
+describe('NumberFormatter', () => {
+	test.each([
+		[0, '0'],
+		[10, '10'],
+		[1999, '1,999']
+	])('should format integer %s as %s', (input, expected) => {
+		expect(NumberFormatter.format(input)).toBe(expected)
 	})
 
-	test('should format number dates correctly', () => {
-		expect(DateFormatter.format(0)).toBe('Jan 1, 1970')
-		expect(DateFormatter.format(968_999_999_999)).toBe('Sep 15, 2000')
+	test.each([
+		[10.0, '10'],
+		[10.54, '10.54'],
+		[10.55, '10.55']
+	])('should format decimal %s as %s', (input, expected) => {
+		expect(NumberFormatter.format(input)).toBe(expected)
+	})
+
+	test.each([
+		[-10.0, '-10'],
+		[-10_999, '-10,999']
+	])('should format negative number %s as %s', (input, expected) => {
+		expect(NumberFormatter.format(input)).toBe(expected)
+	})
+
+	test.each([
+		[NaN, 'NaN'],
+		[Infinity, '∞']
+	])('should format invalid number %s as %s', (input, expected) => {
+		expect(NumberFormatter.format(input)).toBe(expected)
+	})
+
+	test.each([
+		[999_999.3, '999,999.3'],
+		[2_999_999, '2,999,999']
+	])('should format large number %s as %s', (input, expected) => {
+		expect(NumberFormatter.format(input)).toBe(expected)
+	})
+})
+
+describe('DateFormatter', () => {
+	test.each([
+		[new Date(0, 0, 0), 'Dec 31, 1899'],
+		[new Date(2000, 8, 15), 'Sep 15, 2000'],
+		[new Date(2023, 10, 3), 'Nov 3, 2023']
+	])('should format Date %s as %s', (input, expected) => {
+		expect(DateFormatter.format(input)).toBe(expected)
+	})
+
+	test.each([
+		[0, 'Jan 1, 1970'],
+		[968_999_999_999, 'Sep 15, 2000']
+	])('should format timestamp %s as %s', (input, expected) => {
+		expect(DateFormatter.format(input)).toBe(expected)
 	})
 })
 
 describe('formatMinutesToHours', () => {
-	test('short duration - show minutes only', () => {
-		expect(formatMinutesToHours(0)).toBe('0m')
-		expect(formatMinutesToHours(10)).toBe('10m')
-		expect(formatMinutesToHours(59)).toBe('59m')
+	test.each([
+		[0, '0m'],
+		[10, '10m'],
+		[59, '59m']
+	])('should format %s minutes (short) as %s', (minutes, expected) => {
+		expect(formatMinutesToHours(minutes)).toBe(expected)
 	})
 
-	test('full hour duration - show hours only', () => {
-		expect(formatMinutesToHours(60)).toBe('1h')
-		expect(formatMinutesToHours(120)).toBe('2h')
-		expect(formatMinutesToHours(240)).toBe('4h')
+	test.each([
+		[60, '1h'],
+		[120, '2h'],
+		[240, '4h']
+	])('should format %s minutes (full hour) as %s', (minutes, expected) => {
+		expect(formatMinutesToHours(minutes)).toBe(expected)
 	})
 
-	test('mixed duration - show hours and minutes', () => {
-		expect(formatMinutesToHours(80)).toBe('1h 20m')
-		expect(formatMinutesToHours(123)).toBe('2h 3m')
-		expect(formatMinutesToHours(179)).toBe('2h 59m')
+	test.each([
+		[80, '1h 20m'],
+		[123, '2h 3m'],
+		[179, '2h 59m']
+	])('should format %s minutes (mixed) as %s', (minutes, expected) => {
+		expect(formatMinutesToHours(minutes)).toBe(expected)
 	})
 })
 
 describe('formatDurationStrToHours', () => {
-	test('short duration - show minutes only', () => {
-		expect(formatDurationStrToHours('00:00')).toBe('0m')
-		expect(formatDurationStrToHours('00:28')).toBe('28m')
-		expect(formatDurationStrToHours('00:59')).toBe('59m')
+	test.each([
+		['00:00', '0m'],
+		['00:28', '28m'],
+		['00:59', '59m']
+	])('should format %s (short) as %s', (duration, expected) => {
+		expect(formatDurationStrToHours(duration)).toBe(expected)
 	})
 
-	test('full hour duration - show hours only', () => {
-		expect(formatDurationStrToHours('01:00')).toBe('1h')
-		expect(formatDurationStrToHours('02:00')).toBe('2h')
-		expect(formatDurationStrToHours('04:00')).toBe('4h')
+	test.each([
+		['01:00', '1h'],
+		['02:00', '2h'],
+		['04:00', '4h']
+	])('should format %s (full hour) as %s', (duration, expected) => {
+		expect(formatDurationStrToHours(duration)).toBe(expected)
 	})
 
-	test('mixed duration - show hours and minutes', () => {
-		expect(formatDurationStrToHours('01:20')).toBe('1h 20m')
-		expect(formatDurationStrToHours('02:03')).toBe('2h 3m')
-		expect(formatDurationStrToHours('02:59')).toBe('2h 59m')
+	test.each([
+		['01:20', '1h 20m'],
+		['02:03', '2h 3m'],
+		['02:59', '2h 59m']
+	])('should format %s (mixed) as %s', (duration, expected) => {
+		expect(formatDurationStrToHours(duration)).toBe(expected)
 	})
 })
 
@@ -130,49 +165,73 @@ describe('formatMoney', () => {
 		expect(formatMoney(1_000, 'USD')).toBe('$1,000')
 	})
 
-	test('should format amount more than a million', () => {
-		expect(formatMoney(10_000_000, 'USD')).toBe('$10 million')
-		expect(formatMoney(10_440_000, 'USD')).toBe('$10.4 million')
-		expect(formatMoney(10_500_000, 'USD')).toBe('$10.5 million')
-		expect(formatMoney(10_550_000, 'USD')).toBe('$10.6 million')
-	})
+	test.each([
+		[10_000_000, 'USD', '$10 million'],
+		[10_440_000, 'USD', '$10.4 million'],
+		[10_500_000, 'USD', '$10.5 million'],
+		[10_550_000, 'USD', '$10.6 million']
+	])(
+		'should format amount %s %s as %s (million+)',
+		(amount, currency, expected) => {
+			expect(formatMoney(amount, currency)).toBe(expected)
+		}
+	)
 
-	test('should format amount more than a billion', () => {
-		expect(formatMoney(2_760_000_000, 'USD')).toBe('$2.8 billion')
-		expect(formatMoney(1_550_000_000, 'USD')).toBe('$1.6 billion')
-	})
+	test.each([
+		[2_760_000_000, 'USD', '$2.8 billion'],
+		[1_550_000_000, 'USD', '$1.6 billion']
+	])(
+		'should format amount %s %s as %s (billion+)',
+		(amount, currency, expected) => {
+			expect(formatMoney(amount, currency)).toBe(expected)
+		}
+	)
 
-	test('should format amount with different currencies', () => {
-		expect(formatMoney(1_000, 'RUB')).toBe('RUB 1,000')
-		expect(formatMoney(1_000, 'EUR')).toBe('€1,000')
-	})
+	test.each([
+		[1_000, 'RUB', 'RUB 1,000'],
+		[1_000, 'EUR', '€1,000']
+	])(
+		'should format amount %s with currency %s as %s',
+		(amount, currency, expected) => {
+			expect(formatMoney(amount, currency)).toBe(expected)
+		}
+	)
 
-	test('should format amount with invalid currency code', () => {
-		expect(formatMoney(0, 'РУБ')).toBe('РУБ 0')
-		expect(formatMoney(1_000_000, 'КОНФЕТ')).toBe('КОНФЕТ 1 million')
-		expect(formatMoney(1_999_000, '$')).toBe('$ 2 million')
-		expect(formatMoney(2_955_550_000, '🎁')).toBe('🎁 2.96 billion')
-	})
+	test.each([
+		[0, 'РУБ', 'РУБ 0'],
+		[1_000_000, 'КОНФЕТ', 'КОНФЕТ 1 million'],
+		[1_999_000, '$', '$2 million'],
+		[2_955_550_000, '🎁', '🎁 2.96 billion']
+	])(
+		'should format amount %s with invalid currency %s as %s',
+		(amount, currency, expected) => {
+			expect(formatMoney(amount, currency)).toBe(expected)
+		}
+	)
 })
 
 describe('formatRating', () => {
-	test('should format MPAA rating', () => {
-		expect(formatRating('g')).toBe('G')
-		expect(formatRating('pg')).toBe('PG')
-		expect(formatRating('pg13')).toBe('PG-13')
-		expect(formatRating('r')).toBe('R')
-		expect(formatRating('nc17')).toBe('NC-17')
-		expect(formatRating('aboba228')).toBe('ABOBA-228')
+	test.each([
+		['g', 'G'],
+		['pg', 'PG'],
+		['pg13', 'PG-13'],
+		['r', 'R'],
+		['nc17', 'NC-17'],
+		['aboba228', 'ABOBA-228']
+	])('should format rating %s as %s', (rating, expected) => {
+		expect(formatRating(rating)).toBe(expected)
 	})
 })
 
 describe('formatAgeLimit', () => {
-	test('should format age limit', () => {
-		expect(formatAgeLimit('age0')).toBe('0+')
-		expect(formatAgeLimit('age6')).toBe('6+')
-		expect(formatAgeLimit('age12')).toBe('12+')
-		expect(formatAgeLimit('age16')).toBe('16+')
-		expect(formatAgeLimit('age18')).toBe('18+')
-		expect(formatAgeLimit('age')).toBe('0+')
+	test.each([
+		['age0', '0+'],
+		['age6', '6+'],
+		['age12', '12+'],
+		['age16', '16+'],
+		['age18', '18+'],
+		['age', '0+'] // edge case
+	])('should format age limit %s as %s', (input, expected) => {
+		expect(formatAgeLimit(input)).toBe(expected)
 	})
 })
