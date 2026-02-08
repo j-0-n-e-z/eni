@@ -31,7 +31,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
 	}, [theme])
 
 	const toggleTheme = useCallback(() => {
-		setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
+		setTheme((theme) => (theme === 'light' ? 'dark' : 'light'))
 	}, [])
 
 	return (

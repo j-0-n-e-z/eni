@@ -1,24 +1,13 @@
 import type { ReactNode } from 'react'
-import { createContext, useMemo } from 'react'
+import { createContext } from 'react'
 
 import { useAuth } from '@/hooks'
 
-type AuthDataContextType = Pick<
-	ReturnType<typeof useAuth>,
-	| 'me'
-	| 'meError'
-	| 'isMeSuccess'
-	| 'isMeFetching'
-	| 'isLoginLoading'
-	| 'isLogoutLoading'
-	| 'loginError'
-	| 'logoutError'
->
+type AuthProps = ReturnType<typeof useAuth>
 
-type AuthActionsContextType = Pick<
-	ReturnType<typeof useAuth>,
-	'login' | 'logout'
->
+type AuthDataContextType = Omit<AuthProps, 'login' | 'logout'>
+
+type AuthActionsContextType = Pick<AuthProps, 'login' | 'logout'>
 
 export const AuthDataContext = createContext<AuthDataContextType | null>(null)
 
@@ -31,44 +20,11 @@ interface AuthDataProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthDataProviderProps) => {
-	const {
-		me,
-		isMeFetching,
-		meError,
-		login,
-		loginError,
-		logout,
-		logoutError,
-		isLoginLoading,
-		isLogoutLoading,
-		isMeSuccess
-	} = useAuth()
-
-	const dataValue = useMemo(
-		() => ({
-			isLoginLoading,
-			isLogoutLoading,
-			isMeFetching,
-			isMeSuccess,
-			loginError,
-			logoutError,
-			me,
-			meError
-		}),
-		[isMeFetching, isLoginLoading, isLogoutLoading]
-	)
-
-	const actionsValue = useMemo(
-		() => ({
-			login,
-			logout
-		}),
-		[login, logout]
-	)
+	const { login, logout, ...data } = useAuth()
 
 	return (
-		<AuthDataContext.Provider value={dataValue}>
-			<AuthActionsContext.Provider value={actionsValue}>
+		<AuthDataContext.Provider value={data}>
+			<AuthActionsContext.Provider value={{ login, logout }}>
 				{children}
 			</AuthActionsContext.Provider>
 		</AuthDataContext.Provider>
