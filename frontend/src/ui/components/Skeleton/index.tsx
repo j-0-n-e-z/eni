@@ -4,20 +4,19 @@ import ReactLoadingSkeleton from 'react-loading-skeleton'
 import {
 	DARK_SKELETON_BASE_COLOR,
 	DARK_SKELETON_HIGHLIGHT_COLOR
-} from '@/config'
+} from '@/constants'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-type SkeletonProps = ReactLoadingSkeletonProps & { variant?: 'light' | 'dark' }
+interface SkeletonProps extends ReactLoadingSkeletonProps {
+	variant?: 'light' | 'dark'
+}
 
-export const Skeleton = (props: SkeletonProps) => {
-	const { variant } = props
-
-	if (!variant || variant === 'light')
-		return <ReactLoadingSkeleton {...props} />
+export const Skeleton = ({ variant, ...rest }: SkeletonProps) => {
+	if (!variant || variant === 'light') return <ReactLoadingSkeleton {...rest} />
 
 	return (
 		<ReactLoadingSkeleton
-			{...props}
+			{...rest}
 			baseColor={DARK_SKELETON_BASE_COLOR}
 			highlightColor={DARK_SKELETON_HIGHLIGHT_COLOR}
 		/>
