@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import 'react-loading-skeleton/dist/skeleton.css'
 import { useSelector } from 'react-redux'
 
 import { useDebounce } from '@/hooks'
