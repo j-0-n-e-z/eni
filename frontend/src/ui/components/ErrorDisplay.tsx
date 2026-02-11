@@ -4,7 +4,7 @@ import type { BackendError } from '@/frontend-types'
 import { Icons } from '@/ui/icons'
 import { getErrorMessage } from '@/utils'
 
-import { EmptyState } from '../EmptyState'
+import { EmptyState } from './EmptyState'
 
 interface ErrorDisplayProps {
 	error: BackendError | SerializedError | undefined

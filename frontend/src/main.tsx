@@ -1,16 +1,15 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 import { CookiesProvider } from 'react-cookie'
 import { createRoot } from 'react-dom/client'
-import { ErrorBoundary } from 'react-error-boundary'
 import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import { AppLayout, ErrorFallback, ProtectedLayout } from '@/layouts'
+import { AppLayout, ProtectedLayout } from '@/layouts'
 import { Auth, Main, MovieSubtitles, Popular, Profile, Search } from '@/pages'
 import { MovieSubtitlesPicker } from '@/pages/MovieSubtitles/components/MovieSubtitlesPicker'
 import { Subtitles } from '@/pages/MovieSubtitles/components/Subtitles'
 import { store } from '@/store'
-import { EmptyState, Icons } from '@/ui'
+import { EmptyState, ErrorDisplay, Icons } from '@/ui'
 
 function tryFixUrl() {
 	const { pathname, search, hash, origin } = window.location
@@ -28,7 +27,7 @@ const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <AppLayout />,
-		errorElement: <ErrorBoundary FallbackComponent={ErrorFallback} />,
+		errorElement: <ErrorDisplay />,
 		children: [
 			{ element: <Main />, index: true },
 			{
