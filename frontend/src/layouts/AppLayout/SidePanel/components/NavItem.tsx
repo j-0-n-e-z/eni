@@ -12,17 +12,16 @@ interface NavItemProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 	icon: ReactNode
 	text: string
 	isWordsItem?: boolean
-	isToUserPath?: boolean
-	customClassName?: string
+	isToMe?: boolean
 }
 
 export const NavItem = ({
 	to,
 	icon,
 	text,
-	isToUserPath = false,
+	isToMe = false,
 	isWordsItem = false,
-	customClassName,
+	className,
 	...props
 }: NavItemProps) => {
 	const { me } = useAuthData()
@@ -30,17 +29,15 @@ export const NavItem = ({
 		skip: !isWordsItem || !me?.id
 	})
 
-	if (isToUserPath && !me) return null
-
-	const finalTo = isToUserPath && me ? `${to}/${me.username}` : to
+	if (isToMe && !me) return null
 
 	return (
 		<li>
 			<NavLink
 				aria-label={props['aria-label']}
-				to={finalTo}
+				to={isToMe && me ? `${to}/${me.username}` : to}
 				className={({ isActive }) =>
-					cn(styles.navLink, customClassName, {
+					cn(styles.navLink, className, {
 						[styles.active]: isActive
 					})
 				}

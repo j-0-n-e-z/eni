@@ -55,10 +55,10 @@ export const AppSidePanel = () => (
 
 			<SidePanel.AuthorizedItem>
 				<SidePanel.NavItem
-					isToUserPath
+					isToMe
 					isWordsItem
 					aria-label='profile with words'
-					customClassName={styles.words}
+					className={styles.words}
 					icon={<Icons.BookIcon className={styles.bookIcon} />}
 					text='Words'
 					to='/user'
