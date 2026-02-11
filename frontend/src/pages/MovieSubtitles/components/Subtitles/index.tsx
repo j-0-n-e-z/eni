@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useOutletContext, useParams, useSearchParams } from 'react-router-dom'
 
-import { SUBTITLES_PER_PAGE } from '@/config'
+import { SUBTITLES_PER_PAGE } from '@/constants'
 import type { MovieSubtitlesContext } from '@/frontend-types'
 import { useAuthData, useDebounce } from '@/hooks'
 import {
