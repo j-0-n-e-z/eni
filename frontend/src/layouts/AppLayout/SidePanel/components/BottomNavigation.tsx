@@ -1,11 +1,10 @@
 import cn from 'classnames'
 import { useEffect } from 'react'
-import toast from 'react-hot-toast'
 import { Link, useLocation } from 'react-router-dom'
 
 import { useAuthActions, useAuthData } from '@/hooks'
 import { Icons } from '@/ui'
-import { getErrorMessage } from '@/utils'
+import { getErrorMessage, notifyOnError } from '@/utils'
 
 import styles from '../SidePanel.module.scss'
 
@@ -22,7 +21,7 @@ export const BottomNavigation = () => {
 		if (logoutError) {
 			const logoutErrorMessage = getErrorMessage(logoutError)
 			if (logoutErrorMessage) {
-				toast.error(logoutErrorMessage, { id: 'logoutError' })
+				notifyOnError(logoutErrorMessage, 'logoutError')
 			}
 		}
 	}, [logoutError])

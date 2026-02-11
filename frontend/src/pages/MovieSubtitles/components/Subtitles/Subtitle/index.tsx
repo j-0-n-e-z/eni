@@ -11,7 +11,7 @@ import {
 } from '@/store/api'
 import type { PureSubtitle, SavedWord, Word } from '@/types'
 import { Icons, Skeleton } from '@/ui'
-import { getErrorMessage } from '@/utils'
+import { getErrorMessage, notifyOnError } from '@/utils'
 
 import { SubtitleSavedWords } from '../SubtitleSavedWords'
 import { SubtitleWords } from '../SubtitleWords'
@@ -116,9 +116,10 @@ export const Subtitle = ({
 		try {
 			await triggerSubtitleTranslate(subtitleText).unwrap()
 		} catch (e) {
-			toast.error('Произошла ошибка при переводе субтитра', {
-				id: 'translateSubtitleError'
-			})
+			notifyOnError(
+				'Произошла ошибка при переводе субтитра',
+				'translateSubtitleError'
+			)
 		}
 	}
 

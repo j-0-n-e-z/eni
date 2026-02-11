@@ -1,5 +1,4 @@
 import cn from 'classnames'
-import toast from 'react-hot-toast'
 import Skeleton from 'react-loading-skeleton'
 import { useNavigate } from 'react-router-dom'
 
@@ -10,6 +9,7 @@ import {
 } from '@/store/api'
 import type { SavedWord, WordSource } from '@/types'
 import { ErrorDisplay, Icons } from '@/ui'
+import { notifyOnError } from '@/utils'
 
 import styles from './WordSources.module.scss'
 
@@ -51,11 +51,9 @@ export const WordSources = ({
 			}
 		} catch (e) {
 			const error = e as BackendError
-			toast.error(
+			notifyOnError(
 				error.data?.error.message ?? 'Произошла ошибка при удалении слова',
-				{
-					id: `deleteWordSource${wordSource.id}`
-				}
+				`deleteWordSource${wordSource.id}`
 			)
 		}
 	}
@@ -78,10 +76,19 @@ export const WordSources = ({
 				{sources.map((source) => (
 					<li
 						key={source.id}
-						className={cn(styles.wordSource, { [styles.mySource]: isMySources })}
+						className={cn(styles.wordSource, {
+							[styles.mySource]: isMySources
+						})}
 					>
-						<button className={styles.sourceHero} onClick={() => goToWord(source)}>
-							<img alt='poster' className={styles.poster} src={source.posterUrl} />
+						<button
+							className={styles.sourceHero}
+							onClick={() => goToWord(source)}
+						>
+							<img
+								alt='poster'
+								className={styles.poster}
+								src={source.posterUrl}
+							/>
 							<div className={styles.sourceInfo}>
 								<h3 className={styles.movieName}>{source.movieName}</h3>
 								<p className={styles.sentence}>{source.sentence}</p>
@@ -124,7 +131,9 @@ export const WordSources = ({
 
 		if (moreSourcesWithoutMySources.length === 0)
 			return (
-				<p className={styles.noAdditionalSourcesMsg}>No additional sources found</p>
+				<p className={styles.noAdditionalSourcesMsg}>
+					No additional sources found
+				</p>
 			)
 
 		return renderSourceList(moreSourcesWithoutMySources)

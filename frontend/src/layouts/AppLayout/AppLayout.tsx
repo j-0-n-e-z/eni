@@ -1,21 +1,20 @@
 import { AuthProvider, ThemeProvider } from '@/contexts'
 import { ErrorDisplay } from '@/ui'
+import { notifyOnError } from '@/utils'
 import { ErrorBoundary } from 'react-error-boundary'
-import toast, { Toaster } from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast'
 import { Outlet } from 'react-router-dom'
 import { AppSidePanel } from './SidePanel'
 import { SidePanelSkeleton } from './SidePanel/SidePanelSkeleton'
 
 import '../../App.scss'
 
-const onError = (error: Error, id: string) => toast.error(error.message, { id })
-
 export const AppLayout = () => (
 	<ThemeProvider>
 		<AuthProvider>
 			<ErrorBoundary
 				FallbackComponent={SidePanelSkeleton}
-				onError={(e) => onError(e, 'sidepanel')}
+				onError={({ message }) => notifyOnError(message, 'sidepanel')}
 			>
 				<AppSidePanel />
 			</ErrorBoundary>
@@ -24,7 +23,7 @@ export const AppLayout = () => (
 				<h1 className='visually-hidden'>Eni</h1>
 				<ErrorBoundary
 					FallbackComponent={ErrorDisplay}
-					onError={(e) => onError(e, 'main')}
+					onError={({ message }) => notifyOnError(message, 'main')}
 				>
 					<Outlet />
 				</ErrorBoundary>

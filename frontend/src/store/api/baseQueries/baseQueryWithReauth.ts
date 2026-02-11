@@ -1,8 +1,6 @@
-import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query/react'
-import toast from 'react-hot-toast'
-
 import type { BackendError } from '@/frontend-types'
-
+import { notifyOnError } from '@/utils'
+import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query/react'
 import { baseQueryWithErrorHandling } from './baseQueryWithErrorHandling'
 
 export const baseQueryWithReauth: BaseQueryFn<
@@ -24,8 +22,9 @@ export const baseQueryWithReauth: BaseQueryFn<
 		)
 
 		if (refreshResult.error) {
-			toast.error(
-				refreshResult.error.data?.error.message || 'Something went wrong'
+			notifyOnError(
+				refreshResult.error.data?.error.message || 'Something went wrong',
+				'refresh'
 			)
 
 			return refreshResult

@@ -1,11 +1,9 @@
-import cn from 'classnames'
-import { useState } from 'react'
-import toast from 'react-hot-toast'
-
 import { useDeleteWordMutation } from '@/store/api'
 import type { SavedWord as ISavedWord } from '@/types'
 import { Icons, Modal } from '@/ui'
-
+import { notifyOnError } from '@/utils'
+import cn from 'classnames'
+import { useState } from 'react'
 import { WordSources } from '../WordSources'
 import { WordTranslation } from '../WordTranslation'
 
@@ -30,9 +28,7 @@ export const SavedWord = ({ word, isMyProfile, myId }: SavedWordProps) => {
 				wordText: word.text
 			}).unwrap()
 		} catch (e) {
-			toast.error('Произошла ошибка при удалении слова', {
-				id: 'deleteWordError'
-			})
+			notifyOnError('Произошла ошибка при удалении слова', 'deleteWordError')
 		}
 	}
 
@@ -64,7 +60,7 @@ export const SavedWord = ({ word, isMyProfile, myId }: SavedWordProps) => {
 				>
 					<Icons.EyeIcon />
 				</button>
-				
+
 				{isMyProfile && (
 					<button
 						aria-label='delete word'

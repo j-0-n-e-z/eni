@@ -1,8 +1,8 @@
 import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query'
-import toast from 'react-hot-toast'
 
 import type { BackendError } from '@/frontend-types'
 
+import { notifyOnError } from '@/utils'
 import { baseQuery } from './baseQuery'
 
 export const baseQueryWithErrorHandling: BaseQueryFn<
@@ -16,8 +16,9 @@ export const baseQueryWithErrorHandling: BaseQueryFn<
 		const { error } = result
 
 		if (error.status.toString() === 'FETCH_ERROR') {
-			console.log(error);
-			toast.error('Не удалось подключиться к серверу', { id: 'failedToFetch' })
+			console.log(error)
+			notifyOnError('Не удалось подключиться к серверу', 'failedToFetch')
+
 			return {
 				error: {
 					data: {

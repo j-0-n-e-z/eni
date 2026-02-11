@@ -1,12 +1,16 @@
 import cn from 'classnames'
 import { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
 import { Link } from 'react-router-dom'
 
 import { useGetMovieBoxOfficeByKinopoiskIdQuery } from '@/store/api'
 import type { KinopoiskMovie } from '@/types'
 import { Container, Icons, Skeleton } from '@/ui'
-import { formatMinutesToHours, formatMoney, formatRating } from '@/utils'
+import {
+	formatMinutesToHours,
+	formatMoney,
+	formatRating,
+	notifyOnError
+} from '@/utils'
 
 import styles from './MovieInfo.module.scss'
 
@@ -30,9 +34,7 @@ export const MovieInfo = ({ movie }: MovieInfoProps) => {
 
 	useEffect(() => {
 		if (boxOfficeError)
-			toast.error('Faild to load budget and box office', {
-				id: 'boxOfficeError'
-			})
+			notifyOnError('Faild to load budget and box office', 'boxOfficeError')
 	}, [boxOfficeError])
 
 	const toggleHideMovieInfo = () => {
