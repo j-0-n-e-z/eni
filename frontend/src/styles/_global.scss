@@ -1,0 +1,41 @@
+@use 'colors' as *;
+@use 'mixins' as *;
+@use 'theme';
+@use 'reset';
+
+body {
+	width: 100vw;
+	min-width: 320px;
+	min-height: 100vh;
+	margin: 0;
+	overflow-x: hidden;
+	font-family: 'Exo 2', Arial, sans-serif;
+}
+
+#root {
+	position: relative;
+	padding-left: 80px;
+	background: $bg-gradient-light;
+
+	@include respond-to('md') {
+		padding-left: 0;
+	}
+}
+
+input,
+button,
+a {
+	font-family: 'Exo 2', Arial, sans-serif;
+}
+
+button,
+a {
+	&:focus-visible {
+		outline: 2px dashed $interactive-hover;
+		outline-offset: 0.25rem;
+	}
+
+	&:focus:not(:focus-visible) {
+		outline: none;
+	}
+}

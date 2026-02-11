@@ -1,0 +1,49 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+img,
+button {
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	cursor: pointer;
+}
+
+ul {
+	padding-inline-start: 0;
+	list-style: none;
+}
+
+input,
+button,
+a {
+	color: inherit;
+	outline: none;
+	background-color: transparent;
+	border: none;
+}
+
+input::-webkit-search-cancel-button,
+input::-webkit-clear-button {
+	display: none;
+	appearance: auto;
+	appearance: textfield;
+}
+
+svg {
+	flex-shrink: 0;
+}
