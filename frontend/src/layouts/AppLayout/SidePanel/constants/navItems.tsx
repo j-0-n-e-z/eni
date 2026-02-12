@@ -2,8 +2,6 @@ import { Icons } from '@/ui'
 
 import styles from './SidePanel.module.scss'
 
-
-
 export const NAV_ITEMS = [
 	{
 		to: '/search',
