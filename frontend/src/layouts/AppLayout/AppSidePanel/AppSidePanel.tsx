@@ -3,14 +3,16 @@ import cn from 'classnames'
 import { useAuthData } from '@/hooks'
 import { Icons } from '@/ui'
 
-import { AuthorizedItem } from './components/AuthorizedItem'
-import { BottomNavigation } from './components/BottomNavigation'
-import { NavItem } from './components/NavItem'
-import { Navigation } from './components/Navigation'
-import { SidePanel } from './components/SidePanel'
-import { SidePanelSkeleton } from './components/SidePanelSkeleton'
-import { ThemeToggle } from './components/ThemeToggle'
-import { TopArea } from './components/TopArea'
+import {
+	AuthorizedItem,
+	BottomNavigation,
+	Navigation,
+	NavItem,
+	SidePanel,
+	SidePanelSkeleton,
+	ThemeToggle,
+	TopArea
+} from './components'
 import { NAV_ITEMS } from './constants/navItems'
 
 import styles from './SidePanel.module.scss'

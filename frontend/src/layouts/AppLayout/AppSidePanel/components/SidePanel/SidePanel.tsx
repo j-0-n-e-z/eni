@@ -1,4 +1,4 @@
-import { MenuBurgerButton } from './MenuBurgerButton'
+import { MenuBurgerButton } from '../MenuBurgerButton'
 
 import styles from './SidePanel.module.scss'
 

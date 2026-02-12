@@ -4,8 +4,8 @@ import { notifyOnError } from '@/utils'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Toaster } from 'react-hot-toast'
 import { Outlet } from 'react-router-dom'
-import { AppSidePanel } from './SidePanel/AppSidePanel'
-import { SidePanelSkeleton } from './SidePanel/components/SidePanelSkeleton'
+import { AppSidePanel } from './AppSidePanel/AppSidePanel'
+import { SidePanelSkeleton } from './AppSidePanel/components/SidePanel/SidePanelSkeleton'
 
 import '../../App.scss'
 
