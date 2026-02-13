@@ -1,35 +1,35 @@
 import { Icons } from '@/ui'
 
-import styles from './SidePanel.module.scss'
+import styles from '../SidePanel.module.scss'
 
 export const NAV_ITEMS = [
 	{
-		to: '/search',
-		text: 'Search',
 		ariaLabel: 'search movies',
-		icon: <Icons.SearchIcon className={styles.searchIcon} />
+		icon: <Icons.SearchIcon className={styles.searchIcon} />,
+		text: 'Search',
+		to: '/search'
 	},
 	{
-		to: '/user',
-		text: 'Words',
 		ariaLabel: 'profile with words',
-		icon: <Icons.BookIcon className={styles.bookIcon} />,
 		authorizedOnly: true,
+		className: styles.words,
+		icon: <Icons.BookIcon className={styles.bookIcon} />,
 		isToMe: true,
 		isWordsItem: true,
-		className: styles.words
+		text: 'Words',
+		to: '/user'
 	},
 	{
-		to: '/popular',
-		text: 'Popular',
 		ariaLabel: 'popular words',
-		icon: <Icons.PopularIcon className={styles.popularIcon} />
+		icon: <Icons.PopularIcon className={styles.popularIcon} />,
+		text: 'Popular',
+		to: '/popular'
 	},
 	{
-		to: '/settings',
-		text: 'Settings',
 		ariaLabel: 'settings',
+		authorizedOnly: true,
 		icon: <Icons.SettingsIcon />,
-		authorizedOnly: true
+		text: 'Settings',
+		to: '/settings'
 	}
 ]

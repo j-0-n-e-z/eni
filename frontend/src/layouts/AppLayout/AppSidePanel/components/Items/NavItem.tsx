@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 import { useAuthData } from '@/hooks'
 import { useGetWordsByUserIdQuery } from '@/store/api'
 
-import styles from '../SidePanel.module.scss'
+import styles from '../../SidePanel.module.scss'
 
 interface NavItemProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 	to: string

@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 import { Icons } from '@/ui'
 
-import styles from './SidePanel.module.scss'
+import styles from '../SidePanel.module.scss'
 
 export const MenuBurgerButton = () => {
 	const [isSidepanelOpen, setIsSidepanelOpen] = useState(false)

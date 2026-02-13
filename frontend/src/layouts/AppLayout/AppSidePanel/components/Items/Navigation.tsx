@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import styles from '../SidePanel.module.scss'
+import styles from '../../SidePanel.module.scss'
 
 interface NavigationProps {
 	children: ReactNode

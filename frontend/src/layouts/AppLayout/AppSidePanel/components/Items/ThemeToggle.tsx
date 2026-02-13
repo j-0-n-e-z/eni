@@ -1,7 +1,7 @@
 import { useTheme, useThemeToggle } from '@/hooks'
 import { Icons } from '@/ui'
 
-import styles from '../SidePanel.module.scss'
+import styles from '../../SidePanel.module.scss'
 
 export const ThemeToggle = () => {
 	const theme = useTheme()

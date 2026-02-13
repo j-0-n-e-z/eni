@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
-import styles from '../SidePanel.module.scss'
+import styles from '../../SidePanel.module.scss'
 
 interface TopAreaProps {
 	children: ReactNode

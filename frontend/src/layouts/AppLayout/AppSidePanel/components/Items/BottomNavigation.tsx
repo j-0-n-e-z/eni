@@ -6,7 +6,7 @@ import { useAuthActions, useAuthData } from '@/hooks'
 import { Icons } from '@/ui'
 import { getErrorMessage, notifyOnError } from '@/utils'
 
-import styles from '../SidePanel.module.scss'
+import styles from '../../SidePanel.module.scss'
 
 export const BottomNavigation = () => {
 	const location = useLocation()
