@@ -13,15 +13,19 @@ export const useAuth = () => {
 		useLoginMutation()
 
 	return {
-		isLoginLoading,
-		isLogoutLoading,
-		isMeFetching,
-		isMeSuccess,
-		login,
-		loginError,
-		logout,
-		logoutError,
-		me,
-		meError
+		actions: {
+			login,
+			logout
+		},
+		data: {
+			isLoginLoading,
+			isLogoutLoading,
+			isMeFetching,
+			isMeSuccess,
+			loginError,
+			logoutError,
+			me,
+			meError
+		}
 	}
 }

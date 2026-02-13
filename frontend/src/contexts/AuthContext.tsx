@@ -5,13 +5,8 @@ import { useAuth } from '@/hooks'
 
 type AuthProps = ReturnType<typeof useAuth>
 
-type AuthDataContextType = Omit<AuthProps, 'login' | 'logout'>
-
-type AuthActionsContextType = Pick<AuthProps, 'login' | 'logout'>
-
-export const AuthDataContext = createContext<AuthDataContextType | null>(null)
-
-export const AuthActionsContext = createContext<AuthActionsContextType | null>(
+export const AuthDataContext = createContext<AuthProps['data'] | null>(null)
+export const AuthActionsContext = createContext<AuthProps['actions'] | null>(
 	null
 )
 
@@ -20,11 +15,11 @@ interface AuthDataProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthDataProviderProps) => {
-	const { login, logout, ...data } = useAuth()
+	const { actions, data } = useAuth()
 
 	return (
 		<AuthDataContext.Provider value={data}>
-			<AuthActionsContext.Provider value={{ login, logout }}>
+			<AuthActionsContext.Provider value={actions}>
 				{children}
 			</AuthActionsContext.Provider>
 		</AuthDataContext.Provider>
