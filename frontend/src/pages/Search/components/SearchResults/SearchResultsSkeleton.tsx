@@ -1,8 +1,7 @@
 import { Skeleton } from '@/ui'
 
-import movieCardStyles from '../MovieCard/MovieCard.module.scss'
-
 import styles from './SearchResults.module.scss'
+import movieCardStyles from '../MovieCard/MovieCard.module.scss'
 
 export const SearchResultsSkeleton = () => (
 	<>

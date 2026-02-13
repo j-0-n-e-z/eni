@@ -1,8 +1,9 @@
 import { useGetPopularWordsQuery } from '@/store/api'
 import { Container, ErrorDisplay } from '@/ui'
 
-import styles from './Popular.module.scss'
 import { PopularWordsList } from './components/PopularWordsList'
+
+import styles from './Popular.module.scss'
 
 export const Popular = () => {
 	const {

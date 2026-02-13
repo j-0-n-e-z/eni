@@ -3,35 +3,36 @@ import { describe, expect, test } from 'vitest'
 import { includesWord } from '@/utils'
 
 describe('includesWord', () => {
-	describe('different case & match', () => {test.each([
-		['go', 'go', true, false, true],
-		['gold', 'go', true, false, true],
-		['g', 'go', true, false, false],
-		['Go', 'go', true, false, false],
+	describe('different case & match', () => {
+		test.each([
+			['go', 'go', true, false, true],
+			['gold', 'go', true, false, true],
+			['g', 'go', true, false, false],
+			['Go', 'go', true, false, false],
 
-		['go', 'go', false, false, true],
-		['gold', 'go', false, false, true],
-		['g', 'go', false, false, false],
-		['Go', 'go', false, false, true],
+			['go', 'go', false, false, true],
+			['gold', 'go', false, false, true],
+			['g', 'go', false, false, false],
+			['Go', 'go', false, false, true],
 
-		['go', 'go', true, true, true],
-		['gold', 'go', true, true, false],
-		['g', 'go', true, true, false],
-		['Go', 'go', true, true, false],
+			['go', 'go', true, true, true],
+			['gold', 'go', true, true, false],
+			['g', 'go', true, true, false],
+			['Go', 'go', true, true, false],
 
-		['go', 'go', false, true, true],
-		['gold', 'go', false, true, false],
-		['g', 'go', false, true, false],
-		['Go', 'go', false, true, true]
-	])(
-		'should return $4 for $1 in $0 with case=$2 match=$3',
-		(text, word, isCaseSensetive, isWholeMatch, expected) => {
-			expect(includesWord(text, word, isCaseSensetive, isWholeMatch)).toBe(
-				expected
-			)
-		}
-	)})
-	
+			['go', 'go', false, true, true],
+			['gold', 'go', false, true, false],
+			['g', 'go', false, true, false],
+			['Go', 'go', false, true, true]
+		])(
+			'should return $4 for $1 in $0 with case=$2 match=$3',
+			(text, word, isCaseSensetive, isWholeMatch, expected) => {
+				expect(includesWord(text, word, isCaseSensetive, isWholeMatch)).toBe(
+					expected
+				)
+			}
+		)
+	})
 
 	test.each([
 		['some text', '', false, false, false],

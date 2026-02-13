@@ -5,8 +5,9 @@ import { useGetMovieSubtitlesQuery } from '@/store/api'
 import { Container, EmptyState, ErrorDisplay, Icons } from '@/ui'
 
 import { MovieSubtitle } from './MovieSubtitle'
-import styles from './MovieSubtitlesPicker.module.scss'
 import { MovieSubtitlesPickerSkeleton } from './MovieSubtitlesPickerSkeleton'
+
+import styles from './MovieSubtitlesPicker.module.scss'
 
 export const MovieSubtitlesPicker = () => {
 	const { imdbId, movieName } = useOutletContext<MovieSubtitlesContext>()

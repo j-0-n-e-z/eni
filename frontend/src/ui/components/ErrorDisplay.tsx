@@ -7,7 +7,7 @@ import { getErrorMessage } from '@/utils'
 import { EmptyState } from './EmptyState'
 
 interface ErrorDisplayProps {
-	error: BackendError | SerializedError | undefined
+	error?: BackendError | SerializedError | undefined
 }
 
 export const ErrorDisplay = ({ error }: ErrorDisplayProps) => (

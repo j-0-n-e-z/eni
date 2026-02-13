@@ -1,9 +1,11 @@
+import cn from 'classnames'
+import { useState } from 'react'
+
 import { useDeleteWordMutation } from '@/store/api'
 import type { SavedWord as ISavedWord } from '@/types'
 import { Icons, Modal } from '@/ui'
 import { notifyOnError } from '@/utils'
-import cn from 'classnames'
-import { useState } from 'react'
+
 import { WordSources } from '../WordSources'
 import { WordTranslation } from '../WordTranslation'
 

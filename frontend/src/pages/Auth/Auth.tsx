@@ -2,9 +2,10 @@ import { useState } from 'react'
 
 import { Icons } from '@/ui'
 
-import styles from './Auth.module.scss'
 import { Login } from './components/Login'
 import { Signup } from './components/Signup'
+
+import styles from './Auth.module.scss'
 
 export const Auth = () => {
 	const [method, setMethod] = useState<'login' | 'signup'>('login')

@@ -15,9 +15,10 @@ import { includesWord } from '@/utils'
 
 import { Paginator } from './Paginator/Paginator'
 import { Subtitle } from './Subtitle'
-import styles from './Subtitles.module.scss'
 import { SubtitlesSkeleton } from './SubtitlesSkeleton'
 import { useSavedWordsByTimecode } from './hooks'
+
+import styles from './Subtitles.module.scss'
 
 export const Subtitles = () => {
 	const { movieName, posterUrl } = useOutletContext<MovieSubtitlesContext>()

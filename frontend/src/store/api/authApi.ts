@@ -36,7 +36,7 @@ export const authApi = createApi({
 					await queryFulfilled
 					dispatch(authApi.util.resetApiState())
 				} catch (error) {
-					console.log(error)
+					console.error(error)
 				}
 			},
 			query: () => ({

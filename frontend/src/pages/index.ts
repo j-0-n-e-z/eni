@@ -1,4 +1,4 @@
-export { Auth } from './Auth'
+export { Auth } from './Auth/Auth'
 export { Main } from './Main'
 export { MovieSubtitles } from './MovieSubtitles'
 export { Popular } from './Popular'

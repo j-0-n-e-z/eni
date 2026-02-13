@@ -1,9 +1,11 @@
-import { AuthProvider, ThemeProvider } from '@/contexts'
-import { ErrorDisplay } from '@/ui'
-import { notifyOnError } from '@/utils'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Toaster } from 'react-hot-toast'
 import { Outlet } from 'react-router-dom'
+
+import { AuthProvider, ThemeProvider } from '@/contexts'
+import { ErrorDisplay } from '@/ui'
+import { notifyOnError } from '@/utils'
+
 import { AppSidePanel } from './AppSidePanel/AppSidePanel'
 import { SidePanelSkeleton } from './AppSidePanel/components/SidePanel/SidePanelSkeleton'
 

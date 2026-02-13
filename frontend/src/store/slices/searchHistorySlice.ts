@@ -39,7 +39,7 @@ const searchHistorySlice = createSlice({
 			action: PayloadAction<BaseKinoposikMovie>
 		) => {
 			const movieToSave = action.payload
-			
+
 			if (
 				!state.historyMovies.find(
 					(movie) => movie.filmId === movieToSave.filmId

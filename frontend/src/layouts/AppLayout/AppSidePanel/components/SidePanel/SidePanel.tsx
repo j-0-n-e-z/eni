@@ -1,5 +1,6 @@
-import styles from '../../SidePanel.module.scss'
 import { MenuBurgerButton } from '../MenuBurgerButton'
+
+import styles from '../../SidePanel.module.scss'
 
 interface SidePanelProps {
 	children: React.ReactNode

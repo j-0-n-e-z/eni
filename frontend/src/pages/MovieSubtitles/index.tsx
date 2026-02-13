@@ -4,9 +4,10 @@ import type { MovieSubtitlesContext } from '@/frontend-types'
 import { useGetMovieByKinopoiskIdQuery } from '@/store/api'
 import { EmptyState, ErrorDisplay, Icons } from '@/ui'
 
-import styles from './MovieSubtitlesPage.module.scss'
 import { MovieInfo } from './components/MovieInfo'
 import { MovieInfoSkeleton } from './components/MovieInfo/MovieInfoSkeleton'
+
+import styles from './MovieSubtitlesPage.module.scss'
 
 export const MovieSubtitles = () => {
 	const { movieId: movieIdFromUrl } = useParams()

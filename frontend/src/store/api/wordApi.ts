@@ -62,7 +62,10 @@ export const wordApi = createApi({
 				url: `user/${wordRequest.userId}/word`
 			})
 		}),
-		translateWord: build.mutation<SavedWord, { userId: string; wordText: string }>({
+		translateWord: build.mutation<
+			SavedWord,
+			{ userId: string; wordText: string }
+		>({
 			query: ({ userId, wordText }) => ({
 				body: { userId, wordText },
 				credentials: 'include',

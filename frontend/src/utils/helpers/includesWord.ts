@@ -11,7 +11,8 @@ export function includesWord(
 
 	if (isCaseSensetive && !isWholeMatch) return text.includes(word)
 
-	if (!isCaseSensetive && isWholeMatch) return new RegExp(`\\b${word}\\b`, 'i').test(text)
+	if (!isCaseSensetive && isWholeMatch)
+		return new RegExp(`\\b${word}\\b`, 'i').test(text)
 
 	return new RegExp(word, 'i').test(text)
 }

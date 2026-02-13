@@ -3,8 +3,9 @@ import React from 'react'
 
 import { Icons } from '@/ui'
 
-import styles from './Paginator.module.scss'
 import { generatePages } from './generatePages'
+
+import styles from './Paginator.module.scss'
 
 interface PaginatorProps {
 	isDisabled: boolean

@@ -6,9 +6,10 @@ import { selectMoviesFromHistory } from '@/store'
 import { useLazySearchMoviesQuery } from '@/store/api'
 import { Container, EmptyState, ErrorDisplay, Icons } from '@/ui'
 
-import styles from './Search.module.scss'
 import { SearchResults } from './components/SearchResults'
 import { SearchResultsSkeleton } from './components/SearchResults/SearchResultsSkeleton'
+
+import styles from './Search.module.scss'
 
 export const Search = () => {
 	const [movieTitle, setMovieTitle] = useState('')

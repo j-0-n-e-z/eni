@@ -4,9 +4,7 @@ import { createContext, useCallback, useEffect, useState } from 'react'
 type Theme = 'light' | 'dark'
 
 export const ThemeContext = createContext<Theme | null>(null)
-export const ThemeToggleContext = createContext<(() => void) | null>(
-	null
-)
+export const ThemeToggleContext = createContext<(() => void) | null>(null)
 
 interface ThemeProviderProps {
 	children: ReactNode
@@ -21,7 +19,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
 			.matches
 			? 'dark'
 			: 'light'
-		
+
 		setTheme(savedTheme || systemTheme)
 	}, [])
 

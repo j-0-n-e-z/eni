@@ -1,6 +1,8 @@
+import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query/react'
+
 import type { BackendError } from '@/frontend-types'
 import { notifyOnError } from '@/utils'
-import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query/react'
+
 import { baseQueryWithErrorHandling } from './baseQueryWithErrorHandling'
 
 export const baseQueryWithReauth: BaseQueryFn<
@@ -33,7 +35,7 @@ export const baseQueryWithReauth: BaseQueryFn<
 		if (refreshResult.data) {
 			result = await baseQueryWithErrorHandling(args, api, extraOptions)
 		} else {
-			console.log('Faild to make a request: ', args)
+			console.error('Faild to make a request: ', args)
 		}
 	}
 

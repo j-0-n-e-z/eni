@@ -2,9 +2,10 @@ import { useGetWordsByUserIdQuery } from '@/store/api'
 import type { UserDto } from '@/types'
 import { Container } from '@/ui'
 
-import styles from '../../Profile.module.scss'
 import { ProfileHeader } from '../ProfileHeader'
 import { SavedWordsContainer } from '../SavedWords/SavedWordsContainer'
+
+import styles from '../../Profile.module.scss'
 
 interface ProfileContentProps {
 	isMyProfile: boolean
