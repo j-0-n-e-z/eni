@@ -82,3 +82,9 @@
 ### 🔍 Поиск фильмов
 
 ![Search page](./assets/images/eni_search_page.png)
+
+## 🔧 Настройка
+
+### Husky
+
+`git config core.hooksPath frontend/.husky`
