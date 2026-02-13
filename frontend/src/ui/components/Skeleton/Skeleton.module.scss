@@ -1,0 +1,11 @@
+@use '@styles' as *;
+
+.dark {
+	--base-color: #{$skeleton-dark-base-color} !important;
+	--highlight-color: #{$skeleton-dark-highlight-color} !important;
+}
+
+.light {
+	--base-color: #{$skeleton-light-base-color} !important;
+	--highlight-color: #{$skeleton-light-highlight-color} !important;
+}
