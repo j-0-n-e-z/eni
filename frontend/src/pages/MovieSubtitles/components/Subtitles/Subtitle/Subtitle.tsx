@@ -13,9 +13,9 @@ import type { PureSubtitle, SavedWord, Word } from '@/types'
 import { Icons, Skeleton } from '@/ui'
 import { getErrorMessage, notifyOnError } from '@/utils'
 
-import { SubtitleSavedWords } from '../SubtitleSavedWords'
-import { SubtitleWords } from '../SubtitleWords'
-import { WordsPanel } from '../WordsPanel'
+import { SubtitleSavedWords } from '../SubtitleSavedWords/SubtitleSavedWords'
+import { SubtitleWords } from '../SubtitleWords/SubtitleWords'
+import { WordsPanel } from '../WordsPanel/WordsPanel'
 import { useWordSelection } from '../hooks'
 
 import styles from './Subtitle.module.scss'

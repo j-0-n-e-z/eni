@@ -6,8 +6,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import { AppLayout, ProtectedLayout } from '@/layouts'
 import { Auth, Main, MovieSubtitles, Popular, Profile, Search } from '@/pages'
-import { MovieSubtitlesPicker } from '@/pages/MovieSubtitles/components/MovieSubtitlesPicker'
-import { Subtitles } from '@/pages/MovieSubtitles/components/Subtitles'
+import {
+	MovieSubtitlesPicker,
+	Subtitles
+} from '@/pages/MovieSubtitles/components'
 import { store } from '@/store'
 import { EmptyState, ErrorDisplay, Icons } from '@/ui'
 

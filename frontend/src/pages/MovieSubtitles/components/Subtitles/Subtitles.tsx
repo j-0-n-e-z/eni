@@ -14,7 +14,7 @@ import { EmptyState, ErrorDisplay, Icons, Skeleton } from '@/ui'
 import { includesWord } from '@/utils'
 
 import { Paginator } from './Paginator/Paginator'
-import { Subtitle } from './Subtitle'
+import { Subtitle } from './Subtitle/Subtitle'
 import { SubtitlesSkeleton } from './SubtitlesSkeleton'
 import { useSavedWordsByTimecode } from './hooks'
 

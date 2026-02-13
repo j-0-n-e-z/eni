@@ -4,7 +4,7 @@ import type { MovieSubtitlesContext } from '@/frontend-types'
 import { useGetMovieByKinopoiskIdQuery } from '@/store/api'
 import { EmptyState, ErrorDisplay, Icons } from '@/ui'
 
-import { MovieInfo } from './components/MovieInfo'
+import { MovieInfo } from './components/MovieInfo/MovieInfo'
 import { MovieInfoSkeleton } from './components/MovieInfo/MovieInfoSkeleton'
 
 import styles from './MovieSubtitlesPage.module.scss'

@@ -4,7 +4,7 @@ import type { MovieSubtitlesContext } from '@/frontend-types'
 import { useGetMovieSubtitlesQuery } from '@/store/api'
 import { Container, EmptyState, ErrorDisplay, Icons } from '@/ui'
 
-import { MovieSubtitle } from './MovieSubtitle'
+import { MovieSubtitle } from './MovieSubtitle/MovieSubtitle'
 import { MovieSubtitlesPickerSkeleton } from './MovieSubtitlesPickerSkeleton'
 
 import styles from './MovieSubtitlesPicker.module.scss'
