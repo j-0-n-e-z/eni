@@ -7,19 +7,19 @@ module.exports = {
 		'airbnb-typescript',
 		'plugin:@typescript-eslint/recommended',
 		'plugin:@typescript-eslint/recommended-requiring-type-checking',
-		'prettier',
+		'prettier'
 	],
 	plugins: ['sort-keys-fix'],
 	env: {
 		browser: true,
-		es2021: true,
+		es2021: true
 	},
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		ecmaFeatures: {
-			jsx: true,
+			jsx: true
 		},
-		project: 'tsconfig.json',
+		project: 'tsconfig.json'
 	},
 	rules: {
 		'sort-keys-fix/sort-keys-fix': 'error',
@@ -34,14 +34,14 @@ module.exports = {
 		'@typescript-eslint/no-shadow': 0,
 		'@typescript-eslint/consistent-type-imports': [
 			'error',
-			{ prefer: 'type-imports', disallowTypeAnnotations: false },
+			{ prefer: 'type-imports', disallowTypeAnnotations: false }
 		],
 		'react/function-component-definition': [
 			2,
 			{
 				namedComponents: 'arrow-function',
-				unnamedComponents: 'arrow-function',
-			},
+				unnamedComponents: 'arrow-function'
+			}
 		],
 		'react/prop-types': 0,
 		'react/react-in-jsx-scope': 0,
@@ -51,8 +51,8 @@ module.exports = {
 		'react/no-unstable-nested-components': [
 			2,
 			{
-				allowAsProps: true,
-			},
+				allowAsProps: true
+			}
 		],
 		'react/no-array-index-key': 0,
 		'no-param-reassign': 0,
@@ -60,7 +60,7 @@ module.exports = {
 		'@typescript-eslint/no-loop-func': 0,
 		'react/jsx-filename-extension': [
 			2,
-			{ extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+			{ extensions: ['.js', '.jsx', '.ts', '.tsx'] }
 		],
 		'react/jsx-sort-props': [
 			2,
@@ -69,8 +69,8 @@ module.exports = {
 				shorthandFirst: true,
 				multiline: 'last',
 				ignoreCase: true,
-				reservedFirst: true,
-			},
+				reservedFirst: true
+			}
 		],
 		'import/extensions': 0,
 		'import/no-extraneous-dependencies': 0,
@@ -85,19 +85,26 @@ module.exports = {
 					'internal',
 					'parent',
 					'sibling',
-					'index',
+					'index'
 				],
 				'newlines-between': 'always',
 				pathGroups: [
 					{
 						pattern: '@/**',
-						group: 'internal',
+						group: 'internal'
 					},
+					{
+						pattern: '*.{scss,module.scss,css}',
+						patternOptions: { matchBase: true },
+						group: 'index',
+						position: 'after'
+					}
 				],
+				pathGroupsExcludedImportTypes: ['builtin', 'external'],
 				alphabetize: {
-					order: 'asc',
-				},
-			},
-		],
-	},
+					order: 'asc'
+				}
+			}
+		]
+	}
 }
