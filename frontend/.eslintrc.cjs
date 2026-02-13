@@ -91,19 +91,16 @@ module.exports = {
 				pathGroups: [
 					{
 						pattern: '@/**',
-						group: 'internal'
+						group: 'internal',
 					},
 					{
-						pattern: '*.{scss,module.scss,css}',
+						pattern: '*.{scss,css}', 
 						patternOptions: { matchBase: true },
 						group: 'index',
 						position: 'after'
-					}
+					},
 				],
-				pathGroupsExcludedImportTypes: ['builtin', 'external'],
-				alphabetize: {
-					order: 'asc'
-				}
+				pathGroupsExcludedImportTypes: ['builtin', 'external']
 			}
 		]
 	}
