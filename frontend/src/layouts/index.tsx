@@ -1,2 +1,2 @@
 export * from './AppLayout/AppLayout'
-export * from './ProtectedLayout'
+export * from './ProtectedLayout/ProtectedLayout'
