@@ -1,0 +1,11 @@
+@mixin fade-in($duration: 0.3s, $timing: ease-in) {
+	animation: fadeIn $duration $timing forwards;
+}
+
+@mixin scale-in($duration: 0.3s, $timing: ease-out) {
+	animation: scaleIn $duration $timing forwards;
+}
+
+@mixin highlight($duration: 2s) {
+	animation: highlight $duration ease infinite;
+}
