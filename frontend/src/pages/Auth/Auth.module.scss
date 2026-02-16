@@ -1,13 +1,13 @@
 @use '@styles' as *;
 
-.authPage {
+.page {
 	display: flex;
 	flex: 1;
 	align-items: center;
 	justify-content: center;
 }
 
-.authContainer {
+.container {
 	width: 400px;
 	max-width: 90%;
 	overflow: hidden;
@@ -19,7 +19,7 @@
 	@include fade-in(0.5s);
 }
 
-.authHeader {
+.header {
 	padding: 2rem 2rem 0;
 
 	@include respond-to('sm') {
@@ -236,9 +236,15 @@
 	border-radius: 0.5rem;
 	transition: all 0.2s ease;
 
+	&:disabled {
+		opacity: 50%;
+	}
+
 	@include desktop-hover {
-		box-shadow: 0 4px 14px 0 var(--interactive-focus-ring);
-		transform: translateY(-1px);
+		&:not(:disabled) {
+			box-shadow: 0 4px 14px 0 var(--interactive-focus-ring);
+			transform: translateY(-1px);
+		}
 	}
 
 	@include respond-to('sm') {
@@ -247,7 +253,7 @@
 	}
 }
 
-.authFooter {
+.footer {
 	background: var(--bg-secondary);
 }
 

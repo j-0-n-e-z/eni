@@ -11,9 +11,9 @@ export const Auth = () => {
 	const [method, setMethod] = useState<'login' | 'signup'>('login')
 
 	return (
-		<div className={styles.authPage}>
-			<div className={styles.authContainer}>
-				<div className={styles.authHeader}>
+		<div className={styles.page}>
+			<div className={styles.container}>
+				<div className={styles.header}>
 					<div className={styles.logoContainer}>
 						<div className={styles.logoIconWrapper}>
 							<Icons.BrainIcon className={styles.logoIcon} />
