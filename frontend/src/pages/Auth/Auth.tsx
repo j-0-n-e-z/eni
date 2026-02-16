@@ -11,7 +11,7 @@ export const Auth = () => {
 	const [method, setMethod] = useState<'login' | 'signup'>('login')
 
 	return (
-		<div className={styles.page}>
+		<section className={styles.page}>
 			<div className={styles.container}>
 				<div className={styles.header}>
 					<div className={styles.logoContainer}>
@@ -27,8 +27,7 @@ export const Auth = () => {
 								id='login'
 								name='method'
 								type='radio'
-								value='login'
-								onChange={(e) => setMethod(e.target.value as 'login')}
+								onChange={() => setMethod('login')}
 							/>
 							Login
 						</label>
@@ -38,8 +37,7 @@ export const Auth = () => {
 								id='signup'
 								name='method'
 								type='radio'
-								value='signup'
-								onChange={(e) => setMethod(e.target.value as 'signup')}
+								onChange={() => setMethod('signup')}
 							/>
 							Sign up
 						</label>
@@ -49,6 +47,6 @@ export const Auth = () => {
 				{method === 'login' && <Login />}
 				{method === 'signup' && <Signup goToLogin={() => setMethod('login')} />}
 			</div>
-		</div>
+		</section>
 	)
 }

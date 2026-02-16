@@ -1,13 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { zodResolver } from '@hookform/resolvers/zod'
 import cn from 'classnames'
-import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
 
-import type { BackendError } from '@/frontend-types'
-import type { SignupCredentials } from '@/schemas/signup.schemas'
-import { signupSchema } from '@/schemas/signup.schemas'
-import { useSignupMutation } from '@/store/api'
+import { useSignup } from '../hooks/useSignup'
 
 import styles from '../Auth.module.scss'
 
@@ -16,102 +10,78 @@ interface SignupProps {
 }
 
 export const Signup = ({ goToLogin }: SignupProps) => {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		setError
-	} = useForm<SignupCredentials>({ resolver: zodResolver(signupSchema) })
-	const [signup, { isLoading }] = useSignupMutation()
-
-	async function onSubmit({ email, password, username }: SignupCredentials) {
-		if (isLoading) return
-
-		try {
-			await signup({ email, password, username }).unwrap()
-			toast.success('You successfully signed up!')
-			goToLogin()
-		} catch (e) {
-			const error = e as BackendError
-
-			if (!error.data) return
-
-			const details = error.data.error.details as {
-				field: 'email' | 'password'
-			}
-			setError(details.field, {
-				message: error.data?.error.message
-			})
-		}
-	}
+	const { form, state, functions } = useSignup({ onSuccess: goToLogin })
+	const { errors } = form.formState
 
 	return (
-		<form
-			noValidate
-			className={styles.formContainer}
-			onSubmit={handleSubmit(onSubmit)}
-		>
-			<label className={styles.formGroup}>
-				<div className={styles.labelWrapper}>
-					<span className={styles.label}>Email</span>
-					{errors.email && (
-						<span className={styles.inputError}>{errors.email.message}</span>
-					)}
-				</div>
-				<input
-					id='email'
-					type='email'
-					{...register('email')}
-					placeholder='ilovemovies@email.com'
-				/>
-			</label>
+		<form className={styles.formContainer} onSubmit={functions.onSubmit}>
+			<fieldset disabled={state.isLoading}>
+				<label className={styles.formGroup}>
+					<div className={styles.labelWrapper}>
+						<span className={styles.label}>Email</span>
+						{errors.email && (
+							<span className={styles.inputError}>{errors.email.message}</span>
+						)}
+					</div>
+					<input
+						id='email'
+						type='email'
+						{...form.register('email')}
+						placeholder='ilovemovies@email.com'
+					/>
+				</label>
 
-			<label className={styles.formGroup}>
-				<div className={styles.labelWrapper}>
-					<span className={styles.label}>Username</span>
-					{errors.username && (
-						<span className={styles.inputError}>{errors.username.message}</span>
-					)}
-				</div>
-				<input
-					id='username'
-					type='text'
-					{...register('username')}
-					placeholder='Voldemort'
-				/>
-			</label>
+				<label className={styles.formGroup}>
+					<div className={styles.labelWrapper}>
+						<span className={styles.label}>Username</span>
+						{errors.username && (
+							<span className={styles.inputError}>
+								{errors.username.message}
+							</span>
+						)}
+					</div>
+					<input
+						id='username'
+						type='text'
+						{...form.register('username')}
+						placeholder='voldemort'
+					/>
+				</label>
 
-			<label className={styles.formGroup}>
-				<div className={styles.labelWrapper}>
-					<span className={styles.label}>Password</span>
-					{errors.password && (
-						<span className={styles.inputError}>{errors.password.message}</span>
-					)}
-				</div>
-				<input
-					id='password'
-					type='password'
-					{...register('password')}
-					placeholder='••••••••••'
-				/>
-			</label>
+				<label className={styles.formGroup}>
+					<div className={styles.labelWrapper}>
+						<span className={styles.label}>Password</span>
+						{errors.password && (
+							<span className={styles.inputError}>
+								{errors.password.message}
+							</span>
+						)}
+					</div>
+					<input
+						id='password'
+						type='password'
+						{...form.register('password')}
+						placeholder='••••••••••'
+					/>
+				</label>
 
-			<label className={styles.formGroup}>
-				<div className={styles.labelWrapper}>
-					<span className={styles.label}>Confirm password</span>
-					{errors.confirmPassword && (
-						<span className={styles.inputError}>
-							{errors.confirmPassword.message}
-						</span>
-					)}
-				</div>
-				<input
-					id='confirmPassword'
-					type='password'
-					{...register('confirmPassword')}
-					placeholder='••••••••••'
-				/>
-			</label>
+				<label className={styles.formGroup}>
+					<div className={styles.labelWrapper}>
+						<span className={styles.label}>Confirm password</span>
+						{errors.confirmPassword && (
+							<span className={styles.inputError}>
+								{errors.confirmPassword.message}
+							</span>
+						)}
+					</div>
+					<input
+						id='confirmPassword'
+						type='password'
+						{...form.register('confirmPassword')}
+						placeholder='••••••••••'
+					/>
+				</label>
+			</fieldset>
 
 			<button className={cn(styles.submitBtn, styles.primary)}>Sign up</button>
 		</form>

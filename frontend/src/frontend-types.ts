@@ -17,7 +17,7 @@ export interface BackendError {
 			statusCode: number
 			code: string
 			message: string
-			details?: unknown
+			details?: { field: 'email' | 'password' }
 		}
 	}
 	status: number

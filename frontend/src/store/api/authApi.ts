@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import type { LoginCredentials, SignupCredentials } from '@/schemas'
+import type { LoginCredentials } from '@/pages/Auth/schemas/login.schemas'
+import type { SignupCredentials } from '@/pages/Auth/schemas/signup.schemas'
 import type { User } from '@/types'
 
 import { baseQueryWithReauth } from './baseQueries/baseQueryWithReauth'
