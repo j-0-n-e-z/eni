@@ -44,6 +44,12 @@ input::-webkit-clear-button {
 	appearance: textfield;
 }
 
+fieldset {
+	padding: 0;
+	margin: 0;
+	border: none;
+}
+
 svg {
 	flex-shrink: 0;
 }
