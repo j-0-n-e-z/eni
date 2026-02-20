@@ -9,3 +9,7 @@
 @mixin highlight($duration: 2s) {
 	animation: highlight $duration ease infinite;
 }
+
+@mixin fade-in-n-up($duration: 0.5s, $delay: 0.5s) {
+	animation: $duration ease $delay forwards fadeInAndUp;
+}

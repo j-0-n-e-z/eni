@@ -2,7 +2,11 @@
 
 // Theme Colors
 :root {
+	// Brightness on Hover
 	--brightness-hover: #{$brightness-hover-light};
+
+	// Background Stokes
+	--bg-stroke: #{$bg-stroke-light};
 
 	// Brand Gradients
 	--gradient-primary: #{$gradient-primary};
@@ -128,7 +132,11 @@
 		--highlight-color: #{$skeleton-dark-highlight-color};
 	}
 
+	// Brightness on Hover
 	--brightness-hover: #{$brightness-hover-dark};
+
+	// Background Stokes
+	--bg-stroke: #{$bg-stroke-dark};
 
 	// Background Colors
 	--bg-primary: #{$bg-dark-secondary};

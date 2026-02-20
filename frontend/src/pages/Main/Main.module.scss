@@ -1,3 +1,59 @@
+@use '@styles' as *;
+
 .main {
-	display: block;
+	z-index: 1;
+	display: flex;
+	flex: 1;
+	padding: 1.5rem;
+
+	@include respond-to('sm') {
+		padding: 1rem;
+	}
+}
+
+.bgCircle {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 30rem;
+	height: auto;
+	transform: translateY(-50%);
+
+	circle {
+		stroke: var(--bg-stroke);
+	}
+}
+
+.particle {
+	position: absolute;
+	background: #7e4efc;
+	border-radius: 100%;
+	opacity: 0%;
+
+	&1 {
+		top: 15%;
+		left: 45%;
+		width: 5rem;
+		height: 5rem;
+
+		@include fade-in-n-up(0.5s, 2s);
+	}
+
+	&2 {
+		bottom: 10%;
+		left: 45%;
+		width: 3.5rem;
+		height: 3.5rem;
+
+		@include fade-in-n-up(0.5s, 2.5s);
+	}
+
+	&3 {
+		bottom: 15%;
+		left: 10%;
+		width: 2.25rem;
+		height: 2.25rem;
+
+		@include fade-in-n-up(0.5s, 3s);
+	}
 }

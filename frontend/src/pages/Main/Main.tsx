@@ -1,18 +1,28 @@
-import { useEffect } from 'react'
-import toast from 'react-hot-toast'
+import cn from 'classnames'
 import { useSearchParams } from 'react-router-dom'
 
-import { Container } from '@/ui'
+import { Background, Container } from '@/ui'
+import { notifyOnSuccess } from '@/utils'
+
+import { Hero } from './components/Hero/Hero'
+
+import s from './Main.module.scss'
 
 export const Main = () => {
 	const [params] = useSearchParams()
-	const isVerifined = params.get('email_confirmed') === '1'
+	const isEmailConfirmed = params.get('email_confirmed') === '1'
 
-	useEffect(() => {
-		if (isVerifined) {
-			toast.success('You successfully verified your email!')
-		}
-	}, [isVerifined])
+	if (isEmailConfirmed) {
+		notifyOnSuccess('Вы успешно подтвердили почту!', 'emailConfirmed')
+	}
 
-	return <Container>Main</Container>
+	return (
+		<Container className={s.main}>
+			<Hero />
+			<Background.Circle className={s.bgCircle} />
+			<div className={cn(s.particle, s.particle1)} />
+			<div className={cn(s.particle, s.particle2)} />
+			<div className={cn(s.particle, s.particle3)} />
+		</Container>
+	)
 }

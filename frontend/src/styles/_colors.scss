@@ -1,5 +1,10 @@
+// Brightness on Hover
 $brightness-hover-dark: 1.1;
 $brightness-hover-light: 0.9;
+
+// Background Strokes
+$bg-stroke-light: #f7f3ff;
+$bg-stroke-dark: #3d3057;
 
 // Skeleton Theme
 $skeleton-light-base-color: #ebebeb;
@@ -142,8 +147,3 @@ $card-hover-shadow: $shadow-xl;
 // Logo Colors
 $logo-bg: $gradient-primary;
 $logo-text: $gradient-primary;
-
-// Responsive Breakpoints
-$breakpoint-mobile: 768px;
-$breakpoint-tablet: 1024px;
-$breakpoint-desktop: 1200px;

@@ -7,23 +7,22 @@
 		"dev": "vite --host",
 		"test": "vitest",
 		"build": "vite build",
+		"preview": "vite preview",
 		"typecheck": "tsc",
 		"lint": "eslint \"src/**/*.{ts,tsx}\"",
 		"lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
 		"format": "prettier --write \"src/**/*.{ts,tsx,css,scss}\"",
-		"preview": "vite preview",
 		"lint:css": "stylelint \"src/**/*.{css,scss}\"",
-		"lint:css:fix": "stylelint \"src/**/*.{css,scss}\" --fix",
-		"prepare": "husky"
+		"lint:css:fix": "stylelint \"src/**/*.{css,scss}\" --fix"
 	},
 	"lint-staged": {
 		"*.{js,jsx,ts,tsx}": [
-			"prettier --write",
-			"eslint --fix"
+			"eslint --fix --max-warnings=0",
+			"prettier --write"
 		],
 		"*.{css,scss,sass}": [
-			"prettier --write",
-			"stylelint --fix"
+			"stylelint --fix",
+			"prettier --write"
 		],
 		"*.{json,md,html,yml,yaml}": [
 			"prettier --write"
@@ -31,6 +30,7 @@
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.2.1",
+		"@lottiefiles/dotlottie-react": "^0.18.1",
 		"@reduxjs/toolkit": "^2.7.0",
 		"@vitejs/plugin-react": "^4.7.0",
 		"autoprefixer": "^10.4.21",

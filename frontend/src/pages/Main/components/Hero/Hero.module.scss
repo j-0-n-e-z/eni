@@ -1,0 +1,68 @@
+@use '@styles' as *;
+
+.hero {
+	z-index: 1;
+	display: flex;
+	flex: 1;
+	flex-flow: row wrap;
+	justify-content: center;
+	color: var(--text-primary);
+	transition: all 0.5s ease;
+}
+
+.heroAnimationContainer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 50%;
+}
+
+.heroAnimation {
+	width: 500px;
+	height: 500px;
+}
+
+.heroTextContainer {
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 10px;
+	justify-content: center;
+	width: 50%;
+	margin-top: -5rem;
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: #{$line-height-md};
+}
+
+.heroHeading {
+	font-size: 6.875rem;
+	color: var(--text-primary);
+	color: #7e4efc;
+	opacity: 0%;
+
+	@include fade-in-n-up;
+
+	svg {
+		width: 5rem;
+		height: 5rem;
+	}
+}
+
+.heroLines {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+
+	li {
+		opacity: 0%;
+
+		$base-delay: 0.8;
+		$step: 0.3;
+
+		@for $i from 1 through 4 {
+			&:nth-of-type(#{$i}) {
+				@include fade-in-n-up(0.5s, #{$base-delay + ($i - 1) * $step}s);
+			}
+		}
+	}
+}

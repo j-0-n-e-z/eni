@@ -30,3 +30,15 @@
 		background-color: var(--interactive-focus);
 	}
 }
+
+@keyframes fadeInAndUp {
+	from {
+		opacity: 0%;
+		translate: 0 60px;
+	}
+
+	to {
+		opacity: 100%;
+		translate: 0 0;
+	}
+}
