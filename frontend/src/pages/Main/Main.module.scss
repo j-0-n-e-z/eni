@@ -1,9 +1,11 @@
+/* stylelint-disable selector-pseudo-class-no-unknown */
 @use '@styles' as *;
 
 .main {
 	z-index: 1;
 	display: flex;
 	flex: 1;
+	height: 100%;
 	padding: 1.5rem;
 
 	@include respond-to('sm') {
@@ -11,49 +13,32 @@
 	}
 }
 
-.bgCircle {
-	position: absolute;
-	top: 50%;
-	left: 0;
-	width: 30rem;
-	height: auto;
-	transform: translateY(-50%);
+.sectionSlider {
+	width: 100vw;
+	height: 100vh;
+}
 
-	circle {
-		stroke: var(--bg-stroke);
+:global {
+	.swiper {
+		width: 100%; // swiper scrollbar won't appear without it
+	}
+
+	.swiper-slide {
+		height: 100vh !important;
 	}
 }
 
-.particle {
-	position: absolute;
-	background: #7e4efc;
-	border-radius: 100%;
-	opacity: 0%;
+.customScrollbar {
+	:global {
+		.swiper-scrollbar-drag {
+			background-color: #7e4efc !important;
+		}
 
-	&1 {
-		top: 15%;
-		left: 45%;
-		width: 5rem;
-		height: 5rem;
-
-		@include fade-in-n-up(0.5s, 2s);
-	}
-
-	&2 {
-		bottom: 10%;
-		left: 45%;
-		width: 3.5rem;
-		height: 3.5rem;
-
-		@include fade-in-n-up(0.5s, 2.5s);
-	}
-
-	&3 {
-		bottom: 15%;
-		left: 10%;
-		width: 2.25rem;
-		height: 2.25rem;
-
-		@include fade-in-n-up(0.5s, 3s);
+		.swiper-scrollbar-vertical {
+			top: 0 !important;
+			right: 0 !important;
+			width: 6px !important;
+			height: 100vh !important;
+		}
 	}
 }

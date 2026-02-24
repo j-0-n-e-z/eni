@@ -1,3 +1,4 @@
+/* stylelint-disable selector-pseudo-class-no-unknown */
 @use '@styles' as *;
 
 .hero {
@@ -7,7 +8,6 @@
 	flex-flow: row wrap;
 	justify-content: center;
 	color: var(--text-primary);
-	transition: all 0.5s ease;
 }
 
 .heroAnimationContainer {
@@ -38,9 +38,6 @@
 	font-size: 6.875rem;
 	color: var(--text-primary);
 	color: #7e4efc;
-	opacity: 0%;
-
-	@include fade-in-n-up;
 
 	svg {
 		width: 5rem;
@@ -52,17 +49,51 @@
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
+}
 
-	li {
-		opacity: 0%;
+.bgCircle {
+	position: absolute;
+	top: 60%;
+	left: 0;
+	z-index: -1;
+	width: 30rem;
+	height: auto;
+	transform: translateY(-50%);
 
-		$base-delay: 0.8;
-		$step: 0.3;
+	circle {
+		stroke: var(--bg-stroke);
+	}
 
-		@for $i from 1 through 4 {
-			&:nth-of-type(#{$i}) {
-				@include fade-in-n-up(0.5s, #{$base-delay + ($i - 1) * $step}s);
-			}
-		}
+	:global([data-theme='dark']) & {
+		opacity: 40%;
+	}
+}
+
+.particle {
+	position: absolute;
+	background: #7e4efc;
+	border-radius: 100%;
+	opacity: 0%;
+	transition: all 0.5s ease;
+
+	&1 {
+		top: 15%;
+		left: 50%;
+		width: 5rem;
+		height: 5rem;
+	}
+
+	&2 {
+		bottom: 10%;
+		left: 45%;
+		width: 3.5rem;
+		height: 3.5rem;
+	}
+
+	&3 {
+		bottom: 15%;
+		left: 10%;
+		width: 2.25rem;
+		height: 2.25rem;
 	}
 }
