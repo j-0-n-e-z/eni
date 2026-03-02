@@ -2,7 +2,7 @@ import { motion as m } from 'framer-motion'
 
 import { Container } from '@/ui'
 
-import styles from '../Main.module.scss'
+import styles from '../../Main.module.scss'
 
 interface SlideProps {
 	isActive: boolean

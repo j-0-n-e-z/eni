@@ -3,12 +3,11 @@ import { useSearchParams } from 'react-router-dom'
 import { Keyboard, Mousewheel, Scrollbar } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-import { Container } from '@/ui'
 import { notifyOnSuccess } from '@/utils'
 
 import { Hero } from './components/Hero/Hero'
 import { Info } from './components/Info/Info'
-import { Slide } from './components/Slide'
+import { Slide } from './components/Slide/Slide'
 
 import styles from './Main.module.scss'
 
@@ -55,21 +54,25 @@ export const Main = () => {
 					<Hero />
 				</Slide>
 			</SwiperSlide>
+
 			<SwiperSlide>
 				<Slide isActive={activeSlideIndex === 1}>
 					<Info />
 				</Slide>
 			</SwiperSlide>
+
 			<SwiperSlide>
-				<Container className={styles.main}>
-					<p style={{ fontSize: 72 }}>ЖОПА</p>
-				</Container>
+				<Slide isActive={activeSlideIndex === 2}>
+					<Hero />
+				</Slide>
 			</SwiperSlide>
+
 			<SwiperSlide>
-				<Container className={styles.main}>
-					<p style={{ fontSize: 72 }}>КОНЕЦ</p>
-				</Container>
+				<Slide isActive={activeSlideIndex === 3}>
+					<Hero />
+				</Slide>
 			</SwiperSlide>
+
 			<div className={styles.customScrollbar} slot='container-end'>
 				<div className='swiper-scrollbar' />
 			</div>
