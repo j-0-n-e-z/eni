@@ -117,4 +117,5 @@
 	font-weight: 500;
 	color: #7e4efc;
 	cursor: pointer;
+	translate: calc(-50% - var(--sidepanel-width)); // transform won't work here
 }
