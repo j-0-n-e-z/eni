@@ -8,3 +8,8 @@ interface ImportMeta {
 interface ImportMetaEnv {
 	readonly VITE_API_URL: string
 }
+
+declare module '*.lottie' {
+	const src: string
+	export default src
+}
