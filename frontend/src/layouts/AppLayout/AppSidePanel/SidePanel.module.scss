@@ -21,7 +21,7 @@
 		box-shadow: 0 0 0.25rem var(--bg-muted);
 
 		.topArea {
-			gap: 1rem;
+			gap: 0.8rem;
 		}
 
 		.topTitle {
@@ -153,7 +153,6 @@
 	font-size: 30px;
 	font-weight: 900;
 	color: $text-white;
-	text-decoration: $brand-prominent wavy underline;
 	opacity: 0%;
 	transition:
 		opacity 0.2s ease,
