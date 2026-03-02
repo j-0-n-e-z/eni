@@ -1,4 +1,4 @@
-import Circle from './bg-circle.svg?react'
+import ArrowTailIcon from './icon-arrow-tail.svg?react'
 import ArrowIcon from './icon-arrow.svg?react'
 import BookIcon from './icon-book.svg?react'
 import BrainIcon from './icon-brain.svg?react'
@@ -26,12 +26,9 @@ import TranslateIcon from './icon-translate.svg?react'
 import TrashIcon from './icon-trash.svg?react'
 import WholeWordIcon from './icon-whole-word.svg?react'
 
-export const Background = {
-	Circle
-}
-
 export const Icons = {
 	ArrowIcon,
+	ArrowTailIcon,
 	BookIcon,
 	BrainIcon,
 	BurgerMenuIcon,

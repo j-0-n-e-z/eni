@@ -1,3 +1,4 @@
+export * from './background'
 export { Container } from './components/Container'
 export { DeleteButton } from './components/DeleteButton'
 export { EmptyState } from './components/EmptyState'
