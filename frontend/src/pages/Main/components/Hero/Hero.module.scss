@@ -15,6 +15,10 @@
 	align-items: center;
 	justify-content: center;
 	width: 50%;
+
+	@include respond-to('sm') {
+		display: none;
+	}
 }
 
 .heroAnimation {
@@ -35,9 +39,12 @@
 }
 
 .heroHeading {
+	display: flex;
+	gap: 10px;
+	align-items: center;
 	font-size: 6.875rem;
-	color: var(--text-primary);
 	color: #7e4efc;
+	text-decoration: #3859ff 5px wavy underline;
 
 	svg {
 		width: 5rem;
@@ -85,7 +92,7 @@
 
 	&2 {
 		bottom: 10%;
-		left: 45%;
+		left: 75%;
 		width: 3.5rem;
 		height: 3.5rem;
 	}
@@ -96,4 +103,18 @@
 		width: 2.25rem;
 		height: 2.25rem;
 	}
+}
+
+.howToUse {
+	position: absolute;
+	bottom: 40px;
+	left: 50%;
+	display: flex;
+	flex-flow: column;
+	gap: 0.75rem;
+	align-items: center;
+	font-size: 1.125rem;
+	font-weight: 500;
+	color: #7e4efc;
+	cursor: pointer;
 }
