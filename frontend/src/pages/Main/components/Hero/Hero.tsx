@@ -68,7 +68,7 @@ export const Hero = ({ goToNextSlide }: HeroProps) => (
 			className={styles.howToUse}
 			initial={{ opacity: 0 }}
 			style={{
-				translateX: 'calc(-50% - 80px)'
+				translateX: 'calc(-50% - var(--sidepanel-width))'
 			}}
 			transition={{
 				opacity: {

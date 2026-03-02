@@ -1,7 +1,12 @@
 @use 'colors' as *;
 @use 'mixins' as *;
+@use 'variables' as *;
 @use 'theme';
 @use 'reset';
+
+:root {
+	--sidepanel-width: #{$sidepanel-width};
+}
 
 body {
 	width: 100vw;
