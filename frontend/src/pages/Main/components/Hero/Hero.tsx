@@ -64,16 +64,13 @@ export const Hero = ({ goToNextSlide }: HeroProps) => (
 		</m.div>
 
 		<m.div
-			animate={{ opacity: 1, y: [0, -30, 0, -15, 0] }}
+			animate={{ y: [0, -30, 0, -15, 0] }}
 			className={styles.howToUse}
-			initial={{ opacity: 0 }}
+			// had to write translate here cause framer adds style and breaks translate from css
 			style={{
 				translateX: 'calc(-50% - var(--sidepanel-width))'
 			}}
 			transition={{
-				opacity: {
-					delay: 2
-				},
 				y: {
 					delay: 2,
 					duration: 1.8,
@@ -81,6 +78,16 @@ export const Hero = ({ goToNextSlide }: HeroProps) => (
 					repeat: Infinity,
 					times: [0, 0.4, 0.5, 0.6, 0.8],
 					type: 'tween'
+				}
+			}}
+			variants={{
+				hidden: { opacity: 0 },
+				visible: {
+					opacity: 1,
+					transition: {
+						delay: 2,
+						duration: 0.5
+					}
 				}
 			}}
 			onClick={goToNextSlide}
