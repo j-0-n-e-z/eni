@@ -21,7 +21,11 @@ const itemVariants = {
 	})
 }
 
-export const Hero = () => (
+interface HeroProps {
+	goToNextSlide: () => void
+}
+
+export const Hero = ({ goToNextSlide }: HeroProps) => (
 	<div className={styles.hero}>
 		<div className={styles.heroTextContainer}>
 			<m.h2 className={styles.heroHeading} custom={0} variants={itemVariants}>
@@ -60,19 +64,26 @@ export const Hero = () => (
 		</m.div>
 
 		<m.div
-			animate={{ y: [0, -30, 0, -15, 0] }}
+			animate={{ opacity: 1, y: [0, -30, 0, -15, 0] }}
 			className={styles.howToUse}
+			initial={{ opacity: 0 }}
 			style={{
 				translateX: 'calc(-50% - 80px)'
 			}}
 			transition={{
-				delay: 3,
-				duration: 1.8,
-				ease: 'easeInOut',
-				repeat: Infinity,
-				times: [0, 0.4, 0.5, 0.6, 0.8],
-				type: 'tween'
+				opacity: {
+					delay: 2
+				},
+				y: {
+					delay: 2,
+					duration: 1.8,
+					ease: 'easeInOut',
+					repeat: Infinity,
+					times: [0, 0.4, 0.5, 0.6, 0.8],
+					type: 'tween'
+				}
 			}}
+			onClick={goToNextSlide}
 		>
 			<span>Как пользоваться</span>
 			<Icons.ArrowTailIcon />

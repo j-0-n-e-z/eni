@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import type { Swiper as SwiperType } from 'swiper'
 import { Keyboard, Mousewheel, Scrollbar } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -15,6 +16,7 @@ import 'swiper/css'
 import 'swiper/css/scrollbar'
 
 export const Main = () => {
+	const swiperRef = useRef<SwiperType | null>(null)
 	const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0)
 	const [params] = useSearchParams()
 	const isEmailConfirmed = params.get('email_confirmed') === '1'
@@ -48,10 +50,13 @@ export const Main = () => {
 				snapOnRelease: true
 			}}
 			onSlideChange={(swiper) => setActiveSlideIndex(swiper.activeIndex)}
+			onSwiper={(swiper) => {
+				swiperRef.current = swiper
+			}}
 		>
 			<SwiperSlide>
 				<Slide isActive={activeSlideIndex === 0}>
-					<Hero />
+					<Hero goToNextSlide={() => swiperRef.current?.slideNext()} />
 				</Slide>
 			</SwiperSlide>
 
@@ -63,13 +68,13 @@ export const Main = () => {
 
 			<SwiperSlide>
 				<Slide isActive={activeSlideIndex === 2}>
-					<Hero />
+					<div>TBD</div>
 				</Slide>
 			</SwiperSlide>
 
 			<SwiperSlide>
 				<Slide isActive={activeSlideIndex === 3}>
-					<Hero />
+					<div>TBD</div>
 				</Slide>
 			</SwiperSlide>
 
