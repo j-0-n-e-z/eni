@@ -8,20 +8,20 @@ import { Signup } from './components/Signup'
 import styles from './Auth.module.scss'
 
 export const Auth = () => {
-	const [method, setMethod] = useState<'login' | 'signup'>('login')
+	const [method, setMethod] = useState<'login' | 'signup'>('signup')
 
 	return (
-		<section className={styles.page}>
-			<div className={styles.container}>
+		<section className={styles.auth}>
+			<div className={styles.authCard}>
 				<div className={styles.header}>
-					<div className={styles.logoContainer}>
-						<div className={styles.logoIconWrapper}>
-							<Icons.BrainIcon className={styles.logoIcon} />
+					<div className={styles.hero}>
+						<div className={styles.heroIconWrapper}>
+							<Icons.BrainIcon className={styles.logo} />
 						</div>
-						<span className={styles.logoText}>Eni</span>
+						<span className={styles.heroTitle}>Eni</span>
 					</div>
-					<form className={styles.tabContainer}>
-						<label className={styles.tab} htmlFor='login'>
+					<form className={styles.authMethodForm}>
+						<label className={styles.authMethod} htmlFor='login'>
 							<input
 								checked={method === 'login'}
 								id='login'
@@ -31,7 +31,7 @@ export const Auth = () => {
 							/>
 							Login
 						</label>
-						<label className={styles.tab} htmlFor='signup'>
+						<label className={styles.authMethod} htmlFor='signup'>
 							<input
 								checked={method === 'signup'}
 								id='signup'
@@ -45,7 +45,7 @@ export const Auth = () => {
 				</div>
 
 				{method === 'login' && <Login />}
-				{method === 'signup' && <Signup goToLogin={() => setMethod('login')} />}
+				{method === 'signup' && <Signup onSuccess={() => setMethod('login')} />}
 			</div>
 		</section>
 	)

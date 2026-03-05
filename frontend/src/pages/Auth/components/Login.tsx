@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { useAuthData } from '@/hooks'
-import { Icons } from '@/ui'
+import { Icons, Input } from '@/ui'
 import { notifyOnSuccess } from '@/utils'
 
 import { useLogin } from '../hooks/useLogin'
@@ -29,42 +29,26 @@ export const Login = () => {
 	return (
 		<>
 			<form className={styles.formContainer} onSubmit={functions.onSubmit}>
-				<fieldset disabled={state.isLoading}>
-					<label className={styles.formGroup} htmlFor='email'>
-						<div className={styles.labelWrapper}>
-							<span className={styles.label}>Email</span>
-							{errors.email && (
-								<span className={styles.inputError}>
-									{errors.email.message}
-								</span>
-							)}
-						</div>
-						<input
-							defaultValue='rigabdullin@yandex.ru'
-							id='email'
-							type='email'
-							{...form.register('email')}
-							placeholder='ilovemovies@email.com'
-						/>
-					</label>
+				<fieldset className={styles.fields} disabled={state.isLoading}>
+					<Input
+						label='Email'
+						{...form.register('email')}
+						defaultValue='rigabdullin@yandex.ru'
+						id='email'
+						placeholder='ilovemovies@email.com'
+						type='email'
+						{...('email' in errors && { error: errors.email?.message })}
+					/>
+					<Input
+						label='Password'
+						{...form.register('password')}
+						defaultValue='Parol228$'
+						id='password'
+						placeholder='•••••••'
+						type='password'
+						{...('password' in errors && { error: errors.password?.message })}
+					/>
 
-					<label className={styles.formGroup} htmlFor='password'>
-						<div className={styles.labelWrapper}>
-							<span className={styles.label}>Password</span>
-							{errors.password && (
-								<span className={styles.inputError}>
-									{errors.password.message}
-								</span>
-							)}
-						</div>
-						<input
-							defaultValue='Parol228$'
-							id='password'
-							type='password'
-							{...form.register('password')}
-							placeholder='••••••••••'
-						/>
-					</label>
 					<div className={styles.formOptions}>
 						<div className={styles.checkboxGroup}>
 							<input
