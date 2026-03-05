@@ -5,6 +5,7 @@
 	display: grid;
 	grid-template: 'left right' auto 'bottom bottom' 1fr / 1fr 1fr;
 	gap: 3rem;
+	width: 100%;
 }
 
 .infoHeading {

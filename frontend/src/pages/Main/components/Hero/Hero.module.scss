@@ -2,11 +2,10 @@
 @use '@styles' as *;
 
 .hero {
-	z-index: 1;
 	display: flex;
-	flex: 1;
 	flex-flow: row wrap;
 	justify-content: center;
+	width: 100%;
 	color: var(--text-primary);
 }
 
