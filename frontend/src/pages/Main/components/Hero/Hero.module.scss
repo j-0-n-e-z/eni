@@ -29,10 +29,7 @@
 .heroTextContainer {
 	display: flex;
 	flex-flow: column nowrap;
-	gap: 10px;
-	justify-content: center;
 	width: 50%;
-	margin-top: -5rem;
 	font-size: 1.5rem;
 	font-weight: 700;
 	line-height: #{$line-height-md};
@@ -43,8 +40,8 @@
 	gap: 20px;
 	align-items: center;
 	font-size: 6.875rem;
-	color: #7e4efc;
-	text-decoration: #3859ff 5px wavy underline;
+	color: #{$brand-secondary};
+	text-decoration: #{$brand-primary} 5px wavy underline;
 
 	svg {
 		width: 5rem;
@@ -55,7 +52,8 @@
 .heroLines {
 	display: flex;
 	flex-direction: column;
-	gap: 1rem;
+	gap: 1.5rem;
+	margin-top: 13rem;
 }
 
 .bgCircle {

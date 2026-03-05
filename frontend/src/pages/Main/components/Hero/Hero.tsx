@@ -14,7 +14,7 @@ const itemVariants = {
 	visible: (custom: number) => ({
 		opacity: 1,
 		transition: {
-			delay: 0.2 + custom * 0.3,
+			delay: 0.3 + custom * 0.3,
 			duration: 0.4
 		},
 		y: 0
@@ -90,7 +90,7 @@ export const Hero = ({ goToNextSlide }: HeroProps) => (
 			}}
 			onClick={goToNextSlide}
 		>
-			<span>Как пользоваться</span>
+			<span>Подробнее о проекте</span>
 			<Icons.ArrowTailIcon />
 		</m.div>
 
