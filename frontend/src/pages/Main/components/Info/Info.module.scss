@@ -1,0 +1,183 @@
+/* stylelint-disable selector-pseudo-class-no-unknown */
+@use '@styles' as *;
+
+.info {
+	display: grid;
+	grid-template: 'left right' auto 'bottom bottom' 1fr / 1fr 1fr;
+	gap: 3rem;
+}
+
+.infoHeading {
+	margin-top: 2rem;
+	font-size: 2.75rem;
+	color: var(--text-primary);
+}
+
+.api {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+}
+
+.apiList {
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 16px;
+	color: var(--text-primary);
+
+	li {
+		position: relative;
+		display: flex;
+		flex: 1;
+		gap: 12px;
+		align-items: center;
+		justify-content: flex-start;
+		min-height: 0;
+		padding: 14px 24px;
+		overflow: hidden;
+		cursor: default;
+		background: linear-gradient(
+			135deg,
+			var(--bg-secondary) 0%,
+			rgb(46 125 50 / 15%) 100%
+		);
+		border: 1px solid var(--border-success);
+		border-radius: 16px;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		text-wrap-style: pretty;
+
+		&::before {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 4px;
+			height: 100%;
+			content: '';
+			background: linear-gradient(
+				180deg,
+				var(--success) 0%,
+				rgb(46 125 50 / 50%) 100%
+			);
+			border-radius: 4px 0 0 4px;
+			transition: width 0.3s ease;
+		}
+
+		&:hover {
+			border-color: var(--success);
+			box-shadow: 0 4px 20px rgb(46 125 50 / 25%);
+			translate: 8px;
+
+			&::before {
+				width: 6px;
+			}
+		}
+
+		&:nth-of-type(2) {
+			gap: 10px;
+		}
+
+		&:nth-of-type(3) {
+			gap: 12px;
+		}
+
+		span {
+			font-size: 1.1rem;
+			font-weight: 500;
+			letter-spacing: 0.02em;
+
+			&.apiHeading {
+				font-weight: 700;
+			}
+		}
+	}
+}
+
+.bgTriangle {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: -1;
+	width: 40rem;
+	height: 40rem;
+	transform: translateY(20%);
+
+	path {
+		stroke: var(--bg-stroke);
+	}
+
+	:global([data-theme='dark']) & {
+		opacity: 40%;
+	}
+}
+
+.opensubsLogo {
+	width: 40px;
+	height: 40px;
+}
+
+.iconWrapper {
+	display: grid;
+	place-items: center;
+	width: 40px;
+	height: 40px;
+}
+
+.description {
+	display: flex;
+	flex-flow: column;
+	gap: 3rem;
+	justify-content: end;
+	font-size: 1.1rem;
+	color: var(--text-primary);
+	text-wrap-style: pretty;
+}
+
+.letsGoBtn {
+	@extend %button-base;
+	@include center-flex;
+
+	gap: 5px;
+	font-size: 1.1rem;
+	color: #fff;
+	background-color: #{$brand-secondary};
+	border: none;
+	transition: filter 0.3s ease;
+
+	&:hover {
+		background-color: #{$brand-secondary};
+		filter: brightness(120%);
+	}
+}
+
+.techs {
+	display: flex;
+	flex-direction: column;
+	grid-area: bottom;
+	gap: 1.5rem;
+	padding: 2rem;
+
+	:global {
+		.swiper-slide {
+			display: flex;
+			gap: 0.5rem;
+			align-items: center;
+			justify-content: center;
+			height: 150px !important;
+			background: var(--bg-secondary);
+			border-radius: 1rem;
+		}
+	}
+}
+
+.techIcon {
+	@include center-flex;
+
+	font-size: 2rem;
+}
+
+.techName {
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: var(--text-primary);
+	white-space: nowrap;
+}
