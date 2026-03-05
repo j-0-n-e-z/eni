@@ -5,7 +5,8 @@ import { motion as m } from 'framer-motion'
 import { Background, Icons } from '@/ui'
 
 import movieTheatre from '../../../../ui/lotties/MovieTheatre.lottie'
-import { HERO_LINES } from '../../constants/hero-text'
+
+import { HERO_LINES } from './constants/hero-text'
 
 import styles from './Hero.module.scss'
 
