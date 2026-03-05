@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import ReactDOM from 'react-dom'
 
-import { Icons } from '@/ui/icons'
+import { Icons } from '@/ui'
 
 import styles from './Modal.module.scss'
 

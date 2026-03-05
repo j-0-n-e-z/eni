@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import type { FC } from 'react'
 
-import { Icons } from '@/ui/icons'
+import { Icons } from '@/ui'
 
 import styles from './DeleteButton.module.scss'
 

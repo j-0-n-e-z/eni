@@ -1,7 +1,7 @@
 import type { SerializedError } from '@reduxjs/toolkit'
 
 import type { BackendError } from '@/frontend-types'
-import { Icons } from '@/ui/icons'
+import { Icons } from '@/ui'
 import { getErrorMessage } from '@/utils'
 
 import { EmptyState } from './EmptyState'
