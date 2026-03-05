@@ -1,5 +1,6 @@
 export * from './assets/background'
 export * from './assets/icons'
+export { Button } from './components/Button/Button'
 export { Container } from './components/Container'
 export { DeleteButton } from './components/DeleteButton'
 export { EmptyState } from './components/EmptyState'
