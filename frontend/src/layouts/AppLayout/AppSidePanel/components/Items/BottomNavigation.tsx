@@ -1,5 +1,4 @@
 import cn from 'classnames'
-import { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import { useAuthActions, useAuthData } from '@/hooks'
@@ -13,18 +12,12 @@ export const BottomNavigation = () => {
 	const { me, logoutError } = useAuthData()
 	const { logout } = useAuthActions()
 
-	const setActiveIf = (path: string) => ({
-		[styles.active]: location.pathname === path
-	})
-
-	useEffect(() => {
-		if (logoutError) {
-			const logoutErrorMessage = getErrorMessage(logoutError)
-			if (logoutErrorMessage) {
-				notifyOnError(logoutErrorMessage, 'logoutError')
-			}
+	if (logoutError) {
+		const errorMessage = getErrorMessage(logoutError)
+		if (errorMessage) {
+			notifyOnError(errorMessage, 'logoutError')
 		}
-	}, [logoutError])
+	}
 
 	return (
 		<div className={styles.bottomNavigation}>
@@ -32,6 +25,7 @@ export const BottomNavigation = () => {
 				<button
 					aria-label='logout'
 					className={styles.login}
+					type='button'
 					onClick={() => logout()}
 				>
 					<Icons.LoginIcon className={styles.logoutIcon} />
@@ -40,8 +34,10 @@ export const BottomNavigation = () => {
 			) : (
 				<Link
 					aria-label='login'
-					className={cn(styles.login, setActiveIf('/login'))}
 					to='/login'
+					className={cn(styles.login, {
+						[styles.active]: location.pathname === '/login'
+					})}
 				>
 					<Icons.LoginIcon className={styles.loginIcon} />
 					<span className={styles.loginText}>Login</span>

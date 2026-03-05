@@ -17,6 +17,27 @@ import { NAV_ITEMS } from './constants/navItems'
 
 import styles from './SidePanel.module.scss'
 
+const Logo = () => (
+	<>
+		<Icons.BrainIcon className={cn(styles.bookIcon, styles.topLogo)} />
+		<div className={styles.topTitle}>Eni</div>
+	</>
+)
+
+const NavItemsList = () => (
+	<>
+		{NAV_ITEMS.map((config) => {
+			const navItem = <NavItem key={config.to} config={config} />
+
+			return config.authorizedOnly ? (
+				<AuthorizedItem key={config.to}>{navItem}</AuthorizedItem>
+			) : (
+				navItem
+			)
+		})}
+	</>
+)
+
 export const AppSidePanel = () => {
 	const { isMeFetching } = useAuthData()
 
@@ -25,20 +46,11 @@ export const AppSidePanel = () => {
 	return (
 		<SidePanel>
 			<TopArea>
-				<Icons.BrainIcon className={cn(styles.bookIcon, styles.topLogo)} />
-				<div className={styles.topTitle}>Eni</div>
+				<Logo />
 			</TopArea>
 
 			<Navigation>
-				{NAV_ITEMS.map((props) => {
-					const navItem = <NavItem {...props} key={props.to} />
-
-					return props.authorizedOnly ? (
-						<AuthorizedItem key={props.to}>{navItem}</AuthorizedItem>
-					) : (
-						navItem
-					)
-				})}
+				<NavItemsList />
 			</Navigation>
 
 			<BottomNavigation />

@@ -1,50 +1,48 @@
 import cn from 'classnames'
-import React, { type ReactNode } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, type NavLinkProps } from 'react-router-dom'
 
 import { useAuthData } from '@/hooks'
 import { useGetWordsByUserIdQuery } from '@/store/api'
+import { Icons } from '@/ui'
+
+import type { NavItemConfig } from '../../constants/navItems'
 
 import styles from '../../SidePanel.module.scss'
 
-interface NavItemProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-	to: string
-	icon: ReactNode
-	text: string
-	isWordsItem?: boolean
-	isToMe?: boolean
+interface NavItemProps extends Omit<NavLinkProps, 'children' | 'to'> {
+	config: NavItemConfig
 }
 
-export const NavItem = ({
-	to,
-	icon,
-	text,
-	isToMe = false,
-	isWordsItem = false,
-	className,
-	...props
-}: NavItemProps) => {
+export const NavItem = ({ config, ...props }: NavItemProps) => {
+	const { to, iconName, text, isWordsItem = false } = config
 	const { me } = useAuthData()
 	const { data: savedWords } = useGetWordsByUserIdQuery(me?.id ?? '', {
 		skip: !isWordsItem || !me?.id
 	})
 
-	if (isToMe && !me) return null
+	if (isWordsItem && !me) return null
+
+	const IconComponent = Icons[iconName]
+	const resolvedPath = isWordsItem && me ? `${to}/${me.username}` : to
+	const hasWordsCount = isWordsItem && savedWords && savedWords.length > 0
 
 	return (
 		<li>
 			<NavLink
-				aria-label={props['aria-label']}
-				to={isToMe && me ? `${to}/${me.username}` : to}
+				to={resolvedPath}
 				className={({ isActive }) =>
-					cn(styles.navLink, className, {
-						[styles.active]: isActive
+					cn(styles.navLink, {
+						[styles.active]: isActive,
+						[styles.words]: isWordsItem
 					})
 				}
+				{...props}
 			>
-				{icon}
+				<IconComponent />
+
 				<span className={styles.navLinkText}>{text}</span>
-				{isWordsItem && savedWords && savedWords.length > 0 && (
+
+				{hasWordsCount && (
 					<div className={styles.wordsCount}>{savedWords.length}</div>
 				)}
 			</NavLink>
