@@ -1,15 +1,3 @@
-export const TECHS = [
-	{ icon: '⚛️', name: 'React' },
-	{ icon: '🔷', name: 'TypeScript' },
-	{ icon: '⚡', name: 'Vite' },
-	{ icon: '🔀', name: 'React Router' },
-	{ icon: '🎬', name: 'Framer Motion' },
-	{ icon: '🍦', name: 'Swiper' },
-	{ icon: '👒', name: 'SCSS' },
-	{ icon: '📋', name: 'ESLint' },
-	{ icon: '✨', name: 'Prettier' }
-]
-
 export const descriptionItemVariants = {
 	hidden: { opacity: 0, y: 60 },
 	visible: (custom: number) => ({
