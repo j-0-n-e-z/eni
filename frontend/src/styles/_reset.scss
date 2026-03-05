@@ -50,6 +50,11 @@ fieldset {
 	border: none;
 }
 
+textarea {
+	font-family: inherit;
+	outline: none;
+}
+
 svg {
 	flex-shrink: 0;
 }
