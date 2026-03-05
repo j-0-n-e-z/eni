@@ -8,18 +8,18 @@ export interface NavItemConfig {
 	text: string
 	authorizedOnly?: boolean
 	isWordsItem?: boolean
-	'aria-label': string
+	ariaLabel: string
 }
 
 export const NAV_ITEMS: readonly NavItemConfig[] = [
 	{
-		'aria-label': 'search movies',
+		ariaLabel: 'search movies',
 		iconName: 'SearchIcon',
 		text: 'Search',
 		to: '/search'
 	},
 	{
-		'aria-label': 'profile with words',
+		ariaLabel: 'profile with words',
 		authorizedOnly: true,
 		iconName: 'BookIcon',
 		isWordsItem: true,
@@ -27,13 +27,13 @@ export const NAV_ITEMS: readonly NavItemConfig[] = [
 		to: '/user'
 	},
 	{
-		'aria-label': 'popular words',
+		ariaLabel: 'popular words',
 		iconName: 'PopularIcon',
 		text: 'Popular',
 		to: '/popular'
 	},
 	{
-		'aria-label': 'settings',
+		ariaLabel: 'settings',
 		authorizedOnly: true,
 		iconName: 'SettingsIcon',
 		text: 'Settings',

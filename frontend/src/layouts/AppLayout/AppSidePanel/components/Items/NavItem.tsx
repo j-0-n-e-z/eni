@@ -14,7 +14,7 @@ interface NavItemProps extends Omit<NavLinkProps, 'children' | 'to'> {
 }
 
 export const NavItem = ({ config, ...props }: NavItemProps) => {
-	const { to, iconName, text, isWordsItem = false } = config
+	const { to, iconName, text, isWordsItem = false, ariaLabel } = config
 	const { me } = useAuthData()
 	const { data: savedWords } = useGetWordsByUserIdQuery(me?.id ?? '', {
 		skip: !isWordsItem || !me?.id
@@ -29,6 +29,7 @@ export const NavItem = ({ config, ...props }: NavItemProps) => {
 	return (
 		<li>
 			<NavLink
+				aria-label={ariaLabel}
 				to={resolvedPath}
 				className={({ isActive }) =>
 					cn(styles.navLink, {
