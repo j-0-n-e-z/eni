@@ -4,7 +4,7 @@ import { motion as m } from 'framer-motion'
 
 import { Background, Icons } from '@/ui'
 
-import movieTheatre from '../../../../ui/lotties/MovieTheatre.lottie'
+import movieTheatre from '../../../../ui/assets/lotties/MovieTheatre.lottie'
 
 import { HERO_LINES } from './constants/hero-text'
 
