@@ -6,8 +6,8 @@ import { AuthProvider, ThemeProvider } from '@/contexts'
 import { ErrorDisplay } from '@/ui'
 import { notifyOnError } from '@/utils'
 
-import { AppSidePanel } from './AppSidePanel/AppSidePanel'
-import { SidePanelSkeleton } from './AppSidePanel/components/SidePanel/SidePanelSkeleton'
+import { SidePanel } from './SidePanel/SidePanel'
+import { SidePanelSkeleton } from './SidePanel/SidePanelSkeleton'
 
 import '../../App.scss'
 
@@ -27,7 +27,7 @@ export const AppLayout = () => (
 	<ThemeProvider>
 		<AuthProvider>
 			<ErrorBoundary FallbackComponent={SidePanelErrorFallback}>
-				<AppSidePanel />
+				<SidePanel />
 			</ErrorBoundary>
 
 			<main className='main'>

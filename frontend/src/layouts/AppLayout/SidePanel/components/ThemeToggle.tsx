@@ -1,7 +1,7 @@
 import { useTheme, useThemeToggle } from '@/hooks'
 import { Icons } from '@/ui'
 
-import styles from '../../SidePanel.module.scss'
+import styles from '../SidePanel.module.scss'
 
 interface ThemeIconProps {
 	position: string
@@ -16,8 +16,8 @@ const ThemeIcon = ({ position }: ThemeIconProps) => (
 			} as React.CSSProperties
 		}
 	>
-		<Icons.MoonIcon />
-		<Icons.SunIcon />
+		<Icons.Moon />
+		<Icons.Sun />
 	</div>
 )
 

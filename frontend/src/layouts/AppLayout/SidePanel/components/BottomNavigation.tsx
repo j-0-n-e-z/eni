@@ -5,7 +5,7 @@ import { useAuthActions, useAuthData } from '@/hooks'
 import { Icons } from '@/ui'
 import { getErrorMessage, notifyOnError } from '@/utils'
 
-import styles from '../../SidePanel.module.scss'
+import styles from '../SidePanel.module.scss'
 
 export const BottomNavigation = () => {
 	const location = useLocation()
@@ -28,7 +28,7 @@ export const BottomNavigation = () => {
 					type='button'
 					onClick={() => logout()}
 				>
-					<Icons.LoginIcon className={styles.logoutIcon} />
+					<Icons.Login className={styles.logoutIcon} />
 					<span className={styles.loginText}>Logout</span>
 				</button>
 			) : (
@@ -39,7 +39,7 @@ export const BottomNavigation = () => {
 						[styles.active]: location.pathname === '/login'
 					})}
 				>
-					<Icons.LoginIcon className={styles.loginIcon} />
+					<Icons.Login className={styles.loginIcon} />
 					<span className={styles.loginText}>Login</span>
 				</Link>
 			)}

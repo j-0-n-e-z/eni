@@ -29,7 +29,7 @@ export const MenuBurgerButton = () => {
 			})}
 			onClick={toggle}
 		>
-			{isOpen ? <Icons.CancelIcon /> : <Icons.BurgerMenuIcon />}
+			{isOpen ? <Icons.Cancel /> : <Icons.BurgerMenu />}
 		</button>
 	)
 }

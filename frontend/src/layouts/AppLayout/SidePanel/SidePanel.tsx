@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { Link } from 'react-router-dom'
 
 import { useAuthData } from '@/hooks'
 import { Icons } from '@/ui'
@@ -6,22 +7,21 @@ import { Icons } from '@/ui'
 import {
 	AuthorizedItem,
 	BottomNavigation,
-	Navigation,
+	MenuBurgerButton,
 	NavItem,
-	SidePanel,
-	SidePanelSkeleton,
-	ThemeToggle,
-	TopArea
+	Navigation,
+	ThemeToggle
 } from './components'
 import { NAV_ITEMS } from './constants/navItems'
+import { SidePanelSkeleton } from './SidePanelSkeleton'
 
 import styles from './SidePanel.module.scss'
 
-const Logo = () => (
-	<>
-		<Icons.BrainIcon className={cn(styles.bookIcon, styles.topLogo)} />
+const TopArea = () => (
+	<Link aria-label='hero' className={styles.topArea} to='/'>
+		<Icons.Brain className={cn(styles.bookIcon, styles.topLogo)} />
 		<div className={styles.topTitle}>Eni</div>
-	</>
+	</Link>
 )
 
 const NavItemsList = () => (
@@ -38,24 +38,26 @@ const NavItemsList = () => (
 	</>
 )
 
-export const AppSidePanel = () => {
+export const SidePanel = () => {
 	const { isMeFetching } = useAuthData()
 
 	if (isMeFetching) return <SidePanelSkeleton />
 
 	return (
-		<SidePanel>
-			<TopArea>
-				<Logo />
-			</TopArea>
+		<>
+			<MenuBurgerButton />
 
-			<Navigation>
-				<NavItemsList />
-			</Navigation>
+			<aside aria-label='main navigation' className={styles.sidepanel}>
+				<TopArea />
 
-			<BottomNavigation />
+				<Navigation>
+					<NavItemsList />
+				</Navigation>
 
-			<ThemeToggle />
-		</SidePanel>
+				<BottomNavigation />
+
+				<ThemeToggle />
+			</aside>
+		</>
 	)
 }

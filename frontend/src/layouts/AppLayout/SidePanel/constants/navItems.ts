@@ -14,28 +14,28 @@ export interface NavItemConfig {
 export const NAV_ITEMS: readonly NavItemConfig[] = [
 	{
 		ariaLabel: 'search movies',
-		iconName: 'SearchIcon',
+		iconName: 'Search',
 		text: 'Search',
 		to: '/search'
 	},
 	{
 		ariaLabel: 'profile with words',
 		authorizedOnly: true,
-		iconName: 'BookIcon',
+		iconName: 'Book',
 		isWordsItem: true,
 		text: 'Words',
 		to: '/user'
 	},
 	{
 		ariaLabel: 'popular words',
-		iconName: 'PopularIcon',
+		iconName: 'Popular',
 		text: 'Popular',
 		to: '/popular'
 	},
 	{
 		ariaLabel: 'settings',
 		authorizedOnly: true,
-		iconName: 'SettingsIcon',
+		iconName: 'Settings',
 		text: 'Settings',
 		to: '/settings'
 	}

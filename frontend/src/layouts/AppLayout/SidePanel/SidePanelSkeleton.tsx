@@ -1,6 +1,6 @@
 import { Skeleton } from '@/ui'
 
-import styles from '../../SidePanel.module.scss'
+import styles from './SidePanel.module.scss'
 
 export const SidePanelSkeleton = () => (
 	<aside

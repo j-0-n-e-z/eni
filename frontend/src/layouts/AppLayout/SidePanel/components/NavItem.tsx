@@ -5,9 +5,9 @@ import { useAuthData } from '@/hooks'
 import { useGetWordsByUserIdQuery } from '@/store/api'
 import { Icons } from '@/ui'
 
-import type { NavItemConfig } from '../../constants/navItems'
+import type { NavItemConfig } from '../constants/navItems'
 
-import styles from '../../SidePanel.module.scss'
+import styles from '../SidePanel.module.scss'
 
 interface NavItemProps extends Omit<NavLinkProps, 'children' | 'to'> {
 	config: NavItemConfig
