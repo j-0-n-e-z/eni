@@ -43,6 +43,9 @@ export const useSignup = ({ onSuccess }: UseSignupProps = {}) => {
 	return {
 		form: signupForm,
 		functions: { onSubmit },
-		state: { isLoading: signupForm.formState.isSubmitting }
+		state: {
+			errors: signupForm.formState.errors,
+			isLoading: signupForm.formState.isSubmitting
+		}
 	}
 }

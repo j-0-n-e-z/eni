@@ -14,7 +14,7 @@ export const Login = () => {
 	const { form, state, functions } = useLogin({
 		onSuccess: () => notifyOnSuccess('Вы успешно вошли', 'login')
 	})
-	const { errors } = form.formState
+	const { errors } = state
 	const { me } = useAuthData()
 	const navigate = useNavigate()
 	const location = useLocation()
@@ -37,7 +37,9 @@ export const Login = () => {
 						id='email'
 						placeholder='ilovemovies@email.com'
 						type='email'
-						{...('email' in errors && { error: errors.email?.message })}
+						{...('email' in errors && {
+							error: errors.email?.message
+						})}
 					/>
 					<Input
 						label='Password'
@@ -46,7 +48,9 @@ export const Login = () => {
 						id='password'
 						placeholder='•••••••'
 						type='password'
-						{...('password' in errors && { error: errors.password?.message })}
+						{...('password' in errors && {
+							error: errors.password?.message
+						})}
 					/>
 
 					<div className={styles.formOptions}>

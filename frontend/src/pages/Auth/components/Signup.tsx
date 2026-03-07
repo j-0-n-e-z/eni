@@ -13,7 +13,7 @@ interface SignupProps {
 
 export const Signup = ({ onSuccess }: SignupProps) => {
 	const { form, state, functions } = useSignup({ onSuccess })
-	const { errors } = form.formState
+	const { errors } = state
 
 	return (
 		<form className={styles.formContainer} onSubmit={functions.onSubmit}>
@@ -24,7 +24,9 @@ export const Signup = ({ onSuccess }: SignupProps) => {
 					id='email'
 					placeholder='ilovemovies@email.com'
 					type='email'
-					{...('email' in errors && { error: errors.email?.message })}
+					{...('email' in errors && {
+						error: errors.email?.message
+					})}
 				/>
 
 				<Input
@@ -33,7 +35,9 @@ export const Signup = ({ onSuccess }: SignupProps) => {
 					id='username'
 					placeholder='voldemort'
 					type='username'
-					{...('username' in errors && { error: errors.username?.message })}
+					{...('username' in errors && {
+						error: errors.username?.message
+					})}
 				/>
 
 				<Input
@@ -42,7 +46,9 @@ export const Signup = ({ onSuccess }: SignupProps) => {
 					id='password'
 					placeholder='•••••••'
 					type='password'
-					{...('password' in errors && { error: errors.password?.message })}
+					{...('password' in errors && {
+						error: errors.password?.message
+					})}
 				/>
 
 				<Input
