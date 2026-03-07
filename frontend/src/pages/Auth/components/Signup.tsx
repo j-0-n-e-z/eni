@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import cn from 'classnames'
 
-import { Input } from '@/ui'
+import { Button, Input } from '@/ui'
 
 import { useSignup } from '../hooks/useSignup'
 
@@ -63,12 +62,9 @@ export const Signup = ({ onSuccess }: SignupProps) => {
 				/>
 			</fieldset>
 
-			<button
-				className={cn(styles.submitBtn, styles.primary)}
-				disabled={state.isLoading}
-			>
+			<Button className={styles.submitBtn} disabled={state.isLoading}>
 				Sign up
-			</button>
+			</Button>
 		</form>
 	)
 }

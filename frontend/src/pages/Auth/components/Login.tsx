@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { useAuthData } from '@/hooks'
-import { Icons, Input } from '@/ui'
+import { Button, Icons, Input } from '@/ui'
 import { notifyOnSuccess } from '@/utils'
 
 import { useLogin } from '../hooks/useLogin'
@@ -68,9 +68,13 @@ export const Login = () => {
 					</div>
 				</fieldset>
 
-				<button className={styles.submitBtn} disabled={state.isLoading}>
+				<Button
+					className={styles.submitBtn}
+					disabled={state.isLoading}
+					type='submit'
+				>
 					Login
-				</button>
+				</Button>
 			</form>
 
 			<div className={styles.footer}>
