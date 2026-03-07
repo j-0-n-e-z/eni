@@ -59,3 +59,5 @@ export const Icons = {
 	WholeWordIcon,
 	YaTranslate
 }
+
+export type IconType = (typeof Icons)[keyof typeof Icons]
