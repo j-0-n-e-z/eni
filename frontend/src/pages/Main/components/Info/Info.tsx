@@ -14,7 +14,7 @@ import 'swiper/css'
 import 'swiper/css/autoplay'
 import 'swiper/css/navigation'
 
-const MotionLink = m(Link)
+const MotionLink = m.create(Link)
 
 export const Info = () => (
 	<div className={styles.info}>
