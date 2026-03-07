@@ -63,7 +63,7 @@ export const Info = () => (
 				whileHover={{ scale: 1.1 }}
 				whileTap={{ scale: 0.95 }}
 			>
-				<Icons.BrainIcon /> Let&apos;s Go
+				Вперед
 			</MotionLink>
 		</section>
 
