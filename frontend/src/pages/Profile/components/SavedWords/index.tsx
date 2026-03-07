@@ -19,7 +19,7 @@ export const SavedWords = ({
 	<section className={styles.wordsSection}>
 		<div className={styles.wordsSectionHeader}>
 			<h3 className={styles.wordsSectionTitleWrapper}>
-				<Icons.BookIcon />
+				<Icons.Book />
 				Изучено
 			</h3>
 			<span className={styles.badge}>{savedWords.length}</span>

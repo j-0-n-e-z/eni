@@ -10,8 +10,8 @@ import { MovieInfoSkeleton } from './components/MovieInfo/MovieInfoSkeleton'
 import styles from './MovieSubtitlesPage.module.scss'
 
 export const MovieSubtitles = () => {
-	const { movieId: movieIdFromUrl } = useParams()
-	const movieId = Number(movieIdFromUrl)
+	const params = useParams()
+	const movieId = Number(params.movieId)
 	const navigate = useNavigate()
 	const {
 		data: movie,
@@ -30,7 +30,7 @@ export const MovieSubtitles = () => {
 			<EmptyState
 				description='Отсутствует id фильма'
 				header='Упс...'
-				icon={<Icons.EmptyIcon />}
+				icon={<Icons.Empty />}
 			/>
 		)
 	if (isMovieLoading) return <MovieInfoSkeleton />
@@ -42,7 +42,7 @@ export const MovieSubtitles = () => {
 			<EmptyState
 				description='Нет данных о фильме'
 				header='Упс...'
-				icon={<Icons.EmptyIcon />}
+				icon={<Icons.Empty />}
 			/>
 		)
 

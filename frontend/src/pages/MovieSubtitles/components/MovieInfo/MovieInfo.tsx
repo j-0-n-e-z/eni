@@ -60,7 +60,7 @@ export const MovieInfo = ({ movie }: MovieInfoProps) => {
 								: (movie.nameRu ?? 'Отсутствует название на русском языке')}
 						</Link>
 						{movie.nameOriginal && (
-							<Icons.TranslateIcon
+							<Icons.Translate
 								className={styles.translateTitleIcon}
 								onClick={() => setIsShowOriginalTitle((p) => !p)}
 							/>
@@ -92,7 +92,7 @@ export const MovieInfo = ({ movie }: MovieInfoProps) => {
 									: (movie.nameRu ?? 'Отсутствует название на русском языке')}
 							</a>
 							{movie.nameOriginal && (
-								<Icons.TranslateIcon
+								<Icons.Translate
 									className={styles.translateTitleIcon}
 									onClick={() => setIsShowOriginalTitle((p) => !p)}
 								/>
@@ -131,7 +131,7 @@ export const MovieInfo = ({ movie }: MovieInfoProps) => {
 											target='_blank'
 										>
 											{movie.ratingImdb.toFixed(1)}
-											<Icons.ImdbIcon className={styles.imdbLogo} />
+											<Icons.Imdb className={styles.imdbLogo} />
 										</a>
 									</div>
 								)}
@@ -207,7 +207,7 @@ export const MovieInfo = ({ movie }: MovieInfoProps) => {
 				className={styles.toggleMovieInfoBtn}
 				onClick={toggleHideMovieInfo}
 			>
-				<Icons.ArrowIcon />
+				<Icons.Arrow />
 			</button>
 		</section>
 	)

@@ -128,7 +128,7 @@ export const Subtitles = () => {
 				<EmptyState
 					description='Субтитры не найдены'
 					header='Пусто'
-					icon={<Icons.EmptyIcon />}
+					icon={<Icons.Empty />}
 				/>
 			)
 
@@ -168,7 +168,7 @@ export const Subtitles = () => {
 				<EmptyState
 					description={`Слово "${debouncedSearchedWord}" не найдено`}
 					header='Не найдено'
-					icon={<Icons.SearchIcon />}
+					icon={<Icons.Search />}
 				/>
 			)
 
@@ -225,7 +225,7 @@ export const Subtitles = () => {
 									type='checkbox'
 									onChange={() => setIsCaseSensitive((p) => !p)}
 								/>
-								<Icons.CaseSensitiveIcon />
+								<Icons.CaseSensitive />
 							</label>
 							<label
 								aria-label='whole word'
@@ -238,7 +238,7 @@ export const Subtitles = () => {
 									type='checkbox'
 									onChange={() => setIsWholeMatch((p) => !p)}
 								/>
-								<Icons.WholeWordIcon />
+								<Icons.WholeWord />
 							</label>
 						</div>
 					</div>

@@ -43,7 +43,7 @@ export const SubtitleSavedWords = ({
 						className={styles.removeSavedWordBtn}
 						onClick={() => removeWord(word)}
 					>
-						<Icons.CancelIcon />
+						<Icons.Cancel />
 					</button>
 				</li>
 			))}

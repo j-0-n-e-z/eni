@@ -16,7 +16,7 @@ export const Auth = () => {
 				<div className={styles.header}>
 					<div className={styles.hero}>
 						<div className={styles.heroIconWrapper}>
-							<Icons.BrainIcon className={styles.logo} />
+							<Icons.Brain className={styles.logo} />
 						</div>
 						<span className={styles.heroTitle}>Eni</span>
 					</div>

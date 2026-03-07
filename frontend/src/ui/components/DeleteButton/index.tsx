@@ -13,6 +13,6 @@ export const DeleteButton: FC<DeleteButtonProps> = ({
 	...props
 }) => (
 	<button className={cn(styles.deleteBtn, className)} {...props}>
-		<Icons.TrashIcon className={styles.deleteBtnIcon} />
+		<Icons.Trash className={styles.deleteBtnIcon} />
 	</button>
 )

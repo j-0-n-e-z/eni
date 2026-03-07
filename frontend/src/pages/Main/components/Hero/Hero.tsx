@@ -30,7 +30,7 @@ export const Hero = ({ goToNextSlide }: HeroProps) => (
 	<div className={styles.hero}>
 		<div className={styles.heroTextContainer}>
 			<m.h2 className={styles.heroHeading} custom={0} variants={itemVariants}>
-				<Icons.BrainIcon className={styles.heroIcon} />
+				<Icons.Brain className={styles.heroIcon} />
 				Eni
 			</m.h2>
 
@@ -92,7 +92,7 @@ export const Hero = ({ goToNextSlide }: HeroProps) => (
 			onClick={goToNextSlide}
 		>
 			<span>Подробнее о проекте</span>
-			<Icons.ArrowTailIcon />
+			<Icons.ArrowTail />
 		</m.div>
 
 		<Background.Circle className={styles.bgCircle} />

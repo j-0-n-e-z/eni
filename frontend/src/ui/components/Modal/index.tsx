@@ -24,7 +24,7 @@ export const Modal = ({ children, isOpen, onClose }: ModalProps) => {
 					className={styles.modalCloseBtn}
 					onClick={onClose}
 				>
-					<Icons.CancelIcon />
+					<Icons.Cancel />
 				</button>
 			</div>
 		</div>,

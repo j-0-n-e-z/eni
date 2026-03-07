@@ -141,6 +141,7 @@ export const Info = () => (
 				))}
 			</Swiper>
 		</m.section>
+
 		<Background.Triangle className={styles.bgTriangle} />
 	</div>
 )

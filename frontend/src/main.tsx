@@ -64,7 +64,7 @@ const router = createBrowserRouter([
 					<EmptyState
 						description='Such path does not exist'
 						header='Path not found'
-						icon={<Icons.EmptyIcon />}
+						icon={<Icons.Empty />}
 					/>
 				),
 				path: '*'

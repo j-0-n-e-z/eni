@@ -100,7 +100,7 @@ export const WordSources = ({
 								className={styles.deleteMySourceBtn}
 								onClick={() => deleteWordSource(source)}
 							>
-								<Icons.TrashIcon />
+								<Icons.Trash />
 							</button>
 						)}
 					</li>

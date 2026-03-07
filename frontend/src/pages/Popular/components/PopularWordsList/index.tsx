@@ -13,7 +13,7 @@ export const PopularWordsList = ({ words }: PopularWordsListProps) => {
 			<EmptyState
 				description='Нет данных о популярных словах'
 				header='Упс...'
-				icon={<Icons.EmptyIcon />}
+				icon={<Icons.Empty />}
 			/>
 		)
 

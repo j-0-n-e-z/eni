@@ -14,6 +14,6 @@ export const ErrorDisplay = ({ error }: ErrorDisplayProps) => (
 	<EmptyState
 		description={getErrorMessage(error)}
 		header='Error occured'
-		icon={<Icons.ErrorIcon />}
+		icon={<Icons.Error />}
 	/>
 )

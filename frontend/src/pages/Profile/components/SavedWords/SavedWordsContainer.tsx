@@ -34,7 +34,7 @@ export const SavedWordsContainer = ({
 			<EmptyState
 				description={descriptionOnEmpty}
 				header='Пока пусто'
-				icon={<Icons.BookIcon />}
+				icon={<Icons.Book />}
 			/>
 		)
 

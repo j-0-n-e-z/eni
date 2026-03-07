@@ -17,7 +17,7 @@ export const MovieSubtitle = ({ movieSubtitle }: MovieSubtitleProps) => {
 		useOutletContext<MovieSubtitlesContext>()
 
 	const ratingStars = Array.from({ length: 10 }).map((_, i) => (
-		<Icons.StarIcon
+		<Icons.Star
 			key={i}
 			className={cn(styles.star, {
 				[styles.filled]: i + 1 <= movieSubtitle.subtitles.rating

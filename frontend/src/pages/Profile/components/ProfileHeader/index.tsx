@@ -17,7 +17,7 @@ export const ProfileHeader = ({
 		<div className={styles.headerContent}>
 			<div className={styles.avatarContainer}>
 				<div className={styles.avatar}>
-					<Icons.ProfileIcon />
+					<Icons.Profile />
 				</div>
 			</div>
 			<div className={styles.userInfo}>

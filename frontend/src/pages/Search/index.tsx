@@ -63,7 +63,7 @@ export const Search = () => {
 				<EmptyState
 					description='Введите название фильма в поле поиска'
 					header='Пока пусто'
-					icon={<Icons.MovieIcon />}
+					icon={<Icons.Movie />}
 				/>
 			)
 
@@ -72,7 +72,7 @@ export const Search = () => {
 				<EmptyState
 					description='Похоже фильм отсутствует в базе кинопоиска'
 					header='Ничего не найдено'
-					icon={<Icons.MovieIcon />}
+					icon={<Icons.Movie />}
 				/>
 			)
 
@@ -94,7 +94,7 @@ export const Search = () => {
 			<div className={styles.searchContainer}>
 				<label className={styles.inputContainer} htmlFor='search'>
 					<button className={styles.searchBtn} onClick={searchMovies}>
-						<Icons.SearchIcon className={styles.searchIcon} />
+						<Icons.Search className={styles.searchIcon} />
 					</button>
 
 					<input
@@ -109,7 +109,7 @@ export const Search = () => {
 					/>
 
 					<button className={styles.clearBtn} onClick={clearInput}>
-						<Icons.CancelIcon className={styles.clearIcon} />
+						<Icons.Cancel className={styles.clearIcon} />
 					</button>
 				</label>
 			</div>

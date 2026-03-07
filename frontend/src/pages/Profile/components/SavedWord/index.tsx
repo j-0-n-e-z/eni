@@ -60,7 +60,7 @@ export const SavedWord = ({ word, isMyProfile, myId }: SavedWordProps) => {
 					className={cn(styles.actionButton, styles.appearanceButton)}
 					onClick={() => setIsSourcesModalOpen(true)}
 				>
-					<Icons.EyeIcon />
+					<Icons.Eye />
 				</button>
 
 				{isMyProfile && (
@@ -69,7 +69,7 @@ export const SavedWord = ({ word, isMyProfile, myId }: SavedWordProps) => {
 						className={cn(styles.actionButton, styles.deleteButton)}
 						onClick={deleteFromSaved}
 					>
-						<Icons.TrashIcon />
+						<Icons.Trash />
 					</button>
 				)}
 			</div>

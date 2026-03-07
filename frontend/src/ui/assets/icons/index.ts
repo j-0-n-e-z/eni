@@ -1,62 +1,62 @@
-import ArrowTailIcon from './arrow-tail.svg?react'
-import ArrowIcon from './arrow.svg?react'
-import BookIcon from './book.svg?react'
-import BrainIcon from './brain.svg?react'
-import BurgerMenuIcon from './burger-menu.svg?react'
-import CancelIcon from './cancel.svg?react'
-import CaseSensitiveIcon from './case-sensitive.svg?react'
-import EmptyIcon from './empty.svg?react'
-import ErrorIcon from './error.svg?react'
-import EyeIcon from './eye.svg?react'
-import GithubIcon from './github.svg?react'
-import GoogleIcon from './google.svg?react'
-import ImdbIcon from './imdb.svg?react'
-import InfoIcon from './info.svg?react'
+import ArrowTail from './arrow-tail.svg?react'
+import Arrow from './arrow.svg?react'
+import Book from './book.svg?react'
+import Brain from './brain.svg?react'
+import BurgerMenu from './burger-menu.svg?react'
+import Cancel from './cancel.svg?react'
+import CaseSensitive from './case-sensitive.svg?react'
+import Empty from './empty.svg?react'
+import Error from './error.svg?react'
+import Eye from './eye.svg?react'
+import Github from './github.svg?react'
+import Google from './google.svg?react'
+import Imdb from './imdb.svg?react'
+import Info from './info.svg?react'
 import Kinopoisk from './kinopoisk.svg?react'
-import LoginIcon from './login.svg?react'
-import MoonIcon from './moon.svg?react'
-import MovieIcon from './movie.svg?react'
-import PopularIcon from './popular.svg?react'
-import ProfileIcon from './profile.svg?react'
-import SearchIcon from './search.svg?react'
-import SettingsIcon from './settings.svg?react'
-import StarIcon from './star.svg?react'
-import SubtitleIcon from './subtitle.svg?react'
-import SunIcon from './sun.svg?react'
-import TranslateIcon from './translate.svg?react'
-import TrashIcon from './trash.svg?react'
-import WholeWordIcon from './whole-word.svg?react'
+import Login from './login.svg?react'
+import Moon from './moon.svg?react'
+import Movie from './movie.svg?react'
+import Popular from './popular.svg?react'
+import Profile from './profile.svg?react'
+import Search from './search.svg?react'
+import Settings from './settings.svg?react'
+import Star from './star.svg?react'
+import Subtitle from './subtitle.svg?react'
+import Sun from './sun.svg?react'
+import Translate from './translate.svg?react'
+import Trash from './trash.svg?react'
+import WholeWord from './whole-word.svg?react'
 import YaTranslate from './ya-translate.svg?react'
 
 export const Icons = {
-	ArrowIcon,
-	ArrowTailIcon,
-	BookIcon,
-	BrainIcon,
-	BurgerMenuIcon,
-	CancelIcon,
-	CaseSensitiveIcon,
-	EmptyIcon,
-	ErrorIcon,
-	EyeIcon,
-	GithubIcon,
-	GoogleIcon,
-	ImdbIcon,
-	InfoIcon,
+	Arrow,
+	ArrowTail,
+	Book,
+	Brain,
+	BurgerMenu,
+	Cancel,
+	CaseSensitive,
+	Empty,
+	Error,
+	Eye,
+	Github,
+	Google,
+	Imdb,
+	Info,
 	Kinopoisk,
-	LoginIcon,
-	MoonIcon,
-	MovieIcon,
-	PopularIcon,
-	ProfileIcon,
-	SearchIcon,
-	SettingsIcon,
-	StarIcon,
-	SubtitleIcon,
-	SunIcon,
-	TranslateIcon,
-	TrashIcon,
-	WholeWordIcon,
+	Login,
+	Moon,
+	Movie,
+	Popular,
+	Profile,
+	Search,
+	Settings,
+	Star,
+	Subtitle,
+	Sun,
+	Translate,
+	Trash,
+	WholeWord,
 	YaTranslate
 }
 

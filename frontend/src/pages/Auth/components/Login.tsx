@@ -83,11 +83,11 @@ export const Login = () => {
 				</div>
 				<div className={styles.socialButtons}>
 					<button className={styles.socialButton}>
-						<Icons.GoogleIcon />
+						<Icons.Google />
 						Google
 					</button>
 					<button className={styles.socialButton}>
-						<Icons.GithubIcon />
+						<Icons.Github />
 						GitHub
 					</button>
 				</div>

@@ -29,7 +29,7 @@ export const MovieSubtitlesPicker = () => {
 			<EmptyState
 				description='Варианты субтитров не найдены'
 				header='Не найдено'
-				icon={<Icons.SubtitleIcon />}
+				icon={<Icons.Subtitle />}
 			/>
 		)
 

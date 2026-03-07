@@ -52,7 +52,7 @@ export const Paginator = ({
 					disabled={currentPage === 1}
 					onClick={() => goToPage(currentPage - 1)}
 				>
-					<Icons.ArrowIcon className={styles.prevIcon} />
+					<Icons.Arrow className={styles.prevIcon} />
 				</button>
 
 				{generatePages(pageCount, currentPage).map((page, index) =>
@@ -90,7 +90,7 @@ export const Paginator = ({
 					disabled={currentPage === pageCount}
 					onClick={() => goToPage(currentPage + 1)}
 				>
-					<Icons.ArrowIcon className={styles.nextIcon} />
+					<Icons.Arrow className={styles.nextIcon} />
 				</button>
 			</div>
 

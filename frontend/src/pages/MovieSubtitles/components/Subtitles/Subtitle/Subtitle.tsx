@@ -142,7 +142,7 @@ export const Subtitle = ({
 		if (subtitleTranslationError)
 			return (
 				<p className={cn(styles.subtitleTranslation, styles.error)}>
-					<Icons.ErrorIcon />
+					<Icons.Error />
 					{getErrorMessage(subtitleTranslationError)}
 				</p>
 			)
@@ -211,7 +211,7 @@ export const Subtitle = ({
 					className={styles.translateBtn}
 					onClick={() => translateSubtitle(subtitle.text)}
 				>
-					<Icons.TranslateIcon />
+					<Icons.Translate />
 				</button>
 			</div>
 		</li>
