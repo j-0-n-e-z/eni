@@ -7,6 +7,10 @@
 	justify-content: center;
 	width: 100%;
 	color: var(--text-primary);
+
+	@include respond-to('lg') {
+		justify-content: start;
+	}
 }
 
 .heroAnimationContainer {
@@ -15,7 +19,7 @@
 	justify-content: center;
 	width: 50%;
 
-	@include respond-to('sm') {
+	@include respond-to('lg') {
 		display: none;
 	}
 }
@@ -29,9 +33,11 @@
 	display: flex;
 	flex-flow: column nowrap;
 	width: 50%;
-	font-size: 1.5rem;
-	font-weight: 700;
 	line-height: #{$line-height-md};
+
+	@include respond-to('lg') {
+		width: 100%;
+	}
 }
 
 .heroHeading {
@@ -46,13 +52,35 @@
 		width: 5rem;
 		height: 5rem;
 	}
+
+	@include respond-to('md') {
+		font-size: 5rem;
+	}
+
+	@include respond-to('sm') {
+		justify-content: center;
+	}
 }
 
 .heroLines {
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 	gap: 1.5rem;
-	margin-top: 13rem;
+	justify-content: center;
+	margin-bottom: 5rem;
+	font-size: 1.5rem;
+	font-weight: 700;
+	letter-spacing: 0.05rem;
+
+	@include respond-to('lg') {
+		font-size: 1.25rem;
+	}
+
+	@include respond-to('sm') {
+		font-size: 1rem;
+		text-align: center;
+	}
 }
 
 .bgCircle {
@@ -100,9 +128,25 @@
 		width: 2.25rem;
 		height: 2.25rem;
 	}
+
+	@include respond-to('lg') {
+		&2 {
+			bottom: 45%;
+			left: 70%;
+		}
+
+		&3 {
+			bottom: 15%;
+			left: 80%;
+		}
+	}
+
+	@include respond-to('sm') {
+		display: none;
+	}
 }
 
-.howToUse {
+.aboutProject {
 	position: absolute;
 	bottom: 40px;
 	left: 50%;
@@ -113,6 +157,19 @@
 	font-size: 1.125rem;
 	font-weight: 500;
 	color: #7e4efc;
+	text-wrap: nowrap;
 	cursor: pointer;
-	translate: calc(-50% - var(--sidepanel-width)); // transform won't work here
+	translate: calc(
+		-50% - (var(--sidepanel-width) / 2)
+	); // transform won't work here cause of framer-motion
+
+	@include respond-to('md') {
+		font-size: 1rem;
+		translate: -50%;
+
+		svg {
+			width: 25px;
+			height: 35px;
+		}
+	}
 }

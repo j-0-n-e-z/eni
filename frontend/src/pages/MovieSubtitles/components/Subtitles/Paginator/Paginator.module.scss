@@ -30,7 +30,6 @@
 }
 
 .pageBtn {
-	@extend %button-base;
 	@include center-flex;
 
 	min-width: 3rem;

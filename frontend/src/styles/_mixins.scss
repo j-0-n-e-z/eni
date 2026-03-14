@@ -7,13 +7,6 @@
 	justify-content: center;
 }
 
-@mixin container($max-width: 1480px) {
-	width: 100%;
-	max-width: $max-width;
-	height: 100%;
-	margin: 0 auto;
-}
-
 @mixin respond-to($breakpoint) {
 	@if map.has-key($breakpoints, $breakpoint) {
 		$value: map.get($breakpoints, $breakpoint);
