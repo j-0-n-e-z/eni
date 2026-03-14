@@ -44,6 +44,9 @@ export const Input = React.forwardRef(
 					ref={ref}
 					id={id}
 				/>
+				{label === undefined && error && (
+					<span className={styles.errorText}>{error}</span>
+				)}
 			</div>
 		)
 	}

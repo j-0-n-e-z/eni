@@ -49,7 +49,8 @@
 }
 
 .error {
-	input {
+	input,
+	textarea {
 		border-color: #{$error};
 	}
 
