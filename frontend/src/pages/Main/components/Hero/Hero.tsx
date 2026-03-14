@@ -4,8 +4,7 @@ import { motion as m } from 'framer-motion'
 
 import { fadeInAndUp, getFadeInVariants } from '@/animations/variants'
 import { Background, Icons } from '@/ui'
-
-import movieTheatre from '../../../../ui/assets/lotties/MovieTheatre.lottie'
+import { LOTTIES } from '@/ui/assets/lotties'
 
 import styles from './Hero.module.scss'
 
@@ -44,7 +43,7 @@ export const Hero = ({ goToNextSlide }: HeroProps) => (
 				autoplay
 				loop
 				className={styles.heroAnimation}
-				src={movieTheatre}
+				src={LOTTIES.movieTheatre}
 			/>
 		</m.div>
 
