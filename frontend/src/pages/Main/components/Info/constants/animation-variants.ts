@@ -1,6 +1,6 @@
 export const descriptionItemVariants = {
 	hidden: { opacity: 0, y: 60 },
-	visible: (custom: number) => ({
+	visible: (custom: number = 0) => ({
 		opacity: 1,
 		transition: {
 			delay: 0.2 + custom * 0.3,
@@ -12,7 +12,7 @@ export const descriptionItemVariants = {
 
 export const apiItemVariants = {
 	hidden: { opacity: 0, x: 300, y: 40 },
-	visible: (custom: number) => ({
+	visible: (custom: number = 0) => ({
 		opacity: 1,
 		transition: {
 			delay: 1.5 + custom * 0.3,
