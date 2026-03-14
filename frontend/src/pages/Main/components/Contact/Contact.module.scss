@@ -1,0 +1,106 @@
+/* stylelint-disable selector-pseudo-class-no-unknown */
+@use '@styles' as *;
+
+.contacts {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 3rem;
+	place-items: center;
+	width: 100%;
+
+	@include respond-to('lg') {
+		grid-template-columns: 1fr;
+
+		& > :nth-child(2) {
+			order: -1;
+		}
+	}
+}
+
+.form {
+	width: 460px;
+
+	@include respond-to('sm') {
+		width: 90%;
+	}
+}
+
+.fields {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.legend {
+	width: 100%;
+	margin-bottom: 1.5rem;
+	font-size: 2rem;
+	font-weight: 600;
+	color: var(--text-primary);
+	text-align: center;
+
+	@include respond-to('md') {
+		font-size: 1.5rem;
+	}
+}
+
+.textarea {
+	resize: none;
+}
+
+.aboutMe {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+
+	h2 {
+		font-size: 1.5rem;
+		color: var(--text-primary);
+		text-wrap-style: balance;
+		letter-spacing: 0.1rem;
+	}
+
+	@include respond-to('md') {
+		gap: 1rem;
+
+		h2 {
+			font-size: 1rem;
+		}
+	}
+}
+
+.links {
+	display: flex;
+	gap: 1rem;
+
+	@include respond-to('lg') {
+		justify-content: center;
+	}
+}
+
+.bgLine {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+
+	rect {
+		fill: var(--bg-stroke);
+	}
+
+	:global([data-theme='dark']) & {
+		opacity: 40%;
+	}
+}
+
+.githubIcon {
+	transition: fill 0.5s ease;
+
+	:global([data-theme='dark']) & {
+		fill: var(--text-muted);
+
+		&:hover {
+			fill: var(--text-primary);
+		}
+	}
+}
