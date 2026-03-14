@@ -62,7 +62,11 @@ export const Signup = ({ onSuccess }: SignupProps) => {
 				/>
 			</fieldset>
 
-			<Button className={styles.submitBtn} disabled={state.isLoading}>
+			<Button
+				className={styles.submitBtn}
+				disabled={state.isLoading}
+				type='submit'
+			>
 				Sign up
 			</Button>
 		</form>
