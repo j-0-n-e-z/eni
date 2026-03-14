@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { notifyOnSuccess } from '@/utils'
 
+import { Contact } from './components/Contact/Contact'
 import { Hero } from './components/Hero/Hero'
 import { Info } from './components/Info/Info'
 import { Slide } from './components/Slide/Slide'
@@ -43,7 +44,7 @@ export const Main = () => {
 				thresholdDelta: 10
 			}}
 			scrollbar={{
-				draggable: false,
+				draggable: true,
 				el: '.swiper-scrollbar',
 				enabled: true,
 				hide: false,
@@ -68,13 +69,7 @@ export const Main = () => {
 
 			<SwiperSlide>
 				<Slide isActive={activeSlideIndex === 2}>
-					<div>TBD</div>
-				</Slide>
-			</SwiperSlide>
-
-			<SwiperSlide>
-				<Slide isActive={activeSlideIndex === 3}>
-					<div>TBD</div>
+					<Contact />
 				</Slide>
 			</SwiperSlide>
 
