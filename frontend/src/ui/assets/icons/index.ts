@@ -8,6 +8,7 @@ import CaseSensitive from './case-sensitive.svg?react'
 import Empty from './empty.svg?react'
 import Error from './error.svg?react'
 import Eye from './eye.svg?react'
+import GithubContained from './github-contained.svg?react'
 import Github from './github.svg?react'
 import Google from './google.svg?react'
 import Imdb from './imdb.svg?react'
@@ -23,10 +24,12 @@ import Settings from './settings.svg?react'
 import Star from './star.svg?react'
 import Subtitle from './subtitle.svg?react'
 import Sun from './sun.svg?react'
+import Telegram from './telegram.svg?react'
 import Translate from './translate.svg?react'
 import Trash from './trash.svg?react'
 import WholeWord from './whole-word.svg?react'
 import YaTranslate from './ya-translate.svg?react'
+import YouTube from './youtube.svg?react'
 
 export const Icons = {
 	Arrow,
@@ -40,6 +43,7 @@ export const Icons = {
 	Error,
 	Eye,
 	Github,
+	GithubContained,
 	Google,
 	Imdb,
 	Info,
@@ -54,10 +58,12 @@ export const Icons = {
 	Star,
 	Subtitle,
 	Sun,
+	Telegram,
 	Translate,
 	Trash,
 	WholeWord,
-	YaTranslate
+	YaTranslate,
+	YouTube
 }
 
 export type IconType = (typeof Icons)[keyof typeof Icons]
