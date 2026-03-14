@@ -41,7 +41,7 @@ export const Info = () => (
 			</ul>
 
 			<MotionLink
-				className={cn('button', 'button--contained')}
+				className={cn('button', 'button--contained', styles.tryBtn)}
 				custom={4}
 				to='/search'
 				transition={{ stiffness: 300, type: 'spring' }}
