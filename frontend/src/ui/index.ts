@@ -1,5 +1,4 @@
-export * from './assets/background'
-export * from './assets/icons'
+export * from './assets'
 export { Button } from './components/Button/Button'
 export { Container } from './components/Container'
 export { DeleteButton } from './components/DeleteButton'
