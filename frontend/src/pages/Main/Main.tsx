@@ -6,10 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { notifyOnSuccess } from '@/utils'
 
-import { Contact } from './components/Contact/Contact'
-import { Hero } from './components/Hero/Hero'
-import { Info } from './components/Info/Info'
-import { Slide } from './components/Slide/Slide'
+import { Contact, Hero, Info, Slide } from './components'
 
 import styles from './Main.module.scss'
 
