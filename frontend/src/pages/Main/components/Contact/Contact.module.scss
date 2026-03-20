@@ -99,7 +99,7 @@
 	:global([data-theme='dark']) & {
 		fill: var(--text-muted);
 
-		&:hover {
+		@include desktop-hover {
 			fill: var(--text-primary);
 		}
 	}
