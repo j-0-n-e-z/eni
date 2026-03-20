@@ -25,23 +25,23 @@ export const MovieDetails = ({ movie }: MovieDetailsProps) => (
 			</span>
 		)}
 
-		<div className={styles.movieMeta}>
-			<div className={styles.metaItem}>
+		<ul className={styles.movieMeta}>
+			<li className={styles.metaItem}>
 				<span className={styles.metaLabel}>Год:</span>
 				<span className={styles.metaValue}>{movie.year}</span>
-			</div>
+			</li>
 
 			{movie.ratingMpaa && (
-				<div className={styles.metaItem}>
+				<li className={styles.metaItem}>
 					<span className={styles.metaLabel}>Возраст: </span>
 					<span className={cn(styles.metaValue, styles.mpaa)}>
 						{formatRating(movie.ratingMpaa)}
 					</span>
-				</div>
+				</li>
 			)}
 
 			{movie.ratingImdb && (
-				<div className={styles.metaItem}>
+				<li className={styles.metaItem}>
 					<span className={styles.metaLabel}>Рейтинг: </span>
 					<Link
 						className={cn(styles.metaValue, styles.imdb)}
@@ -51,20 +51,20 @@ export const MovieDetails = ({ movie }: MovieDetailsProps) => (
 						{movie.ratingImdb.toFixed(1)}
 						<Icons.Imdb className={styles.imdbLogo} />
 					</Link>
-				</div>
+				</li>
 			)}
 
 			{movie.countries?.length > 0 && (
-				<div className={styles.metaItem}>
+				<li className={styles.metaItem}>
 					<span className={styles.metaLabel}>Страны: </span>
 					<span className={styles.metaValue}>
 						{movie.countries.map(({ country }) => country).join(', ')}
 					</span>
-				</div>
+				</li>
 			)}
 
 			<BoxOffice movie={movie} />
-		</div>
+		</ul>
 
 		{movie.genres?.length > 0 && (
 			<ul className={styles.genres}>

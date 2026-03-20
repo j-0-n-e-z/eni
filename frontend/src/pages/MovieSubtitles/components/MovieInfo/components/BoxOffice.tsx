@@ -39,7 +39,7 @@ export const BoxOffice = ({ movie }: BoxOfficeProps) => {
 	return (
 		<>
 			{budget && (
-				<div className={styles.metaItem}>
+				<li className={styles.metaItem}>
 					<span className={styles.metaLabel}>Бюджет:</span>
 					<span className={cn(styles.metaValue, styles.budget)}>
 						{formatMoney(
@@ -47,11 +47,11 @@ export const BoxOffice = ({ movie }: BoxOfficeProps) => {
 							budget.currencyCode || budget.symbol || 'USD'
 						)}
 					</span>
-				</div>
+				</li>
 			)}
 
 			{boxOfficeWorld && (
-				<div className={styles.metaItem}>
+				<li className={styles.metaItem}>
 					<span className={styles.metaLabel}>Сборы:</span>
 					<span className={cn(styles.metaValue, styles.boxOffice)}>
 						{formatMoney(
@@ -59,7 +59,7 @@ export const BoxOffice = ({ movie }: BoxOfficeProps) => {
 							boxOfficeWorld.currencyCode || 'USD'
 						)}
 					</span>
-				</div>
+				</li>
 			)}
 		</>
 	)
