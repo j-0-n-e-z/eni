@@ -4,14 +4,14 @@ import type { MovieSubtitlesContext } from '@/frontend-types'
 import { useGetMovieSubtitlesQuery } from '@/store/api'
 import { Container, EmptyState, ErrorDisplay, Icons } from '@/ui'
 
-import { MovieSubtitle } from './MovieSubtitle/MovieSubtitle'
+import { MovieSubtitle } from './components/MovieSubtitle/MovieSubtitle'
 import { MovieSubtitlesPickerSkeleton } from './MovieSubtitlesPickerSkeleton'
 
 import styles from './MovieSubtitlesPicker.module.scss'
 
 export const MovieSubtitlesPicker = () => {
-	const { imdbId, movieName } = useOutletContext<MovieSubtitlesContext>()
-	const query = imdbId || movieName
+	const { imdbId, title } = useOutletContext<MovieSubtitlesContext>()
+	const query = imdbId || title
 	const {
 		data: movieSubtitles,
 		error: movieSubtitlesError,
@@ -34,9 +34,9 @@ export const MovieSubtitlesPicker = () => {
 		)
 
 	return (
-		<Container className={styles.movieSubsPicker}>
-			<h3 className={styles.movieSubsHeader}>Выберите субтитры</h3>
-			<ul className={styles.movieSubList}>
+		<Container className={styles.subsPicker}>
+			<h3 className={styles.subsHeader}>Выберите субтитры</h3>
+			<ul className={styles.subList}>
 				{movieSubtitles.map((movieSubtitle) => (
 					<MovieSubtitle key={movieSubtitle.id} movieSubtitle={movieSubtitle} />
 				))}

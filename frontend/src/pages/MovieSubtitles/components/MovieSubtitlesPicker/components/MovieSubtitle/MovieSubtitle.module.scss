@@ -69,28 +69,6 @@
 	font-weight: bold;
 }
 
-.pickMovieSubBtn {
-	display: flex;
-	gap: 0.75rem;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	padding: 0.75rem 1rem;
-	font-size: 1rem;
-	font-weight: 500;
-	color: $text-white;
-	cursor: pointer;
-	background: $brand-accent;
-	border: none;
-	border-radius: 0.5rem;
-	transition: all 0.2s ease;
-
-	@include desktop-hover {
-		filter: brightness(var(--brightness-hover));
-		transform: translateY(-1px);
-	}
-}
-
 .title {
 	text-wrap: nowrap;
 }

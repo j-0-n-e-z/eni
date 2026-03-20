@@ -1,7 +1,7 @@
 @use '@styles' as *;
 @use 'sass:color';
 
-.movieSubsPicker {
+.subsPicker {
 	display: flex;
 	flex: 1;
 	flex-direction: column;
@@ -11,7 +11,11 @@
 	color: var(--text-primary);
 }
 
-.movieSubList {
+.subsHeader {
+	font-size: 1.5rem;
+}
+
+.subList {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 	gap: 1rem;

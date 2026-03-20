@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router-dom'
 
 import type { MovieSubtitlesContext } from '@/frontend-types'
 import type { MovieSubtitle as IMovieSubtitle } from '@/types'
-import { Icons } from '@/ui'
+import { Button, Icons } from '@/ui'
 import { DateFormatter, NumberFormatter } from '@/utils'
 
 import styles from './MovieSubtitle.module.scss'
@@ -13,7 +13,7 @@ interface MovieSubtitleProps {
 }
 
 export const MovieSubtitle = ({ movieSubtitle }: MovieSubtitleProps) => {
-	const { goToSubtitles, movieKinopoiskId } =
+	const { goToSubtitles, kinopoiskId } =
 		useOutletContext<MovieSubtitlesContext>()
 
 	const ratingStars = Array.from({ length: 10 }).map((_, i) => (
@@ -53,14 +53,14 @@ export const MovieSubtitle = ({ movieSubtitle }: MovieSubtitleProps) => {
 				</div>
 			</div>
 
-			<button
-				className={styles.pickMovieSubBtn}
+			<Button
+				variant='contained'
 				onClick={() =>
-					goToSubtitles(movieKinopoiskId, movieSubtitle.subtitles.file_id)
+					goToSubtitles(kinopoiskId, movieSubtitle.subtitles.file_id)
 				}
 			>
 				Загрузить
-			</button>
+			</Button>
 		</li>
 	)
 }
