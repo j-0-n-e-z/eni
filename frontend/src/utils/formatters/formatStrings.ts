@@ -1,25 +1,4 @@
-export const originalUSDFormatter = new Intl.NumberFormat('en-US', {
-	currency: 'USD',
-	maximumFractionDigits: 1,
-	minimumFractionDigits: 0,
-	style: 'currency'
-})
-
-export const USDFormatter = {
-	format(amount: number, fallback: string = '$0') {
-		if (!Number.isFinite(amount)) return fallback
-
-		return originalUSDFormatter.format(amount)
-	}
-}
-
-export const NumberFormatter = new Intl.NumberFormat('en-US')
-
-export const DateFormatter = new Intl.DateTimeFormat('en-US', {
-	day: 'numeric',
-	month: 'short',
-	year: 'numeric'
-})
+import { NumberFormatter } from './NumberFormatter'
 
 export const formatMinutesToHours = (totalMinutes: number) => {
 	const hours = Math.trunc(totalMinutes / 60)

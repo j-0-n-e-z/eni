@@ -1,15 +1,16 @@
 import { describe, expect, test } from 'vitest'
 
+import { USDFormatter } from '@/utils'
+
+import { DateFormatter } from '../formatters/DateFormatter'
 import {
-	DateFormatter,
 	formatAgeLimit,
 	formatDurationStrToHours,
 	formatMinutesToHours,
 	formatMoney,
-	formatRating,
-	NumberFormatter,
-	USDFormatter
-} from '@/utils'
+	formatRating
+} from '../formatters/formatStrings'
+import { NumberFormatter } from '../formatters/NumberFormatter'
 
 describe('USDFormatter', () => {
 	test.each([
