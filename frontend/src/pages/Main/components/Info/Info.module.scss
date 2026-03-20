@@ -86,26 +86,6 @@
 			border-color: var(--success);
 			box-shadow: 0 4px 20px rgb(46 125 50 / 25%);
 			translate: 8px;
-
-			&::before {
-				width: 6px;
-			}
-		}
-
-		&::before {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 4px;
-			height: 100%;
-			content: '';
-			background: linear-gradient(
-				180deg,
-				var(--success) 0%,
-				rgb(46 125 50 / 50%) 100%
-			);
-			border-radius: 4px 0 0 4px;
-			transition: width 0.3s ease;
 		}
 	}
 
