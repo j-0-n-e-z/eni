@@ -10,22 +10,18 @@ import { MovieInfoSkeleton } from './components/MovieInfo/MovieInfoSkeleton'
 import styles from './MovieSubtitlesPage.module.scss'
 
 export const MovieSubtitles = () => {
-	const params = useParams()
-	const movieId = Number(params.movieId)
+	const params = useParams<{ movieId: string }>()
 	const navigate = useNavigate()
+	const movieId = Number(params.movieId)
 	const {
 		data: movie,
 		error: movieError,
-		isLoading: isMovieLoading
+		isFetching: isMovieFetching
 	} = useGetMovieByKinopoiskIdQuery(movieId, {
-		skip: Number.isNaN(movieId)
+		skip: !movieId
 	})
 
-	const goToSubtitles = (kinopoiskId: number, subtitlesFileId: number) => {
-		navigate(`/movie/${kinopoiskId}/subtitles/${subtitlesFileId}?page=1`)
-	}
-
-	if (Number.isNaN(movieId))
+	if (!movieId)
 		return (
 			<EmptyState
 				description='Отсутствует id фильма'
@@ -33,7 +29,8 @@ export const MovieSubtitles = () => {
 				icon={<Icons.Empty />}
 			/>
 		)
-	if (isMovieLoading) return <MovieInfoSkeleton />
+
+	if (isMovieFetching) return <MovieInfoSkeleton />
 
 	if (movieError) return <ErrorDisplay error={movieError} />
 
@@ -46,12 +43,16 @@ export const MovieSubtitles = () => {
 			/>
 		)
 
+	const goToSubtitles = (kinopoiskId: number, subtitlesFileId: number) => {
+		navigate(`/movie/${kinopoiskId}/subtitles/${subtitlesFileId}?page=1`)
+	}
+
 	const movieSubtitlesContext: MovieSubtitlesContext = {
 		goToSubtitles,
 		imdbId: movie.imdbId,
-		movieKinopoiskId: movie.kinopoiskId,
-		movieName: movie.nameOriginal ?? movie.nameEn ?? 'No title',
-		posterUrl: movie.posterUrlPreview
+		kinopoiskId: movie.kinopoiskId,
+		posterUrl: movie.posterUrlPreview,
+		title: movie.nameOriginal ?? movie.nameEn ?? 'No title'
 	}
 
 	return (

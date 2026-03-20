@@ -4,8 +4,8 @@ import type { WordSource } from '@/types'
 export interface MovieSubtitlesContext {
 	goToSubtitles: (kinopoiskId: number, subtitlesFileId: number) => void
 	imdbId: string | null
-	movieName: string
-	movieKinopoiskId: number
+	title: string
+	kinopoiskId: number
 	posterUrl: string
 }
 
