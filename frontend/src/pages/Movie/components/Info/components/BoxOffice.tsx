@@ -5,7 +5,7 @@ import type { KinopoiskMovie } from '@/types'
 import { Skeleton } from '@/ui'
 import { formatMoney, notifyOnError } from '@/utils'
 
-import styles from '../MovieInfo.module.scss'
+import styles from '../Info.module.scss'
 
 interface BoxOfficeProps {
 	movie: KinopoiskMovie

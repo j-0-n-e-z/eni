@@ -1,24 +1,23 @@
 import cn from 'classnames'
 import { useOutletContext } from 'react-router-dom'
 
-import type { MovieSubtitlesContext } from '@/frontend-types'
+import type { MovieContext } from '@/frontend-types'
 import type { MovieSubtitle as IMovieSubtitle } from '@/types'
 import { Button, Icons } from '@/ui'
 import { DateFormatter, NumberFormatter } from '@/utils'
 
-import styles from './MovieSubtitle.module.scss'
+import styles from './MovieSub.module.scss'
 
-interface MovieSubtitleProps {
+interface MovieSubProps {
 	movieSubtitle: IMovieSubtitle
 }
 
-export const MovieSubtitle = ({ movieSubtitle }: MovieSubtitleProps) => {
-	const { goToSubtitles, kinopoiskId } =
-		useOutletContext<MovieSubtitlesContext>()
+export const MovieSub = ({ movieSubtitle }: MovieSubProps) => {
+	const { goToSubtitles, kinopoiskId } = useOutletContext<MovieContext>()
 
 	const ratingStars = Array.from({ length: 10 }).map((_, i) => (
 		<Icons.Star
-			key={i}
+			key={`star_${i}`}
 			className={cn(styles.star, {
 				[styles.filled]: i + 1 <= movieSubtitle.subtitles.rating
 			})}
@@ -32,26 +31,26 @@ export const MovieSubtitle = ({ movieSubtitle }: MovieSubtitleProps) => {
 				<div className={styles.rating}>{movieSubtitle.subtitles.rating}/10</div>
 			</div>
 
-			<div className={styles.movieSubMeta}>
-				<div className={styles.metaRow}>
+			<ul className={styles.movieSubMeta}>
+				<li className={styles.metaRow}>
 					<span className={styles.metaLabel}>Скачиваний:</span>
 					<span className={styles.metaValue}>
 						{NumberFormatter.format(movieSubtitle.download_count)}
 					</span>
-				</div>
+				</li>
 
-				<div className={styles.metaRow}>
+				<li className={styles.metaRow}>
 					<span className={styles.metaLabel}>Загружено:</span>
 					<span className={styles.metaValue}>
 						{DateFormatter.format(new Date(movieSubtitle.upload_date))}
 					</span>
-				</div>
+				</li>
 
-				<div className={styles.metaRow}>
+				<li className={styles.metaRow}>
 					<span className={styles.metaLabel}>Автор:</span>
 					<span className={styles.metaValue}>{movieSubtitle.uploader}</span>
-				</div>
-			</div>
+				</li>
+			</ul>
 
 			<Button
 				variant='contained'

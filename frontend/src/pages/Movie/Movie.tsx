@@ -1,15 +1,15 @@
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
-import type { MovieSubtitlesContext } from '@/frontend-types'
+import type { MovieContext } from '@/frontend-types'
 import { useGetMovieByKinopoiskIdQuery } from '@/store/api'
 import { EmptyState, ErrorDisplay, Icons } from '@/ui'
 
-import { MovieInfo } from './components/MovieInfo/MovieInfo'
-import { MovieInfoSkeleton } from './components/MovieInfo/MovieInfoSkeleton'
+import { Info } from './components/Info/Info'
+import { InfoSkeleton } from './components/Info/InfoSkeleton'
 
-import styles from './MovieSubtitlesPage.module.scss'
+import styles from './Movie.module.scss'
 
-export const MovieSubtitles = () => {
+export const Movie = () => {
 	const params = useParams<{ movieId: string }>()
 	const navigate = useNavigate()
 	const movieId = Number(params.movieId)
@@ -30,7 +30,7 @@ export const MovieSubtitles = () => {
 			/>
 		)
 
-	if (isMovieFetching) return <MovieInfoSkeleton />
+	if (isMovieFetching) return <InfoSkeleton />
 
 	if (movieError) return <ErrorDisplay error={movieError} />
 
@@ -47,7 +47,7 @@ export const MovieSubtitles = () => {
 		navigate(`/movie/${kinopoiskId}/subtitles/${subtitlesFileId}?page=1`)
 	}
 
-	const movieSubtitlesContext: MovieSubtitlesContext = {
+	const movieContext: MovieContext = {
 		goToSubtitles,
 		imdbId: movie.imdbId,
 		kinopoiskId: movie.kinopoiskId,
@@ -57,9 +57,9 @@ export const MovieSubtitles = () => {
 
 	return (
 		<>
-			<MovieInfo movie={movie} />
+			<Info movie={movie} />
 			<section className={styles.subtitlesSection}>
-				<Outlet context={movieSubtitlesContext} />
+				<Outlet context={movieContext} />
 			</section>
 		</>
 	)

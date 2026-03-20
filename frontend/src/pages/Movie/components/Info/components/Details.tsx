@@ -9,13 +9,13 @@ import { IMDB_BASE_URL } from '../constants'
 
 import { BoxOffice } from './BoxOffice'
 
-import styles from '../MovieInfo.module.scss'
+import styles from '../Info.module.scss'
 
-interface MovieDetailsProps {
+interface DetailsProps {
 	movie: KinopoiskMovie
 }
 
-export const MovieDetails = ({ movie }: MovieDetailsProps) => (
+export const Details = ({ movie }: DetailsProps) => (
 	<div className={styles.details}>
 		{movie.slogan && <p className={styles.slogan}>{movie.slogan}</p>}
 

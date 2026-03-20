@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { WordSource } from '@/types'
 
-export interface MovieSubtitlesContext {
+export interface MovieContext {
 	goToSubtitles: (kinopoiskId: number, subtitlesFileId: number) => void
 	imdbId: string | null
 	title: string

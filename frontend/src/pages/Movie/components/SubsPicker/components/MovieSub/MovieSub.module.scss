@@ -18,12 +18,22 @@
 		box-shadow: 0 10px 15px -3px var(--overlay-light);
 		transform: translateY(-2px);
 	}
+
+	@include respond-to('md') {
+		gap: 0.8rem;
+	}
 }
 
 .movieSubMeta {
 	display: flex;
 	flex-direction: column;
 	gap: 0.75rem;
+	font-size: 1rem;
+
+	@include respond-to('md') {
+		gap: 0.5rem;
+		font-size: 0.8rem;
+	}
 }
 
 .metaRow {
@@ -66,7 +76,11 @@
 
 .rating {
 	font-size: 1.1rem;
-	font-weight: bold;
+	font-weight: 900;
+
+	@include respond-to('md') {
+		font-size: 0.9rem;
+	}
 }
 
 .title {

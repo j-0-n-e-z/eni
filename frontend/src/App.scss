@@ -54,13 +54,12 @@
 	}
 
 	&--contained {
-		height: 56px;
 		padding: 16px 32px;
 		color: #{$text-white};
 		background-color: #{$brand-secondary};
 		border-image: #{$gradient-primary} 1;
 
-		&:hover {
+		@include desktop-hover {
 			filter: brightness(110%);
 		}
 
@@ -74,13 +73,12 @@
 	}
 
 	&--text {
-		height: 56px;
 		padding: 16px 32px;
 		color: var(--text-secondary);
 		background-color: var(--bg-primary);
 		border: none;
 
-		&:hover {
+		@include desktop-hover {
 			background-color: var(--bg-tetriary);
 		}
 
@@ -101,5 +99,15 @@
 		border: 2px dashed #{$brand-secondary};
 		border-radius: 0;
 		transition: scale 0.5s ease;
+	}
+
+	@include respond-to('md') {
+		&--contained {
+			padding: 10px 20px;
+		}
+	}
+
+	@include respond-to('sm') {
+		font-size: 0.85rem;
 	}
 }

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useOutletContext, useParams, useSearchParams } from 'react-router-dom'
 
 import { SUBTITLES_PER_PAGE } from '@/constants'
-import type { MovieSubtitlesContext } from '@/frontend-types'
+import type { MovieContext } from '@/frontend-types'
 import { useAuthData, useDebounce } from '@/hooks'
 import {
 	useGetSubtitlesByFileIdQuery,
@@ -21,7 +21,7 @@ import { useSavedWordsByTimecode } from './hooks'
 import styles from './Subtitles.module.scss'
 
 export const Subtitles = () => {
-	const { movieName, posterUrl } = useOutletContext<MovieSubtitlesContext>()
+	const { title, posterUrl } = useOutletContext<MovieContext>()
 	const { movieId, fileId } = useParams()
 	const [searchParams, setSearchParams] = useSearchParams()
 	const [currentPage, setCurrentPage] = useState(1)
@@ -111,7 +111,7 @@ export const Subtitles = () => {
 	) => ({
 		fileId: Number(fileId),
 		movieId: Number(movieId),
-		movieName,
+		movieName: title,
 		page: page ?? currentPage,
 		posterUrl,
 		sentence: subtitleText,

@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom'
 import type { KinopoiskMovie } from '@/types'
 import { Container, Icons } from '@/ui'
 
-import { MovieDetails } from './components/MovieDetails'
+import { Details } from './components/Details'
 import { TranslateTitleButton } from './components/TranslateTitleButton'
 import { IMDB_BASE_URL } from './constants'
 
-import styles from './MovieInfo.module.scss'
+import styles from './Info.module.scss'
 
-interface MovieInfoProps {
+interface InfoProps {
 	movie: KinopoiskMovie
 }
 
@@ -20,7 +20,7 @@ const getMovieTitle = (movie: KinopoiskMovie, showOriginal: boolean) =>
 		? movie.nameOriginal || movie.nameRu
 		: movie.nameRu || 'Отсутствует название на русском языке'
 
-export const MovieInfo = ({ movie }: MovieInfoProps) => {
+export const Info = ({ movie }: InfoProps) => {
 	const [showOriginalTitle, setShowOriginalTitle] = useState(true)
 	const [isMovieInfoHidden, setIsMovieInfoHidden] = useState(false)
 	const movieImdbLink = `${IMDB_BASE_URL}/${movie.imdbId}`
@@ -91,7 +91,7 @@ export const MovieInfo = ({ movie }: MovieInfoProps) => {
 							/>
 						</h2>
 
-						<MovieDetails movie={movie} />
+						<Details movie={movie} />
 					</div>
 				</Container>
 			</div>

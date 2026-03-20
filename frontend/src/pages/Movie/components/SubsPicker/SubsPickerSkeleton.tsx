@@ -1,8 +1,8 @@
 import { Skeleton } from '@/ui'
 
-import styles from './MovieSubtitlesPicker.module.scss'
+import styles from './SubsPicker.module.scss'
 
-export const MovieSubtitlesPickerSkeleton = () => (
+export const SubsPickerSkeleton = () => (
 	<div className={styles.movieSubsPicker}>
 		<Skeleton
 			containerClassName={styles.movieSubsHeader}

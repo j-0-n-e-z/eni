@@ -5,11 +5,8 @@ import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import { AppLayout, ProtectedLayout } from '@/layouts'
-import { Auth, Main, MovieSubtitles, Popular, Profile, Search } from '@/pages'
-import {
-	MovieSubtitlesPicker,
-	Subtitles
-} from '@/pages/MovieSubtitles/components'
+import { Auth, Main, Movie, Popular, Profile, Search } from '@/pages'
+import { SubsPicker, Subtitles } from '@/pages/Movie/components'
 import { store } from '@/store'
 import { EmptyState, ErrorDisplay, Icons } from '@/ui'
 
@@ -37,10 +34,10 @@ const router = createBrowserRouter([
 				children: [
 					{ element: <Search />, path: 'search' },
 					{
-						element: <MovieSubtitles />,
+						element: <Movie />,
 						path: 'movie/:movieId',
 						children: [
-							{ element: <MovieSubtitlesPicker />, index: true },
+							{ element: <SubsPicker />, index: true },
 							{ element: <Subtitles />, path: 'subtitles/:fileId' }
 						]
 					},

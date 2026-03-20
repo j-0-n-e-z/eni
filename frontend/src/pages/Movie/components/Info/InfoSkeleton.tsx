@@ -1,20 +1,25 @@
 import { Skeleton } from '@/ui'
 
-import styles from './MovieInfo.module.scss'
+import styles from './Info.module.scss'
 
-export const MovieInfoSkeleton = () => (
+export const InfoSkeleton = () => (
 	<section
 		className={styles.movieInfoSection}
 		style={{ paddingBottom: '2rem' }}
 	>
 		<div className={styles.heroContainer}>
 			<div className={styles.cover}>
-				<Skeleton className={styles.coverImg} variant='dark' width='300px' />
+				<Skeleton
+					containerClassName={styles.coverImg}
+					height='100%'
+					variant='dark'
+				/>
 			</div>
+
 			<div className={styles.movieInfoWrapper}>
 				<Skeleton
 					containerClassName={styles.titleWrapper}
-					height='2rem'
+					height='1.5rem'
 					variant='dark'
 					width='50%'
 				/>

@@ -1,6 +1,6 @@
 import { Button, Icons } from '@/ui'
 
-import styles from '../MovieInfo.module.scss'
+import styles from '../Info.module.scss'
 
 interface TranslateTitleButtonProps {
 	originalTitle: string | null
@@ -17,6 +17,7 @@ export const TranslateTitleButton = ({
 	ruTitle && (
 		<Button
 			aria-label='Переключить язык названия'
+			className={styles.translateBtn}
 			variant='outlined'
 			onClick={toggleTranslation}
 		>

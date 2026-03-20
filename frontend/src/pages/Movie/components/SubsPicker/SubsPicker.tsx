@@ -1,16 +1,16 @@
 import { useOutletContext } from 'react-router-dom'
 
-import type { MovieSubtitlesContext } from '@/frontend-types'
+import type { MovieContext } from '@/frontend-types'
 import { useGetMovieSubtitlesQuery } from '@/store/api'
 import { Container, EmptyState, ErrorDisplay, Icons } from '@/ui'
 
-import { MovieSubtitle } from './components/MovieSubtitle/MovieSubtitle'
-import { MovieSubtitlesPickerSkeleton } from './MovieSubtitlesPickerSkeleton'
+import { MovieSub } from './components/MovieSub/MovieSub'
+import { SubsPickerSkeleton } from './SubsPickerSkeleton'
 
-import styles from './MovieSubtitlesPicker.module.scss'
+import styles from './SubsPicker.module.scss'
 
-export const MovieSubtitlesPicker = () => {
-	const { imdbId, title } = useOutletContext<MovieSubtitlesContext>()
+export const SubsPicker = () => {
+	const { imdbId, title } = useOutletContext<MovieContext>()
 	const query = imdbId || title
 	const {
 		data: movieSubtitles,
@@ -20,7 +20,7 @@ export const MovieSubtitlesPicker = () => {
 		skip: !query
 	})
 
-	if (isMovieSubtitlesLoading) return <MovieSubtitlesPickerSkeleton />
+	if (isMovieSubtitlesLoading) return <SubsPickerSkeleton />
 
 	if (movieSubtitlesError) return <ErrorDisplay error={movieSubtitlesError} />
 
@@ -38,7 +38,7 @@ export const MovieSubtitlesPicker = () => {
 			<h3 className={styles.subsHeader}>Выберите субтитры</h3>
 			<ul className={styles.subList}>
 				{movieSubtitles.map((movieSubtitle) => (
-					<MovieSubtitle key={movieSubtitle.id} movieSubtitle={movieSubtitle} />
+					<MovieSub key={movieSubtitle.id} movieSubtitle={movieSubtitle} />
 				))}
 			</ul>
 		</Container>
