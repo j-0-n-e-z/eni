@@ -1,4 +1,4 @@
-export interface MovieSubtitle {
+export interface SubtitleRelease {
 	id: string
 	tmdb_id: number
 	imdb_id: number

@@ -1,13 +1,13 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import type { MovieSubtitle, PureSubtitle } from '@/types'
+import type { SubtitleRelease, PureSubtitle } from '@/types'
 
 import { baseQueryWithReauth } from './baseQueries/baseQueryWithReauth'
 
 export const subtitleApi = createApi({
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
-		getMovieSubtitles: build.query<MovieSubtitle[], string | null>({
+		getSubtitleReleases: build.query<SubtitleRelease[], string | null>({
 			query: (query) => ({
 				credentials: 'include',
 				url: `movie-subtitles/${query}`
@@ -25,7 +25,7 @@ export const subtitleApi = createApi({
 })
 
 export const {
-	useGetMovieSubtitlesQuery,
+	useGetSubtitleReleasesQuery,
 	useGetSubtitlesByFileIdQuery,
 	useLazyGetSubtitlesByFileIdQuery
 } = subtitleApi

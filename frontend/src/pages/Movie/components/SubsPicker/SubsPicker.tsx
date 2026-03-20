@@ -1,10 +1,10 @@
 import { useOutletContext } from 'react-router-dom'
 
 import type { MovieContext } from '@/frontend-types'
-import { useGetMovieSubtitlesQuery } from '@/store/api'
+import { useGetSubtitleReleasesQuery } from '@/store/api'
 import { Container, EmptyState, ErrorDisplay, Icons } from '@/ui'
 
-import { MovieSub } from './components/MovieSub/MovieSub'
+import { SubtitleRelease } from './components/SubtitleRelease/SubtitleRelease'
 import { SubsPickerSkeleton } from './SubsPickerSkeleton'
 
 import styles from './SubsPicker.module.scss'
@@ -13,18 +13,19 @@ export const SubsPicker = () => {
 	const { imdbId, title } = useOutletContext<MovieContext>()
 	const query = imdbId || title
 	const {
-		data: movieSubtitles,
-		error: movieSubtitlesError,
-		isLoading: isMovieSubtitlesLoading
-	} = useGetMovieSubtitlesQuery(query || '', {
+		data: subtitleReleases,
+		error: subtitleReleasesError,
+		isFetching: isSubtitleReleasesFetching
+	} = useGetSubtitleReleasesQuery(query || '', {
 		skip: !query
 	})
 
-	if (isMovieSubtitlesLoading) return <SubsPickerSkeleton />
+	if (isSubtitleReleasesFetching) return <SubsPickerSkeleton />
 
-	if (movieSubtitlesError) return <ErrorDisplay error={movieSubtitlesError} />
+	if (subtitleReleasesError)
+		return <ErrorDisplay error={subtitleReleasesError} />
 
-	if (!movieSubtitles?.length)
+	if (!subtitleReleases?.length)
 		return (
 			<EmptyState
 				description='Варианты субтитров не найдены'
@@ -37,8 +38,11 @@ export const SubsPicker = () => {
 		<Container className={styles.subsPicker}>
 			<h3 className={styles.subsHeader}>Выберите субтитры</h3>
 			<ul className={styles.subList}>
-				{movieSubtitles.map((movieSubtitle) => (
-					<MovieSub key={movieSubtitle.id} movieSubtitle={movieSubtitle} />
+				{subtitleReleases.map((subtitleRelease) => (
+					<SubtitleRelease
+						key={subtitleRelease.id}
+						subtitleRelease={subtitleRelease}
+					/>
 				))}
 			</ul>
 		</Container>
