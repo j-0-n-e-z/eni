@@ -1,6 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import { searchHistoryMiddleware, searchHistoryReducer } from '@/store'
+import {
+	searchHistoryMiddleware,
+	searchHistoryReducer,
+	subtitlesDownloadReducer
+} from '@/store'
 import {
 	authApi,
 	movieApi,
@@ -28,7 +32,8 @@ export const store = configureStore({
 		[movieApi.reducerPath]: movieApi.reducer,
 		[subtitleApi.reducerPath]: subtitleApi.reducer,
 		[translateApi.reducerPath]: translateApi.reducer,
-		searchHistoryReducer
+		searchHistoryReducer,
+		subtitlesDownloadReducer
 	}
 })
 

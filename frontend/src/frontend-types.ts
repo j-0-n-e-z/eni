@@ -22,3 +22,8 @@ export interface BackendError {
 	}
 	status: number
 }
+
+export interface SubtitlesInfo {
+	link: string
+	file_name: string
+}

@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useOutletContext, useParams, useSearchParams } from 'react-router-dom'
 
 import { SUBTITLES_PER_PAGE } from '@/constants'
 import type { MovieContext } from '@/frontend-types'
 import { useAuthData, useDebounce } from '@/hooks'
-import {
-	useGetSubtitlesByFileIdQuery,
-	useGetWordsByUserIdQuery
-} from '@/store/api'
+import type { AppDispatch, RootState } from '@/store'
+import { clearSubtitles, fetchAndParseSubtitles } from '@/store'
+import { useGetWordsByUserIdQuery } from '@/store/api'
 import type { PureSubtitle } from '@/types'
 import { EmptyState, ErrorDisplay, Icons, Skeleton } from '@/ui'
 import { includesWord } from '@/utils'
@@ -29,25 +29,32 @@ export const Subtitles = () => {
 	const [isCaseSensitive, setIsCaseSensitive] = useState(false)
 	const [isWholeMatch, setIsWholeMatch] = useState(false)
 	const [isSearching, setIsSearching] = useState(false)
+	const [foundSubtitlesWithSearchedWord, setFoundSubtitlesWithSearchWord] =
+		useState<(PureSubtitle & { page: number })[] | null>(null)
 	const [debouncedSearchedWord] = useDebounce(searchedWord, 500)
 	const subtitlesStart = (currentPage - 1) * SUBTITLES_PER_PAGE
 
 	const { me } = useAuthData()
+
+	const dispatch = useDispatch<AppDispatch>()
 	const {
 		data: subtitles,
 		isLoading: isSubtitlesLoading,
 		error: subtitlesError
-	} = useGetSubtitlesByFileIdQuery(Number(fileId), {
-		skip: !fileId
-	})
+	} = useSelector((s: RootState) => s.subtitlesDownloadReducer)
 	const { data: savedWords } = useGetWordsByUserIdQuery(me?.id || '', {
 		skip: !me?.id
 	})
 
 	const savedWordsByTimecode = useSavedWordsByTimecode(savedWords)
 
-	const [foundSubtitlesWithSearchedWord, setFoundSubtitlesWithSearchWord] =
-		useState<(PureSubtitle & { page: number })[] | null>(null)
+	useEffect(() => {
+		dispatch(fetchAndParseSubtitles(Number(fileId)))
+
+		return () => {
+			dispatch(clearSubtitles())
+		}
+	}, [fileId, dispatch])
 
 	useEffect(() => {
 		let timeoutId: NodeJS.Timeout | null = null
