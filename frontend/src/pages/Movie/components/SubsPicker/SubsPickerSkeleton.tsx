@@ -3,13 +3,13 @@ import { Skeleton } from '@/ui'
 import styles from './SubsPicker.module.scss'
 
 export const SubsPickerSkeleton = () => (
-	<div className={styles.movieSubsPicker}>
+	<div className={styles.subsPicker}>
 		<Skeleton
-			containerClassName={styles.movieSubsHeader}
+			containerClassName={styles.subsHeader}
 			height='2rem'
 			width='20rem'
 		/>
-		<ul className={styles.movieSubList}>
+		<ul className={styles.subList}>
 			{Array.from({ length: 5 }).map((_, i) => (
 				<Skeleton
 					key={`sk_moviesubs_${i}`}
