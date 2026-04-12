@@ -1,7 +1,7 @@
+import type { HistoryMovie } from '@eni/shared'
 import { useDispatch } from 'react-redux'
 
 import { clearMoviesHistory } from '@/store'
-import type { BaseKinoposikMovie } from '@/types'
 import { DeleteButton } from '@/ui'
 
 import { MovieCard } from '../MovieCard'
@@ -9,7 +9,7 @@ import { MovieCard } from '../MovieCard'
 import styles from './SearchResults.module.scss'
 
 interface SearchResultsProps {
-	movies: BaseKinoposikMovie[]
+	movies: HistoryMovie[]
 	isHistory?: true
 }
 

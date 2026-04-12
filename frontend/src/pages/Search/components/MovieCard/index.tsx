@@ -1,17 +1,17 @@
+import type { HistoryMovie } from '@eni/shared'
 import cn from 'classnames'
 import { useInView } from 'react-intersection-observer'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { removeMovieFromHistory, upsertMovieInHistory } from '@/store'
-import type { BaseKinoposikMovie } from '@/types'
 import { DeleteButton } from '@/ui'
 import { formatDurationStrToHours } from '@/utils'
 
 import styles from './MovieCard.module.scss'
 
 interface MovieCardProps {
-	movie: BaseKinoposikMovie
+	movie: HistoryMovie
 	isHistory?: true
 }
 

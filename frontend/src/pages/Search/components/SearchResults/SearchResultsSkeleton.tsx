@@ -1,7 +1,7 @@
 import { Skeleton } from '@/ui'
 
-import styles from './SearchResults.module.scss'
 import movieCardStyles from '../MovieCard/MovieCard.module.scss'
+import styles from './SearchResults.module.scss'
 
 export const SearchResultsSkeleton = () => (
 	<>
@@ -9,15 +9,13 @@ export const SearchResultsSkeleton = () => (
 			<Skeleton width='10rem' />
 		</h2>
 		<ul className={styles.searchResultList}>
-			{Array.from({ length: 5 }).map((_, i) => (
+			{Array.from({ length: 7 }).map((_, i) => (
 				<li key={`sk_search_${i}`} className={movieCardStyles.searchResultItem}>
-					<div className={movieCardStyles.movieCard}>
-						<Skeleton className={movieCardStyles.cover} />
-						<div className={movieCardStyles.details}>
-							<Skeleton />
-							<Skeleton className={movieCardStyles.year} width='5rem' />
-						</div>
-					</div>
+					<Skeleton
+						containerClassName={movieCardStyles.movieCard}
+						height={300}
+						width='100%'
+					/>
 				</li>
 			))}
 		</ul>
