@@ -51,7 +51,8 @@
 		"vite": "^6.3.6",
 		"vite-plugin-svgr": "^4.5.0",
 		"vite-tsconfig-paths": "^5.1.4",
-		"zod": "^4.0.14"
+		"zod": "^4.0.14",
+		"@eni/shared": "file:../shared"
 	},
 	"devDependencies": {
 		"@svgr/core": "^8.1.0",

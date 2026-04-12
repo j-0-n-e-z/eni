@@ -1,4 +1,4 @@
-import type { PureSubtitle } from '@/types'
+import type { PureSubtitle } from '@eni/shared'
 
 import { concatSubtitlesWithUncompleteSentences } from './concatSubtitles'
 

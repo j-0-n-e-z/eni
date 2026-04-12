@@ -1,4 +1,4 @@
-import type { PureSubtitle } from '@/types'
+import type { PureSubtitle } from '@eni/shared'
 
 function isCompleteSentence(text: string) {
 	return /((?<!\.)[.!?](?!\.)|[!?]\.{2}|\?!|!{2,3}|\?{2,3})$/.test(text)

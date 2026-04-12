@@ -1,8 +1,8 @@
+import type { KinopoiskMovie } from '@eni/shared'
 import cn from 'classnames'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import type { KinopoiskMovie } from '@/types'
 import { Container, Icons } from '@/ui'
 
 import { Details } from './components/Details'

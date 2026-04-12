@@ -16,9 +16,7 @@
 		"incremental": true,
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./src/*"],
-			"@/types": ["../shared/types"],
-			"@/frontend-types": ["./src/frontend-types"]
+			"@/*": ["./src/*"]
 		}
 	},
 	"include": ["**/*.ts", "**/*.tsx"],

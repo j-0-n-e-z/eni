@@ -1,4 +1,4 @@
-export function generatePages(
+export function generateButtons(
 	pageCount: number,
 	currentPage: number
 ): (number | '...')[] {

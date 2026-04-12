@@ -1,19 +1,19 @@
+import type { SubtitleRelease as ISubtitleRelease } from '@eni/shared'
 import cn from 'classnames'
-import { useOutletContext } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
-import type { MovieContext } from '@/frontend-types'
-import type { SubtitleRelease as ISubtitleRelease } from '@/types'
 import { Button, Icons } from '@/ui'
 import { DateFormatter, NumberFormatter } from '@/utils'
 
-import styles from './MovieSub.module.scss'
+import styles from './SubtitleRelease.module.scss'
 
 interface SubtitleReleaseProps {
 	subtitleRelease: ISubtitleRelease
 }
 
 export const SubtitleRelease = ({ subtitleRelease }: SubtitleReleaseProps) => {
-	const { goToSubtitles, kinopoiskId } = useOutletContext<MovieContext>()
+	const navigate = useNavigate()
+	const { kinopoiskId } = useOutletContext<MovieContext>()
 
 	const ratingStars = Array.from({ length: 10 }).map((_, i) => (
 		<Icons.Star
@@ -23,6 +23,11 @@ export const SubtitleRelease = ({ subtitleRelease }: SubtitleReleaseProps) => {
 			})}
 		/>
 	))
+
+	const handlePickSubtitles = () => {
+		const fileId = subtitleRelease.subtitles.file_id
+		navigate(`/movie/${kinopoiskId}/subtitles/${fileId}?page=1`)
+	}
 
 	return (
 		<li className={styles.sub}>
@@ -54,12 +59,7 @@ export const SubtitleRelease = ({ subtitleRelease }: SubtitleReleaseProps) => {
 				</li>
 			</ul>
 
-			<Button
-				variant='contained'
-				onClick={() =>
-					goToSubtitles(kinopoiskId, subtitleRelease.subtitles.file_id)
-				}
-			>
+			<Button variant='contained' onClick={handlePickSubtitles}>
 				Загрузить
 			</Button>
 		</li>

@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated"
+}
+
+// generator erd {
+//   provider = "prisma-erd-generator"
+// }
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_DB_URL")
+}
+
+model User {
+  id                    String  @id @default(uuid())
+  email                 String  @unique
+  isEmailConfirmed      Boolean @default(false)
+  username              String
+  password              String
+  emailConfirmationLink String? @unique
+  token                 Token?
+
+  userWords UserWord[]
+
+  @@map("users")
+}
+
+model Word {
+  text             String @id
+  translation      String
+  translationCount Int    @default(0)
+
+  userWords UserWord[]
+
+  @@map("words")
+}
+
+model UserWord {
+  id         String   @id @default(uuid())
+  userId     String
+  wordText   String
+  isLearning Boolean  @default(false)
+  isFavorite Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  word    Word     @relation(fields: [wordText], references: [text], onDelete: Cascade)
+  sources Source[]
+
+  @@unique([userId, wordText])
+  @@index([userId])
+  @@index([wordText])
+  @@map("user_words")
+}
+
+model Source {
+  id          String   @id @default(uuid())
+  movieTitle  String
+  kinopoiskId Int
+  posterUrl   String
+  fileId      Int
+  timecode    String
+  sentence    String
+  userWordId  String
+  userWord    UserWord @relation(fields: [userWordId], references: [id], onDelete: Cascade)
+
+  @@index([userWordId])
+  @@map("sources")
+}
+
+model Token {
+  userId       String  @id()
+  user         User    @relation(fields: [userId], references: [id])
+  refreshToken String?
+}

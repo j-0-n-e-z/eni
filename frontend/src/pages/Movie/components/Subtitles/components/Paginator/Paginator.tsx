@@ -3,7 +3,7 @@ import React from 'react'
 
 import { Icons } from '@/ui'
 
-import { generatePages } from './generatePages'
+import { generateButtons } from './generateButtons'
 
 import styles from './Paginator.module.scss'
 
@@ -55,7 +55,7 @@ export const Paginator = ({
 					<Icons.Arrow className={styles.prevIcon} />
 				</button>
 
-				{generatePages(pageCount, currentPage).map((page, index) =>
+				{generateButtons(pageCount, currentPage).map((page, index) =>
 					page === '...' ? (
 						<button
 							key={index}

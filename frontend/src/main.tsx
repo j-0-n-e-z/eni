@@ -6,7 +6,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import { AppLayout, ProtectedLayout } from '@/layouts'
 import { Auth, Main, Movie, Popular, Profile, Search } from '@/pages'
-import { SubsPicker, Subtitles } from '@/pages/Movie/components'
+import { SubsPicker } from '@/pages/Movie/components/SubsPicker/SubsPicker'
+import { Subtitles } from '@/pages/Movie/components/Subtitles/Subtitles'
 import { store } from '@/store'
 import { EmptyState, ErrorDisplay, Icons } from '@/ui'
 
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
 					{ element: <Search />, path: 'search' },
 					{
 						element: <Movie />,
-						path: 'movie/:movieId',
+						path: 'movie/:kinopoiskId',
 						children: [
 							{ element: <SubsPicker />, index: true },
 							{ element: <Subtitles />, path: 'subtitles/:fileId' }

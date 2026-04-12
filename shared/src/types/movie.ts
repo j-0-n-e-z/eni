@@ -1,4 +1,4 @@
-export interface BaseKinoposikMovie {
+export interface BaseMovie {
 	filmId: number
 	posterUrlPreview: string
 	year: string
@@ -9,7 +9,9 @@ export interface BaseKinoposikMovie {
 	rating: string | null
 }
 
-export interface KinopoiskSearchMovie extends BaseKinoposikMovie {
+export type HistoryMovie = BaseMovie
+
+export interface KinopoiskSearchMovie extends BaseMovie {
 	description?: string
 	countries: { country: string }[]
 	genres: { genre: string }[]

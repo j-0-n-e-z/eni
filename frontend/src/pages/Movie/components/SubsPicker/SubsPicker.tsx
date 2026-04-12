@@ -1,6 +1,5 @@
 import { useOutletContext } from 'react-router-dom'
 
-import type { MovieContext } from '@/frontend-types'
 import { useGetSubtitleReleasesQuery } from '@/store/api'
 import { Container, EmptyState, ErrorDisplay, Icons } from '@/ui'
 

@@ -1,5 +1,6 @@
 export * from './formatters'
 export * from './helpers/getErrorMessage'
+export * from './helpers/getWordId'
 export * from './helpers/includesWord'
 export * from './notify/notifyOnError'
 export * from './notify/notifyOnSuccess'

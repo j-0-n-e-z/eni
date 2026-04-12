@@ -1,7 +1,7 @@
+import type { KinopoiskMovie } from '@eni/shared'
 import cn from 'classnames'
 import { Link } from 'react-router-dom'
 
-import type { KinopoiskMovie } from '@/types'
 import { Icons } from '@/ui'
 import { formatMinutesToHours, formatRating } from '@/utils'
 

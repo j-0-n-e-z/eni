@@ -1,7 +1,7 @@
+import type { KinopoiskMovie } from '@eni/shared'
 import cn from 'classnames'
 
 import { useGetMovieBoxOfficeByKinopoiskIdQuery } from '@/store/api'
-import type { KinopoiskMovie } from '@/types'
 import { Skeleton } from '@/ui'
 import { formatMoney, notifyOnError } from '@/utils'
 

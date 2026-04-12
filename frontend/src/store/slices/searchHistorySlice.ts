@@ -1,18 +1,18 @@
+import type { HistoryMovie } from '@eni/shared'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
 import { type RootState } from '@/store'
-import type { BaseKinoposikMovie } from '@/types'
 
 export interface SearchHistoryState {
-	historyMovies: BaseKinoposikMovie[]
+	historyMovies: HistoryMovie[]
 }
 
 const loadHistory = () => {
 	try {
 		return JSON.parse(
 			localStorage.getItem('searchHistory') || '[]'
-		) as BaseKinoposikMovie[]
+		) as HistoryMovie[]
 	} catch (e) {
 		return []
 	}
@@ -34,10 +34,7 @@ const searchHistorySlice = createSlice({
 				(movie) => movie.filmId !== action.payload
 			)
 		},
-		upsertMovieInHistory: (
-			state,
-			action: PayloadAction<BaseKinoposikMovie>
-		) => {
+		upsertMovieInHistory: (state, action: PayloadAction<HistoryMovie>) => {
 			const movieToSave = action.payload
 
 			if (
@@ -46,14 +43,15 @@ const searchHistorySlice = createSlice({
 				)
 			) {
 				state.historyMovies = [movieToSave, ...state.historyMovies]
-			} else {
-				state.historyMovies = [
-					movieToSave,
-					...state.historyMovies.filter(
-						(movie) => movie.filmId !== movieToSave.filmId
-					)
-				]
+				return
 			}
+
+			state.historyMovies = [
+				movieToSave,
+				...state.historyMovies.filter(
+					(movie) => movie.filmId !== movieToSave.filmId
+				)
+			]
 		}
 	}
 })

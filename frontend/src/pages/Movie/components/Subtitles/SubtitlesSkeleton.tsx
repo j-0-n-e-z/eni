@@ -1,7 +1,15 @@
 import { Container, Skeleton } from '@/ui'
 
-import paginatorStyles from './Paginator/Paginator.module.scss'
+import paginatorStyles from './components/Paginator/Paginator.module.scss'
 import styles from './Subtitles.module.scss'
+
+export const SubtitlesSearchSkeleton = () => (
+	<div className={styles.subtitles}>
+		{Array.from({ length: 5 }).map((_, i) => (
+			<Skeleton key={`search_sk_${i}`} height='3rem' />
+		))}
+	</div>
+)
 
 export const SubtitlesSkeleton = () => (
 	<Container>
