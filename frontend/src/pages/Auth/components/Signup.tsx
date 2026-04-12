@@ -33,7 +33,6 @@ export const Signup = ({ onSuccess }: SignupProps) => {
 					{...form.register('username')}
 					id='username'
 					placeholder='voldemort'
-					type='username'
 					{...('username' in errors && {
 						error: errors.username?.message
 					})}
