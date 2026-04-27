@@ -5,7 +5,7 @@ import { SUBTITLES_PER_PAGE } from '@/constants'
 
 export const useSubtitlePagination = (subtitlesLength: number) => {
 	const [searchParams, setSearchParams] = useSearchParams()
-	const [currentPage, setCurrentPage] = useState(
+	const [currentPage, setCurrentPage] = useState(() =>
 		parseInt(searchParams.get('page') || '1')
 	)
 

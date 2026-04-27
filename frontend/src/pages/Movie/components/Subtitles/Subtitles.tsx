@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import { SUBTITLES_PER_PAGE } from '@/constants'
 import type { AppDispatch, RootState } from '@/store'
 import { clearSubtitles, fetchAndParseSubtitles } from '@/store'
-import { EmptyState, ErrorDisplay, Icons } from '@/ui'
+import { Container, EmptyState, ErrorDisplay, Icons } from '@/ui'
 
 import { Paginator, Subtitle } from './components'
 import { useSubtitlePagination } from './hooks'
@@ -14,15 +14,17 @@ import { SubtitlesSkeleton } from './SubtitlesSkeleton'
 import styles from './Subtitles.module.scss'
 
 export const Subtitles = () => {
-	const { fileId } = useParams()
-
+	const params = useParams()
+	const fileId = Number(params.fileId)
 	const dispatch = useDispatch<AppDispatch>()
 	const { subtitles, isSubtitlesLoading, subtitlesError } = useSelector(
 		(state: RootState) => state.subtitlesDownloadReducer
 	)
 
 	useEffect(() => {
-		dispatch(fetchAndParseSubtitles(Number(fileId)))
+		if (fileId) {
+			dispatch(fetchAndParseSubtitles(fileId))
+		}
 
 		return () => {
 			dispatch(clearSubtitles())
@@ -48,7 +50,7 @@ export const Subtitles = () => {
 	}
 
 	return (
-		<>
+		<Container>
 			<div className={styles.controlPanel}>
 				<Paginator
 					currentPage={currentPage}
@@ -66,6 +68,6 @@ export const Subtitles = () => {
 						<Subtitle key={`${subtitle.timecode}`} subtitle={subtitle} />
 					))}
 			</ul>
-		</>
+		</Container>
 	)
 }

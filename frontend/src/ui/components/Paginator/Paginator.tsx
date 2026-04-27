@@ -1,9 +1,10 @@
 import cn from 'classnames'
-import React from 'react'
+import { useState } from 'react'
 
-import { Icons } from '@/ui'
+import { Button, Icons, Input } from '@/ui'
+import { notifyOnError } from '@/utils'
 
-import { generateButtons } from './generateButtons'
+import { generateButtonTexts } from './generateButtonTexts'
 
 import styles from './Paginator.module.scss'
 
@@ -22,30 +23,22 @@ export const Paginator = ({
 	goToPage,
 	isDisabled
 }: PaginatorProps) => {
+	const [page, setPage] = useState(currentPage)
 	const pageCount = Math.ceil(itemsLength / itemsPerPage)
 
 	if (pageCount < 1) return null
 
-	const handlePageNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const pageNumber = Number(e.target.value)
-
-		if (Number.isNaN(pageNumber) || pageNumber === 0) {
-			goToPage(1)
-			return
+	const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter') {
+			if (page >= 1 && page <= pageCount) goToPage(page)
+			else notifyOnError(`Введите число от 1 до ${pageCount}`, 'pageError')
 		}
-
-		if (pageNumber > pageCount) {
-			goToPage(pageCount)
-			return
-		}
-
-		goToPage(pageNumber)
 	}
 
 	return (
 		<div className={cn(styles.paginator, { [styles.disabled]: isDisabled })}>
 			<div className={styles.pageBtnsContainer}>
-				<button
+				<Button
 					aria-disabled={currentPage === 1}
 					aria-label='previous page'
 					className={styles.pageBtn}
@@ -53,19 +46,19 @@ export const Paginator = ({
 					onClick={() => goToPage(currentPage - 1)}
 				>
 					<Icons.Arrow className={styles.prevIcon} />
-				</button>
+				</Button>
 
-				{generateButtons(pageCount, currentPage).map((page, index) =>
+				{generateButtonTexts(pageCount, currentPage).map((page, index) =>
 					page === '...' ? (
-						<button
+						<Button
 							key={index}
 							disabled
 							className={cn(styles.pageBtn, styles.ellipsis)}
 						>
 							...
-						</button>
+						</Button>
 					) : (
-						<button
+						<Button
 							key={index}
 							aria-current={currentPage === page ? 'page' : undefined}
 							aria-label={
@@ -79,11 +72,11 @@ export const Paginator = ({
 							onClick={() => goToPage(page)}
 						>
 							{page}
-						</button>
+						</Button>
 					)
 				)}
 
-				<button
+				<Button
 					aria-disabled={currentPage === pageCount}
 					aria-label='next page'
 					className={styles.pageBtn}
@@ -91,10 +84,10 @@ export const Paginator = ({
 					onClick={() => goToPage(currentPage + 1)}
 				>
 					<Icons.Arrow className={styles.nextIcon} />
-				</button>
+				</Button>
 			</div>
 
-			<input
+			<Input
 				aria-label='go to page'
 				className={styles.goToPageInput}
 				id='goToPageInput'
@@ -102,9 +95,10 @@ export const Paginator = ({
 				list='goToPageInputList'
 				max={pageCount}
 				min={1}
-				value={currentPage}
-				onChange={handlePageNumberChange}
-				onKeyDown={(e) => e.key === 'Enter' && goToPage(currentPage)}
+				type='number'
+				value={page}
+				onChange={(e) => setPage(e.target.valueAsNumber)}
+				onKeyDown={onKeyDown}
 			/>
 		</div>
 	)

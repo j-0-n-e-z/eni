@@ -4,17 +4,17 @@
 	display: flex;
 	gap: 1rem;
 
+	&.disabled {
+		button,
+		input {
+			pointer-events: none;
+			background-color: var(--bg-tertiary);
+			opacity: 50%;
+		}
+	}
+
 	@include respond-to('sm') {
 		gap: 0.2rem;
-	}
-}
-
-.paginator.disabled {
-	button,
-	input {
-		pointer-events: none;
-		background-color: var(--bg-tertiary);
-		opacity: 50%;
 	}
 }
 
@@ -27,7 +27,7 @@
 	}
 }
 
-.pageBtn {
+button.pageBtn {
 	@include center-flex;
 
 	min-width: 3rem;
@@ -35,12 +35,37 @@
 	padding: 0.5rem;
 	font-size: 1rem;
 	color: var(--text-primary);
+	background-color: var(--bg-tertiary);
 	border-radius: 0.5rem;
-	transition: background-color 0.2s ease-out;
+	transition: background-color 0.1s ease-out;
+
+	&:disabled {
+		background-color: var(--bg-tertiary);
+		opacity: 50%;
+
+		@include desktop-hover {
+			cursor: not-allowed;
+			background-color: var(--bg-tertiary);
+		}
+	}
+
+	&.active {
+		color: $text-white;
+		background-color: $brand-prominent;
+	}
+
+	&.ellipsis {
+		min-width: 1rem;
+		padding: 0;
+		cursor: default;
+		background: transparent;
+		border: none;
+	}
 
 	@include desktop-hover {
+		color: $text-white;
 		cursor: pointer;
-		background-color: var(--bg-tertiary);
+		background-color: $brand-secondary;
 	}
 
 	@include respond-to('lg') {
@@ -82,34 +107,20 @@
 	rotate: -90deg;
 }
 
-.paginator button:disabled {
-	background-color: var(--bg-tertiary);
-	opacity: 50%;
-}
-
-.paginator button.active {
-	color: $text-white;
-	background-color: $brand-prominent;
-}
-
-.paginator button.ellipsis {
-	min-width: 1rem;
-	aspect-ratio: unset;
-	padding: 0;
-	cursor: default;
-	background: transparent;
-	border: none;
-}
-
 .goToPageInput {
 	display: block;
 	width: 3rem;
+	height: 100%;
 	padding: 0.5rem;
 	font-size: 1rem;
 	color: var(--text-primary);
 	text-align: center;
 	border: 2px solid var(--border-light);
 	border-radius: 0.75rem;
+
+	&::-webkit-inner-spin-button {
+		appearance: none;
+	}
 
 	@include respond-to('lg') {
 		max-width: 3rem;

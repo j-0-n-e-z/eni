@@ -1,6 +1,6 @@
 import { Container, Skeleton } from '@/ui'
 
-import paginatorStyles from './components/Paginator/Paginator.module.scss'
+import paginatorStyles from '../../../../ui/components/Paginator/Paginator.module.scss'
 import styles from './Subtitles.module.scss'
 
 export const SubtitlesSearchSkeleton = () => (
